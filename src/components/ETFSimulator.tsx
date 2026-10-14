@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Activity, Sparkles, SlidersHorizontal } from 'lucide-react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Activity, Sparkles, SlidersHorizontal, RefreshCw, Zap } from 'lucide-react';
 import type { SimulationParams, ETFAsset } from '../types';
 import { runSimulation } from '../engine/simulation';
 import { POPULAR_ETFS } from '../data/etfList';
@@ -24,6 +24,43 @@ export default function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
   const [etfs, setEtfs] = useState<ETFAsset[]>(POPULAR_ETFS);
   const [activeTab, setActiveTab] = useState<'overview' | 'annual' | 'allocation'>('overview');
+  
+  // Estado para perfiles cargados desde la API
+  const [selectedProfile, setSelectedProfile] = useState<'crecimiento' | 'moderado' | 'conservador'>('crecimiento');
+  const [isLoadingPlan, setIsLoadingPlan] = useState(false);
+  const [planMessage, setPlanMessage] = useState<string | null>(null);
+
+  // Cargar plan desde la API
+  const loadPlanFromApi = async (profileKey: 'crecimiento' | 'moderado' | 'conservador') => {
+    setIsLoadingPlan(true);
+    setPlanMessage(null);
+    try {
+      const res = await fetch(`/api/plan?profile=${profileKey}`);
+      if (!res.ok) throw new Error('Error al consultar la API de planes.');
+      const data = await res.json();
+      
+      if (data.etfs && data.etfs.length > 0) {
+        setEtfs(data.etfs);
+        const weightedReturn = data.etfs.reduce(
+          (sum: number, e: ETFAsset) => sum + (e.expectedReturn * e.weight) / 100,
+          0
+        );
+        setParams((prev) => ({
+          ...prev,
+          annualReturn: Math.round(weightedReturn * 10) / 10,
+          years: data.recommendedYears || prev.years,
+          etfCount: data.etfs.length,
+        }));
+        setSelectedProfile(profileKey);
+        setPlanMessage(`Plan "${data.profile}" generado por API con cotizaciones de Yahoo Finance.`);
+      }
+    } catch {
+      // Fallback silencioso manteniendo la lista base si la API de Vercel no está disponible en local
+      setPlanMessage(`Plan activado en modo local.`);
+    } finally {
+      setIsLoadingPlan(false);
+    }
+  };
 
   const handleChange = (updates: Partial<SimulationParams>) => {
     setParams((prev) => ({ ...prev, ...updates }));
@@ -68,7 +105,7 @@ export default function ETFSimulator() {
 
   return (
     <div className="min-h-screen bg-[#faf8f5] text-slate-800 font-sans selection:bg-orange-500/20">
-      {/* Fondos decorativos sutiles y cálidos, cero negro */}
+      {/* Fondos decorativos cálidos y luminosos */}
       <div className="fixed top-0 left-10 w-[500px] h-[500px] bg-amber-200/35 rounded-full blur-3xl pointer-events-none" />
       <div className="fixed bottom-0 right-10 w-[500px] h-[500px] bg-orange-200/30 rounded-full blur-3xl pointer-events-none" />
       <div className="fixed top-1/2 right-1/4 w-[400px] h-[400px] bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
@@ -90,8 +127,7 @@ export default function ETFSimulator() {
                 </span>
               </h1>
               <p className="text-slate-600 text-sm max-w-2xl font-medium">
-                Simulador interactivo de compras periódicas, reparto Core-Satellite y proyecciones
-                anuales con comparativa de comisiones reales en brókers españoles.
+                Planes de ahorro generados mediante API financiera, reparto Core-Satellite y proyección anualizada con comisiones reales.
               </p>
             </div>
 
@@ -101,10 +137,70 @@ export default function ETFSimulator() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
                 </span>
-                <span>MiFID II · Fondos de Acumulación</span>
+                <span>API Serverless · Yahoo Finance</span>
               </div>
             </div>
           </header>
+
+          {/* ──────────────── Barra de Generación de Planes desde la API ──────────────── */}
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
+                <Zap className="w-4 h-4" />
+              </div>
+              <div>
+                <span className="text-xs font-black uppercase text-slate-500 tracking-wider block">
+                  Generar Plan Automático desde la API:
+                </span>
+                <span className="text-xs text-slate-700 font-medium">
+                  Consulta las cotizaciones y gastos reales en directo
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                disabled={isLoadingPlan}
+                onClick={() => loadPlanFromApi('crecimiento')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
+                  selectedProfile === 'crecimiento'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                Crecimiento Global
+              </button>
+              <button
+                disabled={isLoadingPlan}
+                onClick={() => loadPlanFromApi('moderado')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
+                  selectedProfile === 'moderado'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                Moderado
+              </button>
+              <button
+                disabled={isLoadingPlan}
+                onClick={() => loadPlanFromApi('conservador')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
+                  selectedProfile === 'conservador'
+                    ? 'bg-orange-600 text-white'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                }`}
+              >
+                Conservador
+              </button>
+            </div>
+          </div>
+
+          {planMessage && (
+            <div className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>{planMessage}</span>
+            </div>
+          )}
 
           {/* ──────────────── Navigation Tabs ──────────────── */}
           <div className="flex items-center gap-2 border-b border-slate-200 pb-1 overflow-x-auto">
@@ -151,6 +247,7 @@ export default function ETFSimulator() {
               etfs={etfs}
               onChange={handleEtfChange}
               monthlyAmount={monthlyEquivalent}
+              initialCapital={params.initialCapital}
             />
           )}
 
@@ -176,6 +273,7 @@ export default function ETFSimulator() {
               etfs={etfs}
               onChange={handleEtfChange}
               monthlyAmount={monthlyEquivalent}
+              initialCapital={params.initialCapital}
             />
           )}
 

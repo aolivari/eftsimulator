@@ -1,5 +1,7 @@
 // ─── ETF Asset Configuration ────────────────────────────────────────────
 
+export type DividendPolicy = 'acc' | 'dist'; // 'acc' = Acumulación (reinversión), 'dist' = Distribución (cobro con IRPF)
+
 export interface ETFBrokerCondition {
   ing: { isPromo: boolean; buyFee: number; note: string };
   myinvestor: { isPromo: boolean; buyFeeRate: number; note: string };
@@ -16,6 +18,10 @@ export interface ETFAsset {
   ter: number; // Coste de gestión anual % (Total Expense Ratio)
   expectedReturn: number; // Rentabilidad esperada media anual %
   weight: number; // Porcentaje de asignación (0-100)
+  initialWeight?: number; // Asignación del capital inicial (0-100)
+  recurringWeight?: number; // Asignación de las compras periódicas (0-100)
+  dividendPolicy?: DividendPolicy; // Política: Acumulación (Acc) por defecto
+  dividendYield?: number; // Estimación de dividendo anual en % (ej. 2.0% si es distribución)
   isin?: string;
   description?: string;
   brokerConditions?: ETFBrokerCondition;
@@ -48,12 +54,16 @@ export interface SimulationQuarter {
   custodyFee: number;
   balanceAfter: number;
   totalInvested: number;
+  initialInvested: number;
+  contributedInvested: number;
   totalFees: number;
 }
 
 export interface AnnualProjection {
   year: number;
   invested: number;
+  initialInvested: number;
+  contributedInvested: number;
   grossBalance: number;
   netBalance: number;
   totalFees: number;
@@ -68,6 +78,8 @@ export interface BrokerResult {
   description: string;
   finalBalance: number;
   totalInvested: number;
+  initialInvested: number;
+  contributedInvested: number;
   totalProfit: number;
   totalFees: number;
   totalBuyFees: number;

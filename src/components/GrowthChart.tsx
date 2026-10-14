@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import { BarChart3, Eye, EyeOff } from 'lucide-react';
+import { BarChart3, Layers, TrendingUp } from 'lucide-react';
 import type { BrokerResult } from '../types';
 import { formatCurrency } from '../engine/simulation';
 
@@ -18,21 +18,15 @@ interface GrowthChartProps {
   years: number;
 }
 
-const BROKER_COLORS: Record<string, string> = {
-  ing_active: '#ea580c',      // orange-600
-  ing_inactive: '#dc2626',    // red-600
-  myinvestor: '#059669',      // emerald-600
-  traderepublic: '#4f46e5',   // indigo-600
-  traditional_bank: '#64748b', // slate-500
-};
-
 export default function GrowthChart({ results, years }: GrowthChartProps) {
-  const [visibleBrokers, setVisibleBrokers] = useState<Set<string>>(
-    new Set(results.map((r) => r.id))
-  );
+  // Modo de visualización: 'stack' (separar capital inicial, aportes periódicos y ganancias) o 'compare' (comparar brókers)
+  const [viewMode, setViewMode] = useState<'stack' | 'compare'>('stack');
+  const [selectedBrokerId, setSelectedBrokerId] = useState<string>(results[0]?.id || 'ing_active');
 
-  const chartData = [];
+  const selectedBroker = results.find((r) => r.id === selectedBrokerId) || results[0];
+
   const totalQuarters = years * 4;
+  const chartData = [];
 
   for (let q = 0; q <= totalQuarters; q += 4) {
     const point: Record<string, string | number> = {
@@ -40,64 +34,53 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
       year: q / 4,
     };
 
-    for (const broker of results) {
-      if (q === 0) {
-        point[broker.id] = broker.quarterlyData.length > 0
-          ? broker.quarterlyData[0].balanceBefore
-          : 0;
-        point[`${broker.id}_invested`] =
-          broker.quarterlyData.length > 0
-            ? broker.quarterlyData[0].balanceBefore
-            : 0;
-      } else {
-        const qData = broker.quarterlyData[q - 1];
-        if (qData) {
-          point[broker.id] = Math.round(qData.balanceAfter);
-          point[`${broker.id}_invested`] = Math.round(qData.totalInvested);
-        }
+    if (q === 0) {
+      const initVal = selectedBroker.initialInvested;
+      point.initialInvested = initVal;
+      point.contributedInvested = 0;
+      point.profit = 0;
+      point.totalBalance = initVal;
+
+      for (const b of results) {
+        point[b.id] = initVal;
+      }
+    } else {
+      const qData = selectedBroker.quarterlyData[q - 1];
+      if (qData) {
+        const initInv = qData.initialInvested;
+        const contInv = qData.contributedInvested;
+        const netBal = Math.round(qData.balanceAfter);
+        const profit = Math.max(0, netBal - (initInv + contInv));
+
+        point.initialInvested = initInv;
+        point.contributedInvested = contInv;
+        point.profit = profit;
+        point.totalBalance = netBal;
+      }
+
+      for (const b of results) {
+        const bq = b.quarterlyData[q - 1];
+        if (bq) point[b.id] = Math.round(bq.balanceAfter);
       }
     }
     chartData.push(point);
   }
 
-  const toggleBroker = (id: string) => {
-    setVisibleBrokers((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) {
-        if (next.size > 1) next.delete(id);
-      } else {
-        next.add(id);
-      }
-      return next;
-    });
-  };
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload || !payload.length) return null;
     return (
-      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xl max-w-xs">
-        <p className="text-xs font-bold text-slate-500 mb-2">{label}</p>
-        <div className="space-y-1.5">
-          {payload
-            .filter((p: { dataKey: string }) => !p.dataKey.endsWith('_invested'))
-            .map((entry: { dataKey: string; value: number; color: string; name: string }) => (
-              <div key={entry.dataKey} className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
-                  <div
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ backgroundColor: entry.color }}
-                  />
-                  <span className="text-xs text-slate-700 font-bold truncate max-w-[140px]">
-                    {entry.name}
-                  </span>
-                </div>
-                <span className="text-xs font-black text-slate-900 whitespace-nowrap">
-                  {formatCurrency(entry.value)} €
-                </span>
-              </div>
-            ))}
-        </div>
+      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xl max-w-xs text-xs space-y-1.5">
+        <p className="font-black text-slate-800 border-b border-slate-100 pb-1">{label}</p>
+        {payload.map((entry: any) => (
+          <div key={entry.dataKey} className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
+              <span className="text-slate-600 font-bold">{entry.name}</span>
+            </div>
+            <span className="font-black text-slate-900">{formatCurrency(entry.value)} €</span>
+          </div>
+        ))}
       </div>
     );
   };
@@ -114,45 +97,40 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
             <BarChart3 className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-bold text-slate-900 text-sm">Crecimiento del Capital</h3>
+            <h3 className="font-bold text-slate-900 text-sm">Evolución de Tu Dinero</h3>
             <p className="text-xs text-slate-500 font-medium">
-              Evolución anual con interés compuesto y reinversión
+              {viewMode === 'stack' 
+                ? 'Diferenciación: Capital Inicial vs. Aportaciones Periódicas vs. Beneficios' 
+                : 'Comparativa entre brókers en el tiempo'}
             </p>
           </div>
         </div>
 
-        {/* Broker toggles */}
-        <div className="flex flex-wrap gap-2">
-          {results.map((broker) => {
-            const isVisible = visibleBrokers.has(broker.id);
-            return (
-              <button
-                key={broker.id}
-                onClick={() => toggleBroker(broker.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  isVisible
-                    ? 'bg-slate-100 text-slate-800 border border-slate-300 shadow-xs'
-                    : 'bg-white text-slate-400 border border-slate-200 opacity-60'
-                }`}
-              >
-                <div
-                  className="w-2.5 h-2.5 rounded-full"
-                  style={{
-                    backgroundColor: BROKER_COLORS[broker.id],
-                    opacity: isVisible ? 1 : 0.4,
-                  }}
-                />
-                <span className="truncate max-w-[110px]">
-                  {broker.name.split('(')[0].trim()}
-                </span>
-                {isVisible ? (
-                  <Eye className="w-3.5 h-3.5 text-slate-500" />
-                ) : (
-                  <EyeOff className="w-3.5 h-3.5 text-slate-400" />
-                )}
-              </button>
-            );
-          })}
+        {/* Toggle Modo de Vista */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setViewMode('stack')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
+              viewMode === 'stack'
+                ? 'bg-orange-600 text-white'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
+            <span>Desglose: Inicial vs. Periódico</span>
+          </button>
+
+          <button
+            onClick={() => setViewMode('compare')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
+              viewMode === 'compare'
+                ? 'bg-orange-600 text-white'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5" />
+            <span>Comparar Brókers</span>
+          </button>
         </div>
       </div>
 
@@ -161,20 +139,20 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
         <ResponsiveContainer width="100%" height={380}>
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
             <defs>
-              {results.map((broker) => (
-                <linearGradient
-                  key={broker.id}
-                  id={`gradient-${broker.id}`}
-                  x1="0"
-                  y1="0"
-                  x2="0"
-                  y2="1"
-                >
-                  <stop offset="5%" stopColor={BROKER_COLORS[broker.id]} stopOpacity={0.25} />
-                  <stop offset="95%" stopColor={BROKER_COLORS[broker.id]} stopOpacity={0.02} />
-                </linearGradient>
-              ))}
+              <linearGradient id="grad-initial" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#0284c7" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#0284c7" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="grad-contributed" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#ea580c" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#ea580c" stopOpacity={0.05} />
+              </linearGradient>
+              <linearGradient id="grad-profit" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#059669" stopOpacity={0.45} />
+                <stop offset="95%" stopColor="#059669" stopOpacity={0.05} />
+              </linearGradient>
             </defs>
+
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
             <XAxis
               dataKey="label"
@@ -196,29 +174,55 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
               iconType="circle"
               iconSize={8}
               formatter={(value: string) => (
-                <span className="text-xs text-slate-600 font-bold">{value}</span>
+                <span className="text-xs text-slate-700 font-bold">{value}</span>
               )}
             />
-            {results.map((broker) =>
-              visibleBrokers.has(broker.id) ? (
+
+            {viewMode === 'stack' ? (
+              <>
                 <Area
-                  key={broker.id}
                   type="monotone"
-                  dataKey={broker.id}
-                  name={broker.name.split('(')[0].trim()}
-                  stroke={BROKER_COLORS[broker.id]}
-                  strokeWidth={2.5}
-                  fill={`url(#gradient-${broker.id})`}
-                  fillOpacity={1}
-                  dot={false}
-                  activeDot={{
-                    r: 6,
-                    stroke: BROKER_COLORS[broker.id],
-                    strokeWidth: 3,
-                    fill: '#ffffff',
-                  }}
+                  stackId="1"
+                  dataKey="initialInvested"
+                  name="Capital Inicial Puesto"
+                  stroke="#0284c7"
+                  strokeWidth={2}
+                  fill="url(#grad-initial)"
                 />
-              ) : null
+                <Area
+                  type="monotone"
+                  stackId="1"
+                  dataKey="contributedInvested"
+                  name="Aportaciones Periódicas Acumuladas"
+                  stroke="#ea580c"
+                  strokeWidth={2}
+                  fill="url(#grad-contributed)"
+                />
+                <Area
+                  type="monotone"
+                  stackId="1"
+                  dataKey="profit"
+                  name="Ganancias Generadas (Interés Compuesto)"
+                  stroke="#059669"
+                  strokeWidth={2.5}
+                  fill="url(#grad-profit)"
+                />
+              </>
+            ) : (
+              results.map((b, idx) => {
+                const colors = ['#ea580c', '#dc2626', '#059669', '#4f46e5', '#64748b'];
+                return (
+                  <Area
+                    key={b.id}
+                    type="monotone"
+                    dataKey={b.id}
+                    name={b.name.split('(')[0].trim()}
+                    stroke={colors[idx % colors.length]}
+                    strokeWidth={2.5}
+                    fill="none"
+                  />
+                );
+              })
             )}
           </AreaChart>
         </ResponsiveContainer>

@@ -2,7 +2,7 @@ import type { BrokerResult, SimulationQuarter, SimulationParams, AnnualProjectio
 import { BROKER_CONFIGS } from '../data/brokers';
 
 /**
- * Calcula la comisión exacta de compra de una cesta de ETFs según las ofertas de cada bróker.
+ * Calcula la comisión exacta de compra de aportación periódica según las ofertas de cada bróker.
  */
 function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, etfs?: ETFAsset[]): number {
   if (!etfs || etfs.length === 0) {
@@ -13,42 +13,38 @@ function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, 
     return 3.0 + quarterlyContribution * 0.001;
   }
 
-  // Filtrar ETFs que tengan asignación > 0
-  const activeEtfs = etfs.filter((e) => e.weight > 0);
+  const activeEtfs = etfs.filter((e) => (e.recurringWeight ?? e.weight) > 0);
   if (activeEtfs.length === 0) return 0;
 
   let totalFee = 0;
 
   for (const etf of activeEtfs) {
-    const etfAllocation = (quarterlyContribution * etf.weight) / 100;
+    const etfWeight = etf.recurringWeight ?? etf.weight;
+    const etfAllocation = (quarterlyContribution * etfWeight) / 100;
     const cond = etf.brokerConditions;
 
     switch (brokerId) {
       case 'ing_active':
-        // Si el ETF específico está en la lista de bonificados de ING, es 0€
         if (cond?.ing) {
           totalFee += cond.ing.isPromo ? 0 : cond.ing.buyFee;
         } else {
-          totalFee += 0; // por defecto promo
+          totalFee += 0;
         }
         break;
 
       case 'traderepublic':
-        // Trade Republic: 0€ en plan de ahorro para todos los ETFs admitidos
         if (cond?.traderepublic?.isSavingsPlanEligible) {
           totalFee += 0;
         } else {
-          totalFee += 1.0; // 1€ por orden individual
+          totalFee += 1.0;
         }
         break;
 
       case 'myinvestor':
-        // MyInvestor: 0,12% sobre el capital invertido en cada orden
         totalFee += etfAllocation * 0.0012;
         break;
 
       case 'traditional_bank':
-        // Banca tradicional: cobra comisión mínima por cada clase de ETF comprada (ej: 12€ por cada ETF)
         totalFee += 12.0;
         break;
 
@@ -63,7 +59,28 @@ function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, 
 }
 
 /**
- * Runs the full compound-interest simulation for all brokers taking individual ETF offers into account.
+ * Calcula el arrastre fiscal por dividendos de distribución frente a acumulación.
+ * En fondos Acc (Acumulación): arrastre = 0 (100% reinvertido sin pagar IRPF).
+ * En fondos Dist (Distribución): IRPF del 19% sobre los dividendos cobrados.
+ */
+function calculateDividendTaxDrag(etfs?: ETFAsset[]): number {
+  if (!etfs || etfs.length === 0) return 0;
+
+  let totalTaxDrag = 0;
+  for (const etf of etfs) {
+    const weight = (etf.recurringWeight ?? etf.weight) / 100;
+    if (etf.dividendPolicy === 'dist') {
+      const yieldRate = (etf.dividendYield ?? 2.0) / 100;
+      // Retención IRPF en España (19% tramo base)
+      totalTaxDrag += weight * yieldRate * 0.19;
+    }
+  }
+  return totalTaxDrag;
+}
+
+/**
+ * Runs the full compound-interest simulation for all brokers.
+ * Fondos Acc: interés compuesto íntegro sin retención fiscal intermedia.
  */
 export function runSimulation(params: SimulationParams): BrokerResult[] {
   const {
@@ -77,46 +94,46 @@ export function runSimulation(params: SimulationParams): BrokerResult[] {
   } = params;
 
   const totalQuarters = years * 4;
-  const rQuarterly = Math.pow(1 + annualReturn / 100, 1 / 4) - 1;
+  
+  // Ajuste por política de dividendos (fondos Dist sufren arrastre fiscal del 19%, fondos Acc reinvierten íntegro)
+  const taxDragAnnual = calculateDividendTaxDrag(selectedEtfs);
+  const netAnnualReturn = Math.max(0, annualReturn - (taxDragAnnual * 100));
+  const rQuarterly = Math.pow(1 + netAnnualReturn / 100, 1 / 4) - 1;
 
   return BROKER_CONFIGS.map((broker) => {
-    // ING active gets the welcome bonus
-    const bonus =
-      hasWelcomeBonus && broker.id === 'ing_active' ? 50 : 0;
+    const bonus = hasWelcomeBonus && broker.id === 'ing_active' ? 50 : 0;
 
     let balance = initialCapital + bonus;
-    let totalInvested = initialCapital;
+    let initialInvested = initialCapital;
+    let contributedInvested = 0;
     let totalBuyFees = 0;
     let totalCustodyFees = 0;
 
     const quarterlyData: SimulationQuarter[] = [];
-
-    // Calcular coste de compra por trimestre según las ofertas específicas de cada ETF
     const buyFeePerQuarter = calculateBasketBuyFee(broker.id, quarterlyContribution, selectedEtfs);
 
     for (let q = 1; q <= totalQuarters; q++) {
       const balanceBefore = balance;
 
-      // 1. Quarterly returns
+      // 1. Rentabilidad trimestral (con reinversión total en fondos Acc)
       const returns = balance * rQuarterly;
       balance += returns;
 
-      // 2. Contribution & buy fee
+      // 2. Aportación periódica y comisión de compra
       let contribution = 0;
       let buyFee = 0;
 
-      // ING inactive never contributes (simulates neglect scenario)
       if (broker.id !== 'ing_inactive') {
         contribution = quarterlyContribution;
         buyFee = buyFeePerQuarter;
         balance += contribution - buyFee;
-        totalInvested += contribution;
+        contributedInvested += contribution;
       }
 
-      // 3. Custody fee
+      // 3. Custodia
       const operatedInQuarter = broker.id !== 'ing_inactive';
-      const actualEtfCount = selectedEtfs && selectedEtfs.filter(e => e.weight > 0).length > 0 
-        ? selectedEtfs.filter(e => e.weight > 0).length 
+      const actualEtfCount = selectedEtfs && selectedEtfs.filter(e => ((e.initialWeight ?? e.weight) > 0 || (e.recurringWeight ?? e.weight) > 0)).length > 0 
+        ? selectedEtfs.filter(e => ((e.initialWeight ?? e.weight) > 0 || (e.recurringWeight ?? e.weight) > 0)).length 
         : etfCount;
 
       const custodyFee = broker.calculateCustodyFee({
@@ -138,7 +155,9 @@ export function runSimulation(params: SimulationParams): BrokerResult[] {
         buyFee,
         custodyFee,
         balanceAfter: balance,
-        totalInvested,
+        totalInvested: initialInvested + contributedInvested,
+        initialInvested,
+        contributedInvested,
         totalFees: totalBuyFees + totalCustodyFees,
       });
     }
@@ -159,6 +178,8 @@ export function runSimulation(params: SimulationParams): BrokerResult[] {
         annualProjections.push({
           year: y,
           invested,
+          initialInvested,
+          contributedInvested: Math.round(quarterEnd.contributedInvested),
           grossBalance: netBalance + totalFees,
           netBalance,
           totalFees,
@@ -176,8 +197,10 @@ export function runSimulation(params: SimulationParams): BrokerResult[] {
       badge: broker.badge,
       description: broker.description,
       finalBalance: Math.round(balance * 100) / 100,
-      totalInvested: Math.round(totalInvested * 100) / 100,
-      totalProfit: Math.round((balance - totalInvested) * 100) / 100,
+      totalInvested: Math.round((initialInvested + contributedInvested) * 100) / 100,
+      initialInvested: Math.round(initialInvested * 100) / 100,
+      contributedInvested: Math.round(contributedInvested * 100) / 100,
+      totalProfit: Math.round((balance - (initialInvested + contributedInvested)) * 100) / 100,
       totalFees: Math.round((totalBuyFees + totalCustodyFees) * 100) / 100,
       totalBuyFees: Math.round(totalBuyFees * 100) / 100,
       totalCustodyFees: Math.round(totalCustodyFees * 100) / 100,
@@ -187,9 +210,6 @@ export function runSimulation(params: SimulationParams): BrokerResult[] {
   });
 }
 
-/**
- * Formats a number as a Spanish-locale currency string.
- */
 export function formatCurrency(value: number): string {
   return value.toLocaleString('es-ES', {
     minimumFractionDigits: 0,
@@ -197,9 +217,6 @@ export function formatCurrency(value: number): string {
   });
 }
 
-/**
- * Formats a number as a percentage string.
- */
 export function formatPercent(value: number): string {
   return value.toLocaleString('es-ES', {
     minimumFractionDigits: 1,
