@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Activity, Sparkles, SlidersHorizontal, RefreshCw, Zap } from 'lucide-react';
+import { Activity, Sparkles, SlidersHorizontal, RefreshCw, Zap, Award, BookOpen, CheckCircle2 } from 'lucide-react';
 import type { SimulationParams, ETFAsset } from '../types';
 import { runSimulation } from '../engine/simulation';
 import { POPULAR_ETFS } from '../data/etfList';
+import { FAMOUS_PORTFOLIOS, FamousPortfolioModel } from '../data/famousPortfolios';
 import InputControls from './InputControls';
 import PortfolioAllocation from './PortfolioAllocation';
 import MetricsCards from './MetricsCards';
@@ -30,36 +31,21 @@ export default function ETFSimulator() {
   const [isLoadingPlan, setIsLoadingPlan] = useState(false);
   const [planMessage, setPlanMessage] = useState<string | null>(null);
 
-  // Cargar plan desde la API
-  const loadPlanFromApi = async (profileKey: 'crecimiento' | 'moderado' | 'conservador') => {
-    setIsLoadingPlan(true);
-    setPlanMessage(null);
-    try {
-      const res = await fetch(`/api/plan?profile=${profileKey}`);
-      if (!res.ok) throw new Error('Error al consultar la API de planes.');
-      const data = await res.json();
-      
-      if (data.etfs && data.etfs.length > 0) {
-        setEtfs(data.etfs);
-        const weightedReturn = data.etfs.reduce(
-          (sum: number, e: ETFAsset) => sum + (e.expectedReturn * e.weight) / 100,
-          0
-        );
-        setParams((prev) => ({
-          ...prev,
-          annualReturn: Math.round(weightedReturn * 10) / 10,
-          years: data.recommendedYears || prev.years,
-          etfCount: data.etfs.length,
-        }));
-        setSelectedProfile(profileKey);
-        setPlanMessage(`Plan "${data.profile}" generado por API con cotizaciones de Yahoo Finance.`);
-      }
-    } catch {
-      // Fallback silencioso manteniendo la lista base si la API de Vercel no está disponible en local
-      setPlanMessage(`Plan activado en modo local.`);
-    } finally {
-      setIsLoadingPlan(false);
-    }
+  // Cargar modelo famoso de inversión
+  const applyFamousPortfolio = (portfolio: FamousPortfolioModel) => {
+    setEtfs(portfolio.etfs);
+    const activeTotal = portfolio.etfs.reduce((s, e) => s + (e.recurringWeight ?? e.weight), 0) || 100;
+    const weightedReturn = portfolio.etfs.reduce(
+      (sum, e) => sum + (e.expectedReturn * (e.recurringWeight ?? e.weight)) / activeTotal,
+      0
+    );
+    setParams((prev) => ({
+      ...prev,
+      annualReturn: Math.round(weightedReturn * 10) / 10,
+      years: portfolio.recommendedYears || prev.years,
+      etfCount: portfolio.etfs.length,
+    }));
+    setPlanMessage(`Estrategia cargada: "${portfolio.name}" (${portfolio.author}). ${portfolio.badge}.`);
   };
 
   const handleChange = (updates: Partial<SimulationParams>) => {
@@ -143,63 +129,72 @@ export default function ETFSimulator() {
             </div>
           </header>
 
-          {/* ──────────────── Barra de Generación de Planes desde la API ──────────────── */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
-                <Zap className="w-4 h-4" />
-              </div>
-              <div>
-                <span className="text-xs font-black uppercase text-slate-500 tracking-wider block">
-                  Generar Plan Automático desde la API:
-                </span>
-                <span className="text-xs text-slate-700 font-medium">
-                  Consulta las cotizaciones y gastos reales en directo
-                </span>
+          {/* ──────────────── Barra de Modelos de Inversión de Éxito (Bogle, Buffett, etc.) ──────────────── */}
+          <div className="bg-white p-5 rounded-2xl border border-slate-200/90 shadow-sm space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 text-white flex items-center justify-center font-bold shadow-xs">
+                  <Award className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-xs sm:text-sm font-black text-slate-900 flex items-center gap-2">
+                    <span>Modelos de Inversión Probados (Copiar Estrategias de Éxito)</span>
+                    <span className="text-[10px] bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded-full">
+                      1-Clic
+                    </span>
+                  </h3>
+                  <p className="text-xs text-slate-500 font-medium">
+                    Carteras históricas indexadas y diversificadas diseñadas por grandes referentes mundiales
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                disabled={isLoadingPlan}
-                onClick={() => loadPlanFromApi('crecimiento')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
-                  selectedProfile === 'crecimiento'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
-              >
-                Crecimiento Global
-              </button>
-              <button
-                disabled={isLoadingPlan}
-                onClick={() => loadPlanFromApi('moderado')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
-                  selectedProfile === 'moderado'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
-              >
-                Moderado
-              </button>
-              <button
-                disabled={isLoadingPlan}
-                onClick={() => loadPlanFromApi('conservador')}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs ${
-                  selectedProfile === 'conservador'
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
-              >
-                Conservador
-              </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {FAMOUS_PORTFOLIOS.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => applyFamousPortfolio(item)}
+                  className="group text-left p-3.5 rounded-xl border border-slate-200 hover:border-orange-400 bg-slate-50/50 hover:bg-orange-50/30 transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-2xs hover:shadow-xs"
+                >
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                        {item.author.split('(')[0].trim()}
+                      </span>
+                      <span className="text-[11px] font-bold text-emerald-700">
+                        ~{item.expectedAnnualReturn}% / año
+                      </span>
+                    </div>
+                    <div className="font-black text-xs text-slate-900 group-hover:text-orange-600 transition-colors">
+                      {item.name}
+                    </div>
+                    <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-bold text-slate-600">
+                    <span className="text-orange-600 group-hover:underline">Aplicar cartera</span>
+                    <span className="text-slate-400">{item.recommendedYears} años rec.</span>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
 
           {planMessage && (
-            <div className="text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 p-2.5 rounded-xl flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>{planMessage}</span>
+            <div className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex items-center justify-between shadow-2xs">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                <span>{planMessage}</span>
+              </div>
+              <button
+                onClick={() => setPlanMessage(null)}
+                className="text-emerald-700 hover:text-emerald-900 text-[11px] cursor-pointer"
+              >
+                ✕
+              </button>
             </div>
           )}
 
