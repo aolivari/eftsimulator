@@ -19,7 +19,6 @@ export default function BrokerComparisonTable({
   results,
   years,
 }: BrokerComparisonTableProps) {
-  // Sort by final balance descending (best to worst)
   const sorted = [...results].sort((a, b) => b.finalBalance - a.finalBalance);
   const bestId = sorted[0]?.id;
   const worstId = sorted[sorted.length - 1]?.id;
@@ -27,56 +26,44 @@ export default function BrokerComparisonTable({
   return (
     <section
       id="broker-comparison"
-      className="bg-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-800/80 overflow-hidden"
+      className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm"
     >
       {/* Header */}
-      <div className="px-6 py-4 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500/20 to-purple-500/10 border border-violet-500/20">
-            <Trophy className="w-4 h-4 text-violet-400" />
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-violet-100 text-violet-600 shadow-xs">
+            <Trophy className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-bold text-white text-sm">
+            <h3 className="font-bold text-slate-900 text-sm">
               Comparativa de Brókers — {years} años
             </h3>
-            <p className="text-[11px] text-slate-500">
-              Ordenado por capital acumulado (mayor a menor)
+            <p className="text-xs text-slate-500 font-medium">
+              Ordenado por capital acumulado (de mayor a menor)
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] text-slate-500 bg-slate-800/60 px-3 py-1.5 rounded-full">
-          <Info className="w-3 h-3" />
-          <span>Incluye interés compuesto + comisiones reales</span>
+        <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full font-bold">
+          <Info className="w-3.5 h-3.5 text-slate-500" />
+          <span>Incluye interés compuesto + ofertas por ETF</span>
         </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-800/40 text-[11px] uppercase text-slate-500 border-b border-slate-800/60">
+          <thead className="bg-slate-50 text-xs uppercase text-slate-500 font-black border-b border-slate-200">
             <tr>
-              <th className="px-6 py-3.5 font-semibold tracking-wider">#</th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider">
-                Plataforma / Escenario
-              </th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">
-                Comisiones Compra
-              </th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">
-                Comisiones Custodia
-              </th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">
-                Total Comisiones
-              </th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">
-                Plusvalía Neta
-              </th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">
-                Capital Acumulado
-              </th>
+              <th className="px-6 py-3.5 tracking-wider">#</th>
+              <th className="px-6 py-3.5 tracking-wider">Plataforma / Escenario</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Comisiones Compra</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Comisiones Custodia</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Total Comisiones</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Plusvalía Neta</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Capital Acumulado</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/40">
+          <tbody className="divide-y divide-slate-100 font-medium">
             {sorted.map((broker, index) => {
               const isBest = broker.id === bestId;
               const isWorst = broker.id === worstId;
@@ -86,25 +73,25 @@ export default function BrokerComparisonTable({
                 <tr
                   key={broker.id}
                   id={`broker-row-${broker.id}`}
-                  className={`transition-colors duration-200 ${
+                  className={`transition-colors duration-150 ${
                     isBest
-                      ? 'bg-emerald-500/[0.06] hover:bg-emerald-500/[0.1]'
+                      ? 'bg-emerald-50/60 hover:bg-emerald-50'
                       : isWorst
-                      ? 'bg-rose-500/[0.04] hover:bg-rose-500/[0.07]'
-                      : 'hover:bg-slate-800/30'
+                      ? 'bg-rose-50/40 hover:bg-rose-50/70'
+                      : 'hover:bg-slate-50/80'
                   }`}
                 >
                   {/* Rank */}
                   <td className="px-6 py-4">
                     <div
-                      className={`flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold ${
+                      className={`flex items-center justify-center w-7 h-7 rounded-xl text-xs font-black shadow-xs ${
                         index === 0
-                          ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-slate-900'
+                          ? 'bg-amber-400 text-amber-950'
                           : index === 1
-                          ? 'bg-slate-600/60 text-slate-300'
+                          ? 'bg-slate-200 text-slate-700'
                           : index === 2
-                          ? 'bg-amber-800/40 text-amber-400/80'
-                          : 'bg-slate-800 text-slate-500'
+                          ? 'bg-amber-100 text-amber-800'
+                          : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       {index + 1}
@@ -113,42 +100,38 @@ export default function BrokerComparisonTable({
 
                   {/* Broker info */}
                   <td className="px-6 py-4 max-w-xs">
-                    <div className="flex items-start gap-2">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-semibold text-white text-sm">
-                            {broker.name}
-                          </span>
-                          {isBest && (
-                            <span className="inline-flex items-center gap-1 bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase whitespace-nowrap">
-                              <Trophy className="w-3 h-3" />
-                              Más eficiente
-                            </span>
-                          )}
-                          {broker.badge && !isBest && (
-                            <span className="inline-flex items-center bg-sky-500/15 text-sky-400 text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase whitespace-nowrap">
-                              {broker.badge}
-                            </span>
-                          )}
-                          {isWorst && (
-                            <span className="inline-flex items-center gap-1 bg-rose-500/15 text-rose-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase whitespace-nowrap">
-                              <AlertTriangle className="w-3 h-3" />
-                              Mayor lastre
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                          {broker.description}
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="font-bold text-slate-900 text-sm">
+                        {broker.name}
+                      </span>
+                      {isBest && (
+                        <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                          <Trophy className="w-3 h-3" />
+                          Más eficiente
+                        </span>
+                      )}
+                      {broker.badge && !isBest && (
+                        <span className="inline-flex items-center bg-sky-100 text-sky-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                          {broker.badge}
+                        </span>
+                      )}
+                      {isWorst && (
+                        <span className="inline-flex items-center gap-1 bg-rose-100 text-rose-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                          <AlertTriangle className="w-3 h-3" />
+                          Mayor lastre
+                        </span>
+                      )}
                     </div>
+                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                      {broker.description}
+                    </p>
                   </td>
 
                   {/* Buy fees */}
                   <td className="px-6 py-4 text-right">
                     <span
-                      className={`font-medium text-sm ${
-                        broker.totalBuyFees === 0 ? 'text-emerald-400' : 'text-rose-400'
+                      className={`font-bold text-sm ${
+                        broker.totalBuyFees === 0 ? 'text-emerald-600' : 'text-rose-600'
                       }`}
                     >
                       {broker.totalBuyFees === 0
@@ -160,8 +143,8 @@ export default function BrokerComparisonTable({
                   {/* Custody fees */}
                   <td className="px-6 py-4 text-right">
                     <span
-                      className={`font-medium text-sm ${
-                        broker.totalCustodyFees === 0 ? 'text-emerald-400' : 'text-rose-400'
+                      className={`font-bold text-sm ${
+                        broker.totalCustodyFees === 0 ? 'text-emerald-600' : 'text-rose-600'
                       }`}
                     >
                       {broker.totalCustodyFees === 0
@@ -173,8 +156,8 @@ export default function BrokerComparisonTable({
                   {/* Total fees */}
                   <td className="px-6 py-4 text-right">
                     <span
-                      className={`font-bold text-sm ${
-                        broker.totalFees === 0 ? 'text-emerald-400' : 'text-rose-400'
+                      className={`font-black text-sm ${
+                        broker.totalFees === 0 ? 'text-emerald-600' : 'text-rose-600'
                       }`}
                     >
                       {broker.totalFees === 0
@@ -186,8 +169,8 @@ export default function BrokerComparisonTable({
                   {/* Profit */}
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-1">
-                      <ChevronUp className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="font-semibold text-sm text-emerald-400">
+                      <ChevronUp className="w-4 h-4 text-emerald-600" />
+                      <span className="font-black text-sm text-emerald-700">
                         +{formatCurrency(broker.totalProfit)} €
                       </span>
                     </div>
@@ -196,13 +179,13 @@ export default function BrokerComparisonTable({
                   {/* Final balance */}
                   <td className="px-6 py-4 text-right">
                     <div>
-                      <span className="text-base font-bold text-white">
+                      <span className="text-base font-black text-slate-900">
                         {formatCurrency(broker.finalBalance)} €
                       </span>
                       {diff !== 0 && (
-                        <div className="flex items-center justify-end gap-0.5 mt-1">
-                          <ChevronDown className="w-3 h-3 text-rose-400/70" />
-                          <span className="text-[11px] text-rose-400/70">
+                        <div className="flex items-center justify-end gap-0.5 mt-0.5">
+                          <ChevronDown className="w-3.5 h-3.5 text-rose-500" />
+                          <span className="text-xs font-bold text-rose-600">
                             {formatCurrency(Math.abs(diff))} € menos
                           </span>
                         </div>
@@ -217,18 +200,17 @@ export default function BrokerComparisonTable({
       </div>
 
       {/* Footer insight */}
-      <div className="px-6 py-4 border-t border-slate-800/60 bg-slate-800/20">
-        <div className="flex items-start gap-2 text-[12px] text-slate-400">
-          <ArrowRight className="w-3.5 h-3.5 mt-0.5 text-orange-400/70 flex-shrink-0" />
+      <div className="px-6 py-4 border-t border-slate-100 bg-amber-50/40">
+        <div className="flex items-start gap-2 text-xs text-slate-700 font-medium">
+          <ArrowRight className="w-4 h-4 mt-0.5 text-orange-600 flex-shrink-0" />
           <p>
-            <span className="font-semibold text-slate-300">Conclusión:</span>{' '}
-            Elegir <span className="text-white font-semibold">{sorted[0]?.name}</span> frente a{' '}
-            <span className="text-slate-300">{sorted[sorted.length - 1]?.name}</span> genera{' '}
-            <span className="text-emerald-400 font-semibold">
+            <span className="font-black text-slate-900">Conclusión:</span>{' '}
+            Elegir <span className="text-slate-900 font-black">{sorted[0]?.name}</span> frente a{' '}
+            <span className="text-slate-800 font-bold">{sorted[sorted.length - 1]?.name}</span> genera{' '}
+            <span className="text-emerald-700 font-black">
               {formatCurrency(sorted[0].finalBalance - sorted[sorted.length - 1].finalBalance)} €
             </span>{' '}
-            más de capital acumulado en {years} años gracias a la reducción del lastre por comisiones
-            (<em>fee drag</em>).
+            más de capital acumulado en {years} años gracias al menor lastre por comisiones.
           </p>
         </div>
       </div>

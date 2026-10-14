@@ -30,12 +30,12 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
       sublabel: bestBroker.name,
       value: `${formatCurrency(bestBroker.finalBalance)} €`,
       icon: Landmark,
-      gradient: 'from-orange-500 to-amber-500',
-      bgGlow: 'from-orange-500/10 to-amber-500/5',
-      iconColor: 'text-orange-400',
+      colorClass: 'text-orange-600',
+      bgIcon: 'bg-orange-100',
+      topBorder: 'border-t-4 border-t-orange-500',
       trend: <ArrowUpRight className="w-4 h-4" />,
       trendLabel: `+${returnPct}% retorno total`,
-      trendColor: 'text-emerald-400',
+      trendColor: 'text-emerald-700 bg-emerald-50 border border-emerald-200',
     },
     {
       id: 'metric-total-invested',
@@ -43,22 +43,22 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
       sublabel: 'Capital + Contribuciones',
       value: `${formatCurrency(bestBroker.totalInvested)} €`,
       icon: PiggyBank,
-      gradient: 'from-sky-500 to-cyan-500',
-      bgGlow: 'from-sky-500/10 to-cyan-500/5',
-      iconColor: 'text-sky-400',
+      colorClass: 'text-sky-600',
+      bgIcon: 'bg-sky-100',
+      topBorder: 'border-t-4 border-t-sky-500',
     },
     {
       id: 'metric-profit',
       label: 'Plusvalía Generada',
-      sublabel: 'Interés compuesto',
+      sublabel: 'Interés compuesto acumulado',
       value: `+${formatCurrency(bestBroker.totalProfit)} €`,
       icon: TrendingUp,
-      gradient: 'from-emerald-500 to-teal-500',
-      bgGlow: 'from-emerald-500/10 to-teal-500/5',
-      iconColor: 'text-emerald-400',
+      colorClass: 'text-emerald-600',
+      bgIcon: 'bg-emerald-100',
+      topBorder: 'border-t-4 border-t-emerald-500',
       trend: <ArrowUpRight className="w-4 h-4" />,
-      trendLabel: `${returnPct}% sobre inversión`,
-      trendColor: 'text-emerald-400',
+      trendLabel: `${returnPct}% ganancia`,
+      trendColor: 'text-emerald-700 bg-emerald-50 border border-emerald-200',
     },
     {
       id: 'metric-fee-savings',
@@ -66,12 +66,12 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
       sublabel: `vs. ${worstBroker.name}`,
       value: `${formatCurrency(feeSavings)} €`,
       icon: ShieldCheck,
-      gradient: 'from-violet-500 to-purple-500',
-      bgGlow: 'from-violet-500/10 to-purple-500/5',
-      iconColor: 'text-violet-400',
+      colorClass: 'text-violet-600',
+      bgIcon: 'bg-violet-100',
+      topBorder: 'border-t-4 border-t-violet-500',
       trend: <ArrowDownRight className="w-4 h-4" />,
-      trendLabel: `${formatCurrency(balanceDiff)} € más de capital`,
-      trendColor: 'text-emerald-400',
+      trendLabel: `${formatCurrency(balanceDiff)} € más`,
+      trendColor: 'text-emerald-700 bg-emerald-50 border border-emerald-200',
     },
   ];
 
@@ -81,43 +81,29 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
         <div
           key={card.id}
           id={card.id}
-          className="group relative bg-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-800/80 p-5 overflow-hidden hover:border-slate-700/80 transition-all duration-300"
+          className={`bg-white rounded-2xl border border-slate-200/90 ${card.topBorder} p-5 shadow-sm hover:shadow-md transition-all duration-200`}
         >
-          {/* Background glow */}
-          <div
-            className={`absolute inset-0 bg-gradient-to-br ${card.bgGlow} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
-          />
-
-          {/* Top accent line */}
-          <div
-            className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${card.gradient} opacity-60`}
-          />
-
-          <div className="relative">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] uppercase text-slate-500 font-semibold tracking-wider">
-                {card.label}
-              </span>
-              <div
-                className={`flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800/80 ${card.iconColor}`}
-              >
-                <card.icon className="w-4 h-4" />
-              </div>
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs uppercase text-slate-500 font-bold tracking-wider">
+              {card.label}
+            </span>
+            <div className={`flex items-center justify-center w-9 h-9 rounded-xl ${card.bgIcon} ${card.colorClass}`}>
+              <card.icon className="w-5 h-5" />
             </div>
-
-            <p className="text-2xl font-bold text-white tracking-tight mb-1">
-              {card.value}
-            </p>
-
-            <p className="text-[11px] text-slate-500 mb-2">{card.sublabel}</p>
-
-            {card.trend && (
-              <div className={`flex items-center gap-1 text-[11px] font-medium ${card.trendColor}`}>
-                {card.trend}
-                <span>{card.trendLabel}</span>
-              </div>
-            )}
           </div>
+
+          <p className="text-3xl font-black text-slate-900 tracking-tight mb-1">
+            {card.value}
+          </p>
+
+          <p className="text-xs text-slate-500 mb-3 font-medium">{card.sublabel}</p>
+
+          {card.trend && (
+            <div className={`inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded-full ${card.trendColor}`}>
+              {card.trend}
+              <span>{card.trendLabel}</span>
+            </div>
+          )}
         </div>
       ))}
     </section>

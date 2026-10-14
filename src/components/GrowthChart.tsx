@@ -19,19 +19,11 @@ interface GrowthChartProps {
 }
 
 const BROKER_COLORS: Record<string, string> = {
-  ing_active: '#f97316',      // orange-500
-  ing_inactive: '#ef4444',    // red-500
-  myinvestor: '#10b981',      // emerald-500
-  traderepublic: '#6366f1',   // indigo-500
-  traditional_bank: '#94a3b8', // slate-400
-};
-
-const BROKER_COLORS_FADED: Record<string, string> = {
-  ing_active: '#f9731640',
-  ing_inactive: '#ef444420',
-  myinvestor: '#10b98130',
-  traderepublic: '#6366f130',
-  traditional_bank: '#94a3b820',
+  ing_active: '#ea580c',      // orange-600
+  ing_inactive: '#dc2626',    // red-600
+  myinvestor: '#059669',      // emerald-600
+  traderepublic: '#4f46e5',   // indigo-600
+  traditional_bank: '#64748b', // slate-500
 };
 
 export default function GrowthChart({ results, years }: GrowthChartProps) {
@@ -39,7 +31,6 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
     new Set(results.map((r) => r.id))
   );
 
-  // Build chart data: one point per year (every 4 quarters)
   const chartData = [];
   const totalQuarters = years * 4;
 
@@ -85,8 +76,8 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload || !payload.length) return null;
     return (
-      <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700/80 rounded-xl p-4 shadow-2xl max-w-xs">
-        <p className="text-xs font-semibold text-slate-400 mb-2">{label}</p>
+      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-xl max-w-xs">
+        <p className="text-xs font-bold text-slate-500 mb-2">{label}</p>
         <div className="space-y-1.5">
           {payload
             .filter((p: { dataKey: string }) => !p.dataKey.endsWith('_invested'))
@@ -97,11 +88,11 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: entry.color }}
                   />
-                  <span className="text-xs text-slate-300 truncate max-w-[140px]">
+                  <span className="text-xs text-slate-700 font-bold truncate max-w-[140px]">
                     {entry.name}
                   </span>
                 </div>
-                <span className="text-xs font-bold text-white whitespace-nowrap">
+                <span className="text-xs font-black text-slate-900 whitespace-nowrap">
                   {formatCurrency(entry.value)} €
                 </span>
               </div>
@@ -114,17 +105,17 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
   return (
     <section
       id="growth-chart"
-      className="bg-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-800/80 overflow-hidden"
+      className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm"
     >
       {/* Header */}
-      <div className="px-6 py-4 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20">
-            <BarChart3 className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 shadow-xs">
+            <BarChart3 className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-bold text-white text-sm">Crecimiento del Capital</h3>
-            <p className="text-[11px] text-slate-500">
+            <h3 className="font-bold text-slate-900 text-sm">Crecimiento del Capital</h3>
+            <p className="text-xs text-slate-500 font-medium">
               Evolución anual con interés compuesto y reinversión
             </p>
           </div>
@@ -138,26 +129,26 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
               <button
                 key={broker.id}
                 onClick={() => toggleBroker(broker.id)}
-                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   isVisible
-                    ? 'bg-slate-800 text-white border border-slate-700'
-                    : 'bg-slate-900 text-slate-500 border border-slate-800/50'
+                    ? 'bg-slate-100 text-slate-800 border border-slate-300 shadow-xs'
+                    : 'bg-white text-slate-400 border border-slate-200 opacity-60'
                 }`}
               >
                 <div
-                  className="w-2 h-2 rounded-full transition-opacity"
+                  className="w-2.5 h-2.5 rounded-full"
                   style={{
                     backgroundColor: BROKER_COLORS[broker.id],
-                    opacity: isVisible ? 1 : 0.3,
+                    opacity: isVisible ? 1 : 0.4,
                   }}
                 />
-                <span className="hidden sm:inline truncate max-w-[100px]">
+                <span className="truncate max-w-[110px]">
                   {broker.name.split('(')[0].trim()}
                 </span>
                 {isVisible ? (
-                  <Eye className="w-3 h-3 text-slate-400" />
+                  <Eye className="w-3.5 h-3.5 text-slate-500" />
                 ) : (
-                  <EyeOff className="w-3 h-3 text-slate-600" />
+                  <EyeOff className="w-3.5 h-3.5 text-slate-400" />
                 )}
               </button>
             );
@@ -167,7 +158,7 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
 
       {/* Chart */}
       <div className="px-4 py-6 sm:px-6">
-        <ResponsiveContainer width="100%" height={400}>
+        <ResponsiveContainer width="100%" height={380}>
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
             <defs>
               {results.map((broker) => (
@@ -179,20 +170,20 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
                   x2="0"
                   y2="1"
                 >
-                  <stop offset="5%" stopColor={BROKER_COLORS[broker.id]} stopOpacity={0.3} />
-                  <stop offset="95%" stopColor={BROKER_COLORS[broker.id]} stopOpacity={0} />
+                  <stop offset="5%" stopColor={BROKER_COLORS[broker.id]} stopOpacity={0.25} />
+                  <stop offset="95%" stopColor={BROKER_COLORS[broker.id]} stopOpacity={0.02} />
                 </linearGradient>
               ))}
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
             <XAxis
               dataKey="label"
-              tick={{ fontSize: 11, fill: '#64748b' }}
+              tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
               tickLine={false}
-              axisLine={{ stroke: '#1e293b' }}
+              axisLine={{ stroke: '#e2e8f0' }}
             />
             <YAxis
-              tick={{ fontSize: 11, fill: '#64748b' }}
+              tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(val: number) => `${(val / 1000).toFixed(0)}k`}
@@ -205,7 +196,7 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
               iconType="circle"
               iconSize={8}
               formatter={(value: string) => (
-                <span className="text-[11px] text-slate-400">{value}</span>
+                <span className="text-xs text-slate-600 font-bold">{value}</span>
               )}
             />
             {results.map((broker) =>
@@ -221,10 +212,10 @@ export default function GrowthChart({ results, years }: GrowthChartProps) {
                   fillOpacity={1}
                   dot={false}
                   activeDot={{
-                    r: 5,
+                    r: 6,
                     stroke: BROKER_COLORS[broker.id],
-                    strokeWidth: 2,
-                    fill: '#0f172a',
+                    strokeWidth: 3,
+                    fill: '#ffffff',
                   }}
                 />
               ) : null

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronRight, TrendingUp, Sparkles, ShieldAlert } from 'lucide-react';
+import { Calendar, ChevronRight } from 'lucide-react';
 import type { AnnualProjection } from '../types';
 import { formatCurrency } from '../engine/simulation';
 
@@ -10,23 +10,21 @@ interface AnnualProjectionTableProps {
 
 export default function AnnualProjectionTable({ projections, brokerName }: AnnualProjectionTableProps) {
   const [showAllYears, setShowAllYears] = useState(false);
-
-  // Mostrar los primeros 5 años y luego alternar o mostrar todos
   const displayed = showAllYears ? projections : projections.slice(0, 5);
 
   return (
-    <section id="annual-projections" className="bg-slate-900/80 backdrop-blur-sm rounded-2xl border border-slate-800/80 overflow-hidden">
+    <section id="annual-projections" className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-slate-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20">
-            <Calendar className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 shadow-xs">
+            <Calendar className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-bold text-white text-sm">
+            <h3 className="font-bold text-slate-900 text-sm">
               Proyección Anualizada Año a Año ({brokerName})
             </h3>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-xs text-slate-500 font-medium">
               Desglose detallado del efecto bola de nieve (capital acumulado, aportaciones y beneficios netos)
             </p>
           </div>
@@ -35,7 +33,7 @@ export default function AnnualProjectionTable({ projections, brokerName }: Annua
         {projections.length > 5 && (
           <button
             onClick={() => setShowAllYears(!showAllYears)}
-            className="text-xs font-semibold text-orange-400 hover:text-orange-300 flex items-center gap-1 transition cursor-pointer"
+            className="text-xs font-bold text-orange-600 hover:text-orange-700 flex items-center gap-1 transition cursor-pointer"
           >
             <span>{showAllYears ? 'Mostrar menos años' : `Ver los ${projections.length} años completos`}</span>
             <ChevronRight className={`w-3.5 h-3.5 transform transition-transform ${showAllYears ? 'rotate-90' : ''}`} />
@@ -46,42 +44,42 @@ export default function AnnualProjectionTable({ projections, brokerName }: Annua
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-800/40 text-[11px] uppercase text-slate-500 border-b border-slate-800/60">
+          <thead className="bg-slate-50 text-xs uppercase text-slate-500 font-black border-b border-slate-200">
             <tr>
-              <th className="px-6 py-3.5 font-semibold tracking-wider">Año</th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">Total Aportado</th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">Beneficio en el Año</th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">Plusvalía Total</th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">Comisiones Acum.</th>
-              <th className="px-6 py-3.5 font-semibold tracking-wider text-right">Valor Neto Cartera</th>
+              <th className="px-6 py-3.5 tracking-wider">Año</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Total Aportado</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Beneficio en el Año</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Plusvalía Total</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Comisiones Acum.</th>
+              <th className="px-6 py-3.5 tracking-wider text-right">Valor Neto Cartera</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/40">
+          <tbody className="divide-y divide-slate-100 font-medium">
             {displayed.map((row) => {
               const profitPercentage = row.invested > 0 ? ((row.totalProfit / row.invested) * 100).toFixed(1) : '0';
               return (
-                <tr key={row.year} className="hover:bg-slate-800/25 transition-colors">
+                <tr key={row.year} className="hover:bg-slate-50/80 transition-colors">
                   <td className="px-6 py-3.5">
-                    <span className="font-bold text-white text-sm bg-slate-800/80 px-2 py-0.5 rounded-md">
+                    <span className="font-bold text-slate-900 text-xs bg-slate-100 px-2.5 py-1 rounded-lg">
                       Año {row.year}
                     </span>
                   </td>
-                  <td className="px-6 py-3.5 text-right font-medium text-slate-300">
+                  <td className="px-6 py-3.5 text-right text-slate-700">
                     {formatCurrency(row.invested)} €
                   </td>
-                  <td className="px-6 py-3.5 text-right font-medium text-emerald-400/90">
+                  <td className="px-6 py-3.5 text-right font-bold text-emerald-600">
                     +{formatCurrency(row.annualProfit)} €
                   </td>
                   <td className="px-6 py-3.5 text-right">
-                    <div className="flex items-center justify-end gap-1 text-emerald-400 font-semibold">
+                    <div className="flex items-center justify-end gap-1 text-emerald-700 font-bold">
                       <span>+{formatCurrency(row.totalProfit)} €</span>
-                      <span className="text-[10px] text-slate-500">({profitPercentage}%)</span>
+                      <span className="text-xs text-slate-400 font-normal">({profitPercentage}%)</span>
                     </div>
                   </td>
-                  <td className="px-6 py-3.5 text-right font-medium text-rose-400/80">
+                  <td className="px-6 py-3.5 text-right text-rose-600 font-bold">
                     {row.totalFees > 0 ? `-${formatCurrency(row.totalFees)} €` : '0 €'}
                   </td>
-                  <td className="px-6 py-3.5 text-right font-bold text-white text-base">
+                  <td className="px-6 py-3.5 text-right font-black text-slate-900 text-base">
                     {formatCurrency(row.netBalance)} €
                   </td>
                 </tr>

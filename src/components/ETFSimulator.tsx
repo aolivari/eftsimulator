@@ -67,81 +67,77 @@ export default function ETFSimulator() {
       : params.quarterlyContribution;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-orange-500/30">
-      {/* Background glow and subtle dots */}
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950 pointer-events-none" />
-      <div
-        className="fixed inset-0 pointer-events-none opacity-[0.015]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
+    <div className="min-h-screen bg-[#faf8f5] text-slate-800 font-sans selection:bg-orange-500/20">
+      {/* Fondos decorativos sutiles y cálidos, cero negro */}
+      <div className="fixed top-0 left-10 w-[500px] h-[500px] bg-amber-200/35 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed bottom-0 right-10 w-[500px] h-[500px] bg-orange-200/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="fixed top-1/2 right-1/4 w-[400px] h-[400px] bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="space-y-8">
           {/* ──────────────── Header ──────────────── */}
-          <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-800/60">
+          <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
             <div className="space-y-1.5">
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white flex items-center gap-3">
-                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 shadow-lg shadow-orange-500/20">
-                  <Activity className="w-5 h-5 text-white" />
+              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900 flex items-center gap-3">
+                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 shadow-md shadow-orange-500/20 text-white">
+                  <Activity className="w-6 h-6" />
                 </div>
                 <span>
-                  <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
                     ETF
                   </span>{' '}
                   Simulator & Plan de Ahorro
                 </span>
               </h1>
-              <p className="text-slate-400 text-sm max-w-2xl">
+              <p className="text-slate-600 text-sm max-w-2xl font-medium">
                 Simulador interactivo de compras periódicas, reparto Core-Satellite y proyecciones
                 anuales con comparativa de comisiones reales en brókers españoles.
               </p>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="inline-flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-full text-xs text-slate-300 backdrop-blur-sm">
+              <div className="inline-flex items-center gap-2 bg-white border border-slate-200 px-4 py-2 rounded-full text-xs text-slate-700 shadow-xs font-bold">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
                 </span>
-                <span className="font-medium">MiFID II · Fondos de Acumulación</span>
+                <span>MiFID II · Fondos de Acumulación</span>
               </div>
             </div>
           </header>
 
           {/* ──────────────── Navigation Tabs ──────────────── */}
-          <div className="flex items-center gap-2 border-b border-slate-800/80 pb-1">
+          <div className="flex items-center gap-2 border-b border-slate-200 pb-1 overflow-x-auto">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer ${
+              className={`px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition cursor-pointer whitespace-nowrap ${
                 activeTab === 'overview'
-                  ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                  ? 'bg-orange-500 text-white shadow-sm shadow-orange-500/30'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
               Simulación General
             </button>
             <button
               onClick={() => setActiveTab('allocation')}
-              className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer flex items-center gap-1.5 ${
+              className={`px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'allocation'
-                  ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                  ? 'bg-orange-500 text-white shadow-sm shadow-orange-500/30'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <SlidersHorizontal className="w-4 h-4" />
               Plan de Ahorro ETFs ({etfs.length})
             </button>
             <button
               onClick={() => setActiveTab('annual')}
-              className={`px-4 py-2 text-xs sm:text-sm font-semibold rounded-xl transition cursor-pointer flex items-center gap-1.5 ${
+              className={`px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                 activeTab === 'annual'
-                  ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+                  ? 'bg-orange-500 text-white shadow-sm shadow-orange-500/30'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              <Sparkles className="w-3.5 h-3.5" />
+              <Sparkles className="w-4 h-4" />
               Proyección Anualizada
             </button>
           </div>
@@ -149,7 +145,7 @@ export default function ETFSimulator() {
           {/* ──────────────── Input Controls ──────────────── */}
           <InputControls params={params} onChange={handleChange} />
 
-          {/* ──────────────── Portfolio Allocation (Visible si se selecciona pestaña o visible arriba) ──────────────── */}
+          {/* ──────────────── Portfolio Allocation (Pestaña individual o general) ──────────────── */}
           {activeTab === 'allocation' && (
             <PortfolioAllocation
               etfs={etfs}
@@ -174,7 +170,7 @@ export default function ETFSimulator() {
             />
           )}
 
-          {/* ──────────────── Portfolio Allocation en vista general también disponible ──────────────── */}
+          {/* ──────────────── Portfolio Allocation en vista general ──────────────── */}
           {activeTab === 'overview' && (
             <PortfolioAllocation
               etfs={etfs}
@@ -195,8 +191,8 @@ export default function ETFSimulator() {
           <BrokerComparisonTable results={results} years={params.years} />
 
           {/* ──────────────── Footer ──────────────── */}
-          <footer className="pt-6 border-t border-slate-800/40 text-center">
-            <p className="text-[11px] text-slate-600 leading-relaxed max-w-2xl mx-auto">
+          <footer className="pt-6 border-t border-slate-200 text-center">
+            <p className="text-xs text-slate-500 leading-relaxed max-w-2xl mx-auto font-medium">
               Simulador de inversión periódica en ETFs de acumulación según directiva MiFID II.
               Las rentabilidades y comisiones son simuladas y no representan asesoramiento financiero personalizado.
             </p>
