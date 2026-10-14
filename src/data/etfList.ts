@@ -1,3 +1,5 @@
+import type { ETFAsset } from '../types';
+
 export interface BrokerOffer {
   brokerId: string;
   brokerName: string;
@@ -5,26 +7,7 @@ export interface BrokerOffer {
   isZeroFeePromo: boolean; // Si entra en la lista de 0€ (ej. ING selección, Trade Republic Sparplan, MyInvestor sin custodia)
   notes: string;
 }
-
-export interface ETFAsset {
-  id: string;
-  ticker: string;
-  name: string;
-  category: 'core' | 'satellite';
-  sectorOrTheme: string;
-  ter: number; // Tasa de gastos anual (ej: 0.20%)
-  expectedReturn: number; // Rentabilidad esperada media anual %
-  weight: number; // Porcentaje de asignación (0-100)
-  isin?: string;
-  description?: string;
-  // Ofertas específicas por cada bróker para este ETF concreto
-  brokerConditions: {
-    ing: { isPromo: boolean; buyFee: number; note: string };
-    myinvestor: { isPromo: boolean; buyFeeRate: number; note: string };
-    traderepublic: { isSavingsPlanEligible: boolean; buyFee: number; note: string };
-    banca_tradicional: { buyFee: number; note: string };
-  };
-}
+export type { ETFAsset };
 
 export const POPULAR_ETFS: ETFAsset[] = [
   {
@@ -36,6 +19,8 @@ export const POPULAR_ETFS: ETFAsset[] = [
     ter: 0.22,
     expectedReturn: 7.5,
     weight: 50,
+    initialWeight: 60,
+    recurringWeight: 50,
     isin: 'IE00BK5BQT80',
     description: 'Núcleo global con más de 3.600 empresas de países desarrollados y emergentes.',
     brokerConditions: {
@@ -54,6 +39,8 @@ export const POPULAR_ETFS: ETFAsset[] = [
     ter: 0.07,
     expectedReturn: 8.5,
     weight: 25,
+    initialWeight: 40,
+    recurringWeight: 25,
     isin: 'IE00B5BMR087',
     description: 'Las 500 mayores empresas cotizadas en Estados Unidos.',
     brokerConditions: {
@@ -72,6 +59,8 @@ export const POPULAR_ETFS: ETFAsset[] = [
     ter: 0.60,
     expectedReturn: 10.0,
     weight: 15,
+    initialWeight: 0,
+    recurringWeight: 15,
     isin: 'IE00BF099516',
     description: 'Satélite temático enfocado en empresas globales líderes en seguridad informática.',
     brokerConditions: {
@@ -90,6 +79,8 @@ export const POPULAR_ETFS: ETFAsset[] = [
     ter: 0.25,
     expectedReturn: 7.0,
     weight: 10,
+    initialWeight: 0,
+    recurringWeight: 10,
     isin: 'IE00BM67HK77',
     description: 'Sector defensivo y de innovación sanitaria global.',
     brokerConditions: {
@@ -108,6 +99,8 @@ export const POPULAR_ETFS: ETFAsset[] = [
     ter: 0.25,
     expectedReturn: 6.8,
     weight: 0,
+    initialWeight: 0,
+    recurringWeight: 0,
     isin: 'IE00BM67HN09',
     description: 'Empresas multinacionales de bienes de primera necesidad y consumo defensivo.',
     brokerConditions: {

@@ -69,8 +69,9 @@ export default function ETFSimulator() {
   // Sincronizar rentabilidad y número de ETFs desde la asignación de cartera
   const handleEtfChange = (updatedEtfs: ETFAsset[]) => {
     setEtfs(updatedEtfs);
+    const activeTotal = updatedEtfs.reduce((s, e) => s + (e.recurringWeight ?? e.weight), 0) || 100;
     const weightedReturn = updatedEtfs.reduce(
-      (sum, e) => sum + (e.expectedReturn * e.weight) / 100,
+      (sum, e) => sum + (e.expectedReturn * (e.recurringWeight ?? e.weight)) / activeTotal,
       0
     );
     setParams((prev) => ({

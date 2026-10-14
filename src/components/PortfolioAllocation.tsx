@@ -24,12 +24,30 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
   const totalInitial = etfs.reduce((sum, e) => sum + (e.initialWeight ?? e.weight), 0);
   const currentTotal = allocationTab === 'recurring' ? totalRecurring : totalInitial;
 
-  const weightedReturn = etfs.reduce((sum, e) => sum + (e.expectedReturn * (e.recurringWeight ?? e.weight)) / 100, 0);
-  const weightedTER = etfs.reduce((sum, e) => sum + (e.ter * (e.recurringWeight ?? e.weight)) / 100, 0);
+  const currentWeights = etfs.map(e => ({
+    ...e,
+    activeWeight: allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight)
+  }));
+  const activeTotal = currentWeights.reduce((s, e) => s + e.activeWeight, 0) || 100;
+  const weightedReturn = currentWeights.reduce((sum, e) => sum + (e.expectedReturn * e.activeWeight) / activeTotal, 0);
+  const weightedTER = currentWeights.reduce((sum, e) => sum + (e.ter * e.activeWeight) / activeTotal, 0);
+  const taxDragPct = currentWeights.reduce((sum, e) => {
+    if (e.dividendPolicy === 'dist') {
+      const yieldRate = e.dividendYield ?? 2.5;
+      return sum + (e.activeWeight / activeTotal) * yieldRate * 0.19;
+    }
+    return sum;
+  }, 0);
 
-  // Cambiar el peso según la pestaña activa
+  // Cambiar el peso según la pestaña activa asegurando que el total no supere 100%
   const handleWeightChange = (id: string, newWeight: number) => {
-    const val = Math.max(0, newWeight);
+    const otherSum = etfs
+      .filter((e) => e.id !== id)
+      .reduce((sum, e) => sum + (allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight)), 0);
+
+    const maxAllowed = Math.max(0, 100 - otherSum);
+    const val = Math.max(0, Math.min(maxAllowed, newWeight));
+
     const updated = etfs.map((e) => {
       if (e.id !== id) return e;
       if (allocationTab === 'recurring') {
@@ -39,6 +57,14 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
       }
     });
     onChange(updated);
+  };
+
+  // Cambiar directamente por importe en euros
+  const handleAmountChange = (id: string, newAmount: number) => {
+    const totalBase = allocationTab === 'recurring' ? monthlyAmount : initialCapital;
+    if (totalBase <= 0) return;
+    const computedWeight = Math.round((Math.max(0, newAmount) / totalBase) * 100);
+    handleWeightChange(id, computedWeight);
   };
 
   // Repartir equitativamente
@@ -189,27 +215,27 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
         {/* Selector de tipo de asignación (Inicial vs Periódico) */}
         <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
           <button
-            onClick={() => setAllocationTab('recurring')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
-              allocationTab === 'recurring'
-                ? 'bg-white text-orange-600 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
-          >
-            <CalendarClock className="w-3.5 h-3.5" />
-            <span>Aporte Periódico ({monthlyAmount.toLocaleString('es-ES')} €/mes)</span>
-          </button>
-
-          <button
             onClick={() => setAllocationTab('initial')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-black transition cursor-pointer ${
               allocationTab === 'initial'
-                ? 'bg-white text-sky-600 shadow-xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-sky-600 text-white shadow-sm ring-2 ring-sky-200'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
             }`}
           >
             <ArrowDownToLine className="w-3.5 h-3.5" />
-            <span>Capital Inicial ({initialCapital.toLocaleString('es-ES')} €)</span>
+            <span>1. Compra Inicial ({initialCapital.toLocaleString('es-ES')} €)</span>
+          </button>
+
+          <button
+            onClick={() => setAllocationTab('recurring')}
+            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-black transition cursor-pointer ${
+              allocationTab === 'recurring'
+                ? 'bg-orange-500 text-white shadow-sm ring-2 ring-orange-200'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+            }`}
+          >
+            <CalendarClock className="w-3.5 h-3.5" />
+            <span>2. Aporte Periódico ({monthlyAmount.toLocaleString('es-ES')} €/mes)</span>
           </button>
         </div>
       </div>
@@ -305,6 +331,15 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
             <span className="text-[11px] uppercase text-slate-500 font-bold block">Coste Medio (TER)</span>
             <span className="text-sm font-black text-slate-800">{weightedTER.toFixed(2)}% / año</span>
           </div>
+
+          <div className="h-6 w-px bg-slate-200 hidden sm:block" />
+
+          <div>
+            <span className="text-[11px] uppercase text-slate-500 font-bold block">Retención Fiscal (IRPF)</span>
+            <span className={`text-sm font-black ${taxDragPct > 0 ? 'text-amber-600' : 'text-emerald-700'}`}>
+              {taxDragPct > 0 ? `-${taxDragPct.toFixed(2)}% / año (Dist)` : '0.00% (100% Acc)'}
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
@@ -368,9 +403,20 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
               ? (etf.recurringWeight ?? etf.weight) 
               : (etf.initialWeight ?? etf.weight);
 
+            const otherSum = etfs
+              .filter((e) => e.id !== etf.id)
+              .reduce((sum, e) => sum + (allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight)), 0);
+
+            const maxAllowed = Math.max(0, 100 - otherSum);
+            const isBlockedAtZero = maxAllowed === 0 && currentWeight === 0;
+
             const moneyAssigned = allocationTab === 'recurring'
               ? (monthlyAmount * currentWeight) / 100
               : (initialCapital * currentWeight) / 100;
+
+            const maxMoneyAllowed = allocationTab === 'recurring'
+              ? (monthlyAmount * maxAllowed) / 100
+              : (initialCapital * maxAllowed) / 100;
 
             const cond = etf.brokerConditions;
             const isIngFree = cond?.ing?.isPromo;
@@ -379,7 +425,11 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
             return (
               <div
                 key={etf.id}
-                className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs hover:border-slate-300 transition"
+                className={`p-4 rounded-xl border transition shadow-xs ${
+                  isBlockedAtZero
+                    ? 'bg-slate-50/70 border-slate-200 opacity-60'
+                    : 'bg-white border-slate-200 hover:border-slate-300'
+                }`}
               >
                 <div className="flex items-center justify-between gap-2 mb-2">
                   <div className="flex items-center gap-2 min-w-0">
@@ -412,17 +462,43 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
                   </div>
 
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <span className={`text-xs font-black ${allocationTab === 'recurring' ? 'text-orange-600' : 'text-sky-600'}`}>
-                      {moneyAssigned.toFixed(0)} € {allocationTab === 'recurring' ? '/mes' : 'inicial'}
-                    </span>
-                    <div className="flex items-center bg-slate-50 border border-slate-200 rounded-lg px-2 py-0.5">
+                    {/* Input manual en Euros */}
+                    <div className={`flex items-center rounded-lg px-2 py-0.5 border ${
+                      isBlockedAtZero
+                        ? 'bg-slate-100 border-slate-200 text-slate-400'
+                        : allocationTab === 'recurring'
+                          ? 'bg-orange-50/70 border-orange-200 text-orange-700'
+                          : 'bg-sky-50/70 border-sky-200 text-sky-700'
+                    }`}>
                       <input
                         type="number"
                         min="0"
-                        max="100"
-                        value={currentWeight}
-                        onChange={(e) => handleWeightChange(etf.id, Number(e.target.value))}
-                        className="w-10 bg-transparent text-right font-black text-slate-900 text-xs focus:outline-none"
+                        max={Math.round(maxMoneyAllowed)}
+                        step="1"
+                        disabled={isBlockedAtZero}
+                        value={moneyAssigned === 0 ? '' : Math.round(moneyAssigned)}
+                        placeholder="0"
+                        onChange={(e) => handleAmountChange(etf.id, Number(e.target.value) || 0)}
+                        className="w-16 bg-transparent text-right font-black text-xs focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none disabled:cursor-not-allowed"
+                      />
+                      <span className="text-[11px] font-bold ml-1 opacity-80 whitespace-nowrap">
+                        € {allocationTab === 'recurring' ? '/mes' : 'inicial'}
+                      </span>
+                    </div>
+
+                    {/* Input manual en Porcentaje */}
+                    <div className={`flex items-center border rounded-lg px-2 py-0.5 ${
+                      isBlockedAtZero ? 'bg-slate-100 border-slate-200 text-slate-400' : 'bg-slate-50 border-slate-200'
+                    }`}>
+                      <input
+                        type="number"
+                        min="0"
+                        max={maxAllowed}
+                        disabled={isBlockedAtZero}
+                        value={currentWeight === 0 ? '' : currentWeight}
+                        placeholder="0"
+                        onChange={(e) => handleWeightChange(etf.id, Number(e.target.value) || 0)}
+                        className="w-10 bg-transparent text-right font-black text-slate-900 text-xs focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none disabled:cursor-not-allowed disabled:text-slate-400"
                       />
                       <span className="text-xs text-slate-500 font-bold ml-0.5">%</span>
                     </div>
@@ -455,16 +531,29 @@ export default function PortfolioAllocation({ etfs, onChange, monthlyAmount, ini
                   <span className="inline-flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                     MyInvestor: 0,12% (0 € custodia)
                   </span>
+
+                  {isBlockedAtZero && (
+                    <span className="inline-flex items-center gap-1 text-[11px] px-2.5 py-0.5 rounded-full font-black bg-slate-200 text-slate-600">
+                      Bloqueado (Cartera al 100%)
+                    </span>
+                  )}
                 </div>
 
-                {/* Slider */}
+                {/* Slider con tope dinámico max={maxAllowed} */}
                 <input
                   type="range"
                   min="0"
-                  max="100"
+                  max={maxAllowed}
+                  disabled={isBlockedAtZero}
                   value={currentWeight}
                   onChange={(e) => handleWeightChange(etf.id, Number(e.target.value))}
-                  className={`w-full h-2 rounded-full cursor-pointer mt-1 ${allocationTab === 'recurring' ? 'accent-orange-500 bg-orange-100' : 'accent-sky-500 bg-sky-100'}`}
+                  className={`w-full h-2 rounded-full mt-1 ${
+                    isBlockedAtZero 
+                      ? 'bg-slate-200 accent-slate-400 cursor-not-allowed' 
+                      : allocationTab === 'recurring' 
+                        ? 'accent-orange-500 bg-orange-100 cursor-pointer' 
+                        : 'accent-sky-500 bg-sky-100 cursor-pointer'
+                  }`}
                 />
               </div>
             );

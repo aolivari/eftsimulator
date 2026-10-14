@@ -60,18 +60,21 @@ function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, 
 
 /**
  * Calcula el arrastre fiscal por dividendos de distribución frente a acumulación.
- * En fondos Acc (Acumulación): arrastre = 0 (100% reinvertido sin pagar IRPF).
- * En fondos Dist (Distribución): IRPF del 19% sobre los dividendos cobrados.
+ * En fondos Acc (Acumulación): arrastre = 0 (100% reinvertido automáticamente sin pagar IRPF cada trimestre).
+ * En fondos Dist (Distribución): IRPF del 19% sobre los dividendos distribuidos (ej. media 2.2% anual), lo que reduce la rentabilidad neta compuesta.
  */
 function calculateDividendTaxDrag(etfs?: ETFAsset[]): number {
   if (!etfs || etfs.length === 0) return 0;
 
+  const totalWeight = etfs.reduce((sum, e) => sum + (e.recurringWeight ?? e.weight), 0) || 100;
   let totalTaxDrag = 0;
+
   for (const etf of etfs) {
-    const weight = (etf.recurringWeight ?? etf.weight) / 100;
+    const weight = (etf.recurringWeight ?? etf.weight) / totalWeight;
     if (etf.dividendPolicy === 'dist') {
-      const yieldRate = (etf.dividendYield ?? 2.0) / 100;
-      // Retención IRPF en España (19% tramo base)
+      // Rendimiento por dividendo típico según el activo (media 2.5% anual)
+      const yieldRate = (etf.dividendYield ?? 2.5) / 100;
+      // Retención fiscal en origen/destino (19% IRPF)
       totalTaxDrag += weight * yieldRate * 0.19;
     }
   }
