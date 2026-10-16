@@ -271,10 +271,10 @@ export default function GrowthChart({
   return (
     <section
       id="growth-chart"
-      className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm transition-all"
+      className="bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 overflow-hidden shadow-2xs sm:shadow-sm transition-all"
     >
       {/* ──────────────── Header ──────────────── */}
-      <div className="px-6 py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="px-3.5 py-3 sm:px-6 sm:py-4 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
         <div className="flex items-center gap-3">
           <div
             className={`flex items-center justify-center w-9 h-9 rounded-xl shadow-xs text-white ${
@@ -399,8 +399,9 @@ export default function GrowthChart({
       </div>
 
       {/* ──────────────── Gráfica ──────────────── */}
-      <div className="px-4 py-6 sm:px-6">
-        <ResponsiveContainer width="100%" height={380}>
+      <div className="px-2 sm:px-6 py-4 sm:py-6">
+        <div className="w-full h-[270px] sm:h-[380px]">
+          <ResponsiveContainer width="100%" height="100%">
           {isCycleMode && historicalSimulation ? (
             <AreaChart
               data={historicalSimulation.chartData}
@@ -685,12 +686,13 @@ export default function GrowthChart({
             </AreaChart>
           )}
         </ResponsiveContainer>
+        </div>
       </div>
 
       {/* ──────────────── Feedback Visual Inmediato Debajo de la Gráfica ──────────────── */}
       {isMultiYearMode && multiYearSimulation && (
-        <div className="px-6 pb-6 pt-2 border-t border-slate-100 bg-slate-50/40 space-y-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="px-3 sm:px-6 pb-4 sm:pb-6 pt-2 border-t border-slate-100 bg-slate-50/40 space-y-3 sm:space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {/* Total Invertido */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
@@ -782,9 +784,9 @@ export default function GrowthChart({
         </div>
       )}
       {isCycleMode && historicalSimulation && (
-        <div className="px-6 pb-6 pt-2 border-t border-slate-100 bg-slate-50/40 space-y-4">
+        <div className="px-3 sm:px-6 pb-4 sm:pb-6 pt-2 border-t border-slate-100 bg-slate-50/40 space-y-3 sm:space-y-4">
           {/* Métricas clave en fila visual limpia */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {/* Total Invertido / Retorno */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">

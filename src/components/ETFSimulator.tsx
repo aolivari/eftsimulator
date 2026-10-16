@@ -12,6 +12,9 @@ import {
   ArrowRight,
   ChevronRight,
   Layers,
+  Menu,
+  X,
+  Landmark,
 } from 'lucide-react';
 import type {
   SimulationParams,
@@ -49,6 +52,7 @@ export default function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
   const [etfs, setEtfs] = useState<ETFAsset[]>(POPULAR_ETFS);
   const [activeTab, setActiveTab] = useState<'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers'>('overview');
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   // Estado para ciclo histórico individual seleccionado y capital base de prueba
   const [selectedCycleId, setSelectedCycleId] = useState<string | null>(null);
@@ -163,10 +167,239 @@ export default function ETFSimulator() {
       <div className="fixed bottom-0 right-10 w-[500px] h-[500px] bg-orange-200/30 rounded-full blur-3xl pointer-events-none" />
       <div className="fixed top-1/2 right-1/4 w-[400px] h-[400px] bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="space-y-6 sm:space-y-8">
-          {/* ──────────────── Header ──────────────── */}
-          <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-10">
+        <div className="space-y-4 sm:space-y-8">
+          {/* ──────────────── TopHeader Mobile (< md) ──────────────── */}
+          <header className="flex md:hidden items-center justify-between gap-2 pt-1 pb-1">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-[#F97316] flex items-center justify-center text-white shadow-xs shrink-0">
+                <TrendingUp className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <h1 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
+                    <span className="text-[#EA580C]">ETF</span> Simulator
+                  </h1>
+                </div>
+                <p className="text-[11px] text-slate-500 font-normal leading-tight">
+                  Plan de ahorro y optimización
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white border border-slate-200/80 shadow-2xs text-[10px] font-semibold text-slate-700">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
+                <span>MiFID II</span>
+              </div>
+              <button
+                id="menu-open-btn"
+                aria-label="Abrir menú lateral"
+                onClick={() => setMobileDrawerOpen(true)}
+                className="w-9 h-9 rounded-xl bg-white border border-slate-200/80 shadow-2xs flex items-center justify-center text-slate-700 hover:text-orange-600 hover:bg-orange-50 cursor-pointer transition-colors shrink-0"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+            </div>
+          </header>
+
+          {/* ──────────────── Mobile Drawer Overlay ──────────────── */}
+          {mobileDrawerOpen && (
+            <div
+              id="mobile-drawer-overlay"
+              className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex justify-end transition-opacity"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setMobileDrawerOpen(false);
+              }}
+            >
+              <div className="w-[82%] max-w-xs bg-[#FAF7F2] h-full shadow-2xl flex flex-col justify-between overflow-y-auto border-l border-slate-200 animate-in slide-in-from-right duration-200">
+                <div className="p-4 space-y-4">
+                  {/* Drawer Header */}
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-lg bg-[#F97316] flex items-center justify-center text-white shrink-0 shadow-xs">
+                        <TrendingUp className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <div className="text-sm font-black text-slate-900 leading-tight">
+                          <span className="text-[#EA580C]">ETF</span> Simulator
+                        </div>
+                        <div className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-600">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                          MiFID II Conforme
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      id="menu-close-btn"
+                      aria-label="Cerrar menú"
+                      onClick={() => setMobileDrawerOpen(false)}
+                      className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 cursor-pointer shadow-2xs"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+
+                  {/* Drawer Navigation */}
+                  <div className="space-y-1">
+                    <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase px-2 mb-1.5">
+                      Navegación Principal
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('overview');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                        activeTab === 'overview'
+                          ? 'bg-orange-500 text-white shadow-xs'
+                          : 'text-slate-700 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <BarChart3 className="w-4 h-4" />
+                        <span>Simulación General</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 opacity-70" />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('allocation');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                        activeTab === 'allocation'
+                          ? 'bg-orange-500 text-white shadow-xs'
+                          : 'text-slate-700 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <SlidersHorizontal className="w-4 h-4" />
+                        <span>Plan de Ahorro ETFs</span>
+                      </div>
+                      <span
+                        className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                          activeTab === 'allocation'
+                            ? 'bg-white/20 text-white'
+                            : 'bg-slate-100 text-slate-600'
+                        }`}
+                      >
+                        {etfs.length} en cartera
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('cycles');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                        activeTab === 'cycles'
+                          ? 'bg-orange-500 text-white shadow-xs'
+                          : 'text-slate-700 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <ShieldAlert className="w-4 h-4 text-rose-500" />
+                        <span>Ciclos Históricos</span>
+                      </div>
+                      <span className="text-[9px] font-bold px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded border border-rose-100">
+                        Estrés
+                      </span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('annual');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                        activeTab === 'annual'
+                          ? 'bg-orange-500 text-white shadow-xs'
+                          : 'text-slate-700 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Sparkles className="w-4 h-4 text-amber-500" />
+                        <span>Proyección Anual</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 opacity-70" />
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('brokers');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                        activeTab === 'brokers'
+                          ? 'bg-orange-500 text-white shadow-xs'
+                          : 'text-slate-700 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Trophy className="w-4 h-4 text-purple-500" />
+                        <span>Comparativa Brókers</span>
+                      </div>
+                      <span className="text-[9px] font-medium text-slate-400">
+                        {bestBroker?.name || 'Trade Rep.'}
+                      </span>
+                    </button>
+                  </div>
+
+                  {/* Drawer Models and Configuration */}
+                  <div className="pt-2 border-t border-slate-200/80 space-y-1">
+                    <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase px-2 mb-1.5">
+                      Modelos y Configuración
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('allocation');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 hover:bg-white transition-colors font-medium text-xs cursor-pointer text-left"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Layers className="w-4 h-4 text-slate-400" />
+                        <span>Modelos Bogle & Buffett</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+                    </button>
+
+                    <div className="flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 text-xs font-medium">
+                      <div className="flex items-center gap-2.5">
+                        <Landmark className="w-4 h-4 text-slate-400" />
+                        <span>Divisa & Retenciones</span>
+                      </div>
+                      <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
+                        EUR (€)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Drawer Footer */}
+                <div className="p-4 border-t border-slate-200 bg-white/70 backdrop-blur-xs">
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 mb-2">
+                    <span>Mercado ETF Europa</span>
+                    <span className="inline-flex items-center gap-1 text-emerald-600 font-semibold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                      Abierto
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-400 text-center font-normal">
+                    ETF Simulator v2.4 • Directiva MiFID II
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ──────────────── Header Desktop (>= md) ──────────────── */}
+          <header className="hidden md:flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
             <div className="space-y-1">
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">
                 <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 shadow-md shadow-orange-500/20 text-white">
@@ -195,8 +428,8 @@ export default function ETFSimulator() {
             </div>
           </header>
 
-          {/* ──────────────── Navegación Principal por Pestañas ──────────────── */}
-          <div className="flex items-center gap-2 border-b border-slate-200 pb-1 overflow-x-auto">
+          {/* ──────────────── Navegación Desktop por Pestañas (>= md) ──────────────── */}
+          <div className="hidden md:flex items-center gap-2 border-b border-slate-200 pb-1 overflow-x-auto">
             <button
               onClick={() => setActiveTab('overview')}
               className={`px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition cursor-pointer flex items-center gap-2 whitespace-nowrap ${
@@ -313,12 +546,80 @@ export default function ETFSimulator() {
                 onClearMultiYearSimulation={() => setMultiYearPlan(getDefault10YearTimelinePlan(params.years))}
               />
 
-              {/* ──────────────── Tarjetas de Acceso Rápido a las Demás Pestañas ──────────────── */}
-              <div className="pt-2">
-                <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 mb-3">
-                  Profundiza en tu Plan de Ahorro
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* ──────────────── Tarjetas de Acceso Rápido ("Profundiza en tu plan") ──────────────── */}
+              <section aria-labelledby="deep-dive-title" className="pt-1 sm:pt-2 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <h3 id="deep-dive-title" className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                    Profundiza en tu plan
+                  </h3>
+                  <span className="text-[11px] font-semibold text-slate-400 sm:hidden">Acceso rápido</span>
+                </div>
+
+                {/* Mobile View: Vertical clean list cards like Stitch */}
+                <div className="space-y-2 sm:hidden">
+                  <button
+                    onClick={() => setActiveTab('allocation')}
+                    className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-orange-300 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                        <SlidersHorizontal className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900">
+                          Plan de Ahorro ETFs ({etfs.length})
+                        </h4>
+                        <p className="text-[11px] text-slate-500 mt-0.5">
+                          Ajusta pesos o modelos Bogle y Buffett
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-orange-600 shrink-0" />
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab('cycles')}
+                    className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-rose-300 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
+                        <ShieldAlert className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900">
+                          Simular Ciclos Históricos
+                        </h4>
+                        <p className="text-[11px] text-slate-500 mt-0.5">
+                          Resistencia ante crisis 2008, 2020 e inflación
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-rose-600 shrink-0" />
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab('brokers')}
+                    className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-purple-300 cursor-pointer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                        <Trophy className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900">
+                          Comparativa de Brókers
+                        </h4>
+                        <p className="text-[11px] text-slate-500 mt-0.5">
+                          Compara costes: Trade Republic, MyInvestor, ING
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-purple-600 shrink-0" />
+                  </button>
+                </div>
+
+                {/* Desktop View: 3-column cards */}
+                <div className="hidden sm:grid sm:grid-cols-3 gap-4">
                   {/* Tarjeta 1: Asignación */}
                   <button
                     onClick={() => setActiveTab('allocation')}
@@ -385,7 +686,7 @@ export default function ETFSimulator() {
                     </div>
                   </button>
                 </div>
-              </div>
+              </section>
             </div>
           )}
 
