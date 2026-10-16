@@ -270,15 +270,16 @@ export default function PortfolioAllocation({
   const handleAmountChange = (id: string, newAmount: number) => {
     const safeAmount = Math.max(0, Math.round(newAmount * 100) / 100);
 
-    // Dinero asignado actualmente a cada uno de los ETFs
-    const currentEtfMoney = etfs.map((e) => {
-      const w =
-        allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight);
-      const money = (totalBase * w) / 100;
-      return { id: e.id, money: e.id === id ? safeAmount : money };
-    });
+    // Dinero asignado a cada uno de los OTROS ETFs
+    const otherEtfsMoney = etfs
+      .filter((e) => e.id !== id)
+      .reduce((sum, e) => {
+        const w =
+          allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight);
+        return sum + (totalBase * w) / 100;
+      }, 0);
 
-    const totalMoneyNeeded = currentEtfMoney.reduce((sum, item) => sum + item.money, 0);
+    const totalMoneyNeeded = otherEtfsMoney + safeAmount;
 
     // Si el total necesario supera la base actual o si la base actual era 0, ampliamos la base automáticamente
     if (totalMoneyNeeded > totalBase || totalBase <= 0) {
@@ -290,10 +291,9 @@ export default function PortfolioAllocation({
         onInitialCapitalChange?.(newTotalBase);
       }
 
-      // Reasignar pesos proporcionales a la nueva base ampliada
+      // Reasignar pesos proporcionales exactos a la nueva base ampliada
       const updated = etfs.map((e) => {
-        const item = currentEtfMoney.find((m) => m.id === e.id);
-        const money = item ? item.money : 0;
+        const money = e.id === id ? safeAmount : ((totalBase * (allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight))) / 100);
         const newW = newTotalBase > 0 ? Math.round((money / newTotalBase) * 1000) / 10 : 0;
         if (allocationTab === 'recurring') {
           return { ...e, recurringWeight: newW, weight: newW };
@@ -927,15 +927,16 @@ export default function PortfolioAllocation({
                 className="p-4 rounded-xl border transition shadow-xs bg-white border-slate-200 hover:border-slate-300 space-y-3"
               >
                 {/* 1. Cabecera del ETF: Ticker, Política, Cotización y TER */}
-                <div className="flex items-center justify-between gap-2 flex-wrap">
-                  <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-start justify-between gap-2.5">
+                  <div className="flex items-center gap-2 flex-wrap min-w-0">
                     <div
                       className="w-3.5 h-3.5 rounded-full flex-shrink-0"
                       style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                     />
-                    <span className="font-black text-sm text-slate-900">{etf.ticker}</span>
+                    <span className="font-black text-sm text-slate-900 shrink-0">{etf.ticker}</span>
 
                     <button
+                      type="button"
                       onClick={() => {
                         const nextPolicy: 'acc' | 'dist' =
                           (etf.dividendPolicy ?? 'acc') === 'dist' ? 'acc' : 'dist';
@@ -944,7 +945,7 @@ export default function PortfolioAllocation({
                         );
                         onChange(updated);
                       }}
-                      className={`text-[10px] uppercase font-black px-2 py-0.5 rounded-full cursor-pointer transition ${
+                      className={`text-[10px] uppercase font-black px-2 py-0.5 rounded-full cursor-pointer transition shrink-0 whitespace-nowrap ${
                         (etf.dividendPolicy ?? 'acc') === 'acc'
                           ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                           : 'bg-amber-100 text-amber-800 border border-amber-300'
@@ -956,7 +957,7 @@ export default function PortfolioAllocation({
 
                     {/* Badge de Cotización de Mercado por Título */}
                     <div
-                      className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-orange-50 border border-orange-200 text-orange-800"
+                      className="flex items-center gap-1 text-[11px] font-bold px-2.5 py-0.5 rounded-md bg-orange-50 border border-orange-200 text-orange-800 shrink-0 whitespace-nowrap"
                       title="Precio de cotización en bolsa por título. Puedes editarlo haciendo clic."
                     >
                       <span>Cotización:</span>
@@ -966,13 +967,13 @@ export default function PortfolioAllocation({
                         min={0.01}
                         placeholder="0.00"
                         suffix="€/título"
-                        className="w-14 bg-transparent font-black text-orange-950 text-right focus:outline-none focus:bg-white focus:px-1 rounded"
+                        className="w-16 bg-transparent font-black text-orange-950 text-right focus:outline-none focus:bg-white focus:px-1 rounded"
                       />
                     </div>
 
                     {/* Badge de TER (Comisión Interna de Gestión) */}
                     <span
-                      className="text-[11px] uppercase font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 flex-shrink-0"
+                      className="text-[11px] uppercase font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 shrink-0 whitespace-nowrap"
                       title="TER (Total Expense Ratio): Comisión anual interna del fondo descontada del valor liquidativo."
                     >
                       TER: {etf.ter}%
@@ -986,7 +987,7 @@ export default function PortfolioAllocation({
                   <button
                     onClick={() => handleRemove(etf.id)}
                     disabled={etfs.length <= 1}
-                    className="text-slate-400 hover:text-rose-600 p-1 rounded transition disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer flex-shrink-0"
+                    className="text-slate-400 hover:text-rose-600 p-1 rounded transition disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 mt-0.5"
                     title="Eliminar este ETF de tu plan"
                   >
                     <Trash2 className="w-4 h-4" />
