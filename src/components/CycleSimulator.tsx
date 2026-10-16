@@ -176,55 +176,72 @@ export default function CycleSimulator({
 
       {isExpanded && (
         <div>
-          {/* ──────────────── Sub-Pestañas: Línea Temporal (Concatenada) vs Eventos Históricos ──────────────── */}
-          <div className="flex items-center gap-2 border-b border-slate-200 px-5 sm:px-6 pt-3 bg-slate-50/60 overflow-x-auto">
-            <button
-              onClick={() => setActiveSubTab('timeline')}
-              className={`pb-3 px-3 text-xs sm:text-sm font-black border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
-                activeSubTab === 'timeline'
-                  ? 'border-orange-500 text-orange-600'
-                  : 'border-transparent text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              <Layers className="w-4 h-4" />
-              <span>Línea Temporal de tu Plan (Concatenar Escenarios)</span>
-              <span className="text-[10px] bg-orange-100 text-orange-800 font-bold px-1.5 py-0.2 rounded-full">
-                {planYears} Años
-              </span>
-            </button>
+          {/* ──────────────── Sub-Pestañas: Línea Temporal vs Eventos Históricos ──────────────── */}
+          <div className="border-b border-slate-200 px-3 py-2.5 sm:px-6 sm:pt-3 sm:pb-0 bg-slate-50/70">
+            {/* Control Segmentado en mobile / Pestañas clásicas en desktop */}
+            <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/80 rounded-xl sm:flex sm:bg-transparent sm:p-0 sm:gap-2">
+              <button
+                onClick={() => setActiveSubTab('timeline')}
+                className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 sm:pb-3 sm:pt-1 px-2.5 sm:px-3 text-xs sm:text-sm font-black transition cursor-pointer rounded-lg sm:rounded-none sm:border-b-2 ${
+                  activeSubTab === 'timeline'
+                    ? 'bg-white text-orange-600 shadow-xs sm:bg-transparent sm:shadow-none sm:border-orange-500'
+                    : 'text-slate-600 hover:text-slate-900 sm:border-transparent sm:hover:text-slate-800'
+                }`}
+              >
+                <Layers className="w-4 h-4 shrink-0" />
+                <span className="sm:hidden">Línea Temporal</span>
+                <span className="hidden sm:inline">Línea Temporal (Concatenar Escenarios)</span>
+                <span
+                  className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
+                    activeSubTab === 'timeline'
+                      ? 'bg-orange-100 text-orange-800'
+                      : 'bg-slate-200/80 text-slate-600 sm:bg-slate-100'
+                  }`}
+                >
+                  {planYears} Años
+                </span>
+              </button>
 
-            <button
-              onClick={() => setActiveSubTab('events')}
-              className={`pb-3 px-3 text-xs sm:text-sm font-black border-b-2 flex items-center gap-2 transition cursor-pointer whitespace-nowrap ${
-                activeSubTab === 'events'
-                  ? 'border-orange-500 text-orange-600'
-                  : 'border-transparent text-slate-500 hover:text-slate-800'
-              }`}
-            >
-              <ShieldAlert className="w-4 h-4" />
-              <span>Eventos Históricos Reales (Backtesting Puntual)</span>
-              <span className="text-[10px] bg-slate-200/70 text-slate-700 font-bold px-1.5 py-0.2 rounded-full">
-                6 Presets
-              </span>
-            </button>
+              <button
+                onClick={() => setActiveSubTab('events')}
+                className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 sm:pb-3 sm:pt-1 px-2.5 sm:px-3 text-xs sm:text-sm font-black transition cursor-pointer rounded-lg sm:rounded-none sm:border-b-2 ${
+                  activeSubTab === 'events'
+                    ? 'bg-white text-orange-600 shadow-xs sm:bg-transparent sm:shadow-none sm:border-orange-500'
+                    : 'text-slate-600 hover:text-slate-900 sm:border-transparent sm:hover:text-slate-800'
+                }`}
+              >
+                <ShieldAlert className="w-4 h-4 shrink-0" />
+                <span className="sm:hidden">Eventos Históricos</span>
+                <span className="hidden sm:inline">Eventos Históricos Reales (Backtesting)</span>
+                <span
+                  className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
+                    activeSubTab === 'events'
+                      ? 'bg-orange-100 text-orange-800'
+                      : 'bg-slate-200/80 text-slate-600 sm:bg-slate-100'
+                  }`}
+                >
+                  6 Presets
+                </span>
+              </button>
+            </div>
           </div>
 
-          <div className="p-5 sm:p-6 space-y-6">
+          <div className="p-3.5 sm:p-6 space-y-5 sm:space-y-6">
             {/* ═══════════════════════════════════════════════════════════════ */}
             {/* SUB-PESTAÑA 1: LÍNEA TEMPORAL DEL PLAN (CONCATENAR ESCENARIOS) */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             {activeSubTab === 'timeline' && (
               <div className="space-y-6 animate-in fade-in duration-200">
                 {/* 1. Barra Visual del Ciclo y Botón del Modal */}
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-2xs space-y-4">
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-2xs space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-                          <Layers className="w-4 h-4 text-orange-600" />
+                          <Layers className="w-4 h-4 text-orange-600 shrink-0" />
                           <span>Ciclo Activo: {effectiveTimelinePlan.name}</span>
                         </span>
-                        <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                        <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200 shrink-0">
                           {effectiveTimelinePlan.badge}
                         </span>
                       </div>
@@ -235,17 +252,17 @@ export default function CycleSimulator({
 
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition cursor-pointer self-start sm:self-auto whitespace-nowrap"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition cursor-pointer shrink-0"
                     >
                       <SlidersHorizontal className="w-4 h-4" />
-                      <span>Diseñar / Ajustar Línea Temporal (Modal)</span>
+                      <span>Diseñar / Ajustar Línea Temporal</span>
                     </button>
                   </div>
 
                   {/* Barra Visual Interactiva */}
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-600">
-                      <span>Distribución de Fases a lo largo de los {planYears} años:</span>
+                      <span>Distribución de Fases ({planYears} años):</span>
                       <span className="text-slate-400">{effectiveTimelinePlan.segments.length} Fases</span>
                     </div>
 
@@ -259,7 +276,7 @@ export default function CycleSimulator({
                             key={seg.id}
                             style={{ width: `${Math.max(5, widthPercent)}%` }}
                             onClick={() => setIsModalOpen(true)}
-                            className={`h-full rounded-lg transition-all flex flex-col items-center justify-center text-white px-1.5 relative group cursor-pointer ${
+                            className={`h-full rounded-lg transition-all flex flex-col items-center justify-center text-white px-1 relative group cursor-pointer ${
                               seg.type === 'crisis'
                                 ? 'bg-rose-500 hover:bg-rose-600'
                                 : seg.type === 'expansion'
@@ -270,10 +287,10 @@ export default function CycleSimulator({
                             }`}
                             title={`${seg.name} (${range.isSingleYear ? `Año ${range.startYear}` : `Años ${range.startYear} a ${range.endYear}`}): ${seg.tagline}`}
                           >
-                            <span className="text-xs font-black leading-none truncate w-full text-center">
-                              {range.isSingleYear ? `Año ${range.startYear}` : `Años ${range.startYear}–${range.endYear}`}
+                            <span className="text-[10px] sm:text-xs font-black leading-none truncate w-full text-center">
+                              {range.isSingleYear ? `A${range.startYear}` : `A${range.startYear}–${range.endYear}`}
                             </span>
-                            <span className="text-[10px] opacity-90 truncate w-full text-center font-bold">
+                            <span className="text-[9px] sm:text-[10px] opacity-90 truncate w-full text-center font-bold">
                               {seg.name}
                             </span>
                           </div>
@@ -281,28 +298,32 @@ export default function CycleSimulator({
                       })}
                     </div>
 
-                    <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] font-medium text-slate-500">
-                      <div className="flex items-center gap-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-[11px] font-medium text-slate-500">
+                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
                           Expansión
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0" />
                           Crisis / Shock
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shrink-0" />
                           Rebote
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
                           Lateral
                         </span>
                       </div>
-                      <span className="text-orange-600 font-bold hover:underline cursor-pointer" onClick={() => setIsModalOpen(true)}>
-                        Haz clic en la barra para editar fases
-                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setIsModalOpen(true)}
+                        className="text-orange-600 font-bold hover:underline cursor-pointer text-left sm:text-right"
+                      >
+                        Toca la barra para editar fases
+                      </button>
                     </div>
                   </div>
 
@@ -466,29 +487,31 @@ export default function CycleSimulator({
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-1.5 bg-slate-200/70 p-1 rounded-xl">
+                    <div className="grid grid-cols-2 sm:flex sm:items-center gap-1.5 bg-slate-200/70 p-1 rounded-xl w-full sm:w-auto">
                       <button
                         onClick={() => onSimulationModeChange('savings_plan')}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        className={`flex items-center justify-center sm:justify-start gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer text-center ${
                           isSavingsPlan
                             ? 'bg-white text-orange-700 shadow-xs'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
-                        <PiggyBank className="w-3.5 h-3.5 text-orange-600" />
-                        <span>Mi Plan de Ahorro (DCA)</span>
+                        <PiggyBank className="w-3.5 h-3.5 text-orange-600 shrink-0" />
+                        <span className="sm:hidden">Plan Ahorro</span>
+                        <span className="hidden sm:inline">Mi Plan de Ahorro (DCA)</span>
                       </button>
 
                       <button
                         onClick={() => onSimulationModeChange('lump_sum')}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer ${
+                        className={`flex items-center justify-center sm:justify-start gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer text-center ${
                           !isSavingsPlan
                             ? 'bg-white text-slate-900 shadow-xs'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
-                        <Wallet className="w-3.5 h-3.5 text-slate-500" />
-                        <span>Capital Fijo (Lump-Sum)</span>
+                        <Wallet className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                        <span className="sm:hidden">Capital Fijo</span>
+                        <span className="hidden sm:inline">Capital Fijo (Lump-Sum)</span>
                       </button>
                     </div>
                   </div>
