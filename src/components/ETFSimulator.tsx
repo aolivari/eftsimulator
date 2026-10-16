@@ -37,6 +37,7 @@ import GrowthChart from './GrowthChart';
 import AnnualProjectionTable from './AnnualProjectionTable';
 import BrokerComparisonTable from './BrokerComparisonTable';
 import CycleSimulator from './CycleSimulator';
+import CycleTimelineModal from './CycleTimelineModal';
 
 const DEFAULT_PARAMS: SimulationParams = {
   initialCapital: 2000,
@@ -53,6 +54,7 @@ export default function ETFSimulator() {
   const [etfs, setEtfs] = useState<ETFAsset[]>(POPULAR_ETFS);
   const [activeTab, setActiveTab] = useState<'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers'>('overview');
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [isTimelineModalOpen, setIsTimelineModalOpen] = useState(false);
 
   // Estado para ciclo histórico individual seleccionado y capital base de prueba
   const [selectedCycleId, setSelectedCycleId] = useState<string | null>(null);
@@ -544,6 +546,7 @@ export default function ETFSimulator() {
                 onClearHistoricalSimulation={() => setSelectedCycleId(null)}
                 multiYearSimulation={selectedCycleId ? null : multiYearSimulation}
                 onClearMultiYearSimulation={() => setMultiYearPlan(getDefault10YearTimelinePlan(params.years))}
+                onOpenTimelineModal={() => setIsTimelineModalOpen(true)}
               />
 
               {/* ──────────────── Tarjetas de Acceso Rápido ("Profundiza en tu plan") ──────────────── */}
@@ -578,7 +581,7 @@ export default function ETFSimulator() {
                   </button>
 
                   <button
-                    onClick={() => setActiveTab('cycles')}
+                    onClick={() => setIsTimelineModalOpen(true)}
                     className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-rose-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
@@ -586,11 +589,16 @@ export default function ETFSimulator() {
                         <ShieldAlert className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900">
-                          Simular Ciclos Históricos
-                        </h4>
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="text-xs font-bold text-slate-900">
+                            Diseñar Escenarios de Estrés
+                          </h4>
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 bg-rose-100 text-rose-700 rounded">
+                            Bottom Sheet
+                          </span>
+                        </div>
                         <p className="text-[11px] text-slate-500 mt-0.5">
-                          Resistencia ante crisis 2008, 2020 e inflación
+                          Prueba shocks 2008, 2020 e inflación en tu plan
                         </p>
                       </div>
                     </div>
@@ -826,6 +834,15 @@ export default function ETFSimulator() {
           </footer>
         </div>
       </div>
+
+      {/* ──────────────── Bottom Sheet Drawer: Modal de Estrés & Shocks ──────────────── */}
+      <CycleTimelineModal
+        isOpen={isTimelineModalOpen}
+        onClose={() => setIsTimelineModalOpen(false)}
+        planYears={params.years}
+        currentPlan={multiYearPlan}
+        onSavePlan={(updated) => setMultiYearPlan(updated)}
+      />
     </div>
   );
 }

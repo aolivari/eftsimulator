@@ -227,60 +227,68 @@ export default function CycleTimelineModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-4xl max-h-[92vh] flex flex-col overflow-hidden">
+    <div
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-[#FAF7F2] sm:bg-white rounded-t-[28px] sm:rounded-3xl border-t sm:border border-slate-200/90 shadow-2xl w-full sm:max-w-4xl max-h-[92vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300">
+        {/* Handle bar táctil superior para móvil */}
+        <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-grab" />
+
         {/* ──────────────── Modal Header ──────────────── */}
-        <div className="px-6 py-4 bg-gradient-to-r from-slate-50 via-white to-amber-50/30 border-b border-slate-200 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white flex items-center justify-center font-bold shadow-xs">
-              <Layers className="w-5 h-5" />
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white border-b border-slate-200/80 flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white flex items-center justify-center font-bold shadow-xs shrink-0">
+              <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
-                  Diseñador de Línea Temporal del Plan
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h3 className="text-sm sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
+                  Diseñador de Estrés & Shocks
                 </h3>
-                <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+                <span className="text-[10px] uppercase font-black px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
                   {planYears} Años
                 </span>
               </div>
-              <p className="text-xs text-slate-500 font-medium">
-                Concatena escenarios y define en qué momento de tu horizonte de ahorro ocurre cada ciclo económico.
+              <p className="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">
+                Concatena escenarios macro y sombreado de crisis en tu plan.
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition cursor-pointer"
+            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition cursor-pointer shadow-2xs shrink-0"
             aria-label="Cerrar modal"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
         {/* ──────────────── Modal Content (Scrollable) ──────────────── */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
-          {/* 1. Selector Rápido de Presets */}
-          <div className="space-y-2.5">
+        <div className="px-3.5 sm:px-6 py-3 sm:py-5 overflow-y-auto space-y-4 sm:space-y-6 flex-1">
+          {/* 1. Selector Rápido de Presets: 2x2 en móvil */}
+          <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-black uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+              <label className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                <span>Plantillas de Ciclos Concatenados ({planYears} años)</span>
+                <span>Plantillas de Estrés & Ciclos ({planYears} años)</span>
               </label>
-              <span className="text-[11px] text-slate-400 font-medium">
-                Carga 1 modelo o personalízalo a tu gusto
+              <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium">
+                Selecciona para cargar
               </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5">
               {PRESET_TIMELINE_PLANS(planYears).map((preset) => {
                 const isSelected = workingPlan.id === preset.id;
                 return (
                   <button
                     key={preset.id}
                     onClick={() => handleApplyPreset(preset.id)}
-                    className={`text-left p-3 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between group ${
+                    className={`text-left p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex flex-col justify-between group ${
                       isSelected
                         ? 'border-orange-500 bg-orange-50/50 shadow-xs ring-2 ring-orange-500/20'
                         : 'border-slate-200 hover:border-orange-300 bg-white hover:bg-orange-50/20 shadow-2xs'
@@ -288,22 +296,22 @@ export default function CycleTimelineModal({
                   >
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-200">
+                        <span className="text-[9px] sm:text-[10px] font-black uppercase px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-200">
                           {preset.badge}
                         </span>
                         {isSelected && <Check className="w-3.5 h-3.5 text-orange-600" />}
                       </div>
-                      <div className="font-black text-xs text-slate-900 group-hover:text-orange-600 transition-colors">
+                      <div className="font-black text-xs text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-1">
                         {preset.name}
                       </div>
-                      <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                      <p className="text-[10px] sm:text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
                         {preset.description}
                       </p>
                     </div>
 
-                    <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-bold text-slate-500">
+                    <div className="mt-2 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9px] sm:text-[10px] font-bold text-slate-500">
                       <span>{preset.segments.length} Fases</span>
-                      <span className="text-orange-600 font-black">Cargar Preset</span>
+                      <span className="text-orange-600 font-black">Cargar</span>
                     </div>
                   </button>
                 );
@@ -564,29 +572,29 @@ export default function CycleTimelineModal({
           </div>
         </div>
 
-        {/* ──────────────── Modal Footer ──────────────── */}
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        {/* ──────────────── Modal Footer (Sticky Bottom on Mobile) ──────────────── */}
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white/95 backdrop-blur-xs border-t border-slate-200/90 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shrink-0">
           <button
             onClick={() => handleApplyPreset('typical_economic_cycle')}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-900 transition cursor-pointer self-start sm:self-auto"
+            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition cursor-pointer py-1.5"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Restablecer a Ciclo Típico</span>
           </button>
 
-          <div className="flex items-center gap-2 self-end sm:self-auto">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-200 transition cursor-pointer"
+              className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition cursor-pointer border border-slate-200 sm:border-transparent text-center"
             >
               Cancelar
             </button>
             <button
               onClick={handleSave}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition cursor-pointer"
+              className="flex-[2] sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition cursor-pointer"
             >
               <Check className="w-4 h-4" />
-              <span>Guardar y Simular Línea Temporal</span>
+              <span>Guardar y Simular</span>
             </button>
           </div>
         </div>
