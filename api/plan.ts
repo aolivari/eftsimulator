@@ -75,9 +75,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const populatedEtfs = await Promise.all(
       profile.etfs.map(async (item) => {
         try {
-          const quote = await yf.quoteSummary(item.symbol, {
-            modules: ['price', 'fundProfile', 'defaultKeyStatistics'],
-          });
+          const quote: any = await yf.quoteSummary(
+            item.symbol,
+            {
+              modules: ['price', 'fundProfile', 'defaultKeyStatistics'],
+            },
+            { validateResult: false }
+          );
 
           const price = quote.price?.regularMarketPrice ?? 0;
           const fullName = quote.price?.longName ?? quote.price?.shortName ?? item.ticker;

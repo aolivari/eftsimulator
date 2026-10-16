@@ -1,0 +1,140 @@
+[
+  {
+    "id": "inflation_shock_2022",
+    "name": "Shock de Inflación",
+    "shortName": "Inflación 2022",
+    "type": "crisis",
+    "startDate": "Ene 2022",
+    "endDate": "Dic 2022",
+    "durationLabel": "1 año",
+    "durationMonths": 12,
+    "tagline": "Caída simultánea en acciones y bonos por subidas de tipos récord",
+    "description": "La reapertura post-COVID y la guerra en Ucrania dispararon la inflación al 10%, forzando a los bancos centrales a las mayores subidas de tipos en 40 años.",
+    "historicalContext": "En 2022 se rompió la correlación clásica de la cartera 60/40: la renta variable cayó con fuerza (-13% a -33%), pero la renta fija sufrió el peor año de su historia moderna (-17%) al desplomarse el precio de los bonos por el alza de tipos de interés. Solo el oro y la liquidez lograron preservar valor.",
+    "keyLesson": "En periodos inflacionarios con subidas agresivas de tipos, los bonos no actúan como refugio. La diversificación en activos reales y liquidez resulta crítica.",
+    "assetReturns": {
+      "global_equity": { "totalReturnPct": -15.0, "maxDrawdownPct": -21.0, "annualizedReturnPct": -15.0 },
+      "sp500": { "totalReturnPct": -13.2, "maxDrawdownPct": -24.0, "annualizedReturnPct": -13.2 },
+      "tech": { "totalReturnPct": -31.0, "maxDrawdownPct": -35.0, "annualizedReturnPct": -31.0 },
+      "bonds": { "totalReturnPct": -17.0, "maxDrawdownPct": -18.5, "annualizedReturnPct": -17.0 },
+      "gold": { "totalReturnPct": 6.0, "maxDrawdownPct": -11.0, "annualizedReturnPct": 6.0 },
+      "cash": { "totalReturnPct": 0.8, "maxDrawdownPct": 0.0, "annualizedReturnPct": 0.8 },
+      "defensive_equity": { "totalReturnPct": -4.0, "maxDrawdownPct": -9.5, "annualizedReturnPct": -4.0 }
+    }
+  },
+  {
+    "id": "great_recession_2008",
+    "name": "Gran Recesión",
+    "shortName": "Crisis 2008",
+    "type": "crisis",
+    "startDate": "Oct 2007",
+    "endDate": "Mar 2009",
+    "durationLabel": "~18 meses",
+    "durationMonths": 18,
+    "tagline": "Colapso sistémico del sistema bancario y rescate hipotecario global",
+    "description": "La burbuja de las hipotecas subprime y la quiebra de Lehman Brothers provocaron la mayor crisis financiera y deflacionaria desde 1929.",
+    "historicalContext": "La renta variable mundial colapsó más de un 50% entre octubre de 2007 y marzo de 2009. Los bancos e instituciones de crédito quebraron en cadena. Sin embargo, los bonos soberanos gubernamentales (+18%) y el oro (+24%) actuaron como refugios estelares, reduciendo notablemente las pérdidas para quienes mantenían carteras mixtas.",
+    "keyLesson": "En crisis bancarias y de liquidez sistémica, la renta fija gubernamental y el oro proporcionan el colchón defensivo definitivo contra el desplome de las acciones.",
+    "assetReturns": {
+      "global_equity": { "totalReturnPct": -54.0, "maxDrawdownPct": -54.0, "annualizedReturnPct": -41.2 },
+      "sp500": { "totalReturnPct": -53.0, "maxDrawdownPct": -55.0, "annualizedReturnPct": -40.3 },
+      "tech": { "totalReturnPct": -48.0, "maxDrawdownPct": -50.0, "annualizedReturnPct": -35.9 },
+      "bonds": { "totalReturnPct": 18.0, "maxDrawdownPct": -3.0, "annualizedReturnPct": 11.7 },
+      "gold": { "totalReturnPct": 24.0, "maxDrawdownPct": -18.0, "annualizedReturnPct": 15.4 },
+      "cash": { "totalReturnPct": 5.2, "maxDrawdownPct": 0.0, "annualizedReturnPct": 3.4 },
+      "defensive_equity": { "totalReturnPct": -32.0, "maxDrawdownPct": -34.0, "annualizedReturnPct": -22.9 }
+    }
+  },
+  {
+    "id": "dotcom_burst_2000",
+    "name": "Pinchazo Puntocom",
+    "shortName": "Burbuja Puntocom",
+    "type": "crisis",
+    "startDate": "Mar 2000",
+    "endDate": "Oct 2002",
+    "durationLabel": "31 meses (~2.5 años)",
+    "durationMonths": 31,
+    "tagline": "Desplome brutal del 78% en empresas tecnológicas y sobrevaloradas",
+    "description": "El estallido de la burbuja especulativa de las empresas de Internet desencadenó un mercado bajista prolongado que castigó severamente al sector tecnológico.",
+    "historicalContext": "Mientras el índice Nasdaq y los valores de crecimiento tecnológico perdían cerca del 80% de su valor, la inversión en empresas maduras de consumo y los bonos soberanos con rendimientos del 5-6% permitieron salvar los ahorros de los inversores más prudentes.",
+    "keyLesson": "Pagar múltiplos disparatados por promesas futuras de crecimiento sin beneficios reales expone al inversor a recuperaciones que pueden demorarse más de 15 años.",
+    "assetReturns": {
+      "global_equity": { "totalReturnPct": -40.0, "maxDrawdownPct": -44.0, "annualizedReturnPct": -18.2 },
+      "sp500": { "totalReturnPct": -42.0, "maxDrawdownPct": -47.0, "annualizedReturnPct": -19.4 },
+      "tech": { "totalReturnPct": -78.0, "maxDrawdownPct": -78.0, "annualizedReturnPct": -44.7 },
+      "bonds": { "totalReturnPct": 30.0, "maxDrawdownPct": -4.0, "annualizedReturnPct": 10.7 },
+      "gold": { "totalReturnPct": 12.0, "maxDrawdownPct": -5.0, "annualizedReturnPct": 4.4 },
+      "cash": { "totalReturnPct": 13.0, "maxDrawdownPct": 0.0, "annualizedReturnPct": 4.8 },
+      "defensive_equity": { "totalReturnPct": -12.0, "maxDrawdownPct": -18.0, "annualizedReturnPct": -4.8 }
+    }
+  },
+  {
+    "id": "post_covid_rally_2020",
+    "name": "Cohete Post-COVID",
+    "shortName": "Rally Post-COVID",
+    "type": "expansion",
+    "startDate": "Abr 2020",
+    "endDate": "Dic 2021",
+    "durationLabel": "21 meses",
+    "durationMonths": 21,
+    "tagline": "Inyección masiva de liquidez y despegue meteórico de la tecnología",
+    "description": "La respuesta fiscal y monetaria más contundente de la historia moderna provocó un rally alcista fulgurante liderado por el sector digital.",
+    "historicalContext": "Tras la rápida sacudida de marzo de 2020, las bolsas rebotaron de forma vertical. Las empresas tecnológicas (+92%) y el S&P 500 (+70%) vivieron un periodo de rentabilidades extraordinarias mientras los tipos al 0% y la inflación inicial dejaron a los bonos y al efectivo sin apenas rentabilidad.",
+    "keyLesson": "El pánico vendedor en caídas abruptas provoca perderse los rebotes más explosivos. Mantener las aportaciones periódicas en mínimos maximiza el interés compuesto.",
+    "assetReturns": {
+      "global_equity": { "totalReturnPct": 62.0, "maxDrawdownPct": -7.0, "annualizedReturnPct": 31.8 },
+      "sp500": { "totalReturnPct": 70.0, "maxDrawdownPct": -6.0, "annualizedReturnPct": 35.3 },
+      "tech": { "totalReturnPct": 92.0, "maxDrawdownPct": -10.0, "annualizedReturnPct": 44.7 },
+      "bonds": { "totalReturnPct": -4.0, "maxDrawdownPct": -6.0, "annualizedReturnPct": -2.3 },
+      "gold": { "totalReturnPct": 8.0, "maxDrawdownPct": -14.0, "annualizedReturnPct": 4.5 },
+      "cash": { "totalReturnPct": 0.0, "maxDrawdownPct": 0.0, "annualizedReturnPct": 0.0 },
+      "defensive_equity": { "totalReturnPct": 38.0, "maxDrawdownPct": -5.0, "annualizedReturnPct": 20.3 }
+    }
+  },
+  {
+    "id": "quiet_expansion_2013",
+    "name": "Expansión Tranquila",
+    "shortName": "Expansión 2013-17",
+    "type": "expansion",
+    "startDate": "Ene 2013",
+    "endDate": "Dic 2017",
+    "durationLabel": "5 años",
+    "durationMonths": 60,
+    "tagline": "Crecimiento sostenido, tipos bajos y volatilidad en mínimos históricos",
+    "description": "Cinco años idílicos de economía 'Goldilocks': crecimiento moderado, inflación controlada y subidas continuas en las bolsas globales.",
+    "historicalContext": "La volatilidad (índice VIX) se situó en mínimos históricos mientras el S&P 500 doblaba su valor (+108%) y el sector tecnológico subía un +155%. Las correcciones fueron superficiales y la renta fija aportó estabilidad con baja rentabilidad.",
+    "keyLesson": "En periodos de crecimiento económico con tipos bajos, la indexación pasiva y no intentar adivinar los techos de mercado ofrece resultados imbatibles.",
+    "assetReturns": {
+      "global_equity": { "totalReturnPct": 84.0, "maxDrawdownPct": -12.0, "annualizedReturnPct": 13.0 },
+      "sp500": { "totalReturnPct": 108.0, "maxDrawdownPct": -8.0, "annualizedReturnPct": 15.8 },
+      "tech": { "totalReturnPct": 155.0, "maxDrawdownPct": -11.0, "annualizedReturnPct": 20.6 },
+      "bonds": { "totalReturnPct": 11.0, "maxDrawdownPct": -5.0, "annualizedReturnPct": 2.1 },
+      "gold": { "totalReturnPct": -21.0, "maxDrawdownPct": -35.0, "annualizedReturnPct": -4.6 },
+      "cash": { "totalReturnPct": 1.0, "maxDrawdownPct": 0.0, "annualizedReturnPct": 0.2 },
+      "defensive_equity": { "totalReturnPct": 62.0, "maxDrawdownPct": -7.0, "annualizedReturnPct": 10.1 }
+    }
+  },
+  {
+    "id": "roaring_nineties_1995",
+    "name": "Euforia de los 90",
+    "shortName": "Rally de los 90",
+    "type": "expansion",
+    "startDate": "Ene 1995",
+    "endDate": "Dic 1999",
+    "durationLabel": "5 años",
+    "durationMonths": 60,
+    "tagline": "El mayor mercado alcista de la historia con 5 años consecutivos >20%",
+    "description": "La popularización de los ordenadores personales e Internet disparó la productividad y la euforia compradora en Wall Street.",
+    "historicalContext": "Cinco años irrepetibles en los que el S&P 500 se disparó un +250% (casi un 28% anual compuesto) y los valores tecnológicos subieron más de un +420%. Los bonos también generaron rentabilidades notables (+38%), mientras el oro se desinflaba en un entorno de optimismo pleno.",
+    "keyLesson": "Las olas de disrupción tecnológica pueden acelerar el crecimiento durante muchos años seguidos. Una asignación decidida en renta variable maximiza la creación de riqueza.",
+    "assetReturns": {
+      "global_equity": { "totalReturnPct": 175.0, "maxDrawdownPct": -16.0, "annualizedReturnPct": 22.4 },
+      "sp500": { "totalReturnPct": 250.0, "maxDrawdownPct": -19.0, "annualizedReturnPct": 28.5 },
+      "tech": { "totalReturnPct": 420.0, "maxDrawdownPct": -24.0, "annualizedReturnPct": 39.1 },
+      "bonds": { "totalReturnPct": 38.0, "maxDrawdownPct": -7.0, "annualizedReturnPct": 6.6 },
+      "gold": { "totalReturnPct": -27.0, "maxDrawdownPct": -33.0, "annualizedReturnPct": -6.1 },
+      "cash": { "totalReturnPct": 26.0, "maxDrawdownPct": 0.0, "annualizedReturnPct": 4.7 },
+      "defensive_equity": { "totalReturnPct": 140.0, "maxDrawdownPct": -10.0, "annualizedReturnPct": 19.1 }
+    }
+  }
+]
