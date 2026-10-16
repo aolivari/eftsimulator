@@ -29,6 +29,8 @@ interface PortfolioAllocationProps {
   onChange: (updatedEtfs: ETFAsset[]) => void;
   monthlyAmount: number;
   initialCapital?: number;
+  onInitialCapitalChange?: (capital: number) => void;
+  onMonthlyAmountChange?: (monthly: number) => void;
 }
 
 const COLORS = ['#ea580c', '#0284c7', '#059669', '#7c3aed', '#db2777', '#d97706', '#0891b2', '#4f46e5'];
@@ -160,6 +162,8 @@ export default function PortfolioAllocation({
   onChange,
   monthlyAmount,
   initialCapital = 2000,
+  onInitialCapitalChange,
+  onMonthlyAmountChange,
 }: PortfolioAllocationProps) {
   const [allocationTab, setAllocationTab] = useState<'recurring' | 'initial'>('recurring');
   const [searchQuery, setSearchQuery] = useState('');
@@ -264,9 +268,45 @@ export default function PortfolioAllocation({
 
   // 2. Cambiar por Importe en Euros (€)
   const handleAmountChange = (id: string, newAmount: number) => {
-    if (totalBase <= 0) return;
-    const computedWeight = Math.round((Math.max(0, newAmount) / totalBase) * 1000) / 10;
-    handleWeightChange(id, computedWeight);
+    const safeAmount = Math.max(0, Math.round(newAmount * 100) / 100);
+
+    // Dinero asignado actualmente a cada uno de los ETFs
+    const currentEtfMoney = etfs.map((e) => {
+      const w =
+        allocationTab === 'recurring' ? (e.recurringWeight ?? e.weight) : (e.initialWeight ?? e.weight);
+      const money = (totalBase * w) / 100;
+      return { id: e.id, money: e.id === id ? safeAmount : money };
+    });
+
+    const totalMoneyNeeded = currentEtfMoney.reduce((sum, item) => sum + item.money, 0);
+
+    // Si el total necesario supera la base actual o si la base actual era 0, ampliamos la base automáticamente
+    if (totalMoneyNeeded > totalBase || totalBase <= 0) {
+      const newTotalBase = Math.max(safeAmount, Math.ceil(totalMoneyNeeded));
+
+      if (allocationTab === 'recurring') {
+        onMonthlyAmountChange?.(newTotalBase);
+      } else {
+        onInitialCapitalChange?.(newTotalBase);
+      }
+
+      // Reasignar pesos proporcionales a la nueva base ampliada
+      const updated = etfs.map((e) => {
+        const item = currentEtfMoney.find((m) => m.id === e.id);
+        const money = item ? item.money : 0;
+        const newW = newTotalBase > 0 ? Math.round((money / newTotalBase) * 1000) / 10 : 0;
+        if (allocationTab === 'recurring') {
+          return { ...e, recurringWeight: newW, weight: newW };
+        } else {
+          return { ...e, initialWeight: newW };
+        }
+      });
+      onChange(updated);
+    } else {
+      // Cabe dentro de la base presupuestaria actual
+      const computedWeight = totalBase > 0 ? Math.round((safeAmount / totalBase) * 1000) / 10 : 0;
+      handleWeightChange(id, computedWeight);
+    }
   };
 
   // 3. Cambiar por Cantidad de Títulos / Participaciones (Shares)
@@ -1156,7 +1196,8 @@ export default function PortfolioAllocation({
                       <button
                         type="button"
                         onClick={() => {
-                          const next = Math.max(0, Math.ceil(sharesExact) - 1);
+                          const currentWhole = Math.round(sharesExact);
+                          const next = Math.max(0, currentWhole - 1);
                           handleSharesChange(etf.id, next);
                         }}
                         className="p-1 hover:bg-slate-100 rounded text-slate-600 transition cursor-pointer"
@@ -1177,7 +1218,8 @@ export default function PortfolioAllocation({
                       <button
                         type="button"
                         onClick={() => {
-                          const next = Math.floor(sharesExact) + 1;
+                          const currentWhole = Math.round(sharesExact);
+                          const next = currentWhole + 1;
                           handleSharesChange(etf.id, next);
                         }}
                         className="p-1 hover:bg-slate-100 rounded text-slate-600 transition cursor-pointer"
@@ -1207,7 +1249,6 @@ export default function PortfolioAllocation({
                         value={moneyAssigned === 0 ? 0 : Math.round(moneyAssigned)}
                         onCommit={(val) => handleAmountChange(etf.id, val)}
                         min={0}
-                        max={totalBase}
                         placeholder="0"
                         suffix={`€ ${allocationTab === 'recurring' ? '/mes' : 'inicial'}`}
                         className="w-20 bg-transparent text-right font-black text-xs focus:outline-none"

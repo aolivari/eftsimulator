@@ -177,6 +177,7 @@ export default function CycleSimulator({
       {isExpanded && (
         <div>
           {/* ──────────────── Sub-Pestañas: Línea Temporal vs Eventos Históricos ──────────────── */}
+          {/* ──────────────── Sub-Pestañas: Línea Temporal vs Crisis Reales ──────────────── */}
           <div className="border-b border-slate-200 px-3 py-2.5 sm:px-6 sm:pt-3 sm:pb-0 bg-slate-50/70">
             {/* Control Segmentado en mobile / Pestañas clásicas en desktop */}
             <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/80 rounded-xl sm:flex sm:bg-transparent sm:p-0 sm:gap-2">
@@ -211,7 +212,7 @@ export default function CycleSimulator({
                 }`}
               >
                 <ShieldAlert className="w-4 h-4 shrink-0" />
-                <span className="sm:hidden">Eventos Históricos</span>
+                <span className="sm:hidden">Crisis Reales</span>
                 <span className="hidden sm:inline">Eventos Históricos Reales (Backtesting)</span>
                 <span
                   className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
@@ -231,7 +232,7 @@ export default function CycleSimulator({
             {/* SUB-PESTAÑA 1: LÍNEA TEMPORAL DEL PLAN (CONCATENAR ESCENARIOS) */}
             {/* ═══════════════════════════════════════════════════════════════ */}
             {activeSubTab === 'timeline' && (
-              <div className="space-y-6 animate-in fade-in duration-200">
+              <div className="space-y-4 animate-in fade-in duration-200">
                 {/* 1. Barra Visual del Ciclo y Botón del Modal */}
                 <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-2xs space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -252,7 +253,7 @@ export default function CycleSimulator({
 
                     <button
                       onClick={() => setIsModalOpen(true)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition cursor-pointer shrink-0"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition active:scale-[0.99] cursor-pointer shrink-0"
                     >
                       <SlidersHorizontal className="w-4 h-4" />
                       <span>Diseñar / Ajustar Línea Temporal</span>
@@ -270,11 +271,12 @@ export default function CycleSimulator({
                       {effectiveTimelinePlan.segments.map((seg, idx) => {
                         const range = segmentRanges[idx];
                         const widthPercent = (seg.durationYears / effectiveTimelinePlan.totalYears) * 100;
+                        const isNarrow = widthPercent < 26;
 
                         return (
                           <div
                             key={seg.id}
-                            style={{ width: `${Math.max(5, widthPercent)}%` }}
+                            style={{ width: `${Math.max(6, widthPercent)}%` }}
                             onClick={() => setIsModalOpen(true)}
                             className={`h-full rounded-lg transition-all flex flex-col items-center justify-center text-white px-1 relative group cursor-pointer ${
                               seg.type === 'crisis'
@@ -290,9 +292,11 @@ export default function CycleSimulator({
                             <span className="text-[10px] sm:text-xs font-black leading-none truncate w-full text-center">
                               {range.isSingleYear ? `A${range.startYear}` : `A${range.startYear}–${range.endYear}`}
                             </span>
-                            <span className="text-[9px] sm:text-[10px] opacity-90 truncate w-full text-center font-bold">
-                              {seg.name}
-                            </span>
+                            {!isNarrow && (
+                              <span className="text-[9px] sm:text-[10px] opacity-90 truncate w-full text-center font-bold">
+                                {seg.name}
+                              </span>
+                            )}
                           </div>
                         );
                       })}
@@ -329,141 +333,44 @@ export default function CycleSimulator({
 
                   {/* Selector Rápido de Presets en 1 clic */}
                   <div className="pt-2 border-t border-slate-200">
-                    <span className="text-[11px] font-bold text-slate-500 block mb-2">
-                      Probar Estrategias Rápidas de Línea Temporal ({planYears} años):
-                    </span>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-[11px] font-bold text-slate-500">
+                        Probar Escenarios Rápidos ({planYears} años):
+                      </span>
+                      <span className="text-[10px] font-bold text-orange-600 sm:hidden">
+                        1 toque
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2">
                       {PRESET_TIMELINE_PLANS(planYears).map((preset) => {
                         const isSelected = effectiveTimelinePlan.id === preset.id;
                         return (
                           <button
                             key={preset.id}
                             onClick={() => handleApplyPreset(preset.id)}
-                            className={`p-2.5 rounded-xl border text-left transition cursor-pointer flex items-center justify-between gap-2 ${
+                            className={`p-2.5 rounded-xl border text-left transition-all active:scale-[0.98] cursor-pointer flex flex-col justify-between gap-1.5 relative ${
                               isSelected
-                                ? 'border-orange-500 bg-orange-100/50 text-orange-950 font-black shadow-2xs ring-1 ring-orange-500'
+                                ? 'border-orange-500 bg-orange-50/90 text-orange-950 shadow-xs ring-1 ring-orange-500'
                                 : 'border-slate-200 bg-white hover:border-orange-300 text-slate-700 hover:bg-orange-50/20'
                             }`}
                           >
-                            <div className="min-w-0">
-                              <div className="text-xs font-black truncate">{preset.name}</div>
-                              <div className="text-[10px] text-slate-500 truncate">{preset.badge}</div>
+                            <div className="flex items-center justify-between w-full">
+                              <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded truncate max-w-[85%] ${
+                                isSelected ? 'bg-orange-200/80 text-orange-900' : 'bg-slate-100 text-slate-600'
+                              }`}>
+                                {preset.badge}
+                              </span>
+                              {isSelected && <Check className="w-3.5 h-3.5 text-orange-600 shrink-0" />}
                             </div>
-                            {isSelected && <Check className="w-4 h-4 text-orange-600 flex-shrink-0" />}
+                            <div className="text-xs font-black text-slate-900 leading-snug line-clamp-2">
+                              {preset.name.replace(` (${planYears} años)`, '')}
+                            </div>
                           </button>
                         );
                       })}
                     </div>
                   </div>
                 </div>
-
-                {/* 2. Métricas Resultantes de la Simulación Plurianual */}
-                {multiYearSimulation && (
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-black uppercase tracking-wider text-slate-800">
-                          Resultado de tu Plan de Ahorro a {planYears} Años en este Ciclo
-                        </span>
-                      </div>
-                      <a
-                        href="#growth-chart"
-                        className="inline-flex items-center gap-1 text-xs font-bold text-orange-600 hover:text-orange-700"
-                      >
-                        <span>Ver en la gráfica</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </a>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                      {/* 1. Total Invertido */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                          Total Invertido
-                        </div>
-                        <div className="text-2xl font-black text-slate-900">
-                          {formatCurrency(multiYearSimulation.totalInvested)} €
-                        </div>
-                        <div className="text-xs font-medium text-slate-500">
-                          {formatCurrency(savingsPlanParams.initialCapital)} € init. + {planYears * 12} meses DCA
-                        </div>
-                      </div>
-
-                      {/* 2. Valor Final de la Cartera */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                          Valor Final Cartera
-                        </div>
-                        <div className="text-2xl font-black text-slate-900">
-                          {formatCurrency(multiYearSimulation.finalCapital)} €
-                        </div>
-                        <div
-                          className={`text-xs font-bold ${
-                            multiYearSimulation.totalProfit >= 0 ? 'text-emerald-700' : 'text-rose-600'
-                          }`}
-                        >
-                          {multiYearSimulation.totalProfit >= 0 ? '+' : ''}
-                          {formatCurrency(multiYearSimulation.totalProfit)} € ({multiYearSimulation.totalReturnPct >= 0 ? '+' : ''}
-                          {multiYearSimulation.totalReturnPct}%)
-                        </div>
-                      </div>
-
-                      {/* 3. Máxima Caída */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
-                          <span>Máxima Caída</span>
-                          <span className="text-[10px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">
-                            Drawdown
-                          </span>
-                        </div>
-                        <div className="text-2xl font-black text-rose-600">
-                          {multiYearSimulation.maxDrawdownPct}%
-                        </div>
-                        <div className="text-xs font-medium text-slate-500">
-                          Suelo en Año {multiYearSimulation.drawdownYear || 1}
-                        </div>
-                      </div>
-
-                      {/* 4. Ritmo Anualizado (CAGR) */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                          Ritmo Anualizado (CAGR)
-                        </div>
-                        <div
-                          className={`text-2xl font-black ${
-                            multiYearSimulation.annualizedReturnPct >= 0
-                              ? 'text-emerald-700'
-                              : 'text-rose-600'
-                          }`}
-                        >
-                          {multiYearSimulation.annualizedReturnPct >= 0 ? '+' : ''}
-                          {multiYearSimulation.annualizedReturnPct}% / año
-                        </div>
-                        <div className="text-xs font-medium text-slate-500">
-                          Tasa compuesta neta estimada
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 3. Callout Pedagógico del Riesgo de Secuencia de Retornos */}
-                    <div className="p-4 rounded-xl border border-amber-200/90 bg-amber-50/70 shadow-2xs flex items-start gap-3">
-                      <div className="p-1.5 rounded-lg bg-amber-500 text-white font-bold flex-shrink-0 mt-0.5">
-                        <Info className="w-4 h-4" />
-                      </div>
-                      <div className="space-y-1 text-xs">
-                        <div className="font-black text-amber-950">
-                          Clave Matemática: ¿Por qué importa cuándo sucede el shock?
-                        </div>
-                        <p className="text-amber-900/90 leading-relaxed font-medium">
-                          Al invertir con un <strong>Plan de Ahorro periódico (DCA)</strong>, tus aportaciones compran participaciones mes a mes.
-                          Si el shock ocurre en los <strong>años iniciales</strong>, tus compras recurrentes adquieren activos baratos que se multiplicarán con los años.
-                          En cambio, si el shock ocurre en los <strong>años finales</strong>, golpea cuando ya has acumulado casi todo tu capital.
-                          Usa el botón <strong>"Diseñar / Ajustar Línea Temporal (Modal)"</strong> para mover la crisis entre los primeros y los últimos años y comprobar la enorme diferencia.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             )}
 
@@ -739,12 +646,12 @@ export default function CycleSimulator({
                     </div>
 
                     {/* Métricas Clave */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
+                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
                           Total Invertido
                         </div>
-                        <div className="text-2xl font-black text-slate-900">
+                        <div className="text-xl sm:text-2xl font-black text-slate-900">
                           {formatCurrency(simulationResult.totalInvested)} €
                         </div>
                         <div className="text-xs font-medium text-slate-500">
@@ -754,11 +661,11 @@ export default function CycleSimulator({
                         </div>
                       </div>
 
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
+                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
                           Valor Final Cartera
                         </div>
-                        <div className="text-2xl font-black text-slate-900">
+                        <div className="text-xl sm:text-2xl font-black text-slate-900">
                           {formatCurrency(simulationResult.finalCapital)} €
                         </div>
                         <div
@@ -772,14 +679,14 @@ export default function CycleSimulator({
                         </div>
                       </div>
 
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
+                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
                           <span>Máxima Caída</span>
                           <span className="text-[10px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">
                             Riesgo
                           </span>
                         </div>
-                        <div className="text-2xl font-black text-rose-600">
+                        <div className="text-xl sm:text-2xl font-black text-rose-600">
                           {simulationResult.maxDrawdownPct}%
                         </div>
                         <div className="text-xs font-medium text-slate-500">
@@ -787,15 +694,15 @@ export default function CycleSimulator({
                         </div>
                       </div>
 
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
+                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
                           {isSavingsPlan && (simulationResult.dcaBenefitVsLumpSumPct ?? 0) > 0
                             ? 'Efecto Compra Periódica'
                             : 'Ritmo Anualizado (CAGR)'}
                         </div>
                         {isSavingsPlan && (simulationResult.dcaBenefitVsLumpSumPct ?? 0) > 0 ? (
                           <>
-                            <div className="text-2xl font-black text-emerald-700">
+                            <div className="text-xl sm:text-2xl font-black text-emerald-700">
                               +{simulationResult.dcaBenefitVsLumpSumPct}%
                             </div>
                             <div className="text-xs font-medium text-slate-500">
@@ -805,7 +712,7 @@ export default function CycleSimulator({
                         ) : (
                           <>
                             <div
-                              className={`text-2xl font-black ${
+                              className={`text-xl sm:text-2xl font-black ${
                                 simulationResult.annualizedReturnPct >= 0
                                   ? 'text-emerald-700'
                                   : 'text-rose-600'

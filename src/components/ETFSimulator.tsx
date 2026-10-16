@@ -162,6 +162,16 @@ export default function ETFSimulator() {
       ? Math.round(params.quarterlyContribution / 3)
       : params.quarterlyContribution;
 
+  const handleInitialCapitalChange = (capital: number) => {
+    handleChange({ initialCapital: Math.max(0, Math.round(capital)) });
+  };
+
+  const handleMonthlyAmountChange = (monthly: number) => {
+    const safeMonthly = Math.max(0, Math.round(monthly));
+    const quarterly = params.contributionFrequency === 'monthly' ? safeMonthly : safeMonthly * 3;
+    handleChange({ quarterlyContribution: quarterly });
+  };
+
   return (
     <div className="min-h-screen bg-[#faf8f5] text-slate-800 font-sans selection:bg-orange-500/20">
       {/* Fondos decorativos cálidos y luminosos */}
@@ -559,70 +569,80 @@ export default function ETFSimulator() {
                 </div>
 
                 {/* Mobile View: Vertical clean list cards like Stitch */}
-                <div className="space-y-2 sm:hidden">
+                <div className="space-y-2.5 sm:hidden">
                   <button
                     onClick={() => setActiveTab('allocation')}
-                    className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-orange-300 cursor-pointer"
+                    className="w-full bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-orange-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 border border-orange-100">
                         <SlidersHorizontal className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900">
-                          Plan de Ahorro ETFs ({etfs.length})
-                        </h4>
-                        <p className="text-[11px] text-slate-500 mt-0.5">
-                          Ajusta pesos o modelos Bogle y Buffett
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="text-xs font-bold text-slate-900">
+                            Plan de Ahorro ETFs
+                          </h4>
+                          <span className="text-[9px] font-black px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded-md">
+                            {etfs.length} fondos
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                          Ajusta pesos o replica carteras Bogle y Buffett
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-orange-600 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
                   </button>
 
                   <button
                     onClick={() => setIsTimelineModalOpen(true)}
-                    className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-rose-300 cursor-pointer"
+                    className="w-full bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-rose-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100">
                         <ShieldAlert className="w-4 h-4" />
                       </div>
                       <div>
                         <div className="flex items-center gap-1.5">
                           <h4 className="text-xs font-bold text-slate-900">
-                            Diseñar Escenarios de Estrés
+                            Simular Escenarios de Estrés
                           </h4>
-                          <span className="text-[9px] font-bold px-1.5 py-0.2 bg-rose-100 text-rose-700 rounded">
-                            Bottom Sheet
+                          <span className="text-[9px] font-black px-1.5 py-0.5 bg-rose-100 text-rose-800 rounded-md">
+                            Personalizar
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 mt-0.5">
+                        <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
                           Prueba shocks 2008, 2020 e inflación en tu plan
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-rose-600 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
                   </button>
 
                   <button
                     onClick={() => setActiveTab('brokers')}
-                    className="w-full bg-white rounded-xl p-3 border border-slate-200/80 shadow-2xs flex items-center justify-between gap-3 text-left transition hover:border-purple-300 cursor-pointer"
+                    className="w-full bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-purple-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100">
                         <Trophy className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900">
-                          Comparativa de Brókers
-                        </h4>
-                        <p className="text-[11px] text-slate-500 mt-0.5">
-                          Compara costes: Trade Republic, MyInvestor, ING
+                        <div className="flex items-center gap-1.5">
+                          <h4 className="text-xs font-bold text-slate-900">
+                            Comparativa de Brókers
+                          </h4>
+                          <span className="text-[9px] font-black px-1.5 py-0.5 bg-purple-100 text-purple-800 rounded-md">
+                            Costes
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                          Compara comisiones: Trade Republic, MyInvestor, ING
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-purple-600 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
                   </button>
                 </div>
 
@@ -763,6 +783,8 @@ export default function ETFSimulator() {
                 onChange={handleEtfChange}
                 monthlyAmount={monthlyEquivalent}
                 initialCapital={params.initialCapital}
+                onInitialCapitalChange={handleInitialCapitalChange}
+                onMonthlyAmountChange={handleMonthlyAmountChange}
               />
             </div>
           )}
