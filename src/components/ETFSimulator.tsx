@@ -39,6 +39,9 @@ import BrokerComparisonTable from './BrokerComparisonTable';
 import CycleSimulator from './CycleSimulator';
 import CycleTimelineModal from './CycleTimelineModal';
 import HeroLedger from './HeroLedger';
+import AccountBar from './AccountBar';
+import MonteCarloPanel from './MonteCarloPanel';
+import type { SavedPlan } from '../lib/plans';
 
 const DEFAULT_PARAMS: SimulationParams = {
   initialCapital: 2000,
@@ -68,6 +71,16 @@ export default function ETFSimulator() {
   );
 
   const [planMessage, setPlanMessage] = useState<string | null>(null);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+
+  // Cargar un plan guardado en la cuenta del usuario
+  const loadSavedPlan = (plan: SavedPlan) => {
+    const nextParams = { ...DEFAULT_PARAMS, ...plan.params };
+    setParams(nextParams);
+    setEtfs(plan.etfs);
+    setMultiYearPlan(getDefault10YearTimelinePlan(nextParams.years));
+    setPlanMessage(`Plan guardado cargado: "${plan.name}".`);
+  };
 
   // Cargar modelo famoso de inversión
   const applyFamousPortfolio = (portfolio: FamousPortfolioModel) => {
@@ -184,6 +197,14 @@ export default function ETFSimulator() {
 
       <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-10">
         <div className="space-y-4 sm:space-y-8">
+          <AccountBar
+            params={params}
+            etfs={etfs}
+            onLoadPlan={loadSavedPlan}
+            authOpen={authModalOpen}
+            onAuthOpenChange={setAuthModalOpen}
+          />
+
           {/* ──────────────── TopHeader Mobile (< md) ──────────────── */}
           <header className="flex md:hidden items-center justify-between gap-2 pt-1 pb-1">
             <div className="flex items-center gap-2.5">
@@ -544,6 +565,16 @@ export default function ETFSimulator() {
                 onClearMultiYearSimulation={() => setMultiYearPlan(getDefault10YearTimelinePlan(params.years))}
                 onOpenTimelineModal={() => setIsTimelineModalOpen(true)}
               />
+
+              {/* Escenarios Monte Carlo sobre trimestres históricos reales */}
+              {bestBroker && (
+                <MonteCarloPanel
+                  params={effectiveParams}
+                  etfs={etfs}
+                  brokerId={bestBroker.id}
+                  brokerName={bestBroker.name}
+                />
+              )}
 
               {/* ──────────────── Tarjetas de Acceso Rápido ("Profundiza en tu plan") ──────────────── */}
               <section aria-labelledby="deep-dive-title" className="pt-1 sm:pt-2 space-y-2.5">

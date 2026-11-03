@@ -1,4 +1,32 @@
-# Logs
+# ─── Dependencias y builds ───
+node_modules
+dist
+dist-ssr
+*.tsbuildinfo
+
+# ─── Variables de entorno y credenciales (NUNCA subir) ───
+.env
+.env.*
+*.local
+!.env.example
+# Claves JSON de cuentas de servicio de Google Cloud
+*service-account*.json
+sa-*.json
+vercel-kronos-invoker*.json
+
+# ─── Despliegue ───
+.vercel
+
+# ─── Python (kronos-service) ───
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ─── Resultados locales del backtest de Kronos ───
+scripts/backtest-output/
+
+# ─── Logs ───
 logs
 *.log
 npm-debug.log*
@@ -7,17 +35,13 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-.gemini
-dist-ssr
-*.local
-
-# Editor directories and files
+# ─── Editores y sistema ───
 .vscode/*
 !.vscode/extensions.json
 .idea
+.gemini
 .DS_Store
+Thumbs.db
 *.suo
 *.ntvs*
 *.njsproj

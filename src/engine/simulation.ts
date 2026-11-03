@@ -4,7 +4,7 @@ import { BROKER_CONFIGS } from '../data/brokers';
 /**
  * Calcula la comisión exacta de compra de aportación periódica según las ofertas de cada bróker.
  */
-function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, etfs?: ETFAsset[]): number {
+export function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, etfs?: ETFAsset[]): number {
   if (!etfs || etfs.length === 0) {
     if (brokerId === 'ing_active') return 0;
     if (brokerId === 'traderepublic') return 0;
@@ -63,7 +63,7 @@ function calculateBasketBuyFee(brokerId: string, quarterlyContribution: number, 
  * En fondos Acc (Acumulación): arrastre = 0 (100% reinvertido automáticamente sin pagar IRPF cada trimestre).
  * En fondos Dist (Distribución): IRPF del 19% sobre los dividendos distribuidos (ej. media 2.2% anual), lo que reduce la rentabilidad neta compuesta.
  */
-function calculateDividendTaxDrag(etfs?: ETFAsset[]): number {
+export function calculateDividendTaxDrag(etfs?: ETFAsset[]): number {
   if (!etfs || etfs.length === 0) return 0;
 
   const totalWeight = etfs.reduce((sum, e) => sum + (e.recurringWeight ?? e.weight), 0) || 100;
