@@ -841,7 +841,7 @@ export default function PortfolioAllocation({
       </div>
 
       {/* Gráfico Donut y Sliders */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Donut Chart */}
         <div className="lg:col-span-4 flex flex-col items-center justify-center p-2">
           <div className="w-full h-48 relative">

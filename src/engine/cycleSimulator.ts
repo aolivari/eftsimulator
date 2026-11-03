@@ -112,7 +112,7 @@ export function detectAssetClass(etf: ETFAsset): AssetClass {
 /**
  * Obtiene el factor multiplicador correspondiente a una clase de activo dada.
  */
-function getAssetFactor(factors: AssetCycleFactors, assetClass: AssetClass): number {
+export function getAssetFactor(factors: AssetCycleFactors, assetClass: AssetClass): number {
   if (factors[assetClass] !== undefined) {
     return factors[assetClass] as number;
   }

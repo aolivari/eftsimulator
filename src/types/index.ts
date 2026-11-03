@@ -308,3 +308,68 @@ export interface MultiYearCycleSimulationResult {
     [key: string]: number | string;
   }[];
 }
+
+// ─── Monte Carlo & Predicción IA (Kronos) ───────────────────────────────
+
+/** Rentabilidades mensuales alineadas devueltas por /api/history */
+export interface MonthlyReturnHistory {
+  months: string[]; // 'YYYY-MM'
+  series: Record<
+    string,
+    {
+      symbol: string | null;
+      ownSince: string | null; // primer mes con datos propios del ETF
+      proxy: string; // ETF de historial largo usado antes de ownSince
+      returns: (number | null)[];
+    }
+  >;
+}
+
+/** Predicción probabilística de Kronos para un ETF (/api/forecast) */
+export interface KronosForecast {
+  ticker: string;
+  symbol: string;
+  model: string;
+  asOf: string;
+  horizon: number; // sesiones bursátiles
+  samples: number;
+  lastClose: number;
+  history: { dates: string[]; close: number[] };
+  forecastDates: string[];
+  paths: number[][]; // [muestra][día]
+  lookback?: number;
+  upsideProb: number; // en bruto, con sesgo de reversión a la media: no mostrar
+  volAmpProb: number;
+  historicalDailyVol: number;
+  predictedDailyVol: number;
+  volRatio?: number; // volatilidad predicha / volatilidad de los últimos 3 meses
+  terminalReturn: { p10: number; p50: number; p90: number };
+  cached?: boolean;
+}
+
+export interface MonteCarloQuarterBand {
+  quarter: number;
+  label: string;
+  invested: number;
+  p10: number;
+  p25: number;
+  p50: number;
+  p75: number;
+  p90: number;
+}
+
+export interface MonteCarloResult {
+  scenarios: number;
+  brokerId: string;
+  bands: MonteCarloQuarterBand[];
+  final: { p10: number; p25: number; p50: number; p75: number; p90: number; mean: number };
+  totalInvested: number;
+  probLoss: number; // P(saldo final < total aportado)
+  maxDrawdown: { p50: number; p90: number }; // caída máxima de la cartera (positivo, ej. 0.25 = -25%)
+  annualizedReturn: { p10: number; p50: number; p90: number };
+  method: 'bootstrap' | 'parametric';
+  // Ciclo histórico real forzado en todos los escenarios (prueba de estrés)
+  stress?: { cycleId: string; name: string; type: CycleType; startQuarter: number; quarters: number };
+  dataWindow?: { from: string; to: string; quarterWindows: number };
+  kronosTickers: string[];
+}

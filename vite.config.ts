@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import type { Plugin } from 'vite';
 import YahooFinance from 'yahoo-finance2';
@@ -230,12 +230,42 @@ function vercelApiDevPlugin(): Plugin {
           return;
         }
 
-        next();
+        // 4. Resto de endpoints (/api/forecast, /api/history...): se cargan directamente
+        //    desde api/*.ts con un adaptador mínimo de req/res al estilo Vercel.
+        const route = url.pathname.replace(/^\/api\//, '').replace(/[^a-z0-9_-]/gi, '');
+        try {
+          const mod = await server.ssrLoadModule(`/api/${route}.ts`);
+          const query = Object.fromEntries(url.searchParams.entries());
+          const vercelReq = Object.assign(req, { query });
+          const vercelRes = Object.assign(res, {
+            status(code: number) {
+              res.statusCode = code;
+              return vercelRes;
+            },
+            json(body: unknown) {
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify(body));
+              return vercelRes;
+            },
+          });
+          await mod.default(vercelReq, vercelRes);
+        } catch (err: any) {
+          if (err?.code === 'ERR_LOAD_URL' || /Failed to load url/.test(err?.message || '')) {
+            return next();
+          }
+          console.error(`API /api/${route} error:`, err);
+          res.statusCode = 500;
+          res.end(JSON.stringify({ error: err?.message || 'Error interno' }));
+        }
       });
     },
   };
 }
 
-export default defineConfig({
-  plugins: [react(), vercelApiDevPlugin()],
+export default defineConfig(({ mode }) => {
+  // Variables de servidor (SUPABASE_SERVICE_ROLE_KEY, KRONOS_*) para los endpoints en local
+  Object.assign(process.env, loadEnv(mode, process.cwd(), ''));
+  return {
+    plugins: [react(), vercelApiDevPlugin()],
+  };
 });
