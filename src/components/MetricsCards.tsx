@@ -87,7 +87,7 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
           className={`bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 ${card.topBorder} p-3 sm:p-5 shadow-2xs sm:shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between`}
         >
           <div className="flex items-center justify-between mb-1.5 sm:mb-2">
-            <span className="text-[10px] sm:text-xs uppercase text-slate-500 font-bold tracking-wider truncate">
+            <span className="text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider truncate">
               {card.label}
             </span>
             <div
@@ -101,7 +101,7 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
             <p className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-tight mb-0.5 sm:mb-1">
               {card.value}
             </p>
-            <p className="text-[10px] sm:text-xs text-slate-400 mb-2 sm:mb-3 font-medium truncate">
+            <p className="text-[13px] sm:text-xs text-slate-600 mb-2 sm:mb-3 font-medium truncate">
               {card.sublabel}
             </p>
           </div>
@@ -109,14 +109,14 @@ export default function MetricsCards({ bestBroker, worstBroker }: MetricsCardsPr
           <div>
             {card.trend ? (
               <div
-                className={`inline-flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded sm:rounded-full ${card.trendColor}`}
+                className={`inline-flex items-center gap-0.5 sm:gap-1 text-[13px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded sm:rounded-full ${card.trendColor}`}
               >
                 {card.trend}
                 <span>{card.trendLabel}</span>
               </div>
             ) : (
               <div
-                className={`inline-flex items-center text-[10px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded sm:rounded-full ${card.trendColor}`}
+                className={`inline-flex items-center text-[13px] sm:text-xs font-bold px-1.5 sm:px-2 py-0.5 rounded sm:rounded-full ${card.trendColor}`}
               >
                 <span>{card.trendLabel}</span>
               </div>

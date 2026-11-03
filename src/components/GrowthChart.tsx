@@ -141,7 +141,7 @@ export default function GrowthChart({
         <div className="border-b border-slate-100 pb-1.5 flex items-center justify-between">
           <span className="font-black text-slate-900">{label}</span>
           <span
-            className={`font-black text-[11px] px-1.5 py-0.2 rounded ${
+            className={`font-black text-[13px] px-1.5 py-0.2 rounded ${
               profit >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
             }`}
           >
@@ -165,7 +165,7 @@ export default function GrowthChart({
         </div>
 
         {drawdownPct < 0 && (
-          <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-rose-600">
+          <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[13px] font-bold text-rose-600">
             <span>Caída desde pico:</span>
             <span>{drawdownPct}%</span>
           </div>
@@ -195,7 +195,7 @@ export default function GrowthChart({
             <span className="font-black text-slate-900">{label}</span>
             {segName && (
               <div
-                className={`text-[10px] font-bold ${
+                className={`text-[13px] font-bold ${
                   segType === 'crisis'
                     ? 'text-rose-600'
                     : segType === 'expansion'
@@ -210,7 +210,7 @@ export default function GrowthChart({
             )}
           </div>
           <span
-            className={`font-black text-[11px] px-1.5 py-0.2 rounded ${
+            className={`font-black text-[13px] px-1.5 py-0.2 rounded ${
               profit >= 0 ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
             }`}
           >
@@ -234,7 +234,7 @@ export default function GrowthChart({
         </div>
 
         {drawdownPct < 0 && (
-          <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[11px] font-bold text-rose-600">
+          <div className="pt-1.5 border-t border-slate-100 flex items-center justify-between text-[13px] font-bold text-rose-600">
             <span>Caída desde pico:</span>
             <span>{drawdownPct}%</span>
           </div>
@@ -310,7 +310,7 @@ export default function GrowthChart({
               </h3>
               {isCycleMode && (
                 <span
-                  className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${
+                  className={`text-[13px] font-black uppercase px-2 py-0.5 rounded-full ${
                     isCrisis
                       ? 'bg-rose-100 text-rose-800 border border-rose-200'
                       : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
@@ -320,12 +320,12 @@ export default function GrowthChart({
                 </span>
               )}
               {isMultiYearMode && (
-                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+                <span className="text-[13px] font-black uppercase px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
                   {multiYearSimulation?.plan.totalYears} Años
                 </span>
               )}
             </div>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               {isCycleMode
                 ? `Evolución real estimada de tu cartera (${cycleEvent?.startDate} – ${cycleEvent?.endDate})`
                 : isMultiYearMode
@@ -554,7 +554,7 @@ export default function GrowthChart({
                   strokeOpacity={0.45}
                   strokeDasharray="4 4"
                   label={{
-                    value: `🚨 Shock: ${interval.name}`,
+                    value: `Shock: ${interval.name}`,
                     position: 'insideTop',
                     fill: '#be123c',
                     fontSize: 11,
@@ -695,27 +695,27 @@ export default function GrowthChart({
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {/* Total Invertido */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 Total Invertido (DCA)
               </span>
               <div className="text-xl font-black text-slate-900">
                 {formatCurrency(multiYearSimulation.totalInvested)} €
               </div>
-              <div className="text-[11px] font-medium text-slate-500">
+              <div className="text-[13px] font-medium text-slate-600">
                 {multiYearSimulation.plan.totalYears} años de aportaciones continuas
               </div>
             </div>
 
             {/* Valor Final */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 Valor Final de Cartera
               </span>
               <div className="text-xl font-black text-slate-900">
                 {formatCurrency(multiYearSimulation.finalCapital)} €
               </div>
               <div
-                className={`text-[11px] font-semibold ${
+                className={`text-[13px] font-semibold ${
                   multiYearSimulation.totalProfit >= 0 ? 'text-emerald-700' : 'text-rose-600'
                 }`}
               >
@@ -727,20 +727,20 @@ export default function GrowthChart({
 
             {/* Máxima Caída (Max DD) */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 Máxima Caída
               </span>
               <div className="text-xl font-black text-rose-600">
                 {multiYearSimulation.maxDrawdownPct}%
               </div>
-              <div className="text-[11px] font-medium text-slate-500">
+              <div className="text-[13px] font-medium text-slate-600">
                 Suelo registrado en: Año {multiYearSimulation.drawdownYear || 1}
               </div>
             </div>
 
             {/* Ritmo Anualizado vs Benchmark */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 CAGR Anualizado
               </span>
               <div
@@ -751,7 +751,7 @@ export default function GrowthChart({
                 {multiYearSimulation.annualizedReturnPct >= 0 ? '+' : ''}
                 {multiYearSimulation.annualizedReturnPct}% / año
               </div>
-              <div className="text-[11px] font-medium text-slate-500">
+              <div className="text-[13px] font-medium text-slate-600">
                 {multiYearSimulation.plan.segments.length} fases macroeconómicas
               </div>
             </div>
@@ -789,7 +789,7 @@ export default function GrowthChart({
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             {/* Total Invertido / Retorno */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 {historicalSimulation.mode === 'savings_plan'
                   ? 'Total Invertido'
                   : 'Retorno Total'}
@@ -807,7 +807,7 @@ export default function GrowthChart({
                   ? `${formatCurrency(historicalSimulation.totalInvested)} €`
                   : `${historicalSimulation.totalReturnPct >= 0 ? '+' : ''}${historicalSimulation.totalReturnPct}%`}
               </div>
-              <div className="text-[11px] font-semibold text-slate-600">
+              <div className="text-[13px] font-semibold text-slate-600">
                 {historicalSimulation.mode === 'savings_plan'
                   ? `${historicalSimulation.totalProfit >= 0 ? '+' : ''}${formatCurrency(historicalSimulation.totalProfit)} € neto (${historicalSimulation.totalReturnPct >= 0 ? '+' : ''}${historicalSimulation.totalReturnPct}%)`
                   : `${historicalSimulation.totalProfit >= 0 ? '+' : ''}${formatCurrency(historicalSimulation.totalProfit)} €`}
@@ -816,26 +816,26 @@ export default function GrowthChart({
 
             {/* Máxima Caída (Max Drawdown) */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 Máxima Caída (DD)
               </span>
               <div className="text-xl font-black text-rose-600">
                 {historicalSimulation.maxDrawdownPct}%
               </div>
-              <div className="text-[11px] font-medium text-slate-500">
+              <div className="text-[13px] font-medium text-slate-600">
                 Mínimo en: {historicalSimulation.drawdownTroughDate || 'N/D'}
               </div>
             </div>
 
             {/* Valor Final del Capital */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 Valor Final Cartera
               </span>
               <div className="text-xl font-black text-slate-900">
                 {formatCurrency(historicalSimulation.finalCapital)} €
               </div>
-              <div className="text-[11px] font-medium text-slate-500">
+              <div className="text-[13px] font-medium text-slate-600">
                 {historicalSimulation.mode === 'savings_plan'
                   ? `${formatCurrency(historicalSimulation.initialCapital)} € init. + ${formatCurrency(historicalSimulation.totalContributions)} € DCA`
                   : `Base: ${formatCurrency(historicalSimulation.initialCapital)} €`}
@@ -844,7 +844,7 @@ export default function GrowthChart({
 
             {/* Efecto DCA o Comparativa vs S&P 500 */}
             <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs space-y-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+              <span className="text-[13px] font-bold text-slate-600 uppercase tracking-wider">
                 {historicalSimulation.mode === 'savings_plan' &&
                 (historicalSimulation.dcaBenefitVsLumpSumPct ?? 0) > 0
                   ? 'Efecto Plan Ahorro'
@@ -856,7 +856,7 @@ export default function GrowthChart({
                   <div className="text-xl font-black text-emerald-700">
                     +{historicalSimulation.dcaBenefitVsLumpSumPct}%
                   </div>
-                  <div className="text-[11px] font-medium text-slate-500">
+                  <div className="text-[13px] font-medium text-slate-600">
                     Mejor que invertir de golpe
                   </div>
                 </>
@@ -875,7 +875,7 @@ export default function GrowthChart({
                       >
                         {isBetter ? `+${diff}%` : `${diff}%`}
                       </div>
-                      <div className="text-[11px] font-medium text-slate-500">
+                      <div className="text-[13px] font-medium text-slate-600">
                         S&P 500: {spReturn > 0 ? `+${spReturn}%` : `${spReturn}%`}
                       </div>
                     </>
@@ -888,7 +888,7 @@ export default function GrowthChart({
           {/* Píldora de Contexto Histórico */}
           <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/80 shadow-2xs space-y-2">
             <div className="flex items-center gap-2">
-              <div className="w-5 h-5 rounded-md bg-amber-500 text-white flex items-center justify-center font-bold text-[10px]">
+              <div className="w-5 h-5 rounded-md bg-amber-500 text-white flex items-center justify-center font-bold text-[13px]">
                 <Info className="w-3.5 h-3.5" />
               </div>
               <span className="font-black text-xs text-amber-950 uppercase tracking-wider">

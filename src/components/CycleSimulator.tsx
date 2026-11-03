@@ -140,11 +140,11 @@ export default function CycleSimulator({
               <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
                 Simular Ciclos Históricos (Backtesting)
               </h3>
-              <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+              <span className="text-[13px] uppercase font-black px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
                 Nuevo
               </span>
             </div>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               Diseña una línea temporal a {planYears} años concatenando escenarios o prueba crisis históricas puntuales
             </p>
           </div>
@@ -165,7 +165,7 @@ export default function CycleSimulator({
           {isCollapsible && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-500 transition cursor-pointer"
+              className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-600 transition cursor-pointer"
               aria-label={isExpanded ? 'Colapsar sección' : 'Expandir sección'}
             >
               {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -193,7 +193,7 @@ export default function CycleSimulator({
                 <span className="sm:hidden">Línea Temporal</span>
                 <span className="hidden sm:inline">Línea Temporal (Concatenar Escenarios)</span>
                 <span
-                  className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
+                  className={`text-[13px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
                     activeSubTab === 'timeline'
                       ? 'bg-orange-100 text-orange-800'
                       : 'bg-slate-200/80 text-slate-600 sm:bg-slate-100'
@@ -215,7 +215,7 @@ export default function CycleSimulator({
                 <span className="sm:hidden">Crisis Reales</span>
                 <span className="hidden sm:inline">Eventos Históricos Reales (Backtesting)</span>
                 <span
-                  className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
+                  className={`text-[13px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
                     activeSubTab === 'events'
                       ? 'bg-orange-100 text-orange-800'
                       : 'bg-slate-200/80 text-slate-600 sm:bg-slate-100'
@@ -242,11 +242,11 @@ export default function CycleSimulator({
                           <Layers className="w-4 h-4 text-orange-600 shrink-0" />
                           <span>Ciclo Activo: {effectiveTimelinePlan.name}</span>
                         </span>
-                        <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200 shrink-0">
+                        <span className="text-[13px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200 shrink-0">
                           {effectiveTimelinePlan.badge}
                         </span>
                       </div>
-                      <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed">
+                      <p className="text-xs text-slate-600 font-medium mt-1 leading-relaxed">
                         {effectiveTimelinePlan.description}
                       </p>
                     </div>
@@ -264,7 +264,7 @@ export default function CycleSimulator({
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-600">
                       <span>Distribución de Fases ({planYears} años):</span>
-                      <span className="text-slate-400">{effectiveTimelinePlan.segments.length} Fases</span>
+                      <span className="text-slate-600">{effectiveTimelinePlan.segments.length} Fases</span>
                     </div>
 
                     <div className="h-11 w-full rounded-xl overflow-hidden flex bg-slate-200/80 p-1 gap-1 shadow-inner">
@@ -289,11 +289,11 @@ export default function CycleSimulator({
                             }`}
                             title={`${seg.name} (${range.isSingleYear ? `Año ${range.startYear}` : `Años ${range.startYear} a ${range.endYear}`}): ${seg.tagline}`}
                           >
-                            <span className="text-[10px] sm:text-xs font-black leading-none truncate w-full text-center">
+                            <span className="text-[13px] sm:text-xs font-black leading-none truncate w-full text-center">
                               {range.isSingleYear ? `A${range.startYear}` : `A${range.startYear}–${range.endYear}`}
                             </span>
                             {!isNarrow && (
-                              <span className="text-[9px] sm:text-[10px] opacity-90 truncate w-full text-center font-bold">
+                              <span className="text-[9px] sm:text-[13px] opacity-90 truncate w-full text-center font-bold">
                                 {seg.name}
                               </span>
                             )}
@@ -302,7 +302,7 @@ export default function CycleSimulator({
                       })}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-[11px] font-medium text-slate-500">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-[13px] font-medium text-slate-600">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <span className="flex items-center gap-1">
                           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
@@ -334,10 +334,10 @@ export default function CycleSimulator({
                   {/* Selector Rápido de Presets en 1 clic */}
                   <div className="pt-2 border-t border-slate-200">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[11px] font-bold text-slate-500">
+                      <span className="text-[13px] font-bold text-slate-600">
                         Probar Escenarios Rápidos ({planYears} años):
                       </span>
-                      <span className="text-[10px] font-bold text-orange-600 sm:hidden">
+                      <span className="text-[13px] font-bold text-orange-600 sm:hidden">
                         1 toque
                       </span>
                     </div>
@@ -387,7 +387,7 @@ export default function CycleSimulator({
                         <PiggyBank className="w-4 h-4 text-orange-600" />
                         <span>Modo de Simulación del Ciclo</span>
                       </span>
-                      <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+                      <p className="text-[13px] text-slate-600 font-medium mt-0.5">
                         {isSavingsPlan
                           ? `Simulando tu Plan de Ahorro: ${formatCurrency(savingsPlanParams.initialCapital)} € iniciales + ${formatCurrency(monthlyAmount)} €/mes continuados`
                           : 'Simulando una inversión fija única realizada al inicio del periodo sin aportaciones posteriores'}
@@ -416,7 +416,7 @@ export default function CycleSimulator({
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
-                        <Wallet className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                        <Wallet className="w-3.5 h-3.5 text-slate-600 shrink-0" />
                         <span className="sm:hidden">Capital Fijo</span>
                         <span className="hidden sm:inline">Capital Fijo (Lump-Sum)</span>
                       </button>
@@ -456,7 +456,7 @@ export default function CycleSimulator({
                           <span>Escenarios de Estrés (Defensa)</span>
                         </h4>
                       </div>
-                      <span className="text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                      <span className="text-[13px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
                         Resiliencia & Drawdown
                       </span>
                     </div>
@@ -486,7 +486,7 @@ export default function CycleSimulator({
                                     {event.name}
                                   </span>
                                 </div>
-                                <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
+                                <span className="text-[13px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
                                   {event.durationLabel}
                                 </span>
                               </div>
@@ -497,13 +497,13 @@ export default function CycleSimulator({
                             </div>
 
                             <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
-                              <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
-                                <Calendar className="w-3 h-3 text-slate-400" />
+                              <span className="text-[13px] font-medium text-slate-600 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-slate-600" />
                                 {event.startDate} – {event.endDate}
                               </span>
 
                               <div className="flex items-center gap-2">
-                                <span className="text-[11px] font-bold text-rose-600">
+                                <span className="text-[13px] font-bold text-rose-600">
                                   S&P 500: {sp500Return > 0 ? `+${sp500Return}%` : `${sp500Return}%`}
                                 </span>
                                 <span
@@ -532,7 +532,7 @@ export default function CycleSimulator({
                           <span>Escenarios de Expansión (Ataque)</span>
                         </h4>
                       </div>
-                      <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                      <span className="text-[13px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
                         Potencial Compuesto
                       </span>
                     </div>
@@ -562,7 +562,7 @@ export default function CycleSimulator({
                                     {event.name}
                                   </span>
                                 </div>
-                                <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
+                                <span className="text-[13px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
                                   {event.durationLabel}
                                 </span>
                               </div>
@@ -573,13 +573,13 @@ export default function CycleSimulator({
                             </div>
 
                             <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
-                              <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
-                                <Calendar className="w-3 h-3 text-slate-400" />
+                              <span className="text-[13px] font-medium text-slate-600 flex items-center gap-1">
+                                <Calendar className="w-3 h-3 text-slate-600" />
                                 {event.startDate} – {event.endDate}
                               </span>
 
                               <div className="flex items-center gap-2">
-                                <span className="text-[11px] font-bold text-emerald-700">
+                                <span className="text-[13px] font-bold text-emerald-700">
                                   S&P 500: +{sp500Return}%
                                 </span>
                                 <span
@@ -648,13 +648,13 @@ export default function CycleSimulator({
                     {/* Métricas Clave */}
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
                       <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
                           Total Invertido
                         </div>
                         <div className="text-xl sm:text-2xl font-black text-slate-900">
                           {formatCurrency(simulationResult.totalInvested)} €
                         </div>
-                        <div className="text-xs font-medium text-slate-500">
+                        <div className="text-xs font-medium text-slate-600">
                           {isSavingsPlan
                             ? `${formatCurrency(simulationResult.initialCapital)} € init. + ${formatCurrency(simulationResult.totalContributions)} € DCA`
                             : 'Inversión única inicial'}
@@ -662,7 +662,7 @@ export default function CycleSimulator({
                       </div>
 
                       <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
                           Valor Final Cartera
                         </div>
                         <div className="text-xl sm:text-2xl font-black text-slate-900">
@@ -680,22 +680,22 @@ export default function CycleSimulator({
                       </div>
 
                       <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center justify-between">
                           <span>Máxima Caída</span>
-                          <span className="text-[10px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">
+                          <span className="text-[13px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">
                             Riesgo
                           </span>
                         </div>
                         <div className="text-xl sm:text-2xl font-black text-rose-600">
                           {simulationResult.maxDrawdownPct}%
                         </div>
-                        <div className="text-xs font-medium text-slate-500">
+                        <div className="text-xs font-medium text-slate-600">
                           Suelo en: {simulationResult.drawdownTroughDate || 'N/D'}
                         </div>
                       </div>
 
                       <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
                           {isSavingsPlan && (simulationResult.dcaBenefitVsLumpSumPct ?? 0) > 0
                             ? 'Efecto Compra Periódica'
                             : 'Ritmo Anualizado (CAGR)'}
@@ -705,7 +705,7 @@ export default function CycleSimulator({
                             <div className="text-xl sm:text-2xl font-black text-emerald-700">
                               +{simulationResult.dcaBenefitVsLumpSumPct}%
                             </div>
-                            <div className="text-xs font-medium text-slate-500">
+                            <div className="text-xs font-medium text-slate-600">
                               Mejor que invertir todo al inicio
                             </div>
                           </>
@@ -721,7 +721,7 @@ export default function CycleSimulator({
                               {simulationResult.annualizedReturnPct >= 0 ? '+' : ''}
                               {simulationResult.annualizedReturnPct}% / año
                             </div>
-                            <div className="text-xs font-medium text-slate-500">
+                            <div className="text-xs font-medium text-slate-600">
                               Duración: {activeCycle.durationLabel}
                             </div>
                           </>
@@ -735,7 +735,7 @@ export default function CycleSimulator({
                         <h5 className="font-black text-xs uppercase tracking-wider text-slate-600">
                           Comportamiento de cada ETF en tu Cartera ({simulationResult.assetBreakdown.length})
                         </h5>
-                        <span className="text-[11px] text-slate-500 font-medium">
+                        <span className="text-[13px] text-slate-600 font-medium">
                           Aportación recurrente + costes TER
                         </span>
                       </div>
@@ -751,14 +751,14 @@ export default function CycleSimulator({
                                 <span className="font-black text-xs text-slate-900 truncate">
                                   {item.ticker}
                                 </span>
-                                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
+                                <span className="text-[13px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
                                   {item.weightPct}%
                                 </span>
                               </div>
-                              <div className="text-[11px] text-slate-500 truncate">
+                              <div className="text-[13px] text-slate-600 truncate">
                                 {item.name}
                               </div>
-                              <div className="text-[10px] text-slate-400">
+                              <div className="text-[13px] text-slate-600">
                                 Aportado: {formatCurrency(item.totalInvested)} €
                               </div>
                             </div>

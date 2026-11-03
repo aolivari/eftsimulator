@@ -43,7 +43,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-4">
         {/* Capital Inicial */}
         <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-orange-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs uppercase text-slate-500 font-bold tracking-wider mb-1.5 sm:mb-2">
+          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <Wallet className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
             <span className="truncate">Cap. Inicial</span>
           </label>
@@ -57,7 +57,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
               onChange={(e) => onChange({ initialCapital: Number(e.target.value) })}
               className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-orange-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <span className="text-slate-400 text-xs sm:text-base font-bold">€</span>
+            <span className="text-slate-600 text-xs sm:text-base font-bold">€</span>
           </div>
           <div className="mt-2 sm:mt-3 text-orange-500">
             <input
@@ -74,7 +74,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
 
         {/* Aportación Periódica */}
         <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-emerald-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs uppercase text-slate-500 font-bold tracking-wider mb-1.5 sm:mb-2">
+          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 flex-shrink-0" />
             <span className="truncate">Aportación</span>
           </label>
@@ -88,7 +88,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
               onChange={(e) => onChange({ quarterlyContribution: Number(e.target.value) })}
               className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-emerald-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <span className="text-slate-400 text-xs sm:text-base font-bold whitespace-nowrap">
+            <span className="text-slate-600 text-xs sm:text-base font-bold whitespace-nowrap">
               {params.contributionFrequency === 'monthly' ? '€/mes' : '€/trim'}
             </span>
           </div>
@@ -103,7 +103,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
               className="w-full accent-emerald-500 h-1.5 sm:h-2 bg-slate-100 rounded-full cursor-pointer"
             />
           </div>
-          <p className="text-[10px] sm:text-xs text-slate-400 mt-1 sm:mt-1.5 font-medium truncate">
+          <p className="text-[13px] sm:text-xs text-slate-600 mt-1 sm:mt-1.5 font-medium truncate">
             {params.contributionFrequency === 'quarterly'
               ? `≈ ${monthlyEquivalent} €/mes`
               : `≈ ${quarterlyAmount} €/trim`}
@@ -112,7 +112,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
 
         {/* Plazo Temporal */}
         <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-sky-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs uppercase text-slate-500 font-bold tracking-wider mb-1.5 sm:mb-2">
+          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 flex-shrink-0" />
             <span className="truncate">Plazo</span>
           </label>
@@ -126,7 +126,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
               onChange={(e) => onChange({ years: Number(e.target.value) })}
               className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-sky-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <span className="text-slate-400 text-xs sm:text-base font-bold">Años</span>
+            <span className="text-slate-600 text-xs sm:text-base font-bold">Años</span>
           </div>
           <div className="mt-2 sm:mt-3 text-sky-500">
             <input
@@ -143,7 +143,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
 
         {/* Rentabilidad Anual */}
         <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-violet-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs uppercase text-slate-500 font-bold tracking-wider mb-1.5 sm:mb-2">
+          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-500 flex-shrink-0" />
             <span className="truncate">Rentab.</span>
           </label>
@@ -158,7 +158,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
               onChange={(e) => onChange({ annualReturn: Number(e.target.value) })}
               className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-violet-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <span className="text-slate-400 text-xs sm:text-base font-bold">%</span>
+            <span className="text-slate-600 text-xs sm:text-base font-bold">%</span>
           </div>
           <div className="mt-2 sm:mt-3 text-violet-500">
             <input
@@ -189,11 +189,11 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
           className="flex items-center gap-1.5 sm:gap-2 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer select-none"
         >
           {params.contributionFrequency === 'quarterly' ? (
-            <ToggleLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
+            <ToggleLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
           ) : (
             <ToggleRight className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
           )}
-          <span className="text-[11px] sm:text-xs">
+          <span className="text-[13px] sm:text-xs">
             Aportación{' '}
             <span className="font-bold text-slate-900">
               {params.contributionFrequency === 'monthly' ? 'Mensual' : 'Trimestral'}
@@ -216,7 +216,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
             onChange={(e) => onChange({ hasWelcomeBonus: e.target.checked })}
             className="accent-orange-500 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded cursor-pointer"
           />
-          <span className="text-[11px] sm:text-xs font-semibold text-slate-800">
+          <span className="text-[13px] sm:text-xs font-semibold text-slate-800">
             Promo ING (+50 €)
           </span>
         </label>
@@ -226,7 +226,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
         {/* ETF count */}
         <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700">
           <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500" />
-          <span className="text-[11px] sm:text-xs text-slate-500">ETFs:</span>
+          <span className="text-[13px] sm:text-xs text-slate-600">ETFs:</span>
           <div className="flex items-center gap-1">
             <input
               id="etf-count"
@@ -237,7 +237,7 @@ export default function InputControls({ params, onChange }: InputControlsProps) 
               onChange={(e) => onChange({ etfCount: Number(e.target.value) })}
               className="bg-slate-100 border border-slate-200 w-10 sm:w-12 px-1.5 py-0.5 rounded-lg text-center text-slate-900 font-bold text-xs sm:text-sm focus:outline-none focus:border-sky-500 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             />
-            <span className="text-[10px] sm:text-xs text-slate-400 font-medium hidden sm:inline">
+            <span className="text-[13px] sm:text-xs text-slate-600 font-medium hidden sm:inline">
               en cartera
             </span>
           </div>

@@ -196,21 +196,21 @@ export default function CycleTimelineModal({
     switch (type) {
       case 'crisis':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 border border-rose-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 border border-rose-200">
             <TrendingDown className="w-3 h-3 text-rose-600" />
             Crisis / Shock
           </span>
         );
       case 'expansion':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">
             <TrendingUp className="w-3 h-3 text-emerald-600" />
             Expansión
           </span>
         );
       case 'recovery':
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-md bg-sky-100 text-sky-800 border border-sky-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-sky-100 text-sky-800 border border-sky-200">
             <Sparkles className="w-3 h-3 text-sky-600" />
             Rebote / Recuperación
           </span>
@@ -218,7 +218,7 @@ export default function CycleTimelineModal({
       case 'neutral':
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">
             <Calendar className="w-3 h-3 text-amber-600" />
             Lateral
           </span>
@@ -248,11 +248,11 @@ export default function CycleTimelineModal({
                 <h3 className="text-sm sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
                   Diseñador de Estrés & Shocks
                 </h3>
-                <span className="text-[10px] uppercase font-black px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+                <span className="text-[13px] uppercase font-black px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
                   {planYears} Años
                 </span>
               </div>
-              <p className="text-[11px] sm:text-xs text-slate-500 font-medium leading-tight">
+              <p className="text-[13px] sm:text-xs text-slate-600 font-medium leading-tight">
                 Concatena escenarios macro y sombreado de crisis en tu plan.
               </p>
             </div>
@@ -260,7 +260,7 @@ export default function CycleTimelineModal({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition cursor-pointer shadow-2xs shrink-0"
+            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-800 transition cursor-pointer shadow-2xs shrink-0"
             aria-label="Cerrar modal"
           >
             <X className="w-4 h-4" />
@@ -272,11 +272,11 @@ export default function CycleTimelineModal({
           {/* 1. Selector Rápido de Presets: 2x2 en móvil */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-[11px] sm:text-xs font-black uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+              <label className="text-[13px] sm:text-xs font-black uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                 <span>Plantillas de Estrés & Ciclos ({planYears} años)</span>
               </label>
-              <span className="text-[10px] sm:text-[11px] text-slate-400 font-medium">
+              <span className="text-[13px] sm:text-[13px] text-slate-600 font-medium">
                 Selecciona para cargar
               </span>
             </div>
@@ -296,7 +296,7 @@ export default function CycleTimelineModal({
                   >
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[10px] font-black uppercase px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-200">
+                        <span className="text-[9px] sm:text-[13px] font-black uppercase px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-200">
                           {preset.badge}
                         </span>
                         {isSelected && <Check className="w-3.5 h-3.5 text-orange-600" />}
@@ -304,12 +304,12 @@ export default function CycleTimelineModal({
                       <div className="font-black text-xs text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-1">
                         {preset.name}
                       </div>
-                      <p className="text-[10px] sm:text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                      <p className="text-[13px] sm:text-[13px] text-slate-600 line-clamp-2 leading-relaxed">
                         {preset.description}
                       </p>
                     </div>
 
-                    <div className="mt-2 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9px] sm:text-[10px] font-bold text-slate-500">
+                    <div className="mt-2 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9px] sm:text-[13px] font-bold text-slate-600">
                       <span>{preset.segments.length} Fases</span>
                       <span className="text-orange-600 font-black">Cargar</span>
                     </div>
@@ -369,7 +369,7 @@ export default function CycleTimelineModal({
                     }`}
                     title={`${seg.name} (${range.isSingleYear ? `Año ${range.startYear}` : `Años ${range.startYear} a ${range.endYear}`}): ${seg.tagline}`}
                   >
-                    <span className="text-[11px] font-black leading-none truncate w-full text-center">
+                    <span className="text-[13px] font-black leading-none truncate w-full text-center">
                       {range.isSingleYear ? `A${range.startYear}` : `A${range.startYear}-${range.endYear}`}
                     </span>
                     <span className="text-[9px] opacity-90 truncate w-full text-center font-bold">
@@ -381,7 +381,7 @@ export default function CycleTimelineModal({
             </div>
 
             {/* Leyenda de la Barra */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] font-medium text-slate-500">
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[13px] font-medium text-slate-600">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
@@ -400,7 +400,7 @@ export default function CycleTimelineModal({
                   Lateral
                 </span>
               </div>
-              <span className="text-slate-400">Total: {totalSegmentYears} años</span>
+              <span className="text-slate-600">Total: {totalSegmentYears} años</span>
             </div>
           </div>
 
@@ -452,7 +452,7 @@ export default function CycleTimelineModal({
                         <button
                           onClick={() => handleMoveSegment(idx, 'up')}
                           disabled={idx === 0}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-100 transition cursor-pointer"
+                          className="p-1.5 rounded-lg text-slate-600 hover:text-slate-700 disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-100 transition cursor-pointer"
                           title="Mover fase hacia arriba"
                         >
                           <ArrowUp className="w-3.5 h-3.5" />
@@ -460,7 +460,7 @@ export default function CycleTimelineModal({
                         <button
                           onClick={() => handleMoveSegment(idx, 'down')}
                           disabled={idx === workingPlan.segments.length - 1}
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-100 transition cursor-pointer"
+                          className="p-1.5 rounded-lg text-slate-600 hover:text-slate-700 disabled:opacity-30 disabled:pointer-events-none hover:bg-slate-100 transition cursor-pointer"
                           title="Mover fase hacia abajo"
                         >
                           <ArrowDown className="w-3.5 h-3.5" />
@@ -481,7 +481,7 @@ export default function CycleTimelineModal({
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
                       {/* Selector de Escenario / Régimen */}
                       <div className="md:col-span-7 space-y-1">
-                        <label className="text-[11px] font-bold text-slate-500">
+                        <label className="text-[13px] font-bold text-slate-600">
                           Régimen o Escenario Histórico:
                         </label>
                         <select
@@ -501,7 +501,7 @@ export default function CycleTimelineModal({
                             </option>
                           ))}
                         </select>
-                        <p className="text-[11px] text-slate-400 font-medium truncate">
+                        <p className="text-[13px] text-slate-600 font-medium truncate">
                           {seg.tagline}
                         </p>
                       </div>
@@ -509,7 +509,7 @@ export default function CycleTimelineModal({
                       {/* Selector de Duración en Años */}
                       <div className="md:col-span-5 flex items-center justify-between sm:justify-end gap-3 pt-1 md:pt-0">
                         <div className="space-y-1">
-                          <label className="text-[11px] font-bold text-slate-500 block">
+                          <label className="text-[13px] font-bold text-slate-600 block">
                             Duración:
                           </label>
                           <div className="inline-flex items-center border border-slate-200 rounded-xl overflow-hidden bg-white shadow-2xs">
@@ -534,7 +534,7 @@ export default function CycleTimelineModal({
 
                         {/* Estimación de Rentabilidad */}
                         <div className="text-right space-y-0.5">
-                          <div className="text-[10px] font-bold text-slate-400 uppercase">
+                          <div className="text-[13px] font-bold text-slate-600 uppercase">
                             Rent. Est. Anual
                           </div>
                           <div
@@ -544,7 +544,7 @@ export default function CycleTimelineModal({
                           >
                             RV: {rvReturn >= 0 ? `+${rvReturn}` : rvReturn}%
                           </div>
-                          <div className="text-[10px] text-slate-500 font-bold">
+                          <div className="text-[13px] text-slate-600 font-bold">
                             Bonos: {bondReturn >= 0 ? `+${bondReturn}` : bondReturn}%
                           </div>
                         </div>
@@ -576,7 +576,7 @@ export default function CycleTimelineModal({
         <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white/95 backdrop-blur-xs border-t border-slate-200/90 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shrink-0">
           <button
             onClick={() => handleApplyPreset('typical_economic_cycle')}
-            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 transition cursor-pointer py-1.5"
+            className="inline-flex items-center justify-center gap-1.5 text-xs font-bold text-slate-600 hover:text-slate-800 transition cursor-pointer py-1.5"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Restablecer a Ciclo Típico</span>

@@ -24,7 +24,7 @@ export default function AnnualProjectionTable({ projections, brokerName }: Annua
             <h3 className="font-bold text-slate-900 text-sm">
               Proyección Anualizada Año a Año ({brokerName})
             </h3>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               Desglose detallado del efecto bola de nieve (capital acumulado, aportaciones y beneficios netos)
             </p>
           </div>
@@ -44,7 +44,7 @@ export default function AnnualProjectionTable({ projections, brokerName }: Annua
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase text-slate-500 font-black border-b border-slate-200">
+          <thead className="bg-slate-50 text-xs uppercase text-slate-600 font-black border-b border-slate-200">
             <tr>
               <th className="px-6 py-3.5 tracking-wider">Año</th>
               <th className="px-6 py-3.5 tracking-wider text-right">Total Aportado</th>
@@ -73,7 +73,7 @@ export default function AnnualProjectionTable({ projections, brokerName }: Annua
                   <td className="px-6 py-3.5 text-right">
                     <div className="flex items-center justify-end gap-1 text-emerald-700 font-bold">
                       <span>+{formatCurrency(row.totalProfit)} €</span>
-                      <span className="text-xs text-slate-400 font-normal">({profitPercentage}%)</span>
+                      <span className="text-xs text-slate-600 font-normal">({profitPercentage}%)</span>
                     </div>
                   </td>
                   <td className="px-6 py-3.5 text-right text-rose-600 font-bold">

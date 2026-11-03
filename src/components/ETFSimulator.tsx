@@ -38,6 +38,7 @@ import AnnualProjectionTable from './AnnualProjectionTable';
 import BrokerComparisonTable from './BrokerComparisonTable';
 import CycleSimulator from './CycleSimulator';
 import CycleTimelineModal from './CycleTimelineModal';
+import HeroLedger from './HeroLedger';
 
 const DEFAULT_PARAMS: SimulationParams = {
   initialCapital: 2000,
@@ -173,11 +174,13 @@ export default function ETFSimulator() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8f5] text-slate-800 font-sans selection:bg-orange-500/20">
-      {/* Fondos decorativos cálidos y luminosos */}
-      <div className="fixed top-0 left-10 w-[500px] h-[500px] bg-amber-200/35 rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed bottom-0 right-10 w-[500px] h-[500px] bg-orange-200/30 rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed top-1/2 right-1/4 w-[400px] h-[400px] bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen text-slate-800 font-sans selection:bg-orange-500/20">
+      {/* Fondo: aurora suave sobre rejilla de puntos */}
+      <div aria-hidden="true" className="fixed inset-0 -z-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -left-32 w-[46rem] h-[46rem] rounded-full bg-orange-400/30 blur-[120px] mix-blend-multiply" />
+        <div className="absolute top-1/3 -right-40 w-[40rem] h-[40rem] rounded-full bg-teal-300/35 blur-[120px] mix-blend-multiply" />
+        <div className="absolute -bottom-40 left-1/4 w-[38rem] h-[38rem] rounded-full bg-amber-300/35 blur-[120px] mix-blend-multiply" />
+      </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-10">
         <div className="space-y-4 sm:space-y-8">
@@ -193,14 +196,14 @@ export default function ETFSimulator() {
                     <span className="text-[#EA580C]">ETF</span> Simulator
                   </h1>
                 </div>
-                <p className="text-[11px] text-slate-500 font-normal leading-tight">
+                <p className="text-[13px] text-slate-600 font-normal leading-tight">
                   Plan de ahorro y optimización
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white border border-slate-200/80 shadow-2xs text-[10px] font-semibold text-slate-700">
+              <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white border border-slate-200/80 shadow-2xs text-[13px] font-semibold text-slate-700">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
                 <span>MiFID II</span>
               </div>
@@ -246,7 +249,7 @@ export default function ETFSimulator() {
                       id="menu-close-btn"
                       aria-label="Cerrar menú"
                       onClick={() => setMobileDrawerOpen(false)}
-                      className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 cursor-pointer shadow-2xs"
+                      className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-800 cursor-pointer shadow-2xs"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -254,7 +257,7 @@ export default function ETFSimulator() {
 
                   {/* Drawer Navigation */}
                   <div className="space-y-1">
-                    <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase px-2 mb-1.5">
+                    <div className="text-[13px] font-bold tracking-wider text-slate-600 uppercase px-2 mb-1.5">
                       Navegación Principal
                     </div>
 
@@ -292,7 +295,7 @@ export default function ETFSimulator() {
                         <span>Plan de Ahorro ETFs</span>
                       </div>
                       <span
-                        className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                        className={`text-[13px] font-bold px-1.5 py-0.5 rounded-full ${
                           activeTab === 'allocation'
                             ? 'bg-white/20 text-white'
                             : 'bg-slate-100 text-slate-600'
@@ -355,7 +358,7 @@ export default function ETFSimulator() {
                         <Trophy className="w-4 h-4 text-purple-500" />
                         <span>Comparativa Brókers</span>
                       </div>
-                      <span className="text-[9px] font-medium text-slate-400">
+                      <span className="text-[9px] font-medium text-slate-600">
                         {bestBroker?.name || 'Trade Rep.'}
                       </span>
                     </button>
@@ -363,7 +366,7 @@ export default function ETFSimulator() {
 
                   {/* Drawer Models and Configuration */}
                   <div className="pt-2 border-t border-slate-200/80 space-y-1">
-                    <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase px-2 mb-1.5">
+                    <div className="text-[13px] font-bold tracking-wider text-slate-600 uppercase px-2 mb-1.5">
                       Modelos y Configuración
                     </div>
 
@@ -375,18 +378,18 @@ export default function ETFSimulator() {
                       className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 hover:bg-white transition-colors font-medium text-xs cursor-pointer text-left"
                     >
                       <div className="flex items-center gap-2.5">
-                        <Layers className="w-4 h-4 text-slate-400" />
+                        <Layers className="w-4 h-4 text-slate-600" />
                         <span>Modelos Bogle & Buffett</span>
                       </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+                      <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
                     </button>
 
                     <div className="flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 text-xs font-medium">
                       <div className="flex items-center gap-2.5">
-                        <Landmark className="w-4 h-4 text-slate-400" />
+                        <Landmark className="w-4 h-4 text-slate-600" />
                         <span>Divisa & Retenciones</span>
                       </div>
-                      <span className="text-[10px] font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
+                      <span className="text-[13px] font-bold text-slate-600 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
                         EUR (€)
                       </span>
                     </div>
@@ -395,14 +398,14 @@ export default function ETFSimulator() {
 
                 {/* Drawer Footer */}
                 <div className="p-4 border-t border-slate-200 bg-white/70 backdrop-blur-xs">
-                  <div className="flex items-center justify-between text-[10px] text-slate-400 mb-2">
+                  <div className="flex items-center justify-between text-[13px] text-slate-600 mb-2">
                     <span>Mercado ETF Europa</span>
                     <span className="inline-flex items-center gap-1 text-emerald-600 font-semibold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                       Abierto
                     </span>
                   </div>
-                  <div className="text-[10px] text-slate-400 text-center font-normal">
+                  <div className="text-[13px] text-slate-600 text-center font-normal">
                     ETF Simulator v2.4 • Directiva MiFID II
                   </div>
                 </div>
@@ -411,34 +414,17 @@ export default function ETFSimulator() {
           )}
 
           {/* ──────────────── Header Desktop (>= md) ──────────────── */}
-          <header className="hidden md:flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
-            <div className="space-y-1">
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">
-                <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 shadow-md shadow-orange-500/20 text-white">
-                  <Activity className="w-5 h-5" />
-                </div>
-                <span>
-                  <span className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
-                    ETF
-                  </span>{' '}
-                  Simulator & Plan de Ahorro
-                </span>
-              </h1>
-              <p className="text-slate-600 text-xs sm:text-sm font-medium">
-                Simula tu plan de ahorro periódico en ETFs, optimiza comisiones y pon a prueba tu cartera ante ciclos históricos.
-              </p>
+          {bestBroker && (
+            <div className="hidden md:block">
+              <HeroLedger
+                finalBalance={bestBroker.finalBalance}
+                totalInvested={bestBroker.totalInvested}
+                brokerName={bestBroker.name}
+                years={params.years}
+                annualReturn={params.annualReturn}
+              />
             </div>
-
-            <div className="flex items-center gap-3">
-              <div className="inline-flex items-center gap-2 bg-white border border-slate-200 px-3.5 py-1.5 rounded-full text-xs text-slate-700 shadow-xs font-bold">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span>API Yahoo Finance · MiFID II</span>
-              </div>
-            </div>
-          </header>
+          )}
 
           {/* ──────────────── Navegación Desktop por Pestañas (>= md) ──────────────── */}
           <div className="hidden md:flex items-center gap-2 border-b border-slate-200 pb-1 overflow-x-auto">
@@ -465,7 +451,7 @@ export default function ETFSimulator() {
               <SlidersHorizontal className="w-4 h-4" />
               <span>Plan de Ahorro ETFs</span>
               <span
-                className={`text-[10px] font-black px-1.5 py-0.2 rounded-full ${
+                className={`text-[13px] font-black px-1.5 py-0.2 rounded-full ${
                   activeTab === 'allocation'
                     ? 'bg-white/20 text-white'
                     : 'bg-slate-200 text-slate-700'
@@ -488,7 +474,7 @@ export default function ETFSimulator() {
               {selectedCycleId ? (
                 <span className="w-2 h-2 rounded-full bg-amber-300 animate-ping" />
               ) : (
-                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-700">
+                <span className="text-[13px] font-bold px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-700">
                   Estrés
                 </span>
               )}
@@ -528,7 +514,7 @@ export default function ETFSimulator() {
               </div>
               <button
                 onClick={() => setPlanMessage(null)}
-                className="text-emerald-700 hover:text-emerald-900 text-[11px] cursor-pointer"
+                className="text-emerald-700 hover:text-emerald-900 text-[13px] cursor-pointer"
               >
                 ✕
               </button>
@@ -562,10 +548,10 @@ export default function ETFSimulator() {
               {/* ──────────────── Tarjetas de Acceso Rápido ("Profundiza en tu plan") ──────────────── */}
               <section aria-labelledby="deep-dive-title" className="pt-1 sm:pt-2 space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <h3 id="deep-dive-title" className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <h3 id="deep-dive-title" className="text-xs font-bold uppercase tracking-wider text-slate-600">
                     Profundiza en tu plan
                   </h3>
-                  <span className="text-[11px] font-semibold text-slate-400 sm:hidden">Acceso rápido</span>
+                  <span className="text-[13px] font-semibold text-slate-600 sm:hidden">Acceso rápido</span>
                 </div>
 
                 {/* Mobile View: Vertical clean list cards like Stitch */}
@@ -587,12 +573,12 @@ export default function ETFSimulator() {
                             {etfs.length} fondos
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                        <p className="text-[13px] text-slate-600 mt-0.5 leading-snug">
                           Ajusta pesos o replica carteras Bogle y Buffett
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
                   </button>
 
                   <button
@@ -612,12 +598,12 @@ export default function ETFSimulator() {
                             Personalizar
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                        <p className="text-[13px] text-slate-600 mt-0.5 leading-snug">
                           Prueba shocks 2008, 2020 e inflación en tu plan
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
                   </button>
 
                   <button
@@ -637,12 +623,12 @@ export default function ETFSimulator() {
                             Costes
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
+                        <p className="text-[13px] text-slate-600 mt-0.5 leading-snug">
                           Compara comisiones: Trade Republic, MyInvestor, ING
                         </p>
                       </div>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
+                    <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
                   </button>
                 </div>
 
@@ -660,7 +646,7 @@ export default function ETFSimulator() {
                       <div className="font-black text-sm text-slate-900 group-hover:text-orange-600 transition-colors">
                         Plan de Ahorro ETFs ({etfs.length})
                       </div>
-                      <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      <p className="text-xs text-slate-600 font-medium leading-relaxed">
                         Ajusta los pesos iniciales y recurrentes de tu cartera o aplica modelos de Bogle y Buffett.
                       </p>
                     </div>
@@ -682,7 +668,7 @@ export default function ETFSimulator() {
                       <div className="font-black text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
                         Simular Ciclos Históricos
                       </div>
-                      <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      <p className="text-xs text-slate-600 font-medium leading-relaxed">
                         Prueba cómo reacciona tu plan de ahorro ante la crisis de 2008, 2020 o el shock inflacionario.
                       </p>
                     </div>
@@ -704,7 +690,7 @@ export default function ETFSimulator() {
                       <div className="font-black text-sm text-slate-900 group-hover:text-violet-600 transition-colors">
                         Comparativa de Brókers
                       </div>
-                      <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                      <p className="text-xs text-slate-600 font-medium leading-relaxed">
                         Analiza comisiones de compra y custodia entre ING, MyInvestor, Trade Republic y Banca Tradicional.
                       </p>
                     </div>
@@ -733,11 +719,11 @@ export default function ETFSimulator() {
                     <div>
                       <h3 className="text-xs sm:text-sm font-black text-slate-900 flex items-center gap-2">
                         <span>Modelos de Inversión Probados (Copiar Estrategias de Éxito)</span>
-                        <span className="text-[10px] bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded-full">
+                        <span className="text-[13px] bg-orange-100 text-orange-800 font-bold px-2 py-0.5 rounded-full">
                           1-Clic
                         </span>
                       </h3>
-                      <p className="text-xs text-slate-500 font-medium">
+                      <p className="text-xs text-slate-600 font-medium">
                         Carga estrategias indexadas de grandes referentes mundiales sobre tu plan de ahorro
                       </p>
                     </div>
@@ -753,24 +739,24 @@ export default function ETFSimulator() {
                     >
                       <div className="space-y-1.5">
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] uppercase font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                          <span className="text-[13px] uppercase font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
                             {item.author.split('(')[0].trim()}
                           </span>
-                          <span className="text-[11px] font-bold text-emerald-700">
+                          <span className="text-[13px] font-bold text-emerald-700">
                             ~{item.expectedAnnualReturn}% / año
                           </span>
                         </div>
                         <div className="font-black text-xs text-slate-900 group-hover:text-orange-600 transition-colors">
                           {item.name}
                         </div>
-                        <p className="text-[11px] text-slate-500 leading-relaxed line-clamp-2">
+                        <p className="text-[13px] text-slate-600 leading-relaxed line-clamp-2">
                           {item.description}
                         </p>
                       </div>
 
-                      <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-bold text-slate-600">
+                      <div className="mt-3 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[13px] font-bold text-slate-600">
                         <span className="text-orange-600 group-hover:underline">Aplicar cartera</span>
-                        <span className="text-slate-400">{item.recommendedYears} años</span>
+                        <span className="text-slate-600">{item.recommendedYears} años</span>
                       </div>
                     </button>
                   ))}
@@ -849,7 +835,7 @@ export default function ETFSimulator() {
 
           {/* ──────────────── Footer ──────────────── */}
           <footer className="pt-6 border-t border-slate-200 text-center">
-            <p className="text-xs text-slate-500 leading-relaxed max-w-2xl mx-auto font-medium">
+            <p className="text-xs text-slate-600 leading-relaxed max-w-2xl mx-auto font-medium">
               Simulador de inversión periódica en ETFs de acumulación según directiva MiFID II.
               Las rentabilidades y comisiones son simuladas y no representan asesoramiento financiero personalizado.
             </p>

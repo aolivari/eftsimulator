@@ -38,13 +38,13 @@ export default function BrokerComparisonTable({
             <h3 className="font-bold text-slate-900 text-sm">
               Comparativa de Brókers — {years} años
             </h3>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               Ordenado por capital acumulado (de mayor a menor)
             </p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full font-bold">
-          <Info className="w-3.5 h-3.5 text-slate-500" />
+          <Info className="w-3.5 h-3.5 text-slate-600" />
           <span>Incluye interés compuesto + ofertas por ETF</span>
         </div>
       </div>
@@ -52,7 +52,7 @@ export default function BrokerComparisonTable({
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase text-slate-500 font-black border-b border-slate-200">
+          <thead className="bg-slate-50 text-xs uppercase text-slate-600 font-black border-b border-slate-200">
             <tr>
               <th className="px-6 py-3.5 tracking-wider">#</th>
               <th className="px-6 py-3.5 tracking-wider">Plataforma / Escenario</th>
@@ -91,7 +91,7 @@ export default function BrokerComparisonTable({
                           ? 'bg-slate-200 text-slate-700'
                           : index === 2
                           ? 'bg-amber-100 text-amber-800'
-                          : 'bg-slate-100 text-slate-500'
+                          : 'bg-slate-100 text-slate-600'
                       }`}
                     >
                       {index + 1}
@@ -105,24 +105,24 @@ export default function BrokerComparisonTable({
                         {broker.name}
                       </span>
                       {isBest && (
-                        <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                        <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
                           <Trophy className="w-3 h-3" />
                           Más eficiente
                         </span>
                       )}
                       {broker.badge && !isBest && (
-                        <span className="inline-flex items-center bg-sky-100 text-sky-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                        <span className="inline-flex items-center bg-sky-100 text-sky-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
                           {broker.badge}
                         </span>
                       )}
                       {isWorst && (
-                        <span className="inline-flex items-center gap-1 bg-rose-100 text-rose-800 text-[10px] font-black px-2 py-0.5 rounded-full uppercase">
+                        <span className="inline-flex items-center gap-1 bg-rose-100 text-rose-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
                           <AlertTriangle className="w-3 h-3" />
                           Mayor lastre
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                    <p className="text-xs text-slate-600 mt-1 leading-relaxed">
                       {broker.description}
                     </p>
                   </td>
