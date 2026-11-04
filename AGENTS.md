@@ -127,6 +127,14 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.
 
+## Reglas de producto (noticias y reportes)
+Estas reglas son de negocio y legales. El linter no las comprueba; cualquier cambio que las afecte necesita revisión humana.
+1. **Información educativa, nunca recomendación.** Ningún texto generado puede decir comprar, vender, reequilibrar ni dar una rentabilidad futura como promesa.
+2. **Lo que se envía a un modelo de IA es público o agregado.** Noticias, datos públicos de los ETF y composición de la cartera. Nunca identificadores de usuario, nombres, emails, importes ni pesos personales.
+3. **Los reportes se generan por composición y fecha, no por usuario ni por visita.** Un proceso programado genera los reportes del día; si falta el de hoy al entrar, se genera con un bloqueo para evitar duplicados.
+4. **Cada reporte muestra sus fuentes** (titular, enlace, fecha) y un aviso legal visible.
+5. **Antes de cambiar de proveedor de IA** (hoy Gemini Flash, con Groq de respaldo), hay que revisar su política de uso de datos en el plan de pago.
+
 ## Trampas conocidas
 1. **`quarterlyContribution` no siempre es trimestral.** En `params` guarda la cantidad **por periodo** (mensual si `contributionFrequency === 'monthly'`). Solo `effectiveParams` la convierte a trimestral. Los motores reciben `effectiveParams`.
 2. **El dev server duplica parte de la API.** `vite.config.ts` reimplementa a mano `/api/search`, `/api/etf` y `/api/quotes`. Si cambias esos archivos, replica el cambio ahí o local y producción se comportarán distinto. Cualquier otro endpoint (`history`, nuevos) se carga directamente desde `api/*.ts`.
