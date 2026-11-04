@@ -23,28 +23,58 @@ export class GitWorktreeManager {
     const safeBranchDir = branchName.replace(/[\/\\]/g, '-');
     const worktreePath = path.resolve(this.worktreesBase, safeBranchDir);
 
-    // Si ya existe la carpeta por un fallo previo, limpiarla
+    // Si ya existe un worktree válido (por ejemplo una ejecución en curso o reintentada), reutilizarlo
+    if (fs.existsSync(worktreePath) && fs.existsSync(path.join(worktreePath, '.git'))) {
+      console.log(`♻️ Reutilizando worktree existente en: ${worktreePath} (Rama: ${branchName})...`);
+      this.ensureWorktreeDeps(worktreePath);
+      return worktreePath;
+    }
+
+    // Si existe carpeta corrupta sin .git, limpiarla
     if (fs.existsSync(worktreePath)) {
       this.removeWorktree(worktreePath, branchName);
     }
 
-    // Traer la última versión de main
+    // Traer la última versión de master sin cambiar la rama activa del repositorio principal
     try {
-      this.runGit('git fetch origin main');
+      this.runGit('git fetch origin master');
     } catch {
-      // Si estamos offline o no hay remoto, usar main local
+      // Si estamos offline o falla el fetch, continuamos con referencias locales
     }
 
-    // Crear la rama y el worktree
     console.log(`🌿 Creando worktree en: ${worktreePath} (Rama: ${branchName})...`);
     try {
-      this.runGit(`git worktree add -b "${branchName}" "${worktreePath}" HEAD`);
-    } catch (err) {
-      // Si la rama ya existe, hacer checkout de esa rama
-      this.runGit(`git worktree add "${worktreePath}" "${branchName}"`);
+      this.runGit(`git worktree add -b "${branchName}" "${worktreePath}" origin/master`);
+    } catch {
+      try {
+        this.runGit(`git worktree add "${worktreePath}" "${branchName}"`);
+      } catch {
+        this.runGit(`git worktree add -b "${branchName}" "${worktreePath}" HEAD`);
+      }
     }
 
+    this.ensureWorktreeDeps(worktreePath);
     return worktreePath;
+  }
+
+  ensureWorktreeDeps(worktreePath) {
+    // Copiar .env.local si existe en la raíz para que el agente disponga de las claves en sus pruebas
+    const rootEnvLocal = path.join(this.projectRoot, '.env.local');
+    const wtEnvLocal = path.join(worktreePath, '.env.local');
+    if (fs.existsSync(rootEnvLocal) && !fs.existsSync(wtEnvLocal)) {
+      try {
+        fs.copyFileSync(rootEnvLocal, wtEnvLocal);
+      } catch {}
+    }
+
+    // Enlazar node_modules para que npm run build / lint / tsc funcionen inmediatamente en el worktree
+    const rootNodeModules = path.join(this.projectRoot, 'node_modules');
+    const wtNodeModules = path.join(worktreePath, 'node_modules');
+    if (fs.existsSync(rootNodeModules) && !fs.existsSync(wtNodeModules)) {
+      try {
+        fs.symlinkSync(rootNodeModules, wtNodeModules, 'junction');
+      } catch {}
+    }
   }
 
   hasChanges(worktreePath) {
@@ -71,14 +101,17 @@ export class GitWorktreeManager {
   commitAndPush(worktreePath, branchName, message) {
     console.log(`💾 Guardando cambios en ${branchName}...`);
     this.runGit('git add -A', worktreePath);
-    
-    // Solo commitear si hay cambios
+
+    // Excluir nunca subir archivos de entorno ni node_modules por seguridad
+    try {
+      this.runGit('git reset HEAD .env .env.local node_modules', worktreePath);
+    } catch {}
+
     if (this.hasChanges(worktreePath)) {
       const escapedMsg = message.replace(/"/g, '\\"');
       this.runGit(`git commit -m "${escapedMsg}"`, worktreePath);
     }
 
-    // Intentar push al repositorio remoto
     try {
       console.log(`🚀 Subiendo rama ${branchName} al repositorio remoto...`);
       this.runGit(`git push -u origin "${branchName}"`, worktreePath);
@@ -91,6 +124,13 @@ export class GitWorktreeManager {
 
   removeWorktree(worktreePath, branchName) {
     console.log(`🧹 Limpiando worktree en: ${worktreePath}...`);
+    // Desvincular junction de node_modules antes de eliminar para no afectar a la raíz
+    const wtNodeModules = path.join(worktreePath, 'node_modules');
+    if (fs.existsSync(wtNodeModules)) {
+      try {
+        fs.unlinkSync(wtNodeModules);
+      } catch {}
+    }
     try {
       this.runGit(`git worktree remove --force "${worktreePath}"`);
     } catch {
