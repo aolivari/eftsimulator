@@ -1,0 +1,154 @@
+{
+  "gemini": {
+    "modelo": "gemini-3-flash-preview",
+    "proveedor": "gemini",
+    "totalNoticias": 20,
+    "noticiasValidas": 20,
+    "tasaJsonValido": 100,
+    "tasaExitoPrimerIntento": 0,
+    "totalReintentos": 20,
+    "tasaConformidadEsquema": 100,
+    "tasaCumplimientoLegal": 100,
+    "fidelidadMedia": 95.8,
+    "alucinacionesTotales": 1,
+    "latenciaMediaMs": 4852,
+    "latenciaMedianaMs": 1562,
+    "latenciaP95Ms": 22700,
+    "latenciaMinMs": 1055,
+    "latenciaMaxMs": 25648,
+    "totalPromptTokens": 14529,
+    "totalCompletionTokens": 3489,
+    "totalTokens": 18018,
+    "mediaTokensPorNoticia": 901,
+    "costeTotalUsd": 0.0028485000000000008,
+    "costeTotalEur": 0.0026375,
+    "costeMedioPorNoticiaEur": 0.000131875,
+    "costePlanDiario10NoticiasEur": 0.00131875,
+    "costePlanDiario20NoticiasEur": 0.0026375,
+    "costeMensual100PlanesEur": 3.95625,
+    "superaUmbrales": false,
+    "detalleUmbrales": {
+      "jsonValidoPrimerIntento": {
+        "esperado": 95,
+        "obtenido": 0,
+        "aprobado": false
+      },
+      "jsonValidoFinal": {
+        "esperado": 100,
+        "obtenido": 100,
+        "aprobado": true
+      },
+      "conformidadEsquema": {
+        "esperado": 100,
+        "obtenido": 100,
+        "aprobado": true
+      },
+      "cumplimientoLegal": {
+        "esperado": 100,
+        "obtenido": 100,
+        "aprobado": true
+      },
+      "fidelidadFuente": {
+        "esperado": 85,
+        "obtenido": 95.8,
+        "aprobado": true
+      },
+      "latenciaMedia": {
+        "esperado": 6000,
+        "obtenido": 4852,
+        "aprobado": true
+      },
+      "latenciaP95": {
+        "esperado": 12000,
+        "obtenido": 22700,
+        "aprobado": false
+      },
+      "costePorNoticia": {
+        "esperado": 0.001,
+        "obtenido": 0.000131875,
+        "aprobado": true
+      },
+      "costePlanDiario20": {
+        "esperado": 0.02,
+        "obtenido": 0.0026375,
+        "aprobado": true
+      }
+    }
+  },
+  "groq": {
+    "modelo": "qwen/qwen3.8-27b",
+    "proveedor": "groq",
+    "totalNoticias": 20,
+    "noticiasValidas": 20,
+    "tasaJsonValido": 100,
+    "tasaExitoPrimerIntento": 30,
+    "totalReintentos": 17,
+    "tasaConformidadEsquema": 100,
+    "tasaCumplimientoLegal": 100,
+    "fidelidadMedia": 96.4,
+    "alucinacionesTotales": 0,
+    "latenciaMediaMs": 622,
+    "latenciaMedianaMs": 627,
+    "latenciaP95Ms": 753,
+    "latenciaMinMs": 454,
+    "latenciaMaxMs": 785,
+    "totalPromptTokens": 15004,
+    "totalCompletionTokens": 3421,
+    "totalTokens": 18425,
+    "mediaTokensPorNoticia": 921,
+    "costeTotalUsd": 0.0050534,
+    "costeTotalEur": 0.004679074074074074,
+    "costeMedioPorNoticiaEur": 0.00023395370370370372,
+    "costePlanDiario10NoticiasEur": 0.002339537037037037,
+    "costePlanDiario20NoticiasEur": 0.004679074074074074,
+    "costeMensual100PlanesEur": 7.018611111111111,
+    "superaUmbrales": false,
+    "detalleUmbrales": {
+      "jsonValidoPrimerIntento": {
+        "esperado": 95,
+        "obtenido": 30,
+        "aprobado": false
+      },
+      "jsonValidoFinal": {
+        "esperado": 100,
+        "obtenido": 100,
+        "aprobado": true
+      },
+      "conformidadEsquema": {
+        "esperado": 100,
+        "obtenido": 100,
+        "aprobado": true
+      },
+      "cumplimientoLegal": {
+        "esperado": 100,
+        "obtenido": 100,
+        "aprobado": true
+      },
+      "fidelidadFuente": {
+        "esperado": 85,
+        "obtenido": 96.4,
+        "aprobado": true
+      },
+      "latenciaMedia": {
+        "esperado": 6000,
+        "obtenido": 622,
+        "aprobado": true
+      },
+      "latenciaP95": {
+        "esperado": 12000,
+        "obtenido": 753,
+        "aprobado": true
+      },
+      "costePorNoticia": {
+        "esperado": 0.001,
+        "obtenido": 0.00023395370370370372,
+        "aprobado": true
+      },
+      "costePlanDiario20": {
+        "esperado": 0.02,
+        "obtenido": 0.004679074074074074,
+        "aprobado": true
+      }
+    }
+  }
+}
