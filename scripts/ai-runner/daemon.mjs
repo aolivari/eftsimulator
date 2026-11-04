@@ -109,7 +109,11 @@ REGLAS DE TRABAJO:
 1. Analiza el código actual en este repositorio antes de hacer cambios.
 2. Escribe código TypeScript/React limpio, sin romper el build.
 3. Asegúrate de que npm run build o tests compilen sin errores antes de finalizar.
-4. Trabaja de forma 100% autónoma.`;
+4. Trabaja de forma 100% autónoma.
+5. OBLIGATORIO: Cuando termines de implementar y verificar el código, crea un archivo llamado "AI_SUMMARY.md" en la raíz del proyecto explicando detalladamente:
+   - Qué cambios y soluciones has implementado.
+   - Qué archivos modificaste o creaste y por qué.
+   - Cómo puede el usuario probar o revisar tu solución.`;
 
       // 2. Ejecutar el agente correspondiente
       let result = null;
@@ -119,9 +123,30 @@ REGLAS DE TRABAJO:
         result = await runGeminiAgent({ model, prompt, worktreePath });
       }
 
+      if (!result.success) {
+        console.warn(`❌ El agente ${model} no pudo completar la tarea.`);
+        await this.trello.addComment(
+          card.id,
+          `⚠️ **${model.toUpperCase()}** no pudo completar la tarea (código de salida con error).\n` +
+          `Si usas Claude, asegúrate de haber ejecutado \`npx @anthropic-ai/claude-code\` una vez para iniciar sesión con tu cuenta de Claude Pro.`
+        );
+        return;
+      }
+
+      // Leer el archivo de resumen AI_SUMMARY.md si el agente lo generó
+      const summaryFilePath = path.resolve(worktreePath, 'AI_SUMMARY.md');
+      let aiExplanation = '';
+      if (fs.existsSync(summaryFilePath)) {
+        aiExplanation = fs.readFileSync(summaryFilePath, 'utf8').trim();
+        // Borramos el archivo temporal antes del commit para no ensuciar el repo
+        try { fs.unlinkSync(summaryFilePath); } catch {}
+      }
+
       // 3. Comprobar si hubo cambios y hacer commit & push
       const hasChanges = this.git.hasChanges(worktreePath);
+      const changedFiles = this.git.getChangedFilesList(worktreePath);
       let pushed = false;
+
       if (hasChanges) {
         const commitMsg = `feat(ai-${model}): ${card.name}\n\nResuelve tarjeta Trello: ${card.url || card.name}`;
         pushed = this.git.commitAndPush(worktreePath, branchName, commitMsg);
@@ -135,13 +160,25 @@ REGLAS DE TRABAJO:
         await this.trello.moveCard(card.id, boardMap.reviewListId);
       }
 
-      // 5. Añadir comentario final con reporte
-      const statusIcon = hasChanges ? '✅' : 'ℹ️';
-      const commentMsg = `${statusIcon} **${model.toUpperCase()}** ha finalizado la tarea.\n\n` +
-        `* **Rama:** \`${branchName}\`\n` +
-        `* **Cambios:** ${hasChanges ? 'Commiteados y listos para revisión' : 'No requirió cambios en código'}\n` +
-        (pushed ? `* **Git Push:** Subido al repositorio remoto\n` : '') +
-        (result.summary ? `* **Resumen:** ${result.summary}\n` : '');
+      // 5. Añadir comentario final detallado con el informe completo
+      let commentMsg = `🎉 **${model.toUpperCase()} ha completado la tarea**\n\n` +
+        `🌿 **Rama de trabajo:** \`${branchName}\`\n\n`;
+
+      if (aiExplanation) {
+        commentMsg += `### 📋 Explicación de los cambios:\n${aiExplanation}\n\n`;
+      } else if (result.summary) {
+        commentMsg += `### 📋 Resumen:\n${result.summary}\n\n`;
+      }
+
+      if (changedFiles) {
+        commentMsg += `### 📁 Archivos modificados:\n\`\`\`\n${changedFiles}\n\`\`\`\n\n`;
+      }
+
+      if (pushed) {
+        commentMsg += `🚀 **Estado:** Rama subida a GitHub. Ya puedes revisarla y fusionarla cuando desees.\n`;
+      } else if (!hasChanges) {
+        commentMsg += `ℹ️ **Nota:** El agente revisó los requisitos pero no requirió cambios en código.\n`;
+      }
 
       await this.trello.addComment(card.id, commentMsg);
 

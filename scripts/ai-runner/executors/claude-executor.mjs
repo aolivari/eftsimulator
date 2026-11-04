@@ -7,11 +7,10 @@ export async function runClaudeAgent({ model, prompt, worktreePath }) {
   // Mapear modelo si se especifica
   const modelFlag = model === 'opus' ? 'opus' : model === 'haiku' ? 'haiku' : 'sonnet';
 
-  return new Promise((resolve, reject) => {
-    // Se ejecuta en modo desatendido (headless): -p para prompt, sin pedir permisos
-    const child = spawn('npx', ['-y', '@anthropic-ai/claude-code', '--dangerously-skip-permissions', '--model', modelFlag, '-p', prompt], {
+  return new Promise((resolve) => {
+    // Usamos npx con args directos sin shell para evitar advertencias de escape
+    const child = spawn('npx.cmd', ['@anthropic-ai/claude-code', '--dangerously-skip-permissions', '--model', modelFlag, '-p', prompt], {
       cwd: worktreePath,
-      shell: true,
       stdio: 'inherit',
       env: {
         ...process.env,
@@ -23,14 +22,14 @@ export async function runClaudeAgent({ model, prompt, worktreePath }) {
         console.log(`✅ Agente Claude (${model}) ha completado la tarea.`);
         resolve({ success: true, code });
       } else {
-        console.warn(`⚠️ Agente Claude finalizó con código: ${code}`);
+        console.warn(`⚠️ Agente Claude finalizó con código de error: ${code}`);
         resolve({ success: false, code });
       }
     });
 
     child.on('error', (err) => {
-      console.error(`❌ Error ejecutando Claude CLI:`, err);
-      reject(err);
+      console.error(`❌ Error ejecutando Claude CLI:`, err.message);
+      resolve({ success: false, error: err.message });
     });
   });
 }

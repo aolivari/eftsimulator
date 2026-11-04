@@ -52,6 +52,22 @@ export class GitWorktreeManager {
     return status.length > 0;
   }
 
+  getChangedFilesList(worktreePath) {
+    try {
+      return this.runGit('git status --short', worktreePath);
+    } catch {
+      return '';
+    }
+  }
+
+  getDiffStat(worktreePath) {
+    try {
+      return this.runGit('git diff --stat HEAD', worktreePath);
+    } catch {
+      return '';
+    }
+  }
+
   commitAndPush(worktreePath, branchName, message) {
     console.log(`💾 Guardando cambios en ${branchName}...`);
     this.runGit('git add -A', worktreePath);
