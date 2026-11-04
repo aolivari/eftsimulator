@@ -3,7 +3,7 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { loadEnv } from '../config.mjs';
 
-async function callGeminiWithRetry(url, payload, maxRetries = 5) {
+async function callGeminiWithRetry(url, payload, maxRetries = 8) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     const res = await fetch(url, {
       method: 'POST',
@@ -12,8 +12,20 @@ async function callGeminiWithRetry(url, payload, maxRetries = 5) {
     });
 
     if (res.status === 429) {
-      console.warn(`⏳ Límite por minuto de la capa gratuita alcanzado (429). Pausando 15s antes de continuar (Intento ${attempt}/${maxRetries})...`);
-      await new Promise((r) => setTimeout(r, 15000));
+      let waitSeconds = 30 * attempt;
+      try {
+        const errJson = await res.json();
+        const retryInfo = errJson.error?.details?.find((d) => d['@type']?.includes('RetryInfo'));
+        if (retryInfo?.retryDelay) {
+          const parsed = parseInt(retryInfo.retryDelay, 10);
+          if (!isNaN(parsed) && parsed > 0) {
+            waitSeconds = Math.max(parsed + 5, waitSeconds);
+          }
+        }
+      } catch {}
+
+      console.warn(`⏳ Límite por minuto de la capa gratuita alcanzado (429). Pausando ${waitSeconds}s para renovar la ventana de cuota (Intento ${attempt}/${maxRetries})...`);
+      await new Promise((r) => setTimeout(r, waitSeconds * 1000));
       continue;
     }
 
@@ -93,20 +105,20 @@ export async function runGeminiAgent({ model, prompt, worktreePath }) {
     },
   ];
 
-  const systemInstruction = `Eres un desarrollador senior autónomo. Tu objetivo es resolver la tarea de programación descrita en el prompt.
+  const systemInstruction = `Eres un desarrollador senior autónomo. Tu objetivo es resolver la tarea de programación descrita en el prompt de la forma más directa y eficiente posible.
 Tienes herramientas para leer archivos, editarlos y ejecutar comandos en la terminal.
 
 ${agentsMdContent ? `--- GUÍA DE ARQUITECTURA Y REGLAS DEL PROYECTO (AGENTS.md) ---
 ${agentsMdContent}
 ---------------------------------------------------------------` : ''}
 
-Reglas operativas:
-1. Sigue estrictamente las reglas de AGENTS.md (idioma español, arquitectura feature-first, shared/ui, types, etc.).
-2. Inspecciona los archivos relevantes primero usando read_file.
-3. Realiza los cambios necesarios con write_file.
-4. Ejecuta comandos de validación (ej: npm run build o tests).
-5. Crea el archivo AI_SUMMARY.md explicando detalladamente los cambios antes de finalizar.
-6. Cuando todo esté verificado y compilando sin errores, llama a finish_task.`;
+Reglas operativas estrictas para máxima eficiencia:
+1. Sigue estrictamente las reglas de AGENTS.md (idioma español, feature-first, etc.).
+2. NO pierdas pasos ejecutando comandos exploratorios redundantes (no hagas múltiples "ls", "dir", "node -v").
+3. Ve DIRECTO al grano: lee únicamente los archivos que necesitas modificar o crear.
+4. Escribe la solución con write_file.
+5. Ejecuta "npm run build" o tests de verificación.
+6. Crea el archivo AI_SUMMARY.md explicando los cambios y llama inmediatamente a finish_task.`;
 
   const contents = [
     {
@@ -190,8 +202,8 @@ Reglas operativas:
       return { success: true, summary: finalSummary };
     }
 
-    // Pausa preventiva de 2 segundos para no agotar la ráfaga de peticiones por minuto
-    await new Promise((r) => setTimeout(r, 2000));
+    // Pausa preventiva de 2.5s entre pasos para suavizar la ráfaga
+    await new Promise((r) => setTimeout(r, 2500));
   }
 
   return { success: true, summary: 'Ejecución finalizada tras iteraciones máximas.' };
