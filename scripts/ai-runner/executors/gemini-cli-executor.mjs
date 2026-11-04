@@ -17,6 +17,66 @@ function resolveAntigravityBin() {
   throw new Error(`No se encontró el binario local de Antigravity en ${candidate}`);
 }
 
+function isProcessAlive(pid) {
+  if (!pid || typeof pid !== 'number') return false;
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (err) {
+    return err.code === 'EPERM';
+  }
+}
+
+function resolveAntigravityDaemonEnv() {
+  // Si ya vienen en el entorno, las respetamos
+  if (process.env.ANTIGRAVITY_LS_ADDRESS && process.env.ANTIGRAVITY_CSRF_TOKEN) {
+    return {
+      ...process.env,
+    };
+  }
+
+  const daemonDir = path.join(os.homedir(), '.gemini', 'antigravity', 'daemon');
+  if (!fs.existsSync(daemonDir)) {
+    throw new Error(`No se encontró el directorio del daemon de Antigravity en ${daemonDir}. Asegúrate de tener Antigravity abierto.`);
+  }
+
+  const files = fs
+    .readdirSync(daemonDir)
+    .filter((f) => f.startsWith('hub_') && f.endsWith('.json'))
+    .map((f) => {
+      const full = path.join(daemonDir, f);
+      return { name: f, full, mtime: fs.statSync(full).mtimeMs };
+    })
+    .sort((a, b) => b.mtime - a.mtime);
+
+  for (const file of files) {
+    try {
+      const hub = JSON.parse(fs.readFileSync(file.full, 'utf8'));
+      if (hub.httpPort && hub.csrfToken && isProcessAlive(hub.pid)) {
+        return {
+          ...process.env,
+          ANTIGRAVITY_LS_ADDRESS: `localhost:${hub.httpPort}`,
+          ANTIGRAVITY_CSRF_TOKEN: hub.csrfToken,
+        };
+      }
+    } catch {}
+  }
+
+  // Fallback al archivo más reciente aunque no hayamos podido verificar el PID
+  if (files.length > 0) {
+    const hub = JSON.parse(fs.readFileSync(files[0].full, 'utf8'));
+    if (hub.httpPort && hub.csrfToken) {
+      return {
+        ...process.env,
+        ANTIGRAVITY_LS_ADDRESS: `localhost:${hub.httpPort}`,
+        ANTIGRAVITY_CSRF_TOKEN: hub.csrfToken,
+      };
+    }
+  }
+
+  throw new Error('No se encontró ningún proceso activo de Antigravity en ~/.gemini/antigravity/daemon.');
+}
+
 export async function runGeminiCliAgent({ model, prompt, worktreePath, cardTitle }) {
   const env = loadEnv();
   const modelFlag =
@@ -24,7 +84,16 @@ export async function runGeminiCliAgent({ model, prompt, worktreePath, cardTitle
       ? env.AI_RUNNER_MODEL_ARGON || 'pro'
       : env.AI_RUNNER_MODEL_FLASH || 'flash';
 
-  const agyBin = resolveAntigravityBin();
+  let agyBin;
+  let agyEnv;
+  try {
+    agyBin = resolveAntigravityBin();
+    agyEnv = resolveAntigravityDaemonEnv();
+  } catch (err) {
+    console.error(`❌ Error preparando entorno de Antigravity:`, err.message);
+    return { success: false, error: err.message };
+  }
+
   const title = `[${model.toUpperCase()}] ${cardTitle || 'Tarea Trello'}`.slice(0, 80);
 
   const isolatedPrompt = `${prompt}
@@ -43,7 +112,7 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
 5. No hagas preguntas al usuario; toma las decisiones técnicas necesarias y completa la tarea de principio a fin.
 =======================================================================`;
 
-  console.log(`🤖 Lanzando agente local de Antigravity (${model.toUpperCase()} -> --model=${modelFlag})...`);
+  console.log(`🤖 Lanzando agente local de Antigravity (${model.toUpperCase()} -> --model=${modelFlag} en ${agyEnv.ANTIGRAVITY_LS_ADDRESS})...`);
   console.log(`📂 Worktree asignado: ${worktreePath}`);
 
   const spawnRes = spawnSync(
@@ -51,6 +120,7 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
     ['agentapi', 'new-conversation', `--model=${modelFlag}`, `--title=${title}`, isolatedPrompt],
     {
       cwd: worktreePath,
+      env: agyEnv,
       encoding: 'utf8',
       maxBuffer: 10 * 1024 * 1024,
     }
