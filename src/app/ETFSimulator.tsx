@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   Landmark,
+  Newspaper,
 } from 'lucide-react';
 import type {
   SimulationParams,
@@ -34,6 +35,7 @@ import { CarteraView, type FamousPortfolioModel } from '../features/cartera';
 import { CiclosView, CycleTimelineModal } from '../features/ciclos';
 import { ProyeccionAnualView } from '../features/proyeccion-anual';
 import { BrokersView } from '../features/brokers';
+import { NoticiasView } from '../features/noticias';
 
 const DEFAULT_PARAMS: SimulationParams = {
   initialCapital: 2000,
@@ -49,7 +51,7 @@ export function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
   const [etfs, setEtfs] = useState<ETFAsset[]>(POPULAR_ETFS);
   const [activeTab, setActiveTab] = useState<
-    'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers'
+    'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news'
   >('overview');
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [isTimelineModalOpen, setIsTimelineModalOpen] = useState(false);
@@ -381,6 +383,24 @@ export function ETFSimulator() {
                         {bestBroker?.name || 'Trade Rep.'}
                       </span>
                     </button>
+
+                    <button
+                      onClick={() => {
+                        setActiveTab('news');
+                        setMobileDrawerOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
+                        activeTab === 'news'
+                          ? 'bg-orange-500 text-white shadow-xs'
+                          : 'text-slate-700 hover:bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Newspaper className="w-4 h-4 text-sky-500" />
+                        <span>Noticias</span>
+                      </div>
+                      <ChevronRight className="w-3.5 h-3.5 opacity-70" />
+                    </button>
                   </div>
 
                   {/* Drawer Models and Configuration */}
@@ -492,6 +512,11 @@ export function ETFSimulator() {
                 <Trophy className="w-4 h-4" />
                 <span>Comparativa Brókers</span>
               </Tabs.Trigger>
+
+              <Tabs.Trigger value="news">
+                <Newspaper className="w-4 h-4" />
+                <span>Noticias</span>
+              </Tabs.Trigger>
             </Tabs.List>
 
             {/* Mensaje de estrategia cargada */}
@@ -586,6 +611,11 @@ export function ETFSimulator() {
             {/* Pestaña 5 → Feature: brokers */}
             <Tabs.Panel value="brokers">
               <BrokersView results={results} years={params.years} />
+            </Tabs.Panel>
+
+            {/* Pestaña 6 → Feature: noticias (placeholder) */}
+            <Tabs.Panel value="news">
+              <NoticiasView />
             </Tabs.Panel>
           </Tabs.Root>
 
