@@ -1,12 +1,14 @@
-# Puesta en marcha: cuentas de usuario, Monte Carlo y predicción IA (Kronos)
+# Puesta en marcha: cuentas de usuario, Vercel y (opcional) Kronos
 
 El simulador funciona sin nada de esto: el **Monte Carlo** se calcula en el navegador con el histórico de `/api/history`.
-Las **cuentas** (guardar planes) y la **predicción Kronos** se activan cuando configuras lo siguiente.
+Las **cuentas** (login y planes guardados) se activan configurando Supabase (sección 1) y Vercel (sección 3).
+La sección 2 (Kronos) es **opcional y está archivada**: la web no la usa (ver [`backtest-kronos.md`](backtest-kronos.md)).
 
 ```
-Navegador ──► Vercel /api/forecast ──► Supabase (caché + límites por usuario)
-   │                    └──────────► Google Cloud Run (Kronos-mini, CPU)
-   └──► Supabase Auth (login) + tabla plans (planes por usuario)
+Navegador ──► Supabase Auth (email / Google) + tabla plans (RLS: cada usuario ve lo suyo)
+   └──────► Vercel /api/history ──► Yahoo Finance   (histórico para el Monte Carlo)
+
+Archivado: Vercel /api/forecast ──► Supabase (caché) ──► Cloud Run (Kronos)
 ```
 
 ---
@@ -17,13 +19,14 @@ Navegador ──► Vercel /api/forecast ──► Supabase (caché + límites p
 2. **SQL Editor → New query**: pega el contenido de [`supabase/schema.sql`](../supabase/schema.sql) y pulsa **Run**.
    Crea las tablas `profiles`, `plans`, `forecast_cache` y `forecast_requests` con sus políticas RLS.
 3. **Authentication → URL Configuration**:
-   - *Site URL*: la URL de producción (p. ej. `https://tu-dominio.vercel.app`).
-   - *Redirect URLs*: añade también `http://localhost:5173` para desarrollo.
+   - *Site URL*: la URL de producción (`https://eftsimulator.vercel.app`).
+   - *Redirect URLs*: la de producción, `http://localhost:5173` para desarrollo y las URLs de los despliegues de prueba que quieras usar.
 4. **Authentication → Sign In / Providers → Email**: activado (por defecto). Deja "Confirm email" activado.
 5. (Opcional) **Login con Google** (luego pon `VITE_AUTH_GOOGLE=true`):
-   1. En Google Cloud Console → *APIs & Services → Credentials → Create credentials → OAuth client ID* (tipo *Web application*).
-   2. *Authorized redirect URI*: `https://<tu-proyecto>.supabase.co/auth/v1/callback`
-   3. Copia *Client ID* y *Client secret* en Supabase → *Providers → Google* y actívalo.
+   1. Usa un proyecto de Google Cloud **sin facturación** (el nuestro es `eft-simulator-auth`). Para crearlo sin que la consola pida una cuenta de facturación: `gcloud projects create eft-simulator-auth`.
+   2. *Google Auth Platform* → **Comenzar**: nombre de la app, email de asistencia, público **Externo**. Luego **Público → Publicar aplicación** (si no, solo entran los usuarios de prueba).
+   3. **Clientes → Crear cliente** → *Aplicación web*, con *URI de redireccionamiento autorizado* `https://<tu-proyecto>.supabase.co/auth/v1/callback`. Deja desmarcado "Use this client for an AI-powered agent".
+   4. Copia el *Client ID* y el *Client secret* en Supabase → *Sign In / Providers → Google*, actívalo y guarda.
 6. **Project Settings → API**: copia
    - `Project URL` (Project Settings → Data API) → `VITE_SUPABASE_URL`
    - *Publishable key* (`sb_publishable_…`) → `VITE_SUPABASE_ANON_KEY`
@@ -31,7 +34,9 @@ Navegador ──► Vercel /api/forecast ──► Supabase (caché + límites p
 
 ---
 
-## 2. Servicio Kronos en Google Cloud Run
+## 2. (Opcional, archivado) Servicio Kronos en Google Cloud Run
+
+> La web no usa Kronos: en el backtest no superó a las referencias sencillas. Esta sección solo hace falta para volver a experimentar con él.
 
 Carpeta [`kronos-service/`](../kronos-service): FastAPI + Kronos-mini (licencia MIT, código fijado a un commit concreto),
 adaptado de `update_predictions.py` de Kronos-demo para usar datos diarios de Yahoo Finance (ventana de 60 sesiones) y devolver 32 trayectorias a 63 sesiones (~3 meses).
@@ -95,7 +100,33 @@ curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -H "x-api-ke
 
 ## 3. Vercel
 
-En *Project → Settings → Environment Variables* añade todas las de [`.env.example`](../.env.example) y vuelve a desplegar.
+Variables necesarias, para **Production** y **Preview**: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` y `VITE_AUTH_GOOGLE`. Las de Kronos solo hacen falta si se reactiva.
+
+**Desde el panel:** *Project → Settings → Environment Variables*.
+
+**Desde la CLI**, leyendo los valores de `.env.local` sin mostrarlos (PowerShell, en la raíz del proyecto):
+
+```bash
+npx vercel login
+```
+
+```bash
+npx vercel link --yes --project eftsimulator
+```
+
+```powershell
+$envs = @{}; Get-Content .env.local | ForEach-Object { if ($_ -match '^([A-Z_]+)="?(.*?)"?$') { $envs[$matches[1]] = $matches[2] } }; foreach ($name in 'VITE_SUPABASE_URL','VITE_SUPABASE_ANON_KEY','SUPABASE_SERVICE_ROLE_KEY','VITE_AUTH_GOOGLE') { $tmp = New-TemporaryFile; [IO.File]::WriteAllText($tmp, $envs[$name]); cmd /c "npx vercel env rm $name production -y >nul 2>&1"; cmd /c "npx vercel env add $name production < `"$tmp`""; Remove-Item $tmp }
+```
+
+El valor pasa por un archivo temporal sin salto de línea final, porque un `\n` colado rompería la URL o las claves. Vercel guarda la *secret key* como tipo **Secret** y no deja leerla de vuelta: es normal.
+
+**Las variables `VITE_*` se incrustan al compilar**, así que después de cambiarlas hay que redesplegar:
+
+```bash
+npx vercel redeploy https://eftsimulator.vercel.app --environment=production
+```
+
+Si no aparece el botón "Iniciar sesión" en producción, la web se compiló sin `VITE_SUPABASE_URL` o sin `VITE_SUPABASE_ANON_KEY`.
 
 ## 4. Desarrollo local
 
@@ -103,7 +134,7 @@ En *Project → Settings → Environment Variables* añade todas las de [`.env.e
 cp .env.example .env.local
 ```
 
-Rellena los valores y ejecuta `npm run dev`. El plugin de Vite carga `api/forecast.ts` y `api/history.ts` igual que en Vercel.
+Rellena los valores y ejecuta `npm run dev`. El plugin de Vite sirve las funciones de `api/` igual que Vercel (ver la trampa 2 de [`AGENTS.md`](../AGENTS.md)).
 
 ---
 
@@ -111,13 +142,14 @@ Rellena los valores y ejecuta `npm run dev`. El plugin de Vite carga `api/foreca
 
 | Pieza | Qué hace |
 |---|---|
-| `src/engine/monteCarlo.ts` | 3.000 escenarios por trimestre. Remuestrea trimestres reales (todos los ETFs a la vez → conserva correlación), recentrados en la rentabilidad esperada de cada ETF. Aplica comisiones y custodia del bróker, y el IRPF de los ETFs de distribución. |
-| `api/history.ts` | Rentabilidades mensuales desde 2005. Antes del lanzamiento de cada ETF rellena con un índice equivalente (ACWI, SPY, QQQ, AGG, GLD, XLP). |
-| `api/forecast.ts` | Requiere sesión. Usa la caché compartida de Supabase (20 h por ticker); si falta, llama a Cloud Run. Límite de cálculos nuevos por usuario y día. |
-| `kronos-service/app.py` | Kronos-mini sobre 60 velas diarias. Trayectorias independientes, volatilidad predicha vs. la de los últimos 3 meses. `?asof=AAAA-MM-DD` predice con datos hasta esa fecha (backtest). |
-| Integración | El **primer trimestre** de cada escenario usa la dispersión de las trayectorias de Kronos, con la mediana fijada en la rentabilidad esperada del ETF (se descarta su dirección). Los siguientes trimestres salen del histórico. |
-| `scripts/backtest-kronos.mjs` | Compara las predicciones de Kronos en fechas pasadas con lo que ocurrió y con referencias ingenuas. `node scripts/backtest-kronos.mjs VWCE,SXR8 24` |
+| `src/engine/monteCarlo.ts` | 3.000 escenarios por trimestre. Remuestrea trimestres reales (todos los ETFs a la vez → conserva correlación), recentrados en la rentabilidad esperada de cada ETF. Aplica comisiones y custodia del bróker, y el IRPF de los ETFs de distribución. **Prueba de estrés**: inserta un ciclo de `historicalCycles.ts` tal cual ocurrió, desde el año elegido. |
+| `api/history.ts` | Rentabilidades mensuales desde 2005. Antes del lanzamiento de cada ETF rellena con un índice equivalente (ACWI, SPY, QQQ, AGG, GLD, XLP, BIL). |
+| `src/lib/plans.ts` + `AccountBar.tsx` | Planes por usuario en la tabla `plans` de Supabase, protegidos por RLS. |
+| `api/forecast.ts` *(archivado)* | Requiere sesión. Caché compartida en Supabase (20 h por ticker); si falta, llama a Cloud Run. Límite de cálculos nuevos por usuario y día. |
+| `kronos-service/app.py` *(archivado)* | Kronos (`mini`, `small` o `base`) sobre 60 velas diarias. Opciones `detrend`, `temperature` y `asof=AAAA-MM-DD` (backtest). |
+| `scripts/backtest-kronos.mjs` | Compara las predicciones de Kronos en fechas pasadas con lo que ocurrió y con referencias ingenuas. `node scripts/backtest-kronos.mjs VWCE,SXR8 24 "detrend=true"` |
 
 **Limitaciones**
-- Kronos tiene un sesgo de reversión a la media de la ventana: en ETFs con tendencia alcista predice caídas de forma sistemática. Por eso solo se usa su volatilidad. Ver resultados en [`docs/backtest-kronos.md`](backtest-kronos.md).
+- La media de los escenarios sale de la rentabilidad esperada de cada ETF: es la suposición que más pesa.
 - Los índices de relleno están en USD, así que no incluyen el efecto divisa EUR/USD.
+- Los ciclos de crisis van del máximo al mínimo; la recuperación posterior sale del remuestreo, normalmente más lenta que el rebote real.
