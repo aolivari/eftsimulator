@@ -16,7 +16,7 @@ export async function runGeminiAgent({ model, prompt, worktreePath }) {
     return { success: true, summary: 'Archivo generado en espera de GEMINI_API_KEY' };
   }
 
-  const modelId = model === 'argon' || model === 'pro' ? 'gemini-1.5-pro' : 'gemini-2.0-flash';
+  const modelId = 'gemini-3.5-flash';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
 
   // Cargar AGENTS.md si existe en el proyecto
