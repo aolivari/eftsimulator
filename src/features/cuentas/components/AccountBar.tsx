@@ -24,6 +24,7 @@ import {
   updatePlan,
 } from '../services/plansService';
 import type { AccountBarProps, SavedPlan } from '../types';
+import { deleteAccount } from '../services/accountService';
 import AuthModal from './AuthModal';
 
 const sameName = (a: string, b: string) =>
@@ -85,6 +86,25 @@ export default function AccountBar({
     } finally {
       setBusy(false);
     }
+  };
+
+  const handleDeleteAccount = () => {
+    const token = auth.session?.access_token;
+    if (!token) return;
+    if (
+      !window.confirm(
+        'Vas a darte de baja. Se borrarán tu cuenta y todos tus planes guardados. Esta acción no se puede deshacer. ¿Continuar?'
+      )
+    ) {
+      return;
+    }
+    if (!window.confirm('Última confirmación: ¿de verdad quieres borrar tu cuenta?')) return;
+    run(async () => {
+      await deleteAccount(token);
+      setPlans([]);
+      setActivePlanId(null);
+      setToast('Tu cuenta se ha dado de baja');
+    });
   };
 
   const overwrite = (plan: SavedPlan) =>
@@ -231,6 +251,16 @@ export default function AccountBar({
               className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-rose-600 cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={handleDeleteAccount}
+              disabled={busy}
+              aria-label="Dar de baja la cuenta"
+              title="Dar de baja la cuenta y borrar todos mis planes"
+              className="h-8 px-2 rounded-xl bg-white border border-slate-200 text-[11px] font-semibold text-slate-500 hover:text-rose-600 cursor-pointer disabled:opacity-50"
+            >
+              Darme de baja
             </button>
           </>
         ) : (
