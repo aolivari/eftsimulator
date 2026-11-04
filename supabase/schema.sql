@@ -91,3 +91,29 @@ drop trigger if exists plans_touch_updated_at on public.plans;
 create trigger plans_touch_updated_at
   before update on public.plans
   for each row execute function public.touch_updated_at();
+
+-- ─── 3. Noticias (ingesta diaria con Tavily) ────────────────────────────
+-- Solo metadatos: titular, URL, fecha y fuente. Nunca el texto del artículo.
+-- Escribe únicamente /api/news/ingest con la clave de servicio (que se salta RLS).
+create table if not exists public.news_items (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  url text not null,
+  published_at timestamptz not null,
+  source text not null,
+  scope text not null check (scope in ('ticker', 'sector', 'macro')),
+  tickers text[] not null default '{}',
+  url_key text not null unique,   -- URL normalizada: deduplica entre ejecuciones
+  title_key text not null,        -- titular normalizado
+  fetched_at timestamptz not null default now()
+);
+
+create index if not exists news_items_published_idx on public.news_items (published_at desc);
+create index if not exists news_items_title_key_idx on public.news_items (title_key);
+
+alter table public.news_items enable row level security;
+
+-- Las noticias son públicas: lectura abierta, sin políticas de escritura.
+drop policy if exists "news_select_all" on public.news_items;
+create policy "news_select_all" on public.news_items
+  for select using (true);
