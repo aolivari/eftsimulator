@@ -4,6 +4,8 @@ import { TrelloClient } from './trello.mjs';
 import { GitWorktreeManager } from './git-worktree.mjs';
 import { runClaudeAgent } from './executors/claude-executor.mjs';
 import { runGeminiAgent } from './executors/gemini-executor.mjs';
+import { runGeminiCliAgent } from './executors/gemini-cli-executor.mjs';
+import { loadEnv } from './config.mjs';
 import { createPullRequest } from './github.mjs';
 import { sendTelegramNotification } from './telegram.mjs';
 
@@ -87,7 +89,6 @@ class AIRunnerDaemon {
     console.log(`🏷️ Tarjeta ID: ${card.id} | Rama: ${branchName}`);
     console.log(`======================================================\n`);
 
-    // Comentar en Trello que el agente empieza a trabajar
     try {
       await this.trello.addComment(
         card.id,
@@ -97,12 +98,11 @@ class AIRunnerDaemon {
       console.warn(`No se pudo enviar comentario inicial a Trello: ${e.message}`);
     }
 
-    // 1. Crear entorno aislado con Git Worktree
+    // 1. Crear o reutilizar entorno aislado con Git Worktree
     let worktreePath = null;
     try {
       worktreePath = this.git.createWorktree(branchName);
 
-      // Preparar el prompt completo con la Historia de Usuario y reglas estrictas
       const prompt = `HISTORIA DE USUARIO: ${card.name}
 DESCRIPCIÓN Y REQUISITOS:
 ${card.desc || 'Sin descripción adicional. Analiza el título e implementa la solución siguiendo las mejores prácticas del repositorio.'}
@@ -123,16 +123,19 @@ REGLAS DE TRABAJO ESTRICTAS:
       if (['opus', 'sonet', 'haiku'].includes(model)) {
         result = await runClaudeAgent({ model, prompt, worktreePath });
       } else {
-        result = await runGeminiAgent({ model, prompt, worktreePath });
+        result = loadEnv().AI_RUNNER_GEMINI_MODE === 'api'
+          ? await runGeminiAgent({ model, prompt, worktreePath })
+          : await runGeminiCliAgent({ model, prompt, worktreePath, cardTitle: card.name });
       }
 
       if (!result.success) {
-        console.warn(`❌ El agente ${model} no pudo completar la tarea.`);
+        console.warn(`❌ El agente ${model} no pudo completar la tarea. Se conserva el worktree para no perder cambios.`);
         await this.trello.addComment(
           card.id,
-          `⚠️ **${model.toUpperCase()}** no pudo completar la tarea (código de salida con error).\n` +
-          `Si usas Claude, asegúrate de haber ejecutado \`npx @anthropic-ai/claude-code\` una vez para iniciar sesión con tu cuenta de Claude Pro.`
+          `⚠️ **${model.toUpperCase()}** no pudo completar la tarea en este intento (${result.error || 'error'}).\n` +
+          `El worktree se ha conservado en \`${worktreePath}\` para poder reanudar.`
         );
+        worktreePath = null;
         return;
       }
 
@@ -141,7 +144,6 @@ REGLAS DE TRABAJO ESTRICTAS:
       let aiExplanation = '';
       if (fs.existsSync(summaryFilePath)) {
         aiExplanation = fs.readFileSync(summaryFilePath, 'utf8').trim();
-        // Borramos el archivo temporal antes del commit para no ensuciar el repo
         try { fs.unlinkSync(summaryFilePath); } catch {}
       }
 
@@ -246,7 +248,6 @@ REGLAS DE TRABAJO ESTRICTAS:
       for (const [model, listId] of Object.entries(boardMap.modelLists)) {
         const cards = await this.trello.getCardsInList(listId);
         for (const card of cards) {
-          // Si ya fue procesada, la omitimos
           if (this.state.processedCards[card.id]) {
             continue;
           }
@@ -280,7 +281,6 @@ REGLAS DE TRABAJO ESTRICTAS:
   }
 }
 
-// Ejecución directa si se invoca desde CLI
 const isOnce = process.argv.includes('--once');
 const daemon = new AIRunnerDaemon({ runOnce: isOnce });
 daemon.start().catch((err) => {

@@ -27,6 +27,7 @@
   "devDependencies": {
     "@anthropic-ai/claude-code": "^2.1.318",
     "@eslint/js": "^9.39.5",
+    "@google/gemini-cli": "^0.67.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vercel/node": "^24.0.0",
