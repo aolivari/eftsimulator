@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "ai:runner": "node scripts/ai-runner/daemon.mjs",
+    "ai:runner:once": "node scripts/ai-runner/daemon.mjs --once",
+    "ai:trello:test": "node scripts/trello-test.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
