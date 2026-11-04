@@ -3,3 +3,4 @@ export * from './simulation';
 export * from './holdings';
 export * from './news';
 export * from './digest';
+export * from './noticias-ingesta';

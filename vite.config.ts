@@ -232,7 +232,7 @@ function vercelApiDevPlugin(): Plugin {
 
         // 4. Resto de endpoints (/api/history, /api/plan...): se cargan directamente
         //    desde api/*.ts con un adaptador mínimo de req/res al estilo Vercel.
-        const route = url.pathname.replace(/^\/api\//, '').replace(/[^a-z0-9_-]/gi, '');
+        const route = url.pathname.replace(/^\/api\//, '').replace(/[^a-z0-9_/-]/gi, '');
         try {
           const mod = await server.ssrLoadModule(`/api/${route}.ts`);
           const query = Object.fromEntries(url.searchParams.entries());
