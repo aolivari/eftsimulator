@@ -20,7 +20,7 @@ export async function sendTelegramNotification({ title, model, branchName, prUrl
     `🌿 *Rama:* \`${branchName}\`\n`;
 
   if (prUrl) {
-    message += `🔗 *Pull Request:* [Abrir en GitHub](${prUrl})\n\n`;
+    message += `🔗 *Pull Request:* ${prUrl}\n\n`;
   } else {
     message += `\n`;
   }

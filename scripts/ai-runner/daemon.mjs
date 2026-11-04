@@ -186,7 +186,7 @@ REGLAS DE TRABAJO ESTRICTAS:
         `🌿 **Rama de trabajo:** \`${branchName}\`\n\n`;
 
       if (prUrl) {
-        commentMsg += `🔗 **Pull Request en GitHub:** [Abrir PR en GitHub](${prUrl})\n\n`;
+        commentMsg += `🔗 **Pull Request en GitHub:** ${prUrl}\n\n`;
       }
 
       if (aiExplanation) {
