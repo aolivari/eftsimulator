@@ -47,3 +47,7 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# ─── AI Runner Local (Worktrees y Estado) ───
+.worktrees/
+.ai-runner-state.json

@@ -14,10 +14,11 @@ SPA en React + TypeScript (Vite) que simula planes de ahorro en ETFs para invers
 | Instalar | `npm install` |
 | Desarrollo (sirve también `api/`) | `npm run dev` → <http://localhost:5173> |
 | Comprobar tipos | `npx tsc -b` (solo cubre `src/`) |
+| Lint (arquitectura y calidad) | `npm run lint` (solo `src/features`, `src/shared` y `src/app`; ver "Arquitectura objetivo") |
 | Comprobar tipos de `api/` | `npx tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 --esModuleInterop --types node api/*.ts` |
 | Build de producción | `npm run build` |
 
-No hay tests automatizados ni linter configurado. Verifica los cambios con `npx tsc -b` y abriendo la web en el navegador.
+No hay tests automatizados. El linter cubre solo el código nuevo (ver "Arquitectura objetivo"). Verifica los cambios con `npx tsc -b` y abriendo la web en el navegador.
 
 ## Mapa del código
 
@@ -65,6 +66,52 @@ docs/                        Guía de setup e informe del backtest.
 vite.config.ts               Plugin que emula las funciones de api/ en `npm run dev` (ver trampas).
 stitch_*.html, .taste-skill/ Maquetas de diseño e informes visuales. No forman parte de la app.
 ```
+
+## Arquitectura objetivo (feature-first + `shared/ui`)
+
+Estado: **destino**. El código actual todavía usa `src/components/` plano; la migración se hace por partes. El código **nuevo** debe seguir ya esta estructura.
+
+```
+src/
+  features/                 Módulos de negocio. Cada uno se autocontiene.
+    <feature>/
+      components/           Componentes exclusivos del feature
+      hooks/                Hooks del feature
+      services/             Llamadas a api/ o Supabase del feature
+      types.ts              Tipos del feature
+      index.ts              ÚNICO punto de entrada público
+  shared/
+    ui/                     Componentes reutilizables SIN dominio (ver reglas)
+      atoms/                Piezas mínimas: Button, Input, Badge
+      molecules/            Combinaciones: FormField (label + input + error)
+      compound/             Piezas con partes que comparten estado:
+                            Card (Root/Header/Body), Tabs (Root/List/Panel),
+                            Modal (Root/Title/Actions)
+      index.ts              ÚNICO punto de entrada de la UI compartida
+    lib/                    Clientes configurados (supabase.ts, marketData.ts)
+    utils/                  Funciones puras genéricas (formato de fechas, moneda)
+  engine/                   Lógica pura de cálculo, sin React (ver nota)
+  app/                      Composición: ensambla features, sin lógica propia
+api/                        Funciones de Vercel. SE QUEDA EN LA RAÍZ.
+```
+
+Features previstos: `simulacion`, `cartera`, `monte-carlo`, `ciclos`, `cuentas` y `noticias`. El mapeo de los componentes actuales a cada uno está en la tabla de migración de abajo.
+
+### Reglas de `shared/ui`
+1. **Sin dominio.** Ningún componente de `shared/ui` menciona planes, ETF, noticias ni cualquier otro concepto del negocio. Si lo necesita, es un componente de su feature.
+2. **Sin dependencias hacia `features/`.** Los features importan de `shared/ui`; nunca al revés.
+3. **Un solo punto de entrada.** Se importa siempre desde `shared/ui` (o `shared/ui/atoms`, etc. solo si el barrel lo exporta), nunca desde rutas internas de otro componente.
+4. **Compound solo cuando hay estado compartido** entre las partes (pestañas, modales, tarjetas con cabecera). No usar compound para piezas simples: un átomo basta.
+5. **Props tipadas y sin estilos de página.** Estilos con la paleta de la sección Convenciones; el componente no fija márgenes externos que dependan de dónde se coloque.
+
+### Reglas de `features/`
+1. Un feature **no importa** los internos de otro feature. Solo su `index.ts`.
+2. La lógica de cálculo va en `engine/` (pura). El feature la consume; no la reimplementa en componentes.
+3. Los tipos compartidos entre features van en `src/types/index.ts`; los propios, en `types.ts` del feature.
+4. Antes de crear un componente reutilizable, comprobar si ya existe en `shared/ui`.
+
+### Migración de `src/components/` (pendiente)
+Un feature por PR, cuando nadie más toque esos archivos. Orden sugerido: `cuentas` (el más aislado) → `monte-carlo` → `ciclos` → `cartera` → `simulacion`. `ETFSimulator.tsx` pasa a ser `app/` cuando el último feature esté migrado.
 
 ## Flujo de datos
 1. `ETFSimulator` guarda `params: SimulationParams` y `etfs: ETFAsset[]`. Al cambiar la cartera, `annualReturn` se recalcula como la media de `expectedReturn` ponderada por `recurringWeight`.
