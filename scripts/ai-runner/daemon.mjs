@@ -109,11 +109,12 @@ ${card.desc || 'Sin descripción adicional. Analiza el título e implementa la s
 
 REGLAS DE TRABAJO ESTRICTAS:
 1. OBLIGATORIO: Lee y sigue estrictamente las reglas de "AGENTS.md" en la raíz del repositorio (arquitectura feature-first, shared/ui, types, todo en español).
-2. Analiza el código actual en este repositorio antes de hacer cambios.
-3. Escribe código TypeScript/React limpio y tipado, sin romper la arquitectura existente.
-4. CONTROL DE CALIDAD: Asegúrate de que "npm run build" compile sin errores antes de finalizar.
-5. Trabaja de forma 100% autónoma.
-6. OBLIGATORIO: Cuando termines de implementar y verificar el código, crea un archivo llamado "AI_SUMMARY.md" en la raíz del proyecto explicando detalladamente:
+2. RAMA BASE OBLIGATORIA: Tu rama de trabajo y tu worktree se crean SIEMPRE desde "origin/master" (remoto actualizado tras "git fetch origin master"), NUNCA desde la rama "master" local. Si necesitas comparar o sincronizar contra la rama principal, usa siempre "origin/master".
+3. Analiza el código actual en este repositorio antes de hacer cambios.
+4. Escribe código TypeScript/React limpio y tipado, sin romper la arquitectura existente.
+5. CONTROL DE CALIDAD: Asegúrate de que "npm run build" compile sin errores antes de finalizar.
+6. Trabaja de forma 100% autónoma.
+7. OBLIGATORIO: Cuando termines de implementar y verificar el código, crea un archivo llamado "AI_SUMMARY.md" en la raíz del proyecto explicando detalladamente:
    - Resumen claro de la solución implementada.
    - Lista de archivos modificados o creados y por qué.
    - Cómo puede el usuario probar o revisar tu solución.`;

@@ -150,8 +150,9 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
 1. En read_file, write_file y edit_file usa SIEMPRE rutas absolutas dentro de "${worktreePath}" (ejemplo: "${worktreePath}\\src\\...").
 2. PROHIBIDO modificar archivos en la raíz "d:\\personal\\eftsimulator" fuera de "${worktreePath}".
 3. En run_command antepón siempre el cambio a tu worktree: cd "${worktreePath}"; <tu comando>
-4. Al terminar TODA la tarea y las verificaciones, guarda el resumen técnico en "${worktreePath}\\AI_SUMMARY.md".
-5. No hagas preguntas al usuario; toma las decisiones técnicas necesarias y completa la tarea de principio a fin.
+4. RAMA BASE: Tu worktree parte de "origin/master" (remoto). Nunca uses la rama "master" local como referencia; usa siempre "origin/master" (previo git fetch origin master).
+5. Al terminar TODA la tarea y las verificaciones, guarda el resumen técnico en "${worktreePath}\\AI_SUMMARY.md".
+6. No hagas preguntas al usuario; toma las decisiones técnicas necesarias y completa la tarea de principio a fin.
 =======================================================================`;
 
     console.log(`🤖 Lanzando agente local de Antigravity (${model.toUpperCase()} -> --model=${modelFlag} en ${agyEnv.ANTIGRAVITY_LS_ADDRESS})...`);

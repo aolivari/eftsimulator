@@ -35,23 +35,13 @@ export class GitWorktreeManager {
       this.removeWorktree(worktreePath, branchName);
     }
 
-    // Traer la última versión de master sin cambiar la rama activa del repositorio principal
-    try {
-      this.runGit('git fetch origin master');
-    } catch {
-      // Si estamos offline o falla el fetch, continuamos con referencias locales
-    }
+    // Traer SIEMPRE la última versión de origin/master antes de crear el worktree
+    console.log(`🔄 Sincronizando referencias con origin/master...`);
+    this.runGit('git fetch origin master');
 
-    console.log(`🌿 Creando worktree en: ${worktreePath} (Rama: ${branchName})...`);
-    try {
-      this.runGit(`git worktree add -b "${branchName}" "${worktreePath}" origin/master`);
-    } catch {
-      try {
-        this.runGit(`git worktree add "${worktreePath}" "${branchName}"`);
-      } catch {
-        this.runGit(`git worktree add -b "${branchName}" "${worktreePath}" HEAD`);
-      }
-    }
+    // Crear (o resetear con -B si quedó huérfana) la rama SIEMPRE desde origin/master, nunca desde master local
+    console.log(`🌿 Creando worktree en: ${worktreePath} (Rama: ${branchName} desde origin/master)...`);
+    this.runGit(`git worktree add -B "${branchName}" "${worktreePath}" origin/master`);
 
     this.ensureWorktreeDeps(worktreePath);
     return worktreePath;
