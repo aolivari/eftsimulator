@@ -10,15 +10,18 @@ export async function runGeminiAgent({ model, prompt, worktreePath }) {
   const apiKey = env.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
 
   if (!apiKey) {
-    console.warn(`⚠️ No se encontró GEMINI_API_KEY en .env. Se usará modo simulado o fallback.`);
-    // Si no hay key de Gemini, dejamos un registro en el worktree
+    console.warn(`⚠️ No se encontró GEMINI_API_KEY en .env.local. Se usará modo simulado o fallback.`);
     const logFile = path.resolve(worktreePath, 'AI_AGENT_README.md');
-    fs.writeFileSync(logFile, `# Tarea procesada por Gemini (${model})\n\nPrompt recibido:\n${prompt}\n\n*Nota: Añade GEMINI_API_KEY en .env para ejecución 100% autónoma con Gemini API.*`);
+    fs.writeFileSync(logFile, `# Tarea procesada por Gemini (${model})\n\nPrompt recibido:\n${prompt}\n\n*Nota: Añade GEMINI_API_KEY en .env.local para ejecución 100% autónoma con Gemini API.*`);
     return { success: true, summary: 'Archivo generado en espera de GEMINI_API_KEY' };
   }
 
   const modelId = model === 'argon' || model === 'pro' ? 'gemini-1.5-pro' : 'gemini-2.0-flash';
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
+
+  // Cargar AGENTS.md si existe en el proyecto
+  const agentsMdPath = path.resolve(worktreePath, 'AGENTS.md');
+  const agentsMdContent = fs.existsSync(agentsMdPath) ? fs.readFileSync(agentsMdPath, 'utf8') : '';
 
   const tools = [
     {
@@ -68,11 +71,18 @@ export async function runGeminiAgent({ model, prompt, worktreePath }) {
 
   const systemInstruction = `Eres un desarrollador senior autónomo. Tu objetivo es resolver la tarea de programación descrita en el prompt.
 Tienes herramientas para leer archivos, editarlos y ejecutar comandos en la terminal.
-Reglas:
-1. Inspecciona los archivos relevantes primero.
-2. Realiza los cambios necesarios con write_file.
-3. Ejecuta comandos de validación si es necesario (ej: npm run build o tests).
-4. Cuando todo esté verificado y funcionando, llama a finish_task con el resumen de tus cambios.`;
+
+${agentsMdContent ? `--- GUÍA DE ARQUITECTURA Y REGLAS DEL PROYECTO (AGENTS.md) ---
+${agentsMdContent}
+---------------------------------------------------------------` : ''}
+
+Reglas operativas:
+1. Sigue estrictamente las reglas de AGENTS.md (idioma español, arquitectura feature-first, shared/ui, types, etc.).
+2. Inspecciona los archivos relevantes primero usando read_file.
+3. Realiza los cambios necesarios con write_file.
+4. Ejecuta comandos de validación (ej: npm run build o tests).
+5. Crea el archivo AI_SUMMARY.md explicando detalladamente los cambios antes de finalizar.
+6. Cuando todo esté verificado y compilando sin errores, llama a finish_task.`;
 
   const contents = [
     {

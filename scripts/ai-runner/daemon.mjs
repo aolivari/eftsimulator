@@ -106,7 +106,8 @@ DESCRIPCIÓN Y REQUISITOS:
 ${card.desc || 'Sin descripción adicional. Analiza el título e implementa la solución siguiendo las mejores prácticas del repositorio.'}
 
 REGLAS DE TRABAJO:
-1. Analiza el código actual en este repositorio antes de hacer cambios.
+1. OBLIGATORIO: Lee y sigue estrictamente las reglas de "AGENTS.md" en la raíz del repositorio (arquitectura feature-first, shared/ui, types, todo en español).
+2. Analiza el código actual en este repositorio antes de hacer cambios.
 2. Escribe código TypeScript/React limpio, sin romper el build.
 3. Asegúrate de que npm run build o tests compilen sin errores antes de finalizar.
 4. Trabaja de forma 100% autónoma.
