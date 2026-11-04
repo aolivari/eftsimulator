@@ -3,9 +3,12 @@ import path from 'node:path';
 
 // 1. Cargar .env manualmente sin dependencias
 function loadEnv() {
-  const envPath = path.resolve(process.cwd(), '.env');
-  if (!fs.existsSync(envPath)) return {};
-  const content = fs.readFileSync(envPath, 'utf8');
+  const localEnvPath = path.resolve(process.cwd(), '.env.local');
+  const defaultEnvPath = path.resolve(process.cwd(), '.env');
+  const targetPath = fs.existsSync(localEnvPath) ? localEnvPath : defaultEnvPath;
+
+  if (!fs.existsSync(targetPath)) return {};
+  const content = fs.readFileSync(targetPath, 'utf8');
   const env = {};
   for (const line of content.split('\n')) {
     const trimmed = line.trim();

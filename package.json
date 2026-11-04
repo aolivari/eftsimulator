@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "ai:runner": "node scripts/ai-runner/daemon.mjs",
     "ai:runner:once": "node scripts/ai-runner/daemon.mjs --once",
-    "ai:trello:test": "node scripts/trello-test.mjs"
+    "ai:trello:test": "node scripts/trello-test.mjs",
+    "lint": "eslint src"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
@@ -21,14 +22,20 @@
     "yahoo-finance2": "^3.15.4"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vercel/node": "^24.0.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "eslint": "^9.39.5",
+    "eslint-plugin-boundaries": "^5.4.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.16",
     "typescript": "~5.6.3",
+    "typescript-eslint": "^8.72.1",
     "vite": "^6.0.3"
   }
 }
