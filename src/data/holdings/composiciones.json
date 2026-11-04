@@ -1,0 +1,492 @@
+{
+  "generado": "2026-11-04T15:13:07.473Z",
+  "composiciones": [
+    {
+      "etfId": "vwce",
+      "ticker": "VWCE",
+      "isin": "IE00BK5BQT80",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "VWCE.DE",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "ok",
+      "posiciones": [
+        {
+          "simbolo": "NVDA",
+          "nombre": "NVIDIA Corp",
+          "pesoPct": 5.0283
+        },
+        {
+          "simbolo": "AAPL",
+          "nombre": "Apple Inc",
+          "pesoPct": 4.5437
+        },
+        {
+          "simbolo": "MSFT",
+          "nombre": "Microsoft Corp",
+          "pesoPct": 3.5962
+        },
+        {
+          "simbolo": "AMZN",
+          "nombre": "Amazon.com Inc",
+          "pesoPct": 2.2807
+        },
+        {
+          "simbolo": "GOOGL",
+          "nombre": "Alphabet Inc Class A",
+          "pesoPct": 1.9213
+        },
+        {
+          "simbolo": "2330.TW",
+          "nombre": "Taiwan Semiconductor Manufacturing Co Ltd",
+          "pesoPct": 1.7896
+        },
+        {
+          "simbolo": "AVGO",
+          "nombre": "Broadcom Inc",
+          "pesoPct": 1.5421
+        },
+        {
+          "simbolo": "META",
+          "nombre": "Meta Platforms Inc Class A",
+          "pesoPct": 1.5044
+        },
+        {
+          "simbolo": "GOOG",
+          "nombre": "Alphabet Inc Class C",
+          "pesoPct": 1.4993
+        },
+        {
+          "simbolo": "MU",
+          "nombre": "Micron Technology Inc",
+          "pesoPct": 1.1336
+        }
+      ],
+      "sectores": [
+        {
+          "nombre": "Tecnología",
+          "pesoPct": 33.47
+        },
+        {
+          "nombre": "Servicios financieros",
+          "pesoPct": 16.01
+        },
+        {
+          "nombre": "Industriales",
+          "pesoPct": 10.14
+        },
+        {
+          "nombre": "Consumo cíclico",
+          "pesoPct": 8.31
+        },
+        {
+          "nombre": "Salud",
+          "pesoPct": 8.29
+        },
+        {
+          "nombre": "Comunicaciones",
+          "pesoPct": 7.96
+        },
+        {
+          "nombre": "Consumo defensivo",
+          "pesoPct": 4.43
+        },
+        {
+          "nombre": "Energía",
+          "pesoPct": 3.95
+        },
+        {
+          "nombre": "Materiales básicos",
+          "pesoPct": 3.53
+        },
+        {
+          "nombre": "Servicios públicos",
+          "pesoPct": 2.25
+        },
+        {
+          "nombre": "Inmobiliario",
+          "pesoPct": 1.66
+        }
+      ],
+      "paises": null
+    },
+    {
+      "etfId": "sxr8",
+      "ticker": "SXR8",
+      "isin": "IE00B5BMR087",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "SXR8.DE",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "ok",
+      "posiciones": [
+        {
+          "simbolo": "NVDA",
+          "nombre": "NVIDIA Corp",
+          "pesoPct": 8.3656
+        },
+        {
+          "simbolo": "AAPL",
+          "nombre": "Apple Inc",
+          "pesoPct": 7.3571
+        },
+        {
+          "simbolo": "MSFT",
+          "nombre": "Microsoft Corp",
+          "pesoPct": 5.7654
+        },
+        {
+          "simbolo": "AMZN",
+          "nombre": "Amazon.com Inc",
+          "pesoPct": 3.7016
+        },
+        {
+          "simbolo": "GOOGL",
+          "nombre": "Alphabet Inc Class A",
+          "pesoPct": 3.0563
+        },
+        {
+          "simbolo": "AVGO",
+          "nombre": "Broadcom Inc",
+          "pesoPct": 2.5292
+        },
+        {
+          "simbolo": "GOOG",
+          "nombre": "Alphabet Inc Class C",
+          "pesoPct": 2.4517
+        },
+        {
+          "simbolo": "META",
+          "nombre": "Meta Platforms Inc Class A",
+          "pesoPct": 2.4202
+        },
+        {
+          "simbolo": "MU",
+          "nombre": "Micron Technology Inc",
+          "pesoPct": 1.8205
+        },
+        {
+          "simbolo": "TSLA",
+          "nombre": "Tesla Inc",
+          "pesoPct": 1.5133
+        }
+      ],
+      "sectores": [
+        {
+          "nombre": "Tecnología",
+          "pesoPct": 40.45
+        },
+        {
+          "nombre": "Servicios financieros",
+          "pesoPct": 11.2
+        },
+        {
+          "nombre": "Comunicaciones",
+          "pesoPct": 9.95
+        },
+        {
+          "nombre": "Salud",
+          "pesoPct": 9.26
+        },
+        {
+          "nombre": "Consumo cíclico",
+          "pesoPct": 8.74
+        },
+        {
+          "nombre": "Industriales",
+          "pesoPct": 7.54
+        },
+        {
+          "nombre": "Consumo defensivo",
+          "pesoPct": 4.33
+        },
+        {
+          "nombre": "Energía",
+          "pesoPct": 3.4
+        },
+        {
+          "nombre": "Servicios públicos",
+          "pesoPct": 1.88
+        },
+        {
+          "nombre": "Inmobiliario",
+          "pesoPct": 1.7
+        },
+        {
+          "nombre": "Materiales básicos",
+          "pesoPct": 1.56
+        }
+      ],
+      "paises": null
+    },
+    {
+      "etfId": "wcbr",
+      "ticker": "WCBR",
+      "isin": "IE00BF099516",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "WCBR.MI",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "ok",
+      "posiciones": [
+        {
+          "simbolo": "CRWD",
+          "nombre": "CrowdStrike Holdings Inc Class A",
+          "pesoPct": 8.4218
+        },
+        {
+          "simbolo": "OKTA",
+          "nombre": "Okta Inc Class A",
+          "pesoPct": 6.992
+        },
+        {
+          "simbolo": "PANW",
+          "nombre": "Palo Alto Networks Inc",
+          "pesoPct": 6.2419
+        },
+        {
+          "simbolo": "S",
+          "nombre": "SentinelOne Inc Class A",
+          "pesoPct": 6.0616
+        },
+        {
+          "simbolo": "DDOG",
+          "nombre": "Datadog Inc Class A",
+          "pesoPct": 5.6854
+        },
+        {
+          "simbolo": "FTNT",
+          "nombre": "Fortinet Inc",
+          "pesoPct": 5.5977
+        },
+        {
+          "simbolo": "RBRK",
+          "nombre": "Rubrik Inc Class A Shares",
+          "pesoPct": 5.5947
+        },
+        {
+          "simbolo": "NTSK",
+          "nombre": "Netskope Inc Ordinary Shares - Class A",
+          "pesoPct": 4.8176
+        },
+        {
+          "simbolo": "TENB",
+          "nombre": "Tenable Holdings Inc",
+          "pesoPct": 4.7323
+        },
+        {
+          "simbolo": "ZS",
+          "nombre": "Zscaler Inc",
+          "pesoPct": 4.614
+        }
+      ],
+      "sectores": [
+        {
+          "nombre": "Tecnología",
+          "pesoPct": 100
+        }
+      ],
+      "paises": null
+    },
+    {
+      "etfId": "xdwh",
+      "ticker": "XDWH",
+      "isin": "IE00BM67HK77",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "XDWH.DE",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "ok",
+      "posiciones": [
+        {
+          "simbolo": "LLY",
+          "nombre": "Eli Lilly and Co",
+          "pesoPct": 11.1083
+        },
+        {
+          "simbolo": "JNJ",
+          "nombre": "Johnson & Johnson",
+          "pesoPct": 7.6431
+        },
+        {
+          "simbolo": "ABBV",
+          "nombre": "AbbVie Inc",
+          "pesoPct": 5.5437
+        },
+        {
+          "simbolo": "MRK",
+          "nombre": "Merck & Co Inc",
+          "pesoPct": 4.3042
+        },
+        {
+          "simbolo": "UNH",
+          "nombre": "UnitedHealth Group Inc",
+          "pesoPct": 3.9982
+        },
+        {
+          "simbolo": "ROP.SW",
+          "nombre": "Roche Holding AG Ordinary Shares new",
+          "pesoPct": 3.523
+        },
+        {
+          "simbolo": "NOVN.SW",
+          "nombre": "Novartis AG Registered Shares",
+          "pesoPct": 3.1556
+        },
+        {
+          "simbolo": "TMO",
+          "nombre": "Thermo Fisher Scientific Inc",
+          "pesoPct": 3.0087
+        },
+        {
+          "simbolo": "AZN.L",
+          "nombre": "AstraZeneca PLC",
+          "pesoPct": 2.9575
+        },
+        {
+          "simbolo": "AMGN",
+          "nombre": "Amgen Inc",
+          "pesoPct": 2.7284
+        }
+      ],
+      "sectores": [
+        {
+          "nombre": "Salud",
+          "pesoPct": 100
+        }
+      ],
+      "paises": null
+    },
+    {
+      "etfId": "xdws",
+      "ticker": "XDWS",
+      "isin": "IE00BM67HN09",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "XDWS.DE",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "ok",
+      "posiciones": [
+        {
+          "simbolo": "WMT",
+          "nombre": "Walmart Inc",
+          "pesoPct": 10.484
+        },
+        {
+          "simbolo": "COST",
+          "nombre": "Costco Wholesale Corp",
+          "pesoPct": 9.3053
+        },
+        {
+          "simbolo": "PG",
+          "nombre": "Procter & Gamble Co",
+          "pesoPct": 7.7975
+        },
+        {
+          "simbolo": "KO",
+          "nombre": "Coca-Cola Co",
+          "pesoPct": 7.6828
+        },
+        {
+          "simbolo": "PM",
+          "nombre": "Philip Morris International Inc",
+          "pesoPct": 6.8549
+        },
+        {
+          "simbolo": "NESN.SW",
+          "nombre": "Nestle SA",
+          "pesoPct": 5.4215
+        },
+        {
+          "simbolo": "PEP",
+          "nombre": "PepsiCo Inc",
+          "pesoPct": 3.9866
+        },
+        {
+          "simbolo": "ULVR.L",
+          "nombre": "Unilever PLC",
+          "pesoPct": 3.0447
+        },
+        {
+          "simbolo": "MO",
+          "nombre": "Altria Group Inc",
+          "pesoPct": 2.594
+        },
+        {
+          "simbolo": "BATS.L",
+          "nombre": "British American Tobacco PLC",
+          "pesoPct": 2.5383
+        }
+      ],
+      "sectores": [
+        {
+          "nombre": "Consumo defensivo",
+          "pesoPct": 97.95
+        },
+        {
+          "nombre": "Consumo cíclico",
+          "pesoPct": 2.05
+        }
+      ],
+      "paises": null
+    },
+    {
+      "etfId": "aggh",
+      "ticker": "AGGH",
+      "isin": "IE00BDBRDM35",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "AGGH.MI",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "sin_datos",
+      "motivoSinDatos": "La fuente no publica composición para este ETF (bonos, oro o monetario)",
+      "posiciones": null,
+      "sectores": null,
+      "paises": null
+    },
+    {
+      "etfId": "sgld",
+      "ticker": "SGLD",
+      "isin": "IE00B579F325",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "SGLD.MI",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "sin_datos",
+      "motivoSinDatos": "La fuente no publica composición para este ETF (bonos, oro o monetario)",
+      "posiciones": null,
+      "sectores": null,
+      "paises": null
+    },
+    {
+      "etfId": "xeon",
+      "ticker": "XEON",
+      "isin": "LU0290358497",
+      "fuente": {
+        "nombre": "yahoo-finance",
+        "referencia": "XEON.DE",
+        "fechaActualizacion": "2026-11-04",
+        "fechaDatosFuente": null
+      },
+      "estado": "sin_datos",
+      "motivoSinDatos": "La fuente no publica composición para este ETF (bonos, oro o monetario)",
+      "posiciones": null,
+      "sectores": null,
+      "paises": null
+    }
+  ]
+}
