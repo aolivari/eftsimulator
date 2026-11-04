@@ -240,14 +240,13 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
 
       lastStep = step;
 
-      // Rastrear tareas en segundo plano de Antigravity para NO cortar mientras un comando sigue ejecutándose
       if (typeof step.content === 'string') {
         const bgMatch = step.content.match(/Tool is running as a background task with task id:\s*([^\s\n]+)/);
         if (bgMatch?.[1]) {
           runningTasks.add(bgMatch[1].trim());
         }
-        const doneSysMatch = step.content.match(/Task id "([^"]+)" finished with result:/);
-        if (doneSysMatch?.[1]) {
+        const doneSysMatch = step.content.match(/Task id "([^"]+)"/);
+        if (doneSysMatch?.[1] && step.type === 'SYSTEM_MESSAGE') {
           runningTasks.delete(doneSysMatch[1].trim());
         }
         const statusTaskMatch = step.content.match(/Task:\s*([^\s\n]+)\s*\nStatus:\s*(DONE|KILLED|ERROR)/);
@@ -274,15 +273,19 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
 
     if (!lastStep) continue;
 
-    // Si hay tareas en segundo plano corriendo o el último paso está en RUNNING, seguir esperando
-    if (runningTasks.size > 0 || lastStep.status === 'RUNNING') {
+    if (lastStep.status === 'RUNNING') {
       continue;
     }
 
     const summaryFile = path.resolve(worktreePath, 'AI_SUMMARY.md');
     const hasSummaryFile = fs.existsSync(summaryFile);
 
-    // Verificar si el modelo ya dio su respuesta final (PLANNER_RESPONSE en DONE, sin tool_calls y sin tareas en background)
+    // Si hay tareas en segundo plano corriendo y aún NO se ha generado AI_SUMMARY.md, seguir esperando
+    if (runningTasks.size > 0 && !hasSummaryFile) {
+      continue;
+    }
+
+    // Verificar si el modelo ya dio su respuesta final (PLANNER_RESPONSE en DONE y sin tool_calls)
     if (
       lastStep.type === 'PLANNER_RESPONSE' &&
       lastStep.status === 'DONE' &&
