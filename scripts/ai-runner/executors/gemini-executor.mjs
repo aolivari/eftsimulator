@@ -3,6 +3,30 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { loadEnv } from '../config.mjs';
 
+async function callGeminiWithRetry(url, payload, maxRetries = 5) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.status === 429) {
+      console.warn(`⏳ Límite por minuto de la capa gratuita alcanzado (429). Pausando 15s antes de continuar (Intento ${attempt}/${maxRetries})...`);
+      await new Promise((r) => setTimeout(r, 15000));
+      continue;
+    }
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`API error (${res.status}): ${errText}`);
+    }
+
+    return res.json();
+  }
+  throw new Error('Se superó el número de reintentos por rate limit (429).');
+}
+
 export async function runGeminiAgent({ model, prompt, worktreePath }) {
   console.log(`🤖 Iniciando agente Gemini (${model}) en ${worktreePath}...`);
 
@@ -92,29 +116,24 @@ Reglas operativas:
   ];
 
   let iterations = 0;
-  const maxIterations = 20;
+  const maxIterations = 25;
 
   while (iterations < maxIterations) {
     iterations++;
     console.log(`[Gemini Loop - Paso ${iterations}] Consultando al modelo...`);
 
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    let data;
+    try {
+      data = await callGeminiWithRetry(url, {
         contents,
         systemInstruction: { parts: [{ text: systemInstruction }] },
         tools,
-      }),
-    });
-
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error(`❌ Error en la API de Gemini: ${errText}`);
-      return { success: false, error: errText };
+      });
+    } catch (err) {
+      console.error(`❌ Error en la API de Gemini: ${err.message}`);
+      return { success: false, error: err.message };
     }
 
-    const data = await res.json();
     const candidate = data.candidates?.[0];
     if (!candidate) break;
 
@@ -170,6 +189,9 @@ Reglas operativas:
       console.log(`🎉 Tarea completada con éxito por Gemini: ${finalSummary}`);
       return { success: true, summary: finalSummary };
     }
+
+    // Pausa preventiva de 2 segundos para no agotar la ráfaga de peticiones por minuto
+    await new Promise((r) => setTimeout(r, 2000));
   }
 
   return { success: true, summary: 'Ejecución finalizada tras iteraciones máximas.' };
