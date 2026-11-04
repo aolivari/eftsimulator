@@ -1,4 +1,4 @@
-import type { NewsItem } from '../../src/types/index.js';
+import type { NewsArticle } from '../../src/types/index.js';
 import { normalizeTitle, normalizeUrl } from '../../src/engine/news/index.js';
 
 // Persistencia en Supabase vía REST con la clave de servicio (solo servidor).
@@ -32,7 +32,7 @@ export async function loadKnownKeys(db: SupabaseAdmin, sinceIso: string) {
 }
 
 /** Inserta ignorando conflictos por clave única (carrera entre dos ejecuciones). Devuelve cuántas filas entraron. */
-export async function saveNews(db: SupabaseAdmin, items: NewsItem[]): Promise<number> {
+export async function saveNews(db: SupabaseAdmin, items: NewsArticle[]): Promise<number> {
   if (items.length === 0) return 0;
   const rows = items.map((i) => ({
     title: i.title,

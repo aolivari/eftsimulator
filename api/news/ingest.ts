@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { POPULAR_ETFS } from '../../src/data/etfList.js';
-import type { NewsIngestSummary, NewsItem } from '../../src/types/index.js';
+import type { NewsIngestSummary, NewsArticle } from '../../src/types/index.js';
 import {
   DEFAULT_ALLOWED_DOMAINS,
   DEFAULT_MAX_QUERIES,
@@ -70,7 +70,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     items: [],
   };
 
-  const candidates: NewsItem[] = [];
+  const candidates: NewsArticle[] = [];
   const errors: string[] = [];
   for (const q of queries) {
     try {

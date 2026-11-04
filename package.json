@@ -10,7 +10,9 @@
     "ai:runner": "node scripts/ai-runner/daemon.mjs",
     "ai:runner:once": "node scripts/ai-runner/daemon.mjs --once",
     "ai:trello:test": "node scripts/trello-test.mjs",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "datos:composicion": "node scripts/holdings/actualizar.ts",
+    "test:holdings": "node --test scripts/holdings/holdings.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
@@ -19,7 +21,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.15.0",
-    "yahoo-finance2": "^3.15.4"
+    "yahoo-finance2": "^3.15.4",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@anthropic-ai/claude-code": "^2.1.318",
