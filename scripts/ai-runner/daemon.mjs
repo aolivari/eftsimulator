@@ -125,7 +125,9 @@ REGLAS DE TRABAJO ESTRICTAS:
       if (['opus', 'sonet', 'haiku'].includes(model)) {
         result = await runClaudeAgent({ model, prompt, worktreePath });
       } else {
-        result = await runGeminiAgent({ model, prompt, worktreePath });
+        result = loadEnv().AI_RUNNER_GEMINI_MODE === 'api'
+          ? await runGeminiAgent({ model, prompt, worktreePath })
+          : await runGeminiCliAgent({ model, prompt, worktreePath, cardTitle: card.name });
       }
 
       if (!result.success) {
