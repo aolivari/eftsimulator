@@ -230,7 +230,7 @@ function vercelApiDevPlugin(): Plugin {
           return;
         }
 
-        // 4. Resto de endpoints (/api/forecast, /api/history...): se cargan directamente
+        // 4. Resto de endpoints (/api/history, /api/plan...): se cargan directamente
         //    desde api/*.ts con un adaptador mínimo de req/res al estilo Vercel.
         const route = url.pathname.replace(/^\/api\//, '').replace(/[^a-z0-9_-]/gi, '');
         try {
@@ -263,7 +263,6 @@ function vercelApiDevPlugin(): Plugin {
 }
 
 export default defineConfig(({ mode }) => {
-  // Variables de servidor (SUPABASE_SERVICE_ROLE_KEY, KRONOS_*) para los endpoints en local
   Object.assign(process.env, loadEnv(mode, process.cwd(), ''));
   return {
     plugins: [react(), vercelApiDevPlugin()],

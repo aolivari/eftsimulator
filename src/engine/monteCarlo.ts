@@ -2,7 +2,6 @@ import type {
   AssetClass,
   ETFAsset,
   HistoricalCycleEvent,
-  KronosForecast,
   MonteCarloQuarterBand,
   MonteCarloResult,
   MonthlyReturnHistory,
@@ -16,9 +15,7 @@ import { getAssetFactor } from './cycleSimulator';
  * Simulación Monte Carlo del plan de ahorro.
  *
  * Cada escenario recorre el horizonte trimestre a trimestre:
- *  - Trimestre 1: si hay predicción Kronos del ETF, su rentabilidad sale de una de las
- *    trayectorias generadas por el modelo (situación actual del mercado).
- *  - Resto: se elige al azar un trimestre histórico real (bootstrap). Todos los ETFs usan
+ *  - Se elige al azar un trimestre histórico real (bootstrap). Todos los ETFs usan
  *    el MISMO trimestre, lo que conserva la correlación entre ellos (si cae la bolsa
  *    global, cae todo a la vez).
  *  - Las rentabilidades históricas se recentran en la rentabilidad esperada de cada ETF:
@@ -45,7 +42,6 @@ export interface MonteCarloInput {
   etfs: ETFAsset[];
   brokerId: string;
   history?: MonthlyReturnHistory | null;
-  forecasts?: Record<string, KronosForecast>;
   scenarios?: number;
   seed?: number;
   // Prueba de estrés: el ciclo histórico se repite tal cual desde startQuarter (0 = primer trimestre)
@@ -158,23 +154,8 @@ function buildQuarterWindows(etfs: ETFAsset[], history: MonthlyReturnHistory) {
   };
 }
 
-/**
- * Rentabilidades al final del horizonte de cada trayectoria Kronos, sin su sesgo de dirección.
- * Kronos revierte hacia la media de la ventana que recibe, así que su dirección no es fiable:
- * se conserva solo la dispersión entre trayectorias (régimen de volatilidad) y la mediana se
- * fija en la rentabilidad esperada del ETF para ese plazo.
- */
-export function kronosDebiasedReturns(f: KronosForecast, expectedReturnPct: number): number[] | null {
-  if (!f.paths?.length || !(f.lastClose > 0)) return null;
-  const logs = f.paths.map((p) => Math.log(Math.max(p[p.length - 1], 1e-9) / f.lastClose));
-  const sorted = [...logs].sort((a, b) => a - b);
-  const median = percentile(sorted, 0.5);
-  const target = Math.log(1 + expectedReturnPct / 100) * (f.horizon / 252);
-  return logs.map((l) => Math.exp(l - median + target) - 1);
-}
-
 export function runMonteCarlo(input: MonteCarloInput): MonteCarloResult {
-  const { params, brokerId, history, forecasts = {} } = input;
+  const { params, brokerId, history } = input;
   const scenarios = input.scenarios ?? DEFAULT_SCENARIOS;
   const rand = mulberry32(input.seed ?? 20251103);
 
@@ -192,13 +173,6 @@ export function runMonteCarlo(input: MonteCarloInput): MonteCarloResult {
 
   const windows = history && etfs.length > 0 ? buildQuarterWindows(etfs, history) : null;
   const method: MonteCarloResult['method'] = windows ? 'bootstrap' : 'parametric';
-
-  // Rentabilidades del primer trimestre según Kronos (una lista por ETF, o null)
-  const kronosQ1 = etfs.map((e) => {
-    const f = forecasts[e.ticker.toUpperCase()];
-    return f ? kronosDebiasedReturns(f, e.expectedReturn) : null;
-  });
-  const kronosTickers = etfs.filter((_, i) => kronosQ1[i]).map((e) => e.ticker.toUpperCase());
 
   const stressReturns = input.stress ? cycleQuarterlyReturns(input.stress.cycle, etfs) : null;
   const stressStart = input.stress ? Math.max(0, Math.min(input.stress.startQuarter, totalQuarters - 1)) : 0;
@@ -223,15 +197,11 @@ export function runMonteCarlo(input: MonteCarloInput): MonteCarloResult {
       // (los números aleatorios se consumen igual con o sin estrés: así ambos escenarios
       //  comparten el resto del camino y la diferencia es solo el efecto de la crisis)
       const row = windows ? windows.returns[Math.floor(rand() * windows.returns.length)] : null;
-      const kronosPick = rand();
       const stressRow = stressReturns && q >= stressStart ? stressReturns[q - stressStart] : undefined;
       for (let i = 0; i < etfs.length; i++) {
-        const k = q === 0 ? kronosQ1[i] : null;
         if (stressRow) {
           quarterReturns[i] = stressRow[i];
           if (!row) gaussian(rand);
-        } else if (k) {
-          quarterReturns[i] = k[Math.floor(kronosPick * k.length)];
         } else if (row) {
           quarterReturns[i] = row[i];
         } else {
@@ -312,7 +282,6 @@ export function runMonteCarlo(input: MonteCarloInput): MonteCarloResult {
     },
     method,
     dataWindow: windows ? { from: windows.from, to: windows.to, quarterWindows: windows.returns.length } : undefined,
-    kronosTickers,
     stress:
       input.stress && stressReturns
         ? {

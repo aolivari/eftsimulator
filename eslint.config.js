@@ -1,9 +1,6 @@
 // @ts-check
-// Linter del proyecto. Hace cumplir la arquitectura de AGENTS.md
-// ("Arquitectura objetivo"): features/ aislados, shared/ui sin dominio.
-//
-// Alcance actual: solo el código NUEVO (features/, shared/, app/).
-// src/components/ y src/engine/ quedan fuera hasta su migración.
+// Linter del proyecto. Hace cumplir la arquitectura de AGENTS.md:
+// features/ aislados, shared/ui sin dominio y composición en app/.
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -17,15 +14,8 @@ export default tseslint.config(
       'node_modules',
       'api/**',
       'scripts/**',
-      'kronos-service/**',
-      // Código legado pendiente de migrar (ver AGENTS.md, "Migración").
-      'src/components/**',
       'src/engine/**',
-      'src/auth/**',
-      'src/lib/**',
       'src/data/**',
-      'src/main.tsx',
-      'src/App.tsx',
       '.vercel',
       '.worktrees',
       '.taste-skill',
@@ -71,8 +61,6 @@ export default tseslint.config(
 
       // 2. Dependencias permitidas: shared nunca depende de features ni de app;
       //    features nunca importan de app.
-      //    Pendiente: "un feature no importa de otro feature" no se puede expresar
-      //    sin captures; hoy es una convención de AGENTS.md, no una regla.
       'boundaries/element-types': [
         'error',
         {
