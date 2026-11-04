@@ -126,6 +126,7 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
 - **Gráficos**: Recharts (`ComposedChart`/`AreaChart`). Los ejes formatean en `k`.
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.
+- **Ramas y worktrees**: cualquier rama nueva o worktree debe crearse **siempre desde `origin/master`** (ejecutando antes `git fetch origin master`), **nunca** desde la rama `master` local.
 
 ## Reglas de producto (noticias y reportes)
 Estas reglas son de negocio y legales. El linter no las comprueba; cualquier cambio que las afecte necesita revisión humana.
