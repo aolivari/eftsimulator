@@ -4,6 +4,8 @@ import { TrelloClient } from './trello.mjs';
 import { GitWorktreeManager } from './git-worktree.mjs';
 import { runClaudeAgent } from './executors/claude-executor.mjs';
 import { runGeminiAgent } from './executors/gemini-executor.mjs';
+import { createPullRequest } from './github.mjs';
+import { sendTelegramNotification } from './telegram.mjs';
 
 function slugify(text) {
   return text
@@ -100,20 +102,20 @@ class AIRunnerDaemon {
     try {
       worktreePath = this.git.createWorktree(branchName);
 
-      // Preparar el prompt completo con la Historia de Usuario
+      // Preparar el prompt completo con la Historia de Usuario y reglas estrictas
       const prompt = `HISTORIA DE USUARIO: ${card.name}
 DESCRIPCIÓN Y REQUISITOS:
 ${card.desc || 'Sin descripción adicional. Analiza el título e implementa la solución siguiendo las mejores prácticas del repositorio.'}
 
-REGLAS DE TRABAJO:
+REGLAS DE TRABAJO ESTRICTAS:
 1. OBLIGATORIO: Lee y sigue estrictamente las reglas de "AGENTS.md" en la raíz del repositorio (arquitectura feature-first, shared/ui, types, todo en español).
 2. Analiza el código actual en este repositorio antes de hacer cambios.
-2. Escribe código TypeScript/React limpio, sin romper el build.
-3. Asegúrate de que npm run build o tests compilen sin errores antes de finalizar.
-4. Trabaja de forma 100% autónoma.
-5. OBLIGATORIO: Cuando termines de implementar y verificar el código, crea un archivo llamado "AI_SUMMARY.md" en la raíz del proyecto explicando detalladamente:
-   - Qué cambios y soluciones has implementado.
-   - Qué archivos modificaste o creaste y por qué.
+3. Escribe código TypeScript/React limpio y tipado, sin romper la arquitectura existente.
+4. CONTROL DE CALIDAD: Asegúrate de que "npm run build" compile sin errores antes de finalizar.
+5. Trabaja de forma 100% autónoma.
+6. OBLIGATORIO: Cuando termines de implementar y verificar el código, crea un archivo llamado "AI_SUMMARY.md" en la raíz del proyecto explicando detalladamente:
+   - Resumen claro de la solución implementada.
+   - Lista de archivos modificados o creados y por qué.
    - Cómo puede el usuario probar o revisar tu solución.`;
 
       // 2. Ejecutar el agente correspondiente
@@ -155,15 +157,37 @@ REGLAS DE TRABAJO:
         console.log(`ℹ️ No se detectaron cambios en el código para la tarea.`);
       }
 
-      // 4. Mover la tarjeta a "En revisión"
+      // 4. Crear Pull Request en GitHub hacia master si hubo push
+      let prUrl = null;
+      if (pushed) {
+        console.log(`🐙 Creando Pull Request en GitHub hacia master...`);
+        const prBody = `## 🤖 Tarea resuelta por: ${model.toUpperCase()}\n\n` +
+          `**Tarjeta de Trello:** [${card.name}](${card.url || ''})\n\n` +
+          (aiExplanation ? `### 📝 Resumen técnico:\n${aiExplanation}\n\n` : '') +
+          (changedFiles ? `### 📁 Archivos afectados:\n\`\`\`\n${changedFiles}\n\`\`\`\n` : '');
+
+        const prResult = await createPullRequest({
+          title: `[${model.toUpperCase()}] ${card.name}`,
+          headBranch: branchName,
+          baseBranch: 'master',
+          body: prBody,
+        });
+        prUrl = prResult.prUrl;
+      }
+
+      // 5. Mover la tarjeta a "En revisión"
       if (boardMap.reviewListId) {
         console.log(`📦 Moviendo tarjeta a la columna "En revisión"...`);
         await this.trello.moveCard(card.id, boardMap.reviewListId);
       }
 
-      // 5. Añadir comentario final detallado con el informe completo
+      // 6. Añadir comentario final detallado con el informe completo en Trello
       let commentMsg = `🎉 **${model.toUpperCase()} ha completado la tarea**\n\n` +
         `🌿 **Rama de trabajo:** \`${branchName}\`\n\n`;
+
+      if (prUrl) {
+        commentMsg += `🔗 **Pull Request en GitHub:** [Abrir PR en GitHub](${prUrl})\n\n`;
+      }
 
       if (aiExplanation) {
         commentMsg += `### 📋 Explicación de los cambios:\n${aiExplanation}\n\n`;
@@ -176,18 +200,28 @@ REGLAS DE TRABAJO:
       }
 
       if (pushed) {
-        commentMsg += `🚀 **Estado:** Rama subida a GitHub. Ya puedes revisarla y fusionarla cuando desees.\n`;
+        commentMsg += `🚀 **Estado:** Rama subida a GitHub y Pull Request listo para revisión.\n`;
       } else if (!hasChanges) {
         commentMsg += `ℹ️ **Nota:** El agente revisó los requisitos pero no requirió cambios en código.\n`;
       }
 
       await this.trello.addComment(card.id, commentMsg);
 
+      // 7. Enviar notificación instantánea a Telegram
+      await sendTelegramNotification({
+        title: card.name,
+        model,
+        branchName,
+        prUrl,
+        summary: aiExplanation || result.summary || 'Tarea completada exitosamente y Pull Request creado.',
+      });
+
       // Registrar en el estado local
       this.state.processedCards[card.id] = {
         title: card.name,
         model,
         branchName,
+        prUrl,
         completedAt: new Date().toISOString(),
       };
       this.saveState();
@@ -197,7 +231,7 @@ REGLAS DE TRABAJO:
         await this.trello.addComment(card.id, `⚠️ Error en la ejecución autónoma de ${model}: ${err.message}`);
       } catch {}
     } finally {
-      // 6. Limpieza segura del worktree
+      // 8. Limpieza segura del worktree
       if (worktreePath) {
         this.git.removeWorktree(worktreePath, branchName);
       }
