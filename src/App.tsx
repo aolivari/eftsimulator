@@ -1,6 +1,5 @@
-import React from 'react';
-import ETFSimulator from './components/ETFSimulator';
-import { AuthProvider } from './auth/AuthContext';
+import { ETFSimulator } from './app/ETFSimulator';
+import { AuthProvider } from './features/cuentas';
 
 export default function App() {
   return (

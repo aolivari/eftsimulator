@@ -309,7 +309,7 @@ export interface MultiYearCycleSimulationResult {
   }[];
 }
 
-// ─── Monte Carlo & Predicción IA (Kronos) ───────────────────────────────
+// ─── Monte Carlo ────────────────────────────────────────────────────────
 
 /** Rentabilidades mensuales alineadas devueltas por /api/history */
 export interface MonthlyReturnHistory {
@@ -323,28 +323,6 @@ export interface MonthlyReturnHistory {
       returns: (number | null)[];
     }
   >;
-}
-
-/** Predicción probabilística de Kronos para un ETF (/api/forecast) */
-export interface KronosForecast {
-  ticker: string;
-  symbol: string;
-  model: string;
-  asOf: string;
-  horizon: number; // sesiones bursátiles
-  samples: number;
-  lastClose: number;
-  history: { dates: string[]; close: number[] };
-  forecastDates: string[];
-  paths: number[][]; // [muestra][día]
-  lookback?: number;
-  upsideProb: number; // en bruto, con sesgo de reversión a la media: no mostrar
-  volAmpProb: number;
-  historicalDailyVol: number;
-  predictedDailyVol: number;
-  volRatio?: number; // volatilidad predicha / volatilidad de los últimos 3 meses
-  terminalReturn: { p10: number; p50: number; p90: number };
-  cached?: boolean;
 }
 
 export interface MonteCarloQuarterBand {
@@ -371,5 +349,15 @@ export interface MonteCarloResult {
   // Ciclo histórico real forzado en todos los escenarios (prueba de estrés)
   stress?: { cycleId: string; name: string; type: CycleType; startQuarter: number; quarters: number };
   dataWindow?: { from: string; to: string; quarterWindows: number };
-  kronosTickers: string[];
+}
+
+// ─── Saved Plans (Cuentas) ──────────────────────────────────────────────
+
+export interface SavedPlan {
+  id: string;
+  name: string;
+  params: SimulationParams;
+  etfs: ETFAsset[];
+  created_at: string;
+  updated_at: string;
 }
