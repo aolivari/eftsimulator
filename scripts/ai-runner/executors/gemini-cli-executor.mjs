@@ -95,13 +95,13 @@ function findExistingConversationForWorktree(worktreePath) {
         mtime: exists ? fs.statSync(tPath).mtimeMs : 0,
       };
     })
-    .filter((item) => item.mtime > Date.now() - 2 * 60 * 60 * 1000) // últimas 2 horas
+    .filter((item) => item.mtime > Date.now() - 2 * 60 * 60 * 1000)
     .sort((a, b) => b.mtime - a.mtime);
 
   for (const item of entries) {
     try {
       const firstLine = fs.readFileSync(item.tPath, 'utf8').split('\n')[0];
-      if (firstLine && firstLine.includes(worktreePath.replace(/\\/g, '\\\\')) || firstLine.includes(worktreePath)) {
+      if (firstLine && (firstLine.includes(worktreePath.replace(/\\/g, '\\\\')) || firstLine.includes(worktreePath))) {
         return item.id;
       }
     } catch {}
@@ -156,7 +156,9 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
       agyBin,
       ['agentapi', 'new-conversation', `--model=${modelFlag}`, `--title=${title}`, isolatedPrompt],
       {
-        cwd: worktreePath,
+        // IMPORTANTE: usar process.cwd() (la raíz de eftsimulator) para que Antigravity asocie
+        // la conversación a la carpeta "eftsimulator" del IDE y le otorgue permisos sobre el workspace.
+        cwd: process.cwd(),
         env: agyEnv,
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024,
@@ -187,7 +189,7 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
       return { success: false, error: 'Sin conversationId' };
     }
 
-    console.log(`✅ Conversación iniciada en Antigravity Local | ID: ${conversationId}`);
+    console.log(`✅ Conversación iniciada en Antigravity Local (workspace eftsimulator) | ID: ${conversationId}`);
   }
 
   const transcriptPath = path.join(
@@ -286,7 +288,6 @@ REGLAS OBLIGATORIAS PARA TUS HERRAMIENTAS:
       lastStep.status === 'DONE' &&
       (!lastStep.tool_calls || lastStep.tool_calls.length === 0)
     ) {
-      // Si aún no existe AI_SUMMARY.md, esperamos unos segundos por si el sistema está entregando un SYSTEM_MESSAGE
       const stepTime = lastStep.created_at ? new Date(lastStep.created_at).getTime() : 0;
       const elapsedSinceLastStep = stepTime ? Date.now() - stepTime : 999999;
 
