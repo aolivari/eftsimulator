@@ -4,6 +4,8 @@ import { TrelloClient } from './trello.mjs';
 import { GitWorktreeManager } from './git-worktree.mjs';
 import { runClaudeAgent } from './executors/claude-executor.mjs';
 import { runGeminiAgent } from './executors/gemini-executor.mjs';
+import { runGeminiCliAgent } from './executors/gemini-cli-executor.mjs';
+import { loadEnv } from './config.mjs';
 import { createPullRequest } from './github.mjs';
 import { sendTelegramNotification } from './telegram.mjs';
 
@@ -123,7 +125,9 @@ REGLAS DE TRABAJO ESTRICTAS:
       if (['opus', 'sonet', 'haiku'].includes(model)) {
         result = await runClaudeAgent({ model, prompt, worktreePath });
       } else {
-        result = await runGeminiAgent({ model, prompt, worktreePath });
+        result = loadEnv().AI_RUNNER_GEMINI_MODE === 'api'
+          ? await runGeminiAgent({ model, prompt, worktreePath }) // API (capa gratuita, límites por minuto)
+          : await runGeminiCliAgent({ model, prompt, worktreePath }); // Gemini CLI con tu cuenta de Google
       }
 
       if (!result.success) {
@@ -131,7 +135,8 @@ REGLAS DE TRABAJO ESTRICTAS:
         await this.trello.addComment(
           card.id,
           `⚠️ **${model.toUpperCase()}** no pudo completar la tarea (código de salida con error).\n` +
-          `Si usas Claude, asegúrate de haber ejecutado \`npx @anthropic-ai/claude-code\` una vez para iniciar sesión con tu cuenta de Claude Pro.`
+          `Si usas Claude, asegúrate de haber ejecutado \`npx @anthropic-ai/claude-code\` una vez para iniciar sesión con tu cuenta de Claude Pro.\n` +
+          `Si usas Gemini, asegúrate de haber ejecutado \`npx gemini\` una vez para iniciar sesión con tu cuenta de Google.`
         );
         return;
       }
