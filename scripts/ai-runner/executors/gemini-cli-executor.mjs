@@ -27,10 +27,13 @@ function isProcessAlive(pid) {
   }
 }
 
-function resolveAntigravityDaemonEnv() {
+function resolveAntigravityDaemonEnv(env = {}) {
+  const projectId = process.env.ANTIGRAVITY_PROJECT_ID || env.ANTIGRAVITY_PROJECT_ID || '5cec5371-7dd0-425d-9966-62c2628bf6c2';
+
   if (process.env.ANTIGRAVITY_LS_ADDRESS && process.env.ANTIGRAVITY_CSRF_TOKEN) {
     return {
       ...process.env,
+      ANTIGRAVITY_PROJECT_ID: projectId,
     };
   }
 
@@ -56,6 +59,7 @@ function resolveAntigravityDaemonEnv() {
           ...process.env,
           ANTIGRAVITY_LS_ADDRESS: `localhost:${hub.httpPort}`,
           ANTIGRAVITY_CSRF_TOKEN: hub.csrfToken,
+          ANTIGRAVITY_PROJECT_ID: projectId,
         };
       }
     } catch {}
@@ -68,6 +72,7 @@ function resolveAntigravityDaemonEnv() {
         ...process.env,
         ANTIGRAVITY_LS_ADDRESS: `localhost:${hub.httpPort}`,
         ANTIGRAVITY_CSRF_TOKEN: hub.csrfToken,
+        ANTIGRAVITY_PROJECT_ID: projectId,
       };
     }
   }
