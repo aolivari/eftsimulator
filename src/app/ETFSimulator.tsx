@@ -397,7 +397,7 @@ export function ETFSimulator() {
                     >
                       <div className="flex items-center gap-2.5">
                         <Newspaper className="w-4 h-4 text-sky-500" />
-                        <span>Noticias</span>
+                        <span>Noticias de mi plan</span>
                       </div>
                       <ChevronRight className="w-3.5 h-3.5 opacity-70" />
                     </button>
@@ -515,7 +515,7 @@ export function ETFSimulator() {
 
               <Tabs.Trigger value="news">
                 <Newspaper className="w-4 h-4" />
-                <span>Noticias</span>
+                <span>Noticias de mi plan</span>
               </Tabs.Trigger>
             </Tabs.List>
 
@@ -613,9 +613,9 @@ export function ETFSimulator() {
               <BrokersView results={results} years={params.years} />
             </Tabs.Panel>
 
-            {/* Pestaña 6 → Feature: noticias (placeholder) */}
+            {/* Pestaña 6 → Feature: noticias */}
             <Tabs.Panel value="news">
-              <NoticiasView />
+              <NoticiasView etfs={etfs} />
             </Tabs.Panel>
           </Tabs.Root>
 
