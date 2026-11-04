@@ -1,5 +1,17 @@
 import { spawn } from 'node:child_process';
-import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// Binario de Claude Code instalado como devDependency en la raíz del repositorio.
+// Se lanza directamente (sin npx.cmd ni shell): en Windows, Node no permite
+// arrancar archivos .cmd sin shell (error EINVAL desde las versiones recientes).
+const CLAUDE_BIN = fileURLToPath(
+  new URL(
+    process.platform === 'win32'
+      ? '../../../node_modules/@anthropic-ai/claude-code/bin/claude.exe'
+      : '../../../node_modules/@anthropic-ai/claude-code/bin/claude',
+    import.meta.url
+  )
+);
 
 export async function runClaudeAgent({ model, prompt, worktreePath }) {
   console.log(`🤖 Iniciando agente Claude (${model}) en ${worktreePath}...`);
@@ -8,8 +20,7 @@ export async function runClaudeAgent({ model, prompt, worktreePath }) {
   const modelFlag = model === 'opus' ? 'opus' : model === 'haiku' ? 'haiku' : 'sonnet';
 
   return new Promise((resolve) => {
-    // Usamos npx con args directos sin shell para evitar advertencias de escape
-    const child = spawn('npx.cmd', ['@anthropic-ai/claude-code', '--dangerously-skip-permissions', '--model', modelFlag, '-p', prompt], {
+    const child = spawn(CLAUDE_BIN, ['--dangerously-skip-permissions', '--model', modelFlag, '-p', prompt], {
       cwd: worktreePath,
       stdio: 'inherit',
       env: {
