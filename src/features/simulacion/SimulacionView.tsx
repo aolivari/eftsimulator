@@ -9,6 +9,7 @@ export function SimulacionView({
   params,
   effectiveParams,
   etfs,
+  recalculating = false,
   results,
   bestBroker,
   worstBroker,
@@ -24,7 +25,7 @@ export function SimulacionView({
     <ViewTemplate.Root id="simulacion-view">
       {/* 1. Controles de Entrada */}
       <ViewTemplate.Section id="simulacion-inputs">
-        <InputControls params={params} onChange={onChangeParams} />
+        <InputControls params={params} onChange={onChangeParams} recalculating={recalculating} />
       </ViewTemplate.Section>
 
       {/* 2. Tarjetas KPI de Resumen */}
@@ -38,7 +39,7 @@ export function SimulacionView({
       <ViewTemplate.Section id="simulacion-growth-chart">
         <GrowthChart
           results={results}
-          years={params.years}
+          years={effectiveParams.years}
           historicalSimulation={historicalSimulation}
           onClearHistoricalSimulation={onClearHistoricalSimulation}
           multiYearSimulation={multiYearSimulation}
@@ -76,7 +77,7 @@ export function SimulacionView({
         <div className="space-y-2.5 sm:hidden">
           <button
             onClick={() => onNavigateTab('allocation')}
-            className="w-full bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-orange-300 cursor-pointer"
+            className="w-full surface-glass rounded-2xl p-3.5 border flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-orange-300 cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 border border-orange-100">
@@ -99,7 +100,7 @@ export function SimulacionView({
 
           <button
             onClick={onOpenTimelineModal}
-            className="w-full bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-rose-300 cursor-pointer"
+            className="w-full surface-glass rounded-2xl p-3.5 border flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-rose-300 cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100">
@@ -122,7 +123,7 @@ export function SimulacionView({
 
           <button
             onClick={() => onNavigateTab('brokers')}
-            className="w-full bg-white rounded-2xl p-3.5 border border-slate-200/90 shadow-2xs flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-purple-300 cursor-pointer"
+            className="w-full surface-glass rounded-2xl p-3.5 border flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-purple-300 cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100">
@@ -148,7 +149,7 @@ export function SimulacionView({
         <ViewTemplate.Grid cols={3} className="hidden sm:grid">
           <button
             onClick={() => onNavigateTab('allocation')}
-            className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-orange-400/80 hover:bg-orange-50/20 text-left transition-all duration-200 shadow-2xs hover:shadow-xs group cursor-pointer flex flex-col justify-between"
+            className="p-4 rounded-2xl border surface-glass hover:border-orange-400/80 hover:bg-orange-50/20 text-left transition-all duration-200 group cursor-pointer flex flex-col justify-between"
           >
             <div className="space-y-1.5">
               <div className="w-8 h-8 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
@@ -169,7 +170,7 @@ export function SimulacionView({
 
           <button
             onClick={() => onNavigateTab('cycles')}
-            className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-rose-400/80 hover:bg-rose-50/20 text-left transition-all duration-200 shadow-2xs hover:shadow-xs group cursor-pointer flex flex-col justify-between"
+            className="p-4 rounded-2xl border surface-glass hover:border-rose-400/80 hover:bg-rose-50/20 text-left transition-all duration-200 group cursor-pointer flex flex-col justify-between"
           >
             <div className="space-y-1.5">
               <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
@@ -190,7 +191,7 @@ export function SimulacionView({
 
           <button
             onClick={() => onNavigateTab('brokers')}
-            className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-violet-400/80 hover:bg-violet-50/20 text-left transition-all duration-200 shadow-2xs hover:shadow-xs group cursor-pointer flex flex-col justify-between"
+            className="p-4 rounded-2xl border surface-glass hover:border-violet-400/80 hover:bg-violet-50/20 text-left transition-all duration-200 group cursor-pointer flex flex-col justify-between"
           >
             <div className="space-y-1.5">
               <div className="w-8 h-8 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center font-bold">

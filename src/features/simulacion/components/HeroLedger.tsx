@@ -88,7 +88,7 @@ export function HeroLedger({
           <h1 id="hero-title" className="text-base sm:text-lg font-bold text-white/80">
             ETF Simulator <span className="text-orange-400">&amp;</span> Plan de Ahorro
           </h1>
-          <p className="text-[clamp(3.5rem,9vw,8.5rem)] font-black leading-[0.9] tracking-tighter tabular-nums">
+          <p className="font-display text-[clamp(4rem,10vw,9.5rem)] font-extrabold leading-[0.88] tracking-tight tabular-nums">
             {formatCurrency(shown)}
             <span className="text-orange-400"> €</span>
           </p>
@@ -163,7 +163,7 @@ export function HeroLedger({
                 >
                   <span className="overflow-hidden">
                     <span className="block px-4 pb-3.5">
-                      <span className="block text-xl font-black tabular-nums tracking-tight">{s.figure}</span>
+                      <span className="font-display block text-2xl font-extrabold tabular-nums">{s.figure}</span>
                       {/* Altura mínima de 3 líneas: el hero no salta al rotar entre textos de distinta longitud */}
                       <span className="mt-1 block min-h-[4.125em] text-[13px] leading-snug text-white/70">
                         {s.description}

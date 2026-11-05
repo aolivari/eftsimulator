@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import {
   ShieldAlert,
   Rocket,
@@ -25,6 +25,7 @@ import {
   getDefault10YearTimelinePlan,
 } from '../../../data/multiYearTimelinePresets';
 import { formatCurrency } from '../../../shared/utils';
+import { useInView } from '../../../shared/ui';
 import type { CycleSimulatorProps } from '../types';
 import CycleTimelineModal from './CycleTimelineModal';
 
@@ -45,6 +46,8 @@ export default function CycleSimulator({
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeSubTab, setActiveSubTab] = useState<'timeline' | 'events'>('timeline');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const crisisList = useInView<HTMLDivElement>();
+  const expansionList = useInView<HTMLDivElement>();
 
   const effectiveTimelinePlan = multiYearPlan || getDefault10YearTimelinePlan(planYears);
   const activeCycle = HISTORICAL_CYCLES.find((c) => c.id === selectedCycleId);
@@ -435,8 +438,8 @@ export default function CycleSimulator({
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3">
-                      {CRISIS_CYCLES.map((event) => {
+                    <div ref={crisisList.ref} className={`grid grid-cols-1 gap-3 ${crisisList.revealClass}`}>
+                      {CRISIS_CYCLES.map((event, index) => {
                         const isSelected = selectedCycleId === event.id;
                         const sp500Return = event.assetReturns.sp500?.totalReturnPct ?? 0;
 
@@ -444,8 +447,9 @@ export default function CycleSimulator({
                           <button
                             type="button"
                             key={event.id}
+                            style={{ '--i': index } as CSSProperties}
                             onClick={() => onSelectCycle(isSelected ? null : event.id)}
-                            className={`text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
+                            className={`reveal-item text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
                               isSelected
                                 ? 'border-rose-500 bg-rose-50/50 shadow-md ring-2 ring-rose-500/20'
                                 : 'border-slate-200 hover:border-rose-300 bg-white hover:bg-rose-50/20 shadow-2xs'
@@ -454,6 +458,9 @@ export default function CycleSimulator({
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
+                                  <span className="font-display text-lg font-extrabold tabular-nums text-slate-400">
+                                    {String(index + 1).padStart(2, '0')}
+                                  </span>
                                   <div className="p-1.5 rounded-lg bg-rose-100 group-hover:bg-rose-200 transition-colors">
                                     {getCycleIcon(event.id)}
                                   </div>
@@ -511,8 +518,8 @@ export default function CycleSimulator({
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 gap-3">
-                      {EXPANSION_CYCLES.map((event) => {
+                    <div ref={expansionList.ref} className={`grid grid-cols-1 gap-3 ${expansionList.revealClass}`}>
+                      {EXPANSION_CYCLES.map((event, index) => {
                         const isSelected = selectedCycleId === event.id;
                         const sp500Return = event.assetReturns.sp500?.totalReturnPct ?? 0;
 
@@ -520,8 +527,9 @@ export default function CycleSimulator({
                           <button
                             type="button"
                             key={event.id}
+                            style={{ '--i': index } as CSSProperties}
                             onClick={() => onSelectCycle(isSelected ? null : event.id)}
-                            className={`text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
+                            className={`reveal-item text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
                               isSelected
                                 ? 'border-emerald-500 bg-emerald-50/50 shadow-md ring-2 ring-emerald-500/20'
                                 : 'border-slate-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/20 shadow-2xs'
@@ -530,6 +538,9 @@ export default function CycleSimulator({
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
+                                  <span className="font-display text-lg font-extrabold tabular-nums text-slate-400">
+                                    {String(index + 1).padStart(2, '0')}
+                                  </span>
                                   <div className="p-1.5 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
                                     {getCycleIcon(event.id)}
                                   </div>
