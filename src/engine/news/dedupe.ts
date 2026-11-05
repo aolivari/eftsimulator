@@ -17,6 +17,11 @@ export function normalizeUrl(raw: string): string | null {
   }
 }
 
+/** URL normalizada o cadena recortada si la URL no parsea. */
+export function safeNormalizeUrl(raw: string): string {
+  return normalizeUrl(raw) ?? raw.trim();
+}
+
 /** Titular normalizado: minúsculas, sin acentos, sin puntuación y sin sufijo " - Medio". */
 export function normalizeTitle(title: string): string {
   return title

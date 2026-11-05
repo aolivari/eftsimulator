@@ -12,7 +12,8 @@
     "ai:trello:test": "node scripts/trello-test.mjs",
     "lint": "eslint src",
     "datos:composicion": "node scripts/holdings/actualizar.ts",
-    "test:holdings": "node --test scripts/holdings/holdings.test.ts"
+    "test:holdings": "node --test scripts/holdings/holdings.test.ts",
+    "test:pipeline": "node --test scripts/pipeline/pipeline.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",

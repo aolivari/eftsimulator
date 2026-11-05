@@ -1,4 +1,4 @@
-import type { AssetClass, NewsQuery } from '../../types/index.js';
+import type { AssetClass, NewsQuery } from '../../types/index.ts';
 
 /** Medios financieros permitidos. Se puede sustituir con NEWS_ALLOWED_DOMAINS (lista separada por comas). */
 export const DEFAULT_ALLOWED_DOMAINS: string[] = [
