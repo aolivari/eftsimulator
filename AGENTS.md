@@ -17,6 +17,7 @@ SPA en React + TypeScript (Vite) que simula planes de ahorro en ETFs para invers
 | Lint (arquitectura y calidad) | `npm run lint` (`src/features`, `src/shared` y `src/app`) |
 | Comprobar tipos de `api/` | `npx tsc --noEmit --strict --skipLibCheck --module esnext --moduleResolution bundler --target es2022 --esModuleInterop --types node api/*.ts` |
 | Build de producción | `npm run build` |
+| Avisar por Telegram | `npm run ai:telegram -- "Mensaje"` |
 
 No hay tests automatizados. Verifica los cambios con `npm run lint`, `npx tsc -b` y abriendo la web en el navegador.
 
@@ -127,6 +128,24 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.
 - **Ramas y worktrees**: cualquier rama nueva o worktree debe crearse **siempre desde `origin/master`** (ejecutando antes `git fetch origin master`), **nunca** desde la rama `master` local.
+
+## Notificaciones por Telegram (para asistentes de IA)
+Los asistentes de IA pueden enviar avisos directos al usuario por Telegram usando [scripts/ai-runner/telegram.mjs](scripts/ai-runner/telegram.mjs) (lee automáticamente TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID de .env.local, tanto desde la raíz del repositorio como desde cualquier worktree en .worktrees/).
+
+1. **Cuándo avisar**:
+   - Al completar una historia de usuario (HU), tarea larga o despliegue.
+   - Al crear o actualizar un Pull Request listo para revisión.
+   - Si encuentras un bloqueo crítico que requiere decisión o credenciales del usuario.
+2. **Cómo enviar un aviso rápido (texto libre)**:
+   `ash
+   npm run ai:telegram -- "Resumen claro del avance, duda o bloqueo"
+   `
+3. **Cómo enviar un reporte estructurado de tarea / PR**:
+   `ash
+   node scripts/ai-runner/telegram.mjs --title "FASE X · HU: título" --model "NOMBRE_MODELO" --branch "rama/actual" --pr "https://github.com/aolivari/eftsimulator/pull/XX" --summary "Resumen de cambios y verificación"
+   `
+4. **Nota con el AI Runner (
+pm run ai:runner)**: si estás ejecutando dentro del daemon automático de Trello, al terminar y escribir AI_SUMMARY.md el propio daemon envía la notificación con el enlace al PR automáticamente; usa el comando manual solo si trabajas fuera del daemon o necesitas avisar de un bloqueo intermedio.
 
 ## Reglas de producto (noticias y reportes)
 Estas reglas son de negocio y legales. El linter no las comprueba; cualquier cambio que las afecte necesita revisión humana.

@@ -10,6 +10,7 @@
     "ai:runner": "node scripts/ai-runner/daemon.mjs",
     "ai:runner:once": "node scripts/ai-runner/daemon.mjs --once",
     "ai:trello:test": "node scripts/trello-test.mjs",
+    "ai:telegram": "node scripts/ai-runner/telegram.mjs",
     "lint": "eslint src",
     "datos:composicion": "node scripts/holdings/actualizar.ts",
     "test:holdings": "node --test scripts/holdings/holdings.test.ts",

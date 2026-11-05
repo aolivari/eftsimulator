@@ -2,14 +2,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export function loadEnv() {
-  const localEnvPath = path.resolve(process.cwd(), '.env.local');
-  const defaultEnvPath = path.resolve(process.cwd(), '.env');
-  const targetPath = fs.existsSync(localEnvPath) ? localEnvPath : defaultEnvPath;
+  const candidates = [
+    path.resolve(process.cwd(), '.env.local'),
+    path.resolve(process.cwd(), '.env'),
+    path.resolve(process.cwd(), '..', '..', '.env.local'),
+    path.resolve(process.cwd(), '..', '..', '.env'),
+  ];
+  const targetPath = candidates.find((p) => fs.existsSync(p));
 
-  if (!fs.existsSync(targetPath)) return {};
+  if (!targetPath) return {};
   const content = fs.readFileSync(targetPath, 'utf8');
   const env = {};
-  for (const line of content.split('\n')) {
+  for (const line of content.split(/\r?\n/)) {
     const trimmed = line.trim();
     if (!trimmed || trimmed.startsWith('#')) continue;
     const eqIdx = trimmed.indexOf('=');
