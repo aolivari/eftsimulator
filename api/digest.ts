@@ -1,19 +1,19 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import type { PositionWeight } from '../src/engine/digest.ts';
+import type { PositionWeight } from '../src/engine/digest.js';
 import {
   getMadridDateString,
   synthesizePlanDigest,
   analyzeHeuristically,
-} from '../src/engine/news/index.ts';
-import type { SupabaseAdmin } from './news/_store.ts';
+} from '../src/engine/news/index.js';
+import type { SupabaseAdmin } from './news/_store.js';
 import {
   loadDigestsForComposition,
   loadRecentNews,
   loadExistingAnalyses,
   saveDigests,
-} from './news/_pipelineStore.ts';
-import { safeNormalizeUrl } from '../src/engine/news/dedupe.ts';
-import type { NewsAnalysisRecord } from '../src/types/pipeline.ts';
+} from './news/_pipelineStore.js';
+import { safeNormalizeUrl } from '../src/engine/news/dedupe.js';
+import type { NewsAnalysisRecord } from '../src/types/pipeline.js';
 
 function parseCompositionParam(raw: string): PositionWeight[] {
   if (!raw) return [];

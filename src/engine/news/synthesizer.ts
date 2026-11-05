@@ -1,9 +1,9 @@
-import type { Digest, DigestCompositionItem } from '../../types/digest.ts';
-import type { NewsArticle } from '../../types/noticias-ingesta.ts';
-import type { NewsItem } from '../../types/news.ts';
-import type { NewsAnalysisRecord } from '../../types/pipeline.ts';
-import { affectedWeight, compositionHash, type PositionWeight } from '../digest.ts';
-import { safeNormalizeUrl } from './dedupe.ts';
+import type { Digest, DigestCompositionItem } from '../../types/digest.js';
+import type { NewsArticle } from '../../types/noticias-ingesta.js';
+import type { NewsItem } from '../../types/news.js';
+import type { NewsAnalysisRecord } from '../../types/pipeline.js';
+import { affectedWeight, compositionHash, type PositionWeight } from '../digest.js';
+import { safeNormalizeUrl } from './dedupe.js';
 
 export const DEFAULT_LEGAL_DISCLAIMER =
   'Información educativa. No constituye recomendación de compra, venta ni asesoramiento financiero. Las rentabilidades pasadas no garantizan resultados futuros.';

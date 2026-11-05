@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import type { NewsArticle } from '../../types/noticias-ingesta.ts';
-import type { NewsEffect } from '../../types/news.ts';
-import type { NewsAnalysisRecord } from '../../types/pipeline.ts';
-import { safeNormalizeUrl } from './dedupe.ts';
+import type { NewsArticle } from '../../types/noticias-ingesta.js';
+import type { NewsEffect } from '../../types/news.js';
+import type { NewsAnalysisRecord } from '../../types/pipeline.js';
+import { safeNormalizeUrl } from './dedupe.js';
 
 export const ADMITTED_CATALOG_TICKERS = [
   'VWCE', // Renta variable mundial (FTSE All-World)

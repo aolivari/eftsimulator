@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { executeDailyPipeline, type PipelineDependencies } from '../../src/engine/news/index.ts';
-import { tavilyNewsSearch } from './_tavily.ts';
-import { loadKnownKeys, saveNews, type SupabaseAdmin } from './_store.ts';
+import { executeDailyPipeline, type PipelineDependencies } from '../../src/engine/news/index.js';
+import { tavilyNewsSearch } from './_tavily.js';
+import { loadKnownKeys, saveNews, type SupabaseAdmin } from './_store.js';
 import {
   loadRecentNews,
   loadExistingAnalyses,
@@ -9,7 +9,7 @@ import {
   loadDistinctPlanCompositions,
   saveDigests,
   recordPipelineRun,
-} from './_pipelineStore.ts';
+} from './_pipelineStore.js';
 
 /**
  * Pipeline diario de noticias y generación de digests por plan (Vercel Cron).

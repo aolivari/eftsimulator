@@ -1,5 +1,5 @@
-import type { AssetClass, ETFAsset, NewsQuery } from '../../types/index.ts';
-import { MACRO_QUERIES, SECTOR_QUERY_BY_CLASS, TICKERS_PER_QUERY } from './config.ts';
+import type { AssetClass, ETFAsset, NewsQuery } from '../../types/index.js';
+import { MACRO_QUERIES, SECTOR_QUERY_BY_CLASS, TICKERS_PER_QUERY } from './config.js';
 
 /** "Vanguard FTSE All-World UCITS ETF (Acc)" → "Vanguard FTSE All-World". */
 function cleanFundName(name: string): string {

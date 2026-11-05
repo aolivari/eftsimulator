@@ -1,8 +1,8 @@
-import type { Digest } from '../../src/types/digest.ts';
-import type { NewsArticle } from '../../src/types/noticias-ingesta.ts';
-import type { NewsAnalysisRecord, PipelineRunRecord } from '../../src/types/pipeline.ts';
-import { buildComposition, type PositionWeight } from '../../src/engine/digest.ts';
-import type { SupabaseAdmin } from './_store.ts';
+import type { Digest } from '../../src/types/digest.js';
+import type { NewsArticle } from '../../src/types/noticias-ingesta.js';
+import type { NewsAnalysisRecord, PipelineRunRecord } from '../../src/types/pipeline.js';
+import { buildComposition, type PositionWeight } from '../../src/engine/digest.js';
+import type { SupabaseAdmin } from './_store.js';
 
 function headers(db: SupabaseAdmin, extra: Record<string, string> = {}) {
   return {

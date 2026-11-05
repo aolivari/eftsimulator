@@ -2,14 +2,29 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
-import { executeDailyPipeline } from '../../src/engine/news/pipelineRunner.ts';
-import { compositionHash, buildComposition } from '../../src/engine/digest.ts';
-import { analyzeHeuristically, verificarCumplimientoLegal } from '../../src/engine/news/analyzer.ts';
-import { synthesizePlanDigest } from '../../src/engine/news/synthesizer.ts';
-import { safeNormalizeUrl, normalizeTitle } from '../../src/engine/news/dedupe.ts';
+import { registerHooks } from 'node:module';
 import type { NewsArticle } from '../../src/types/noticias-ingesta.ts';
 import type { Digest } from '../../src/types/digest.ts';
 import type { NewsAnalysisRecord, PipelineRunRecord } from '../../src/types/pipeline.ts';
+
+registerHooks({
+  resolve(specifier, context, nextResolve) {
+    try {
+      return nextResolve(specifier, context);
+    } catch (err) {
+      if (specifier.endsWith('.js')) {
+        return nextResolve(specifier.slice(0, -3) + '.ts', context);
+      }
+      throw err;
+    }
+  },
+});
+
+const { executeDailyPipeline } = await import('../../src/engine/news/pipelineRunner.ts');
+const { compositionHash, buildComposition } = await import('../../src/engine/digest.ts');
+const { analyzeHeuristically, verificarCumplimientoLegal } = await import('../../src/engine/news/analyzer.ts');
+const { synthesizePlanDigest } = await import('../../src/engine/news/synthesizer.ts');
+const { safeNormalizeUrl, normalizeTitle } = await import('../../src/engine/news/dedupe.ts');
 
 describe('FASE 4: Pipeline diario de noticias y digest por plan', () => {
   const rootDir = process.cwd();

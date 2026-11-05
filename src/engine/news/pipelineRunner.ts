@@ -1,25 +1,25 @@
-import { POPULAR_ETFS } from '../../data/etfList.ts';
-import { FAMOUS_PORTFOLIOS } from '../../data/famousPortfolios.ts';
-import type { Digest } from '../../types/digest.ts';
-import type { NewsArticle } from '../../types/noticias-ingesta.ts';
+import { POPULAR_ETFS } from '../../data/etfList.js';
+import { FAMOUS_PORTFOLIOS } from '../../data/famousPortfolios.js';
+import type { Digest } from '../../types/digest.js';
+import type { NewsArticle } from '../../types/noticias-ingesta.js';
 import type {
   NewsAnalysisRecord,
   PipelineExecutionOptions,
   PipelineRunRecord,
   PipelineSummary,
-} from '../../types/pipeline.ts';
-import { buildComposition, compositionHash, type PositionWeight } from '../digest.ts';
+} from '../../types/pipeline.js';
+import { buildComposition, compositionHash, type PositionWeight } from '../digest.js';
 import {
   DEFAULT_ALLOWED_DOMAINS,
   DEFAULT_MAX_QUERIES,
   DEFAULT_NEWS_DAYS,
   MAX_RESULTS_PER_QUERY,
-} from './config.ts';
-import { buildNewsQueries } from './queries.ts';
-import { dedupeNews, safeNormalizeUrl } from './dedupe.ts';
-import { hostOf, isAllowedDomain, isRecent, parsePublishedDate } from './filters.ts';
-import { analyzeNewsArticle, type AnalyzerEnv } from './analyzer.ts';
-import { synthesizePlanDigest } from './synthesizer.ts';
+} from './config.js';
+import { buildNewsQueries } from './queries.js';
+import { dedupeNews, safeNormalizeUrl } from './dedupe.js';
+import { hostOf, isAllowedDomain, isRecent, parsePublishedDate } from './filters.js';
+import { analyzeNewsArticle, type AnalyzerEnv } from './analyzer.js';
+import { synthesizePlanDigest } from './synthesizer.js';
 
 export interface PipelineDependencies {
   tavilySearch?: (

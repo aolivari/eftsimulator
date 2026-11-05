@@ -1,5 +1,5 @@
-import type { NewsArticle } from '../../src/types/index.ts';
-import { normalizeTitle, normalizeUrl } from '../../src/engine/news/index.ts';
+import type { NewsArticle } from '../../src/types/index.js';
+import { normalizeTitle, normalizeUrl } from '../../src/engine/news/index.js';
 
 // Persistencia en Supabase vía REST con la clave de servicio (solo servidor).
 
