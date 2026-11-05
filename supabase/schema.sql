@@ -117,3 +117,91 @@ alter table public.news_items enable row level security;
 drop policy if exists "news_select_all" on public.news_items;
 create policy "news_select_all" on public.news_items
   for select using (true);
+
+
+-- ─── 4. Pipeline diario y digests por plan ──────────────────────────────
+-- Reportes diarios de noticias agregadas y analizadas para cada composición de cartera.
+-- Registro de ejecuciones, métricas de tokens, costes, créditos de Tavily y errores.
+-- El digest nunca almacena datos personales de usuarios: solo tickers, pesos agregados y noticias públicas.
+
+-- 4.1. Análisis estructurado de noticias por LLM (deduplicado entre planes)
+create table if not exists public.news_analyses (
+  id uuid primary key default gen_random_uuid(),
+  news_item_id uuid references public.news_items (id) on delete set null,
+  url_key text not null unique,
+  summary text not null,
+  effect text not null check (effect in ('positive', 'negative', 'neutral', 'uncertain')),
+  effect_rationale text,
+  affected_tickers text[] not null default '{}',
+  es_educativo boolean not null default true,
+  provider text not null,
+  model text not null,
+  prompt_tokens integer not null default 0,
+  completion_tokens integer not null default 0,
+  total_tokens integer not null default 0,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists news_analyses_created_idx on public.news_analyses (created_at desc);
+
+alter table public.news_analyses enable row level security;
+
+drop policy if exists "news_analyses_select_all" on public.news_analyses;
+create policy "news_analyses_select_all" on public.news_analyses
+  for select using (true);
+
+-- 4.2. Reportes diarios (digests) por composición de cartera y fecha
+-- Idempotencia: una única fila por combinación (composition_hash, date).
+create table if not exists public.digests (
+  id uuid primary key default gen_random_uuid(),
+  composition_hash text not null,
+  date date not null default current_date,
+  composition jsonb not null,
+  summary text not null,
+  news jsonb not null default '[]'::jsonb,
+  disclaimer text not null,
+  generated_at timestamptz not null default now(),
+  constraint digests_hash_date_unique unique (composition_hash, date)
+);
+
+create index if not exists digests_hash_date_idx on public.digests (composition_hash, date desc);
+
+alter table public.digests enable row level security;
+
+-- Los digests son públicos y agregados: lectura abierta para cualquier visitante,
+-- sin políticas de escritura del lado cliente (solo escribe el servidor con clave de servicio).
+drop policy if exists "digests_select_all" on public.digests;
+create policy "digests_select_all" on public.digests
+  for select using (true);
+
+-- 4.3. Registro de auditoría y métricas de ejecución del pipeline
+create table if not exists public.pipeline_runs (
+  id uuid primary key default gen_random_uuid(),
+  job_name text not null default 'daily_news_pipeline',
+  status text not null check (status in ('success', 'partial', 'error')),
+  date date not null default current_date,
+  started_at timestamptz not null default now(),
+  completed_at timestamptz,
+  duration_ms integer,
+  tavily_credits integer not null default 0,
+  tavily_queries integer not null default 0,
+  articles_fetched integer not null default 0,
+  articles_inserted integer not null default 0,
+  articles_analyzed integer not null default 0,
+  digests_generated integer not null default 0,
+  llm_provider text,
+  llm_model text,
+  prompt_tokens integer not null default 0,
+  completion_tokens integer not null default 0,
+  total_tokens integer not null default 0,
+  errors jsonb not null default '[]'::jsonb,
+  metadata jsonb not null default '{}'::jsonb
+);
+
+create index if not exists pipeline_runs_started_idx on public.pipeline_runs (started_at desc);
+
+alter table public.pipeline_runs enable row level security;
+
+drop policy if exists "pipeline_runs_select_all" on public.pipeline_runs;
+create policy "pipeline_runs_select_all" on public.pipeline_runs
+  for select using (true);

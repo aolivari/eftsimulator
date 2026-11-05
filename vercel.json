@@ -11,7 +11,7 @@
   ],
   "crons": [
     {
-      "path": "/api/news/ingest",
+      "path": "/api/news/pipeline",
       "schedule": "0 6 * * *"
     }
   ]

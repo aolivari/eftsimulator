@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { POPULAR_ETFS } from '../../src/data/etfList.js';
-import type { NewsIngestSummary, NewsArticle } from '../../src/types/index.js';
+import { POPULAR_ETFS } from '../../src/data/etfList.ts';
+import type { NewsIngestSummary, NewsArticle } from '../../src/types/index.ts';
 import {
   DEFAULT_ALLOWED_DOMAINS,
   DEFAULT_MAX_QUERIES,
@@ -12,9 +12,9 @@ import {
   isAllowedDomain,
   isRecent,
   parsePublishedDate,
-} from '../../src/engine/news/index.js';
-import { tavilyNewsSearch } from './_tavily.js';
-import { loadKnownKeys, saveNews } from './_store.js';
+} from '../../src/engine/news/index.ts';
+import { tavilyNewsSearch } from './_tavily.ts';
+import { loadKnownKeys, saveNews } from './_store.ts';
 
 function intEnv(name: string, fallback: number): number {
   const n = Number.parseInt(process.env[name] ?? '', 10);
