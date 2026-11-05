@@ -22,7 +22,7 @@ export interface DigestSummaryCardProps {
 
 export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children }: DigestSummaryCardProps) {
   return (
-    <section className="group relative mt-16 rounded-3xl border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-slate-900/10">
+    <section className="group relative mt-10 rounded-3xl sm:mt-16 border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-slate-900/10">
       {/* Cabecera oscura, de la misma familia que el hero */}
       <div className="relative h-24 overflow-hidden rounded-t-3xl bg-slate-950">
         <svg
@@ -44,7 +44,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
           <circle cx={250} cy={14} r={1.2} fill="white" fillOpacity={0.45} />
         </svg>
         <div className="absolute -left-10 -top-16 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl" />
-        <p className="absolute bottom-3 left-5 text-[11px] font-bold uppercase tracking-wider text-slate-300">
+        <p className="absolute bottom-3 left-5 right-32 text-[11px] font-bold uppercase leading-snug tracking-wider text-slate-300 sm:right-60">
           Tono de las noticias · <span className="text-white">{TONE_LABEL[tone]}</span>
         </p>
       </div>
@@ -52,7 +52,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
       {/* Ilustración que sobresale por encima de la tarjeta */}
       <NewsToneIllustration
         tone={tone}
-        className="pointer-events-none absolute -top-20 right-4 h-44 w-52 drop-shadow-2xl transition-transform duration-500 ease-out group-hover:-translate-y-1.5 motion-reduce:transform-none sm:right-8"
+        className="pointer-events-none absolute -top-10 right-3 h-24 w-28 drop-shadow-xl transition-transform duration-500 ease-out group-hover:-translate-y-1.5 motion-reduce:transform-none sm:-top-20 sm:right-8 sm:h-44 sm:w-52 sm:drop-shadow-2xl"
       />
 
       <div className="space-y-3 p-5 sm:p-6">
