@@ -461,6 +461,9 @@ export function ETFSimulator() {
                 brokerName={bestBroker.name}
                 years={params.years}
                 annualReturn={params.annualReturn}
+                brokers={sortedResults}
+                params={effectiveParams}
+                etfs={etfs}
               />
             </div>
           )}

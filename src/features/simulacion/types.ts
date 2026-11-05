@@ -22,6 +22,9 @@ export interface HeroLedgerProps {
   brokerName: string;
   years: number;
   annualReturn: number;
+  brokers: BrokerResult[]; // ordenados de mayor a menor saldo final
+  params: SimulationParams; // effectiveParams: aportación ya trimestral
+  etfs: ETFAsset[];
 }
 
 export interface MonteCarloPanelProps {

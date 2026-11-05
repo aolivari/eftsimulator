@@ -147,3 +147,43 @@ input[type='number']::-webkit-outer-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+/* ─── Hero: escenarios que rotan ───────────────────────────────────── */
+@keyframes hero-reveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0; }
+  20% { opacity: 1; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+@keyframes hero-grow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes hero-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.hero-reveal {
+  animation: hero-reveal 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-grow {
+  transform-origin: bottom;
+  animation: hero-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-progress {
+  transform-origin: left;
+  animation-name: hero-progress;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-reveal,
+  .hero-grow {
+    animation: none;
+  }
+}

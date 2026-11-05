@@ -5,3 +5,4 @@ export * from './news';
 export * from './digest';
 export * from './noticias-ingesta';
 export * from './pipeline';
+export * from './hero';
