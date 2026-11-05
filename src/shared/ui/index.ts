@@ -9,7 +9,7 @@ export { Badge, type BadgeProps } from './atoms/Badge';
 export { FormField, type FormFieldProps } from './molecules/FormField';
 export { Card } from './compound/Card';
 export { Modal, type ModalRootProps } from './compound/Modal';
-export { Tabs, type TabsRootProps } from './compound/Tabs';
+export { Tabs, type TabsRootProps, type TabsBottomBarItem } from './compound/Tabs';
 export {
   ViewTemplate,
   type ViewTemplateRootProps,

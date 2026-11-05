@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useLayoutEffect, useRef, useState } from 'react';
 
 interface TabsContextValue {
   value: string;
@@ -22,6 +22,41 @@ function Root({ value, onValueChange, className = '', children }: TabsRootProps)
   );
 }
 
+// Flechas, Inicio y Fin mueven el foco y activan la pestaña (patrón tablist de WAI-ARIA)
+function handleTabKeys(e: React.KeyboardEvent<HTMLElement>, onValueChange?: (next: string) => void) {
+  const tabs = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="tab"]'));
+  const current = tabs.indexOf(document.activeElement as HTMLElement);
+  if (current === -1) return;
+  const last = tabs.length - 1;
+  const next =
+    e.key === 'ArrowRight' ? (current === last ? 0 : current + 1)
+    : e.key === 'ArrowLeft' ? (current === 0 ? last : current - 1)
+    : e.key === 'Home' ? 0
+    : e.key === 'End' ? last
+    : -1;
+  if (next === -1) return;
+  e.preventDefault();
+  tabs[next].focus();
+  const value = tabs[next].dataset.value;
+  if (value) onValueChange?.(value);
+}
+
+interface IndicatorBox {
+  left: number;
+  right: number;
+  // Hacia dónde se mueve: el borde que va delante se adelanta y el de detrás le sigue
+  direction: 'left' | 'right' | null;
+}
+
+const EASE = 'cubic-bezier(0.3, 0.7, 0.4, 1)';
+
+function indicatorTransition(direction: IndicatorBox['direction']): string {
+  if (!direction) return 'none';
+  const lead = `260ms ${EASE}`;
+  const trail = `420ms ${EASE} 70ms`;
+  return direction === 'right' ? `right ${lead}, left ${trail}` : `left ${lead}, right ${trail}`;
+}
+
 function List({
   className = '',
   children,
@@ -29,11 +64,55 @@ function List({
   className?: string;
   children: React.ReactNode;
 }) {
+  const ctx = useContext(TabsContext);
+  const listRef = useRef<HTMLDivElement>(null);
+  const [box, setBox] = useState<IndicatorBox | null>(null);
+  const lastValue = useRef<string | null>(null);
+
+  // Mide la pestaña activa: al cambiar de pestaña se anima; al redimensionar, salta sin animar
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+
+    const measure = (animate: boolean) => {
+      const tab = list.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
+      if (!tab) return setBox(null);
+      const left = tab.offsetLeft;
+      const right = list.clientWidth - (tab.offsetLeft + tab.offsetWidth);
+      setBox((prev) => {
+        // Sin cambios (p. ej. la primera llamada del ResizeObserver): no cortar la animación en curso
+        if (prev && prev.left === left && prev.right === right) return prev;
+        return {
+          left,
+          right,
+          direction: animate && prev ? (left > prev.left ? 'right' : 'left') : null,
+        };
+      });
+    };
+
+    measure(lastValue.current !== null && lastValue.current !== ctx?.value);
+    lastValue.current = ctx?.value ?? null;
+
+    const observer = new ResizeObserver(() => measure(false));
+    observer.observe(list);
+    list.querySelectorAll('[role="tab"]').forEach((t) => observer.observe(t));
+    return () => observer.disconnect();
+  }, [ctx?.value]);
+
   return (
     <div
+      ref={listRef}
       role="tablist"
-      className={`flex items-stretch gap-1 p-1 surface-glass border rounded-2xl ${className}`.trim()}
+      onKeyDown={(e) => handleTabKeys(e, ctx?.onValueChange)}
+      className={`relative flex items-stretch gap-1 p-1 surface-glass border rounded-2xl ${className}`.trim()}
     >
+      {box && (
+        <span
+          aria-hidden="true"
+          className="tabs-indicator pointer-events-none absolute inset-y-1 rounded-xl bg-orange-500 shadow-md shadow-orange-500/30"
+          style={{ left: box.left, right: box.right, transition: indicatorTransition(box.direction) }}
+        />
+      )}
       {children}
     </div>
   );
@@ -55,16 +134,88 @@ function Trigger({
     <button
       type="button"
       role="tab"
+      data-value={value}
       aria-selected={active}
+      tabIndex={active ? 0 : -1}
       onClick={() => ctx?.onValueChange(value)}
-      className={`flex-1 min-w-0 px-2 lg:px-3 py-2.5 text-xs lg:text-sm font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 lg:gap-2 whitespace-nowrap ${
-        active
-          ? 'bg-orange-500 text-white shadow-sm shadow-orange-500/30'
-          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+      className={`relative z-10 flex-1 min-w-0 px-2 lg:px-3 py-2.5 text-xs lg:text-sm font-bold rounded-xl transition-colors duration-300 cursor-pointer flex items-center justify-center gap-1.5 lg:gap-2 whitespace-nowrap ${
+        active ? 'text-white' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
       } ${className}`.trim()}
     >
       {children}
     </button>
+  );
+}
+
+export interface TabsBottomBarItem {
+  value: string;
+  label: string;
+  icon: React.ReactNode;
+}
+
+/**
+ * Barra inferior para móvil: una "joroba" con un círculo naranja se desliza bajo la
+ * pestaña activa y su icono sube dentro del círculo. Debe ir dentro de Tabs.Root.
+ */
+function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; className?: string }) {
+  const ctx = useContext(TabsContext);
+  const index = Math.max(0, items.findIndex((i) => i.value === ctx?.value));
+
+  return (
+    <nav
+      aria-label="Secciones"
+      className={`fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] ${className}`.trim()}
+    >
+      <div className="relative mx-auto max-w-md rounded-2xl bg-slate-950 shadow-2xl shadow-slate-900/40">
+        {/* Joroba y círculo: se desplazan con transform (sin recalcular el layout) */}
+        <div
+          aria-hidden="true"
+          className="tabs-bump pointer-events-none absolute inset-y-0 left-0"
+          style={{ width: `${100 / items.length}%`, transform: `translateX(${index * 100}%)` }}
+        >
+          <svg
+            viewBox="0 0 96 24"
+            className="absolute left-1/2 -top-[22px] h-6 w-24 -translate-x-1/2 fill-slate-950"
+          >
+            <path d="M0 24 C22 24 24 0 48 0 C72 0 74 24 96 24 Z" />
+          </svg>
+          <span className="absolute left-1/2 -top-[18px] h-11 w-11 -translate-x-1/2 rounded-full bg-orange-500 shadow-lg shadow-orange-500/40" />
+        </div>
+
+        <div role="tablist" className="relative flex" onKeyDown={(e) => handleTabKeys(e, ctx?.onValueChange)}>
+          {items.map((item) => {
+            const active = item.value === ctx?.value;
+            return (
+              <button
+                key={item.value}
+                type="button"
+                role="tab"
+                data-value={item.value}
+                aria-selected={active}
+                tabIndex={active ? 0 : -1}
+                onClick={() => ctx?.onValueChange(item.value)}
+                className="flex min-w-0 flex-1 cursor-pointer flex-col items-center gap-1 pb-2 pt-3"
+              >
+                <span
+                  className={`tabs-bump-icon flex h-5 items-center ${
+                    active ? '-translate-y-[18px] text-white' : 'text-slate-400'
+                  }`}
+                >
+                  {item.icon}
+                </span>
+                <span
+                  className={`max-w-full truncate px-0.5 text-[10px] font-semibold transition-colors duration-300 ${
+                    active ? 'text-orange-300' : 'text-slate-400'
+                  }`}
+                >
+                  {item.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </nav>
   );
 }
 
@@ -91,5 +242,6 @@ export const Tabs = {
   Root,
   List,
   Trigger,
+  BottomBar,
   Panel,
 };
