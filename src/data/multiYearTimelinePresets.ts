@@ -73,7 +73,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
     name: 'Pinchazo Tecnológico',
     cyclePresetId: 'dotcom_burst_2000',
     type: 'crisis',
-    color: '#a3a3a3', // tono por tipo de fase
+    color: '#737373', // tono por tipo de fase
     tagline: 'Pérdida masiva en empresas tech y rotación a bonos y valor',
     annualReturnEstimates: {
       global_equity: -18.0,
@@ -103,7 +103,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
   {
     name: 'Estancamiento / Lateral',
     type: 'neutral',
-    color: '#a3a3a3', // tono por tipo de fase
+    color: '#737373', // tono por tipo de fase
     tagline: 'Mercado plano sin tendencia clara e inflación persistente',
     annualReturnEstimates: {
       global_equity: 2.0,

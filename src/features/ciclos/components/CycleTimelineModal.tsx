@@ -340,7 +340,7 @@ export default function CycleTimelineModal({
                         : seg.type === 'expansion'
                         ? 'bg-data-500 hover:bg-data-700'
                         : seg.type === 'recovery'
-                        ? 'bg-data-200 !text-data-900 hover:bg-data-300'
+                        ? 'bg-data-300 !text-data-900 hover:bg-data-400'
                         : 'bg-slate-500 hover:bg-slate-600'
                     }`}
                     title={`${seg.name} (${
@@ -373,7 +373,7 @@ export default function CycleTimelineModal({
                   Crisis / Shock
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-data-200" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-data-300" />
                   Recuperación
                 </span>
                 <span className="flex items-center gap-1">

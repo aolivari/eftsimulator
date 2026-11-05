@@ -92,7 +92,7 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
 2. **Sin dependencias hacia `features/` ni `app/`.** Los features importan de `shared/ui`; nunca al revés (validado por `eslint-plugin-boundaries`).
 3. **Un solo punto de entrada.** Se importa siempre desde `shared/ui`, nunca desde rutas internas de otro componente.
 4. **Compound solo cuando hay estructura o estado compartido** entre las partes (`ViewTemplate`, `Tabs`, `Modal`, `Card`). No usar compound para piezas simples: un átomo basta.
-5. **Props tipadas y sin estilos de página.** Estilos con la paleta de la sección Convenciones; el componente no fija márgenes externos que dependan de dónde se coloque.
+5. **Props tipadas y sin estilos de página.** Estilos con la paleta de la sección Sistema visual; el componente no fija márgenes externos que dependan de dónde se coloque.
 
 ### Reglas de `features/`
 1. Un feature **no importa** los internos de otro feature. Solo se expone e importa a través de su `index.ts`.
@@ -123,11 +123,55 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
   - Dentro de `monteCarlo.ts` y en `MonteCarloResult`, las rentabilidades y probabilidades son **fracciones**: `0.07`, y `probLoss` de 0 a 1.
 - **Pesos de cartera**: `initialWeight` reparte el capital inicial y `recurringWeight` las aportaciones. Si faltan, se usa `weight` (`e.recurringWeight ?? e.weight`).
 - **Clase de activo** (`AssetClass`): decide qué factor de ciclo y qué índice de relleno usa cada ETF. Ver la trampa 6 sobre qué pasa si falta.
-- **Estilos** (rediseño "libro contable acromático"): el cromo no lleva color. Tinta casi negra (`slate-900`) para el botón principal y lo activo; azul de datos (`data-500`, `#1d5fbf`) solo en el dato principal de cada gráfica; verde/rojo solo para decir si una cifra va bien o mal; un cero se pinta en gris. Fondo `bg-ground` (`#f2f4f7`), tarjetas `bg-white rounded-lg border border-slate-200` sin sombra. Tipografía Geist; **todas las cifras** en Geist Mono con dígitos tabulares (clase `num` o `tabular-nums`). Formatea números con `NUMBER_LOCALE` (agrupa siempre los miles). Sin mayúsculas espaciadas, sin degradados, sin cristal, sin iconos en cuadrados de color. `tailwind.config.js` remapea `orange` a tinta y violeta/cielo/teal a grises. En inputs se usa `text-base sm:text-sm` para evitar el zoom en iOS. La web es solo en modo claro.
-- **Gráficos**: Recharts (`ComposedChart`/`AreaChart`). Los ejes formatean en `k`.
+- **Estilos**: Tailwind con los tokens de la sección [Sistema visual](#sistema-visual-colores-tipografía-y-reglas). Léela antes de tocar cualquier color. En inputs se usa `text-base sm:text-sm` para evitar el zoom en iOS. La web es solo en modo claro.
+- **Gráficos**: Recharts (`ComposedChart`/`AreaChart`), con los colores de [Sistema visual](#sistema-visual-colores-tipografía-y-reglas). Los ejes formatean en `k`.
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.
 - **Ramas y worktrees**: cualquier rama nueva o worktree debe crearse **siempre desde `origin/master`** (ejecutando antes `git fetch origin master`), **nunca** desde la rama `master` local.
+
+## Sistema visual (colores, tipografía y reglas)
+Estilo "libro contable acromático", inspirado en getquin: el cromo (navegación, botones, tarjetas) no lleva color; el color se reserva para los datos y para decir si algo va bien o mal. Los tokens viven en [`tailwind.config.js`](tailwind.config.js) y en `:root` de [`src/index.css`](src/index.css).
+
+### Paleta
+| Rol | Valor | Clase Tailwind | Uso |
+|---|---|---|---|
+| Fondo de página | `#f2f4f7` | `bg-ground` | Gris azulado de libro de cuentas. Nunca crema ni beis. |
+| Superficie | `#ffffff` | `bg-white` | Tarjetas y paneles. |
+| Borde de tarjeta | `#e6e6e6` | `border-slate-200` | 1px. Sin sombra en reposo. |
+| Línea de fila | `#f0f0f0` | `divide-slate-100` | Separadores dentro de tablas y listas. |
+| Borde de control | `#d4d4d4` | `border-slate-300` | Inputs, selects y botones secundarios. |
+| Tinta (texto) | `#0a0a0a` | `text-slate-900` | Texto principal y cifras. |
+| Texto secundario | `#5c5c5c` | `text-slate-600` | Etiquetas y subtítulos. Mínimo 4,5:1. |
+| Principal / activo | `#141414` | `bg-slate-900` | Botón principal (uno por pantalla), selección. |
+| Azul de datos | `#1d5fbf` | `data-500` (escala `data-50`…`data-950`) | **Solo** el dato principal de cada gráfica (saldo, mediana, serie de tu plan). No en el cromo. |
+| Azul de datos sobre negro | `#5b9bff` | `text-[#5b9bff]` | Curva y plusvalía en las tarjetas negras. |
+| Positivo | `#247b50` (texto) · `#dcfae5` / `#04250e` (pastilla) | `emerald-*` | Cuando una cifra va bien. Nunca decorativo. |
+| Negativo | `#c4242a` (texto) · `#ffedea` / `#831c1e` (pastilla) | `rose-*`, `red-*` | Cuando una cifra va mal, y la crisis. |
+| Aviso | `#fffbeb` / `#92400e` | `amber-*` | Solo avisos (aviso legal, datos aproximados). |
+| Tarjeta negra | `#0a0a0a`, divisiones `#262626` | `bg-[#0a0a0a]` | Solo para la respuesta principal de una pantalla (Resumen, Brókers). Una por pantalla. |
+
+**Remapeos de `tailwind.config.js`** (para que el código antiguo herede la paleta sin reescribirlo): `orange` = escala de tinta (el antiguo acento ahora es negro); `slate` y `gray` = grises neutros sin tinte azul; `violet`, `purple`, `indigo`, `sky`, `teal` y `cyan` = grises; `emerald`/`green` = verde positivo; `rose`/`red` = rojo negativo. **No uses estas familias para dar color decorativo**: en código nuevo usa directamente `slate`, `data`, `emerald`/`rose` según el rol.
+
+### Colores en gráficas
+- Una serie, un color. La serie principal en azul de datos (`#1d5fbf`), 2px, líneas rectas (`type="linear"`), relleno plano de 8–14 % como mucho. Nada de degradados.
+- Lo aportado: tinta `#141414`, discontinua `4 3`. Referencias (S&P 500, otros brókers): gris `#8a8a8a`.
+- Varias series (brókers, reparto de cartera): rampa `#1d5fbf`, `#141414`, `#8a8a8a`, `#5b8bd6`, `#c4c4c4`, `#5c5c5c`, `#a3bde6`. Nunca un arcoíris.
+- Rejilla horizontal `#eeeeee`; ejes en Geist Mono 12px `#6b6b6b`; ticks del eje Y en pasos redondos con el tope por encima del máximo.
+- Zona de crisis: velo `#c4242a` al 6 %, sin borde, etiqueta en `#a51d22`.
+- **Fases del ciclo** (una marca por tipo, en `multiYearTimelinePresets.ts` y `CycleSimulator`): expansión `#1d5fbf` (`bg-data-500`), rebote `#8aafe0` (`bg-data-300`), lateral `#737373` (`bg-slate-500`), crisis `#c4242a` (`bg-rose-600`).
+
+### Tipografía y cifras
+- Texto en **Geist**. **Todas las cifras** en **Geist Mono** con dígitos tabulares: añade la clase `num` (o `tabular-nums`) a cualquier número, importe o porcentaje. Esa clase también impide que la cifra y su unidad se partan de línea.
+- Formatea números con `formatCurrency` / `NUMBER_LOCALE` (de `shared/utils`, o de `engine/simulation` dentro de `engine/`). `es-ES` no agrupa los miles en cifras de 4 dígitos ("8000" frente a "12.439"); `NUMBER_LOCALE` (`de-DE`, mismos separadores) agrupa siempre.
+- Tamaños: título de pantalla 22–24px; título de tarjeta 16px; cuerpo 14px; etiquetas 12px. Nada por debajo de 11px. La cifra respuesta va a 36–44px; ninguna otra cifra de la pantalla es mayor.
+- Tipo frase en títulos y etiquetas ("Rentabilidad anual", no "RENTABILIDAD ANUAL" ni "Rentabilidad Anual").
+- Un cero se pinta en gris (`text-slate-500`), nunca en rojo ni verde.
+
+### Prohibido
+Degradados, cristal o `backdrop-blur`, sombras en tarjetas en reposo (solo flotan menús, modales y tooltips), etiquetas pequeñas en mayúsculas espaciadas, iconos dentro de cuadrados o círculos de color, numeración `01 / 02`, emoji, violeta o índigo como acento, y fondos crema.
+
+### Movimiento
+Feedback, no espectáculo: la curva de la tarjeta negra se dibuja al cambiar el resultado (`hero-draw`), los bloques entran escalonados al cambiar de pestaña (`stagger`), las cifras ruedan (`useCountUp`) y los controles responden al pulsarlos. Solo `transform` y `opacity`, y todo tiene alternativa en `prefers-reduced-motion`.
 
 ## Notificaciones por Telegram (para asistentes de IA)
 Los asistentes de IA pueden enviar avisos directos al usuario por Telegram usando [scripts/ai-runner/telegram.mjs](scripts/ai-runner/telegram.mjs) (lee automáticamente TELEGRAM_BOT_TOKEN y TELEGRAM_CHAT_ID de .env.local, tanto desde la raíz del repositorio como desde cualquier worktree en .worktrees/).
