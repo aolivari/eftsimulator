@@ -34,11 +34,34 @@ export function historyKey(etfs: ETFAsset[]): string {
     .join(',');
 }
 
-export async function fetchMonthlyHistory(etfs: ETFAsset[], signal?: AbortSignal): Promise<MonthlyReturnHistory> {
-  const res = await fetch(`/api/history?items=${encodeURIComponent(historyKey(etfs))}`, { signal });
+// Caché en memoria por cartera: el hero y el panel Monte Carlo piden el mismo histórico
+// a la vez y así comparten una sola petición. Si falla, se borra para poder reintentar.
+const historyCache = new Map<string, Promise<MonthlyReturnHistory>>();
+
+async function requestMonthlyHistory(key: string): Promise<MonthlyReturnHistory> {
+  const res = await fetch(`/api/history?items=${encodeURIComponent(key)}`);
   const body = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(body?.error || `Error ${res.status} al cargar el histórico`);
   return body as MonthlyReturnHistory;
+}
+
+export function fetchMonthlyHistory(etfs: ETFAsset[], signal?: AbortSignal): Promise<MonthlyReturnHistory> {
+  const key = historyKey(etfs);
+  const cached = historyCache.get(key);
+  const pending = cached ?? requestMonthlyHistory(key);
+  if (!cached) {
+    historyCache.set(key, pending);
+    pending.catch(() => historyCache.delete(key));
+  }
+  if (!signal) return pending;
+
+  // La señal solo cancela la espera de quien llama, no la petición compartida
+  return new Promise((resolve, reject) => {
+    const onAbort = () => reject(new DOMException('Aborted', 'AbortError'));
+    if (signal.aborted) return onAbort();
+    signal.addEventListener('abort', onAbort, { once: true });
+    pending.then(resolve, reject).finally(() => signal.removeEventListener('abort', onAbort));
+  });
 }
 
 export async function fetchLiveQuotes(tickers: string[]): Promise<Map<string, ETFMarketStatus & { ticker?: string }>> {
