@@ -7,31 +7,31 @@ import type { NewsEffect, NewsItem } from '../types';
 
 const EFFECT_META: Record<
   NewsEffect,
-  { label: string; tone: 'emerald' | 'rose' | 'slate' | 'amber'; icon: ReactNode; bar: string }
+  { label: string; tone: 'emerald' | 'rose' | 'slate' | 'amber'; icon: ReactNode; chip: string }
 > = {
   positive: {
     label: 'Efecto positivo',
     tone: 'emerald',
-    icon: <TrendingUp className="w-3 h-3" />,
-    bar: 'bg-emerald-500',
+    icon: <TrendingUp className="w-5 h-5" />,
+    chip: 'bg-emerald-500 shadow-emerald-500/40',
   },
   negative: {
     label: 'Efecto negativo',
     tone: 'rose',
-    icon: <TrendingDown className="w-3 h-3" />,
-    bar: 'bg-rose-500',
+    icon: <TrendingDown className="w-5 h-5" />,
+    chip: 'bg-rose-500 shadow-rose-500/40',
   },
   neutral: {
     label: 'Efecto neutro',
     tone: 'slate',
-    icon: <Minus className="w-3 h-3" />,
-    bar: 'bg-slate-300',
+    icon: <Minus className="w-5 h-5" />,
+    chip: 'bg-slate-400 shadow-slate-400/40',
   },
   uncertain: {
     label: 'Efecto incierto',
     tone: 'amber',
-    icon: <HelpCircle className="w-3 h-3" />,
-    bar: 'bg-amber-400',
+    icon: <HelpCircle className="w-5 h-5" />,
+    chip: 'bg-amber-400 shadow-amber-400/40',
   },
 };
 
@@ -47,14 +47,17 @@ export function NewsItemCard({ item, composition, affected }: Props) {
   const weights = new Map(composition.map((c) => [c.ticker.toUpperCase(), c.weight]));
 
   return (
-    <li className="flex rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-2xs">
-      <span aria-hidden="true" className={`w-1.5 shrink-0 ${meta.bar}`} />
-      <div className="flex-1 min-w-0 p-4 space-y-2.5">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge tone={meta.tone}>
-            {meta.icon}
-            {meta.label}
-          </Badge>
+    <li className="group relative rounded-2xl border border-slate-200 bg-white shadow-2xs transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/10 motion-reduce:transform-none">
+      {/* Icono de efecto que sobresale por la esquina; al pasar el ratón da un pequeño salto */}
+      <span
+        aria-hidden="true"
+        className={`absolute -top-5 left-4 flex h-11 w-11 items-center justify-center rounded-2xl text-white ring-4 ring-white shadow-lg transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-translate-y-1 group-hover:-rotate-6 group-hover:scale-110 motion-reduce:transform-none ${meta.chip}`}
+      >
+        {meta.icon}
+      </span>
+      <div className="min-w-0 space-y-2.5 p-4 pt-3">
+        <div className="flex flex-wrap items-center justify-end gap-2 pl-14">
+          <Badge tone={meta.tone}>{meta.label}</Badge>
           {affected > 0 ? (
             <Badge tone="orange">Afecta al {affected.toLocaleString('es-ES')} % de tu cartera</Badge>
           ) : (

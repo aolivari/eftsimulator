@@ -234,3 +234,51 @@ input[type='number'] {
     animation: none;
   }
 }
+
+/* ─── Noticias: ilustración del tono (se anima al pasar el ratón por la tarjeta) ─── */
+@keyframes tone-sun {
+  from { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(12deg) scale(1.06); }
+  to { transform: rotate(0deg) scale(1); }
+}
+
+@keyframes tone-cloud {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 5px -2px; }
+}
+
+@keyframes tone-rain {
+  from { transform: translateY(-6px); opacity: 0; }
+  30% { opacity: 1; }
+  to { transform: translateY(10px); opacity: 0; }
+}
+
+.tone-sun,
+.tone-cloud {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.group:hover .tone-sun {
+  animation: tone-sun 2.4s ease-in-out infinite;
+}
+
+.group:hover .tone-cloud {
+  animation: tone-cloud 3s ease-in-out infinite;
+}
+
+.tone-rain {
+  opacity: 0.85;
+}
+
+.group:hover .tone-rain {
+  animation: tone-rain 0.9s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .tone-sun,
+  .group:hover .tone-cloud,
+  .group:hover .tone-rain {
+    animation: none;
+  }
+}
