@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
 import { Newspaper, History, RefreshCw } from 'lucide-react';
 import { Badge, Button, ViewTemplate } from '../../shared/ui';
-import { buildComposition, compositionHash, affectedWeight } from '../../engine/digest';
+import { buildComposition, compositionHash, affectedWeight, newsTone } from '../../engine/digest';
 import { useDigests } from './hooks/useDigests';
 import { LegalDisclaimer } from './components/LegalDisclaimer';
 import { NewsItemCard } from './components/NewsItemCard';
+import { DigestSummaryCard } from './components/DigestSummaryCard';
 import type { NewsEffect, NoticiasViewProps } from './types';
 
 const dayFmt = new Intl.DateTimeFormat('es-ES', {
@@ -45,6 +46,13 @@ export function NoticiasView({ etfs }: NoticiasViewProps) {
   }, [digest, composition]);
 
   const touching = news.filter((n) => n.affected > 0).length;
+  const countOf = (effect: NewsEffect) => news.filter((x) => x.item.effect === effect).length;
+  const tone = newsTone({
+    positive: countOf('positive'),
+    negative: countOf('negative'),
+    uncertain: countOf('uncertain'),
+    neutral: countOf('neutral'),
+  });
 
   return (
     <ViewTemplate.Root id="noticias-view">
@@ -96,38 +104,30 @@ export function NoticiasView({ etfs }: NoticiasViewProps) {
       {digest && (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_16rem] gap-4 sm:gap-6 items-start">
           <div className="space-y-4 min-w-0">
-            <ViewTemplate.Section variant="card" className="p-4 sm:p-5 space-y-3">
-              <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-sm font-bold text-slate-900 first-letter:uppercase">
-                  {dayFmt.format(parseDay(digest.date))}
-                </h3>
-                {isLatest ? <Badge tone="emerald">Último digest</Badge> : <Badge>Histórico</Badge>}
-              </div>
-              <p className="text-sm text-slate-700 leading-relaxed">{digest.summary}</p>
-
-              <div
-                className="flex flex-wrap items-center gap-2 pt-1"
-                aria-label="Resumen de efectos"
-              >
+            <DigestSummaryCard
+              dateLabel={dayFmt.format(parseDay(digest.date))}
+              isLatest={isLatest}
+              summary={digest.summary}
+              tone={tone}
+            >
                 <Badge tone="orange">
                   {touching} de {news.length} {news.length === 1 ? 'noticia toca' : 'noticias tocan'}{' '}
                   tu cartera
                 </Badge>
-                {EFFECT_SUMMARY.map(({ effect, label, tone }) => {
-                  const n = news.filter((x) => x.item.effect === effect).length;
+                {EFFECT_SUMMARY.map(({ effect, label, tone: badgeTone }) => {
+                  const n = countOf(effect);
                   return n > 0 ? (
-                    <Badge key={effect} tone={tone}>
+                    <Badge key={effect} tone={badgeTone}>
                       {n} {label}
                     </Badge>
                   ) : null;
                 })}
-              </div>
-            </ViewTemplate.Section>
+            </DigestSummaryCard>
 
             {news.length === 0 ? (
               <p className="text-sm text-slate-600 font-medium">Este día no hay noticias relevantes.</p>
             ) : (
-              <ul className="space-y-3">
+              <ul className="space-y-8 pt-5">
                 {news.map(({ item, affected }) => (
                   <NewsItemCard key={item.id} item={item} composition={composition} affected={affected} />
                 ))}

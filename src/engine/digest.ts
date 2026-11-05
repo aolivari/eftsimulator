@@ -46,3 +46,24 @@ export function affectedWeight(tickers: string[], composition: PositionWeight[])
     .reduce((s, c) => s + c.weight, 0);
   return Math.round(sum * 10) / 10;
 }
+
+// ─── Tono de las noticias del día (ilustración del digest) ───────────────────
+// Describe el tono de las noticias publicadas, no predice el mercado.
+
+export type NewsTone = 'sunny' | 'mixed' | 'rainy' | 'calm';
+
+export interface NewsEffectCounts {
+  positive: number;
+  negative: number;
+  uncertain: number;
+  neutral: number;
+}
+
+/** Sol si predominan las positivas, lluvia si predominan las negativas, nubes y sol si están mezcladas. */
+export function newsTone(c: NewsEffectCounts): NewsTone {
+  const total = c.positive + c.negative + c.uncertain + c.neutral;
+  if (total === 0 || c.neutral === total) return 'calm';
+  if (c.negative > c.positive && c.negative >= c.uncertain) return 'rainy';
+  if (c.positive > c.negative && c.positive >= c.uncertain) return 'sunny';
+  return 'mixed';
+}
