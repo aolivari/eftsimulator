@@ -28,7 +28,7 @@ import {
   simulateMultiYearCyclePlan,
 } from '../engine/cycleSimulator';
 import { getDefault10YearTimelinePlan } from '../data/multiYearTimelinePresets';
-import { Tabs, useDebouncedValue } from '../shared/ui';
+import { Tabs, useDebouncedValue, type TabsBottomBarItem } from '../shared/ui';
 import { AccountBar } from '../features/cuentas';
 import { HeroLedger, SimulacionView } from '../features/simulacion';
 import { CarteraView, type FamousPortfolioModel } from '../features/cartera';
@@ -49,6 +49,16 @@ const DEFAULT_PARAMS: SimulationParams = {
 
 // Pausa sin cambios antes de recalcular todo (sliders, inputs numéricos y pesos de cartera)
 const RECALC_DELAY_MS = 600;
+
+// Pestañas de la barra inferior móvil (mismos valores que Tabs.Trigger en escritorio)
+const MOBILE_TABS: TabsBottomBarItem[] = [
+  { value: 'overview', label: 'Simulación', icon: <BarChart3 className="w-5 h-5 tab-icon tab-icon--grow" /> },
+  { value: 'allocation', label: 'Plan', icon: <SlidersHorizontal className="w-5 h-5 tab-icon tab-icon--slide" /> },
+  { value: 'cycles', label: 'Ciclos', icon: <ShieldAlert className="w-5 h-5 tab-icon tab-icon--pop" /> },
+  { value: 'annual', label: 'Proyección', icon: <Sparkles className="w-5 h-5 tab-icon tab-icon--twinkle" /> },
+  { value: 'brokers', label: 'Brókers', icon: <Trophy className="w-5 h-5 tab-icon tab-icon--swing" /> },
+  { value: 'news', label: 'Noticias', icon: <Newspaper className="w-5 h-5 tab-icon tab-icon--flip" /> },
+];
 
 export function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
@@ -208,7 +218,7 @@ export function ETFSimulator() {
         <div className="absolute -bottom-40 left-1/4 w-[38rem] h-[38rem] rounded-full bg-amber-300/35 blur-[120px] mix-blend-multiply" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 pb-28 sm:pt-10 md:pb-10">
         <div className="space-y-4 sm:space-y-8">
           <AccountBar
             params={params}
@@ -489,13 +499,13 @@ export function ETFSimulator() {
           >
             <Tabs.List className="hidden md:flex">
               <Tabs.Trigger value="overview">
-                <BarChart3 className="w-4 h-4" />
+                <BarChart3 className="w-4 h-4 tab-icon tab-icon--grow" />
                 <span className="xl:hidden">Simulación</span>
                 <span className="hidden xl:inline">Simulación General</span>
               </Tabs.Trigger>
 
               <Tabs.Trigger value="allocation">
-                <SlidersHorizontal className="w-4 h-4" />
+                <SlidersHorizontal className="w-4 h-4 tab-icon tab-icon--slide" />
                 <span className="xl:hidden">Plan ETFs</span>
                 <span className="hidden xl:inline">Plan de Ahorro ETFs</span>
                 <span
@@ -510,7 +520,7 @@ export function ETFSimulator() {
               </Tabs.Trigger>
 
               <Tabs.Trigger value="cycles">
-                <ShieldAlert className="w-4 h-4" />
+                <ShieldAlert className="w-4 h-4 tab-icon tab-icon--pop" />
                 <span className="xl:hidden">Ciclos</span>
                 <span className="hidden xl:inline">Ciclos Históricos</span>
                 {selectedCycleId ? (
@@ -523,19 +533,19 @@ export function ETFSimulator() {
               </Tabs.Trigger>
 
               <Tabs.Trigger value="annual">
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 tab-icon tab-icon--twinkle" />
                 <span className="xl:hidden">Proyección</span>
                 <span className="hidden xl:inline">Proyección Anual</span>
               </Tabs.Trigger>
 
               <Tabs.Trigger value="brokers">
-                <Trophy className="w-4 h-4" />
+                <Trophy className="w-4 h-4 tab-icon tab-icon--swing" />
                 <span className="xl:hidden">Brókers</span>
                 <span className="hidden xl:inline">Comparativa Brókers</span>
               </Tabs.Trigger>
 
               <Tabs.Trigger value="news">
-                <Newspaper className="w-4 h-4" />
+                <Newspaper className="w-4 h-4 tab-icon tab-icon--flip" />
                 <span className="xl:hidden">Noticias</span>
                 <span className="hidden xl:inline">Noticias de mi plan</span>
               </Tabs.Trigger>
@@ -641,6 +651,9 @@ export function ETFSimulator() {
             <Tabs.Panel value="news">
               <NoticiasView etfs={etfs} />
             </Tabs.Panel>
+
+            {/* Navegación móvil: barra inferior con joroba deslizante (en escritorio, Tabs.List) */}
+            <Tabs.BottomBar className="md:hidden" items={MOBILE_TABS} />
           </Tabs.Root>
 
           {/* ──────────────── Footer ──────────────── */}
