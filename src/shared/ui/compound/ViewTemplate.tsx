@@ -15,7 +15,7 @@ export interface ViewTemplateRootProps {
 function Root({ id, className = '', children }: ViewTemplateRootProps) {
   return (
     <ViewTemplateContext.Provider value={{ id }}>
-      <div id={id} className={`space-y-6 animate-in fade-in duration-200 ${className}`.trim()}>
+      <div id={id} className={`stagger space-y-3 ${className}`.trim()}>
         {children}
       </div>
     </ViewTemplateContext.Provider>
@@ -34,8 +34,6 @@ export interface ViewTemplateHeaderProps {
 }
 
 function Header({
-  icon,
-  iconClassName = 'bg-orange-100 text-orange-600',
   title,
   description,
   badge,
@@ -43,25 +41,22 @@ function Header({
   variant = 'card',
   className = '',
 }: ViewTemplateHeaderProps) {
+  // El icono ya no se pinta: los iconos en cuadrados de color eran ruido. Se mantiene la prop
+  // para no romper a quien la pasa.
+  const body = (
+    <div className="min-w-0">
+      <div className="flex flex-wrap items-center gap-2">
+        <h2 className="text-base font-semibold text-slate-900 leading-6">{title}</h2>
+        {badge}
+      </div>
+      {description && <p className="mt-0.5 text-sm text-slate-600">{description}</p>}
+    </div>
+  );
+
   if (variant === 'inline') {
     return (
       <div className={`flex flex-wrap items-center justify-between gap-3 ${className}`.trim()}>
-        <div className="flex items-center gap-2.5">
-          {icon && (
-            <div
-              className={`flex items-center justify-center w-8 h-8 rounded-xl shadow-xs shrink-0 ${iconClassName}`}
-            >
-              {icon}
-            </div>
-          )}
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="font-display text-base sm:text-lg font-extrabold text-slate-800 uppercase tracking-wide">{title}</h2>
-              {badge}
-            </div>
-            {description && <p className="text-xs text-slate-600 font-medium">{description}</p>}
-          </div>
-        </div>
+        {body}
         {actions && <div className="flex items-center gap-2">{actions}</div>}
       </div>
     );
@@ -69,25 +64,10 @@ function Header({
 
   return (
     <div
-      className={`surface-glass px-4 py-3.5 sm:px-6 sm:py-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${className}`.trim()}
+      className={`rounded-lg border border-slate-200 bg-white px-5 py-4 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${className}`.trim()}
     >
-      <div className="flex items-center gap-2.5">
-        {icon && (
-          <div
-            className={`flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl shadow-xs shrink-0 ${iconClassName}`}
-          >
-            {icon}
-          </div>
-        )}
-        <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <h2 className="font-display font-extrabold text-slate-900 text-lg sm:text-2xl leading-tight">{title}</h2>
-            {badge}
-          </div>
-          {description && <p className="text-xs text-slate-600 font-medium">{description}</p>}
-        </div>
-      </div>
-      {actions && <div className="flex items-center gap-2 flex-wrap">{actions}</div>}
+      {body}
+      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
   );
 }
@@ -111,8 +91,8 @@ function Section({
   const sectionId = id ?? (ctx.id ? `${ctx.id}-section` : undefined);
   const baseClass =
     variant === 'card'
-      ? 'bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm'
-      : 'space-y-4';
+      ? 'bg-white rounded-lg border border-slate-200 overflow-hidden'
+      : 'space-y-3';
 
   return (
     <section
@@ -132,9 +112,9 @@ export interface ViewTemplateGridProps {
 }
 
 const gridColsMap: Record<2 | 3 | 4, string> = {
-  2: 'grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4',
-  3: 'grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4',
-  4: 'grid grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-4',
+  2: 'grid grid-cols-1 sm:grid-cols-2 gap-3',
+  3: 'grid grid-cols-1 sm:grid-cols-3 gap-3',
+  4: 'grid grid-cols-2 xl:grid-cols-4 gap-3',
 };
 
 function Grid({ cols = 4, className = '', children }: ViewTemplateGridProps) {
@@ -149,7 +129,7 @@ export interface ViewTemplateFooterProps {
 function Footer({ className = '', children }: ViewTemplateFooterProps) {
   return (
     <div
-      className={`px-6 py-4 border-t border-slate-100 bg-amber-50/40 rounded-b-2xl ${className}`.trim()}
+      className={`px-5 py-4 sm:px-6 border-t border-slate-100 bg-slate-50 rounded-b-lg ${className}`.trim()}
     >
       {children}
     </div>

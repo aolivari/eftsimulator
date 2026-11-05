@@ -1,23 +1,24 @@
 {
- "url": "https://eftsimulator.vercel.app/",
- "at": "2026-11-03T14:25:35.459Z",
+ "url": "http://localhost:5191",
+ "at": "2026-11-05T17:06:34.261Z",
  "allow": [],
  "viewports": [
   {
    "width": 1440,
    "height": 900,
    "load": "load",
-   "screens": 3,
+   "screens": 4,
    "filled": [
-    0.58,
-    0.66,
+    0.64,
+    0.73,
+    0.78,
     0.66
    ],
    "motion": {
-    "elements": 1,
-    "css": 1,
-    "transitions": 0,
-    "scripted": 0,
+    "elements": 6,
+    "css": 4,
+    "transitions": 1,
+    "scripted": 1,
     "videos": 0,
     "playingVideos": 0
    },
@@ -27,14 +28,14 @@
      "h": 900
     },
     "page": {
-     "height": 1894,
-     "screens": 2.1,
-     "words": 344,
+     "height": 3087,
+     "screens": 3.4,
+     "words": 694,
      "img": 0,
      "video": 0,
      "canvas": 0,
-     "svg": 41,
-     "sections": 4,
+     "svg": 58,
+     "sections": 10,
      "horizontalOverflow": 0,
      "overflowCulprits": [],
      "uiFragments": 0,
@@ -46,55 +47,47 @@
      "blendText": 0,
      "sideScrollers": 0,
      "brokenImages": [],
-     "emoji": [
-      "🚨"
-     ],
+     "emoji": [],
      "videosNoPoster": 0
     },
     "hero": {
-     "text": "ETF Simulator & Plan de Ahorro",
-     "words": 6,
-     "chars": 30,
+     "text": "12.439 €",
+     "words": 2,
+     "chars": 8,
      "lines": 1,
-     "size": 30,
-     "vw": 2.1,
-     "font": "Inter",
-     "weight": 900,
-     "tracking": -0.025,
-     "leading": 1.2,
-     "upper": false,
-     "italic": false,
-     "mono": false,
+     "size": 144,
+     "vw": 10,
+     "font": "Archivo",
+     "weight": 800,
+     "tracking": -0.02,
+     "leading": 0.88,
+     "top": 206,
+     "tag": "p",
+     "kind": "heading",
      "align": "left",
-     "position": "left",
-     "widthRatio": 0.52,
-     "top": 72,
-     "gradientText": true,
-     "tag": "h1",
-     "kind": "heading"
+     "position": "left"
     },
     "h1": null,
     "headings": [
      {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "words": 6,
-      "chars": 30,
+      "text": "12.439 €",
+      "words": 2,
+      "chars": 8,
       "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
+      "size": 144,
+      "vw": 10,
+      "font": "Archivo",
+      "weight": 800,
       "tracking": -0.025,
-      "leading": 1.2,
+      "leading": 0.88,
       "upper": false,
       "italic": false,
       "mono": false,
       "align": "left",
       "position": "left",
-      "widthRatio": 0.52,
-      "top": 72,
-      "gradientText": true,
-      "tag": "h1",
+      "widthRatio": 0.41,
+      "top": 206,
+      "tag": "p",
       "kind": "heading"
      },
      {
@@ -102,19 +95,19 @@
       "words": 2,
       "chars": 8,
       "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.11,
       "upper": false,
       "italic": false,
       "mono": false,
       "align": "left",
       "position": "left",
       "widthRatio": 0.17,
-      "top": 634,
+      "top": 1047,
       "tag": "p",
       "kind": "statement"
      },
@@ -123,19 +116,19 @@
       "words": 2,
       "chars": 6,
       "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.11,
       "upper": false,
       "italic": false,
       "mono": false,
       "align": "left",
       "position": "left",
       "widthRatio": 0.17,
-      "top": 634,
+      "top": 1047,
       "tag": "p",
       "kind": "statement"
      },
@@ -144,19 +137,19 @@
       "words": 2,
       "chars": 7,
       "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.11,
       "upper": false,
       "italic": false,
       "mono": false,
       "align": "left",
       "position": "right",
       "widthRatio": 0.17,
-      "top": 634,
+      "top": 1047,
       "tag": "p",
       "kind": "statement"
      },
@@ -165,19 +158,19 @@
       "words": 2,
       "chars": 5,
       "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
+      "size": 36,
+      "vw": 2.5,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.11,
       "upper": false,
       "italic": false,
       "mono": false,
       "align": "left",
       "position": "right",
       "widthRatio": 0.17,
-      "top": 634,
+      "top": 1047,
       "tag": "p",
       "kind": "statement"
      }
@@ -195,21 +188,29 @@
      "families": [
       {
        "family": "Inter",
-       "share": 1,
+       "share": 0.98,
+       "mono": false
+      },
+      {
+       "family": "Archivo",
+       "share": 0.02,
        "mono": false
       }
      ],
-     "familyCount": 1,
+     "familyCount": 2,
      "sizes": [
-      10,
       11,
       12,
+      13,
       14,
       16,
+      18,
       20,
-      30
+      24,
+      36,
+      144
      ],
-     "sizeCount": 7,
+     "sizeCount": 10,
      "notLoaded": [],
      "body": {
       "font": "Inter",
@@ -217,21 +218,21 @@
       "leading": 1.33,
       "weight": 500,
       "tracking": 0,
-      "contrast": 4.8
+      "contrast": 7.6
      },
-     "measureChars": 182,
+     "measureChars": 221,
      "max": {
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "text": "Simulator & Plan de Ahorro"
+      "size": 144,
+      "vw": 10,
+      "font": "Archivo",
+      "text": "12.439"
      },
      "monoShare": 0,
      "monoProseShare": 0,
      "monoFamilies": [],
      "monoSamples": [],
-     "microLabels": 14,
-     "microLabelShare": 0.105,
+     "microLabels": 19,
+     "microLabelShare": 0.085,
      "microSamples": [
       "Parámetros de Simulación",
       "Cap. Inicial",
@@ -240,11 +241,21 @@
       "Rentab.",
       "Capital Final"
      ],
-     "upperShare": 0.11,
-     "centerShare": 0.19,
-     "smallText": 33
+     "upperShare": 0.09,
+     "centerShare": 0.12,
+     "smallText": 42
     },
     "eyebrows": [
+     {
+      "text": "ETF Simulator Plan de Ahorro",
+      "above": "12.439 €",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 18,
+      "top": 158
+     },
      {
       "text": "Capital Final",
       "above": "12.439 €",
@@ -253,7 +264,7 @@
       "mono": false,
       "pill": false,
       "size": 12,
-      "top": 602
+      "top": 1015
      },
      {
       "text": "Total Aportado",
@@ -263,7 +274,7 @@
       "mono": false,
       "pill": false,
       "size": 12,
-      "top": 602
+      "top": 1015
      },
      {
       "text": "Plusvalía",
@@ -273,7 +284,7 @@
       "mono": false,
       "pill": false,
       "size": 12,
-      "top": 602
+      "top": 1015
      },
      {
       "text": "Ahorro Comis.",
@@ -283,31 +294,31 @@
       "mono": false,
       "pill": false,
       "size": 12,
-      "top": 602
+      "top": 1015
      }
     ],
     "numbered": [],
     "color": {
-     "bodyBg": "#faf8f5",
+     "bodyBg": "#f4f4f0",
      "bodyBgHsl": {
-      "h": 36,
-      "s": 0.33,
-      "l": 0.97
+      "h": 60,
+      "s": 0.15,
+      "l": 0.95
      },
      "dark": false,
      "sectionBgs": [
       {
-       "color": "#faf8f5",
-       "top": 0,
+       "color": "#020617",
+       "top": 102,
        "hsl": {
-        "h": 36,
-        "s": 0.33,
-        "l": 0.97
+        "h": 229,
+        "s": 0.84,
+        "l": 0.05
        }
       },
       {
        "color": "#ffffff",
-       "top": 772,
+       "top": 1189,
        "hsl": {
         "h": 0,
         "s": 0,
@@ -317,126 +328,80 @@
      ],
      "textColors": [
       {
-       "color": "#64748b",
-       "share": 0.42
+       "color": "#475569",
+       "share": 0.51
       },
       {
-       "color": "#7c2d12",
-       "share": 0.13
+       "color": "#ffffff",
+       "share": 0.22
       },
       {
        "color": "#0f172a",
-       "share": 0.11
+       "share": 0.07
       },
       {
-       "color": "#475569",
-       "share": 0.1
+       "color": "#7c2d12",
+       "share": 0.07
       },
       {
-       "color": "#94a3b8",
-       "share": 0.06
+       "color": "#334155",
+       "share": 0.03
       }
      ],
      "button": {
-      "bg": "#f97316",
+      "bg": "#ffffff",
       "hsl": {
-       "h": 25,
-       "s": 0.95,
-       "l": 0.53
+       "h": 0,
+       "s": 0,
+       "l": 1
       },
-      "fg": "#ffffff"
+      "fg": "#1e293b"
      },
-     "lowContrast": [
-      {
-       "text": "€/trim",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 16,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "≈ 50 €/mes",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Años",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 16,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "en cartera",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Trade Republic",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Capital + DCA",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      }
-     ]
+     "lowContrast": []
     },
     "buttons": {
-     "count": 3,
-     "inHero": 3,
+     "count": 6,
+     "inHero": 4,
      "radius": 12,
-     "height": 40,
+     "height": 50,
      "withShadow": 0,
      "withGradient": 0,
      "mono": 0,
      "upper": 0,
      "heroLabels": [
-      "Simulación General",
-      "Ajustar Ciclo (Modal)",
-      "Restablecer"
+      "Iniciar sesión",
+      "Monte Carlo 9782 € – 23.305 € De 1500 es",
+      "Crisis 2008 11.566 € Si una caída como l",
+      "Brókers +3005 € Con tus parámetros, Trad"
      ]
     },
     "surfaces": {
-     "shadowStatic": 12,
+     "shadowStatic": 16,
      "shadowOverlay": 0,
      "shadowSamples": [
-      "div.flex.items-center → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "button.px-4.py-2.5 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
+      "div.relative.flex → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "span.tabs-indicator.pointer-events-none → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2"
      ],
-     "gradients": 0,
+     "gradients": 1,
      "scrims": 0,
-     "gradientSamples": [],
-     "gradientText": 1,
-     "hairlines": 12,
-     "hairlineSamples": [
-      "header.hidden.md:flex 1216px",
-      "div.hidden.md:flex 1216px",
-      "div#metric-final-balance.bg-white.rounded-xl 292px",
-      "div#metric-total-invested.bg-white.rounded-xl 292px",
-      "div#metric-profit.bg-white.rounded-xl 292px"
+     "gradientSamples": [
+      "div.absolute.inset-0 → linear-gradient(to right, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.45), rgba(0, 0, 0, 0))"
      ],
-     "outlinedBoxes": 13,
+     "gradientText": 0,
+     "hairlines": 11,
+     "hairlineSamples": [
+      "div#metric-final-balance.surface-glass.rounded-xl 292px",
+      "div#metric-total-invested.surface-glass.rounded-xl 292px",
+      "div#metric-profit.surface-glass.rounded-xl 292px",
+      "div#metric-fee-savings.surface-glass.rounded-xl 292px",
+      "div.px-3.5.py-3 1214px"
+     ],
+     "outlinedBoxes": 21,
      "dashed": 0,
-     "blurred": 0,
-     "roundedBoxes": 20,
+     "blurred": 17,
+     "roundedBoxes": 30,
      "boxRadius": 16,
      "squareMedia": 0,
      "roundedMedia": 0,
@@ -447,23 +412,34 @@
        "count": 4,
        "iconTopped": true,
        "rounded": true,
-       "top": 570
+       "top": 983
       },
       {
        "count": 4,
        "iconTopped": false,
        "rounded": true,
-       "top": 1283
+       "top": 1701
+      },
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 2153
       },
       {
        "count": 3,
        "iconTopped": true,
        "rounded": true,
-       "top": 1582
+       "top": 2775
       }
      ]
     },
-    "heroMedia": [],
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.3
+     }
+    ],
     "nav": {
      "links": 0,
      "fixed": false,
@@ -472,6 +448,7 @@
      "blur": false
     },
     "fontsLoaded": [
+     "archivo",
      "inter"
     ]
    },
@@ -480,29 +457,29 @@
      "w": 1440,
      "h": 900
     },
-    "pageH": 1894,
+    "pageH": 3087,
     "margins": {
      "left": 112,
-     "right": 129
+     "right": 117
     },
     "sections": [
      {
-      "sel": "section#input-controls.space-y-4",
-      "tag": "section",
-      "top": 266,
-      "height": 280,
-      "words": 22,
-      "media": 0,
-      "middle": 58,
+      "sel": "div.hidden.md:block",
+      "tag": "div",
+      "top": 102,
+      "height": 463,
+      "words": 60,
+      "media": 1,
+      "middle": 0,
       "heading": {
-       "text": "Parámetros de Simulación",
-       "size": 14,
-       "tag": "h2"
+       "text": "12.439",
+       "size": 144,
+       "tag": "p"
       },
-      "left": 133,
-      "right": 129,
-      "textLeft": 154,
-      "textRight": 129,
+      "left": 112,
+      "right": 112,
+      "textLeft": 168,
+      "textRight": 195,
       "fullBleed": false,
       "footer": false,
       "hero": true,
@@ -510,68 +487,22 @@
       "pinned": false
      },
      {
-      "sel": "section#metrics-cards.grid.grid-cols-2",
-      "tag": "section",
-      "top": 570,
-      "height": 178,
-      "words": 31,
-      "media": 0,
-      "middle": 190,
-      "heading": {
-       "text": "12.439 €",
-       "size": 30,
-       "tag": "p"
-      },
-      "left": 133,
-      "right": 225,
-      "textLeft": 133,
-      "textRight": 225,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section#growth-chart.bg-white.rounded-xl",
-      "tag": "section",
-      "top": 772,
-      "height": 752,
-      "words": 112,
-      "media": 1,
+      "sel": "div.space-y-4.sm:space-y-8",
+      "tag": "div",
+      "top": 597,
+      "height": 2355,
+      "words": 395,
+      "media": 2,
       "middle": 0,
       "heading": {
-       "text": "Línea Temporal Concatenada: Ciclo Económico Típico",
-       "size": 16,
-       "tag": "h3"
-      },
-      "left": 137,
-      "right": 137,
-      "textLeft": 152,
-      "textRight": 149,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section.pt-1.sm:pt-2",
-      "tag": "section",
-      "top": 1548,
-      "height": 210,
-      "words": 74,
-      "media": 0,
-      "middle": 16,
-      "heading": {
-       "text": "Profundiza en tu plan",
-       "size": 12,
-       "tag": "h3"
+       "text": "12.439",
+       "size": 36,
+       "tag": "p"
       },
       "left": 112,
       "right": 112,
       "textLeft": 112,
-      "textRight": 191,
+      "textRight": 129,
       "fullBleed": false,
       "footer": true,
       "hero": false,
@@ -583,22 +514,16 @@
     "h1s": [
      {
       "text": "ETF Simulator & Plan de Ahorro",
-      "size": 30,
-      "top": 72,
+      "size": 18,
+      "top": 158,
       "firstScreen": true
      }
     ],
-    "edgeText": [
-     {
-      "text": "0 €",
-      "side": "left",
-      "px": 0
-     }
-    ],
+    "edgeText": [],
     "edges": [
      {
-      "x": 112,
-      "n": 1
+      "x": 183,
+      "n": 2
      },
      {
       "x": 154,
@@ -609,45 +534,177 @@
       "n": 1
      },
      {
-      "x": 185,
-      "n": 1
-     },
-     {
-      "x": 227,
+      "x": 307,
       "n": 1
      }
     ],
     "leftBlocks": 5,
     "bodySize": 12,
     "stage": false,
-    "explains": false,
+    "explains": true,
     "slivers": [],
-    "voidShare": 0.07,
+    "voidShare": 0.05,
     "voidBox": {
-     "x": 1320,
-     "y": 120,
-     "w": 120,
-     "h": 780
+     "x": 420,
+     "y": 660,
+     "w": 1020,
+     "h": 60
     }
    },
-   "app": null,
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f4f4f0",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 117,
+     "right": 117
+    },
+    "hero": {
+     "text": "12.439 €",
+     "words": 2,
+     "chars": 8,
+     "lines": 1,
+     "size": 144,
+     "vw": 10,
+     "font": "Archivo",
+     "weight": 800,
+     "tracking": -0.02,
+     "leading": 0.88,
+     "top": 206,
+     "tag": "p",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 2,
+    "layout": {
+     "panels": 14,
+     "firstScreen": 5,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 27,
+     "radii": [
+      [
+       16,
+       14
+      ],
+      [
+       12,
+       11
+      ],
+      [
+       24,
+       1
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     "heavyBorders": 5,
+     "borderSamples": [
+      "#ffffff on #020617 (20.17:1)",
+      "#fbbf24 on #f4f4f0 (1.51:1)",
+      "#38bdf8 on #f4f4f0 (1.94:1)"
+     ],
+     "heavyShadows": 7,
+     "softShadows": 13,
+     "shadowSamples": [
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px"
+     ],
+     "glass": 12
+    },
+    "chips": {
+     "count": 14,
+     "hues": 9,
+     "samples": [
+      {
+       "hue": 25,
+       "size": 28,
+       "radius": "8px"
+      },
+      {
+       "hue": 0,
+       "size": 28,
+       "radius": "8px"
+      },
+      {
+       "hue": 0,
+       "size": 28,
+       "radius": "8px"
+      },
+      {
+       "hue": 0,
+       "size": 28,
+       "radius": "8px"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 6,
+     "tabularShare": 0.33,
+     "kpiMax": 20
+    },
+    "rows": null,
+    "chartHues": 4,
+    "placeholders": [],
+    "type": {
+     "under13": 0.59,
+     "tiny": 9,
+     "tinySamples": [
+      "fondos 9px",
+      "Personalizar 9px",
+      "Costes 9px",
+      "Simular 10px"
+     ],
+     "sizes": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      24,
+      36,
+      144
+     ]
+    },
+    "title": null,
+    "colourShare": 0.031
+   },
    "consoleErrors": []
   },
   {
    "width": 768,
    "height": 1024,
    "load": "load",
-   "screens": 3,
+   "screens": 4,
    "filled": [
-    0.55,
-    0.87,
+    0.7,
+    0.86,
+    0.92,
     0.75
    ],
    "motion": {
-    "elements": 1,
-    "css": 1,
-    "transitions": 0,
-    "scripted": 0,
+    "elements": 6,
+    "css": 4,
+    "transitions": 1,
+    "scripted": 1,
     "videos": 0,
     "playingVideos": 0
    },
@@ -657,509 +714,14 @@
      "h": 1024
     },
     "page": {
-     "height": 2389,
-     "screens": 2.3,
-     "words": 344,
+     "height": 4093,
+     "screens": 4,
+     "words": 684,
      "img": 0,
      "video": 0,
      "canvas": 0,
-     "svg": 41,
-     "sections": 4,
-     "horizontalOverflow": 0,
-     "overflowCulprits": [],
-     "uiFragments": 0,
-     "uiAbuse": false,
-     "realPictures": 0,
-     "videoCount": 0,
-     "uiPictures": 0,
-     "pictureSamples": [],
-     "blendText": 0,
-     "sideScrollers": 1,
-     "brokenImages": [],
-     "emoji": [
-      "🚨"
-     ],
-     "videosNoPoster": 0
-    },
-    "hero": {
-     "text": "ETF Simulator & Plan de Ahorro",
-     "words": 6,
-     "chars": 30,
-     "lines": 1,
-     "size": 30,
-     "vw": 3.9,
-     "font": "Inter",
-     "weight": 900,
-     "tracking": -0.025,
-     "leading": 1.2,
-     "upper": false,
-     "italic": false,
-     "mono": false,
-     "align": "left",
-     "position": "left",
-     "widthRatio": 0.72,
-     "top": 72,
-     "gradientText": true,
-     "tag": "h1",
-     "kind": "heading"
-    },
-    "h1": null,
-    "headings": [
-     {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "words": 6,
-      "chars": 30,
-      "lines": 1,
-      "size": 30,
-      "vw": 3.9,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
-      "upper": false,
-      "italic": false,
-      "mono": false,
-      "align": "left",
-      "position": "left",
-      "widthRatio": 0.72,
-      "top": 72,
-      "gradientText": true,
-      "tag": "h1",
-      "kind": "heading"
-     }
-    ],
-    "headingSummary": {
-     "count": 1,
-     "maxLines": 1,
-     "over2Lines": 0,
-     "statements": 0,
-     "centered": 0,
-     "medianWords": null,
-     "mixedFontHeadings": 0
-    },
-    "type": {
-     "families": [
-      {
-       "family": "Inter",
-       "share": 1,
-       "mono": false
-      }
-     ],
-     "familyCount": 1,
-     "sizes": [
-      10,
-      11,
-      12,
-      14,
-      16,
-      20,
-      24,
-      30
-     ],
-     "sizeCount": 8,
-     "notLoaded": [],
-     "body": {
-      "font": "Inter",
-      "size": 12,
-      "leading": 1.33,
-      "weight": 500,
-      "tracking": 0,
-      "contrast": 4.8
-     },
-     "measureChars": 99,
-     "max": {
-      "size": 30,
-      "vw": 3.9,
-      "font": "Inter",
-      "text": "Simulator & Plan de Ahorro"
-     },
-     "monoShare": 0,
-     "monoProseShare": 0,
-     "monoFamilies": [],
-     "monoSamples": [],
-     "microLabels": 14,
-     "microLabelShare": 0.105,
-     "microSamples": [
-      "Parámetros de Simulación",
-      "Cap. Inicial",
-      "Aportación",
-      "Plazo",
-      "Rentab.",
-      "Capital Final"
-     ],
-     "upperShare": 0.11,
-     "centerShare": 0.19,
-     "smallText": 33
-    },
-    "eyebrows": [],
-    "numbered": [],
-    "color": {
-     "bodyBg": "#faf8f5",
-     "bodyBgHsl": {
-      "h": 36,
-      "s": 0.33,
-      "l": 0.97
-     },
-     "dark": false,
-     "sectionBgs": [
-      {
-       "color": "#faf8f5",
-       "top": 0,
-       "hsl": {
-        "h": 36,
-        "s": 0.33,
-        "l": 0.97
-       }
-      },
-      {
-       "color": "#ffffff",
-       "top": 1128,
-       "hsl": {
-        "h": 0,
-        "s": 0,
-        "l": 1
-       }
-      }
-     ],
-     "textColors": [
-      {
-       "color": "#64748b",
-       "share": 0.42
-      },
-      {
-       "color": "#7c2d12",
-       "share": 0.13
-      },
-      {
-       "color": "#0f172a",
-       "share": 0.11
-      },
-      {
-       "color": "#475569",
-       "share": 0.1
-      },
-      {
-       "color": "#94a3b8",
-       "share": 0.06
-      }
-     ],
-     "button": {
-      "bg": "#f97316",
-      "hsl": {
-       "h": 25,
-       "s": 0.95,
-       "l": 0.53
-      },
-      "fg": "#ffffff"
-     },
-     "lowContrast": [
-      {
-       "text": "€/trim",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 16,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "≈ 50 €/mes",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Años",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 16,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "en cartera",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Trade Republic",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Capital + DCA",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      }
-     ]
-    },
-    "buttons": {
-     "count": 3,
-     "inHero": 1,
-     "radius": 12,
-     "height": 40,
-     "withShadow": 0,
-     "withGradient": 0,
-     "mono": 0,
-     "upper": 0,
-     "heroLabels": [
-      "Simulación General"
-     ]
-    },
-    "surfaces": {
-     "shadowStatic": 12,
-     "shadowOverlay": 0,
-     "shadowSamples": [
-      "div.flex.items-center → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "button.px-4.py-2.5 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
-     ],
-     "gradients": 0,
-     "scrims": 0,
-     "gradientSamples": [],
-     "gradientText": 1,
-     "hairlines": 9,
-     "hairlineSamples": [
-      "header.hidden.md:flex 720px",
-      "div.hidden.md:flex 720px",
-      "div#metric-final-balance.bg-white.rounded-xl 352px",
-      "div#metric-total-invested.bg-white.rounded-xl 352px",
-      "div#metric-profit.bg-white.rounded-xl 352px"
-     ],
-     "outlinedBoxes": 13,
-     "dashed": 0,
-     "blurred": 0,
-     "roundedBoxes": 20,
-     "boxRadius": 16,
-     "squareMedia": 0,
-     "roundedMedia": 0,
-     "mediaRadius": 0,
-     "textShadow": 0,
-     "cardRows": [
-      {
-       "count": 4,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 740
-      },
-      {
-       "count": 4,
-       "iconTopped": false,
-       "rounded": true,
-       "top": 1679
-      },
-      {
-       "count": 3,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 2038
-      }
-     ]
-    },
-    "heroMedia": [],
-    "nav": {
-     "links": 0,
-     "fixed": false,
-     "height": 0,
-     "floatingPill": false,
-     "blur": false
-    },
-    "fontsLoaded": [
-     "inter"
-    ]
-   },
-   "layout": {
-    "viewport": {
-     "w": 768,
-     "h": 1024
-    },
-    "pageH": 2389,
-    "margins": {
-     "left": 24,
-     "right": 41
-    },
-    "sections": [
-     {
-      "sel": "section#input-controls.space-y-4",
-      "tag": "section",
-      "top": 286,
-      "height": 430,
-      "words": 22,
-      "media": 0,
-      "middle": 0,
-      "heading": {
-       "text": "Parámetros de Simulación",
-       "size": 14,
-       "tag": "h2"
-      },
-      "left": 45,
-      "right": 41,
-      "textLeft": 66,
-      "textRight": 41,
-      "fullBleed": false,
-      "footer": false,
-      "hero": true,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section#metrics-cards.grid.grid-cols-2",
-      "tag": "section",
-      "top": 740,
-      "height": 364,
-      "words": 31,
-      "media": 0,
-      "middle": 261,
-      "heading": {
-       "text": "12.439 €",
-       "size": 24,
-       "tag": "p"
-      },
-      "left": 45,
-      "right": 197,
-      "textLeft": 45,
-      "textRight": 197,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section#growth-chart.bg-white.rounded-xl",
-      "tag": "section",
-      "top": 1128,
-      "height": 852,
-      "words": 112,
-      "media": 1,
-      "middle": 0,
-      "heading": {
-       "text": "Línea Temporal Concatenada: Ciclo Económico Típico",
-       "size": 16,
-       "tag": "h3"
-      },
-      "left": 49,
-      "right": 49,
-      "textLeft": 64,
-      "textRight": 61,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section.pt-1.sm:pt-2",
-      "tag": "section",
-      "top": 2004,
-      "height": 249,
-      "words": 74,
-      "media": 0,
-      "middle": 16,
-      "heading": {
-       "text": "Profundiza en tu plan",
-       "size": 12,
-       "tag": "h3"
-      },
-      "left": 24,
-      "right": 24,
-      "textLeft": 24,
-      "textRight": 51,
-      "fullBleed": false,
-      "footer": true,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     }
-    ],
-    "gaps": [],
-    "h1s": [
-     {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "size": 30,
-      "top": 72,
-      "firstScreen": true
-     }
-    ],
-    "edgeText": [
-     {
-      "text": "0 €",
-      "side": "left",
-      "px": 0
-     }
-    ],
-    "edges": [
-     {
-      "x": 80,
-      "n": 2
-     },
-     {
-      "x": 24,
-      "n": 1
-     },
-     {
-      "x": 66,
-      "n": 1
-     },
-     {
-      "x": 139,
-      "n": 1
-     }
-    ],
-    "leftBlocks": 5,
-    "bodySize": 12,
-    "stage": false,
-    "explains": false,
-    "slivers": [],
-    "voidShare": 0,
-    "voidBox": null
-   },
-   "app": null,
-   "consoleErrors": []
-  },
-  {
-   "width": 390,
-   "height": 844,
-   "load": "load",
-   "screens": 3,
-   "filled": [
-    0.7,
-    0.92,
-    0.81
-   ],
-   "motion": {
-    "elements": 1,
-    "css": 1,
-    "transitions": 0,
-    "scripted": 0,
-    "videos": 0,
-    "playingVideos": 0
-   },
-   "metrics": {
-    "viewport": {
-     "w": 390,
-     "h": 844
-    },
-    "page": {
-     "height": 2132,
-     "screens": 2.5,
-     "words": 268,
-     "img": 0,
-     "video": 0,
-     "canvas": 0,
-     "svg": 41,
-     "sections": 4,
+     "svg": 58,
+     "sections": 10,
      "horizontalOverflow": 0,
      "overflowCulprits": [],
      "uiFragments": 0,
@@ -1171,9 +733,679 @@
      "blendText": 0,
      "sideScrollers": 0,
      "brokenImages": [],
-     "emoji": [
-      "🚨"
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "12.439 €",
+     "words": 2,
+     "chars": 8,
+     "lines": 1,
+     "size": 77,
+     "vw": 10,
+     "font": "Archivo",
+     "weight": 800,
+     "tracking": -0.02,
+     "leading": 0.88,
+     "top": 190,
+     "tag": "p",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": null,
+    "headings": [
+     {
+      "text": "12.439 €",
+      "words": 2,
+      "chars": 8,
+      "lines": 1,
+      "size": 76.8,
+      "vw": 10,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.025,
+      "leading": 0.88,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.83,
+      "top": 190,
+      "tag": "p",
+      "kind": "heading"
+     },
+     {
+      "text": "12.439 €",
+      "words": 2,
+      "chars": 8,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 1496,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "8000 €",
+      "words": 2,
+      "chars": 6,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 1496,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "+4439 €",
+      "words": 2,
+      "chars": 7,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 1690,
+      "tag": "p",
+      "kind": "statement"
+     },
+     {
+      "text": "774 €",
+      "words": 2,
+      "chars": 5,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Archivo",
+      "weight": 800,
+      "tracking": -0.01,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 1690,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 4,
+     "centered": 0,
+     "medianWords": 2,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Inter",
+       "share": 0.98,
+       "mono": false
+      },
+      {
+       "family": "Archivo",
+       "share": 0.02,
+       "mono": false
+      }
      ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      24,
+      30,
+      77
+     ],
+     "sizeCount": 10,
+     "notLoaded": [],
+     "body": {
+      "font": "Inter",
+      "size": 12,
+      "leading": 1.33,
+      "weight": 500,
+      "tracking": 0,
+      "contrast": 7.6
+     },
+     "measureChars": 131,
+     "max": {
+      "size": 76.8,
+      "vw": 10,
+      "font": "Archivo",
+      "text": "12.439"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 19,
+     "microLabelShare": 0.087,
+     "microSamples": [
+      "Parámetros de Simulación",
+      "Cap. Inicial",
+      "Aportación",
+      "Plazo",
+      "Rentab.",
+      "Capital Final"
+     ],
+     "upperShare": 0.09,
+     "centerShare": 0.1,
+     "smallText": 42
+    },
+    "eyebrows": [
+     {
+      "text": "ETF Simulator Plan de Ahorro",
+      "above": "12.439 €",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 18,
+      "top": 142
+     },
+     {
+      "text": "Capital Final",
+      "above": "12.439 €",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1464
+     },
+     {
+      "text": "Total Aportado",
+      "above": "8000 €",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1464
+     },
+     {
+      "text": "Plusvalía",
+      "above": "+4439 €",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1658
+     },
+     {
+      "text": "Ahorro Comis.",
+      "above": "774 €",
+      "upper": true,
+      "tracked": true,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 1658
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f4f4f0",
+     "bodyBgHsl": {
+      "h": 60,
+      "s": 0.15,
+      "l": 0.95
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#020617",
+       "top": 102,
+       "hsl": {
+        "h": 229,
+        "s": 0.84,
+        "l": 0.05
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 1828,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#475569",
+       "share": 0.51
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.22
+      },
+      {
+       "color": "#0f172a",
+       "share": 0.07
+      },
+      {
+       "color": "#7c2d12",
+       "share": 0.07
+      },
+      {
+       "color": "#334155",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#1e293b"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 6,
+     "inHero": 4,
+     "radius": 12,
+     "height": 50,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Iniciar sesión",
+      "Monte Carlo 9782 € – 23.305 € De 1500 es",
+      "Crisis 2008 11.566 € Si una caída como l",
+      "Brókers +3005 € Con tus parámetros, Trad"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 16,
+     "shadowOverlay": 0,
+     "shadowSamples": [
+      "div.relative.flex → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "span.tabs-indicator.pointer-events-none → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2"
+     ],
+     "gradients": 1,
+     "scrims": 0,
+     "gradientSamples": [
+      "div.absolute.inset-0 → linear-gradient(to right, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.45), rgba(0, 0, 0, 0))"
+     ],
+     "gradientText": 0,
+     "hairlines": 8,
+     "hairlineSamples": [
+      "div#metric-final-balance.surface-glass.rounded-xl 352px",
+      "div#metric-total-invested.surface-glass.rounded-xl 352px",
+      "div#metric-profit.surface-glass.rounded-xl 352px",
+      "div#metric-fee-savings.surface-glass.rounded-xl 352px",
+      "div.px-3.5.py-3 718px"
+     ],
+     "outlinedBoxes": 22,
+     "dashed": 0,
+     "blurred": 17,
+     "roundedBoxes": 31,
+     "boxRadius": 16,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 4,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 1432
+      },
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 2379
+      },
+      {
+       "count": 3,
+       "iconTopped": true,
+       "rounded": true,
+       "top": 3742
+      }
+     ]
+    },
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.47
+     }
+    ],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 0,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "archivo",
+     "inter"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 4093,
+    "margins": {
+     "left": 24,
+     "right": 29
+    },
+    "sections": [
+     {
+      "sel": "div.hidden.md:block",
+      "tag": "div",
+      "top": 102,
+      "height": 731,
+      "words": 60,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "12.439",
+       "size": 77,
+       "tag": "p"
+      },
+      "left": 24,
+      "right": 24,
+      "textLeft": 64,
+      "textRight": 142,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div.space-y-4.sm:space-y-8",
+      "tag": "div",
+      "top": 865,
+      "height": 3092,
+      "words": 385,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "12.439",
+       "size": 30,
+       "tag": "p"
+      },
+      "left": 24,
+      "right": 24,
+      "textLeft": 24,
+      "textRight": 45,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "ETF Simulator & Plan de Ahorro",
+      "size": 18,
+      "top": 142,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 64,
+      "n": 2
+     },
+     {
+      "x": 86,
+      "n": 2
+     },
+     {
+      "x": 203,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 5,
+    "bodySize": 12,
+    "stage": false,
+    "explains": true,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f4f4f0",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 29,
+     "right": 29
+    },
+    "hero": {
+     "text": "12.439 €",
+     "words": 2,
+     "chars": 8,
+     "lines": 1,
+     "size": 77,
+     "vw": 10,
+     "font": "Archivo",
+     "weight": 800,
+     "tracking": -0.02,
+     "leading": 0.88,
+     "top": 190,
+     "tag": "p",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 2,
+    "layout": {
+     "panels": 15,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 29,
+     "radii": [
+      [
+       16,
+       15
+      ],
+      [
+       12,
+       11
+      ],
+      [
+       0,
+       2
+      ],
+      [
+       24,
+       1
+      ]
+     ],
+     "heavyBorders": 5,
+     "borderSamples": [
+      "#ffffff on #020617 (20.17:1)",
+      "#fbbf24 on #f4f4f0 (1.51:1)",
+      "#38bdf8 on #f4f4f0 (1.94:1)"
+     ],
+     "heavyShadows": 8,
+     "softShadows": 14,
+     "shadowSamples": [
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px"
+     ],
+     "glass": 13
+    },
+    "chips": {
+     "count": 14,
+     "hues": 9,
+     "samples": [
+      {
+       "hue": 25,
+       "size": 28,
+       "radius": "8px"
+      },
+      {
+       "hue": 0,
+       "size": 28,
+       "radius": "8px"
+      },
+      {
+       "hue": 0,
+       "size": 28,
+       "radius": "8px"
+      },
+      {
+       "hue": 0,
+       "size": 28,
+       "radius": "8px"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 6,
+     "tabularShare": 0.33,
+     "kpiMax": 20
+    },
+    "rows": null,
+    "chartHues": 4,
+    "placeholders": [],
+    "type": {
+     "under13": 0.61,
+     "tiny": 9,
+     "tinySamples": [
+      "fondos 9px",
+      "Personalizar 9px",
+      "Costes 9px",
+      "Simular 10px"
+     ],
+     "sizes": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      24,
+      30,
+      77
+     ]
+    },
+    "title": null,
+    "colourShare": 0.052
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.8,
+    0.86,
+    0.92,
+    0.86,
+    0.78
+   ],
+   "motion": {
+    "elements": 5,
+    "css": 3,
+    "transitions": 1,
+    "scripted": 1,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 3572,
+     "screens": 4.2,
+     "words": 508,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 58,
+     "sections": 10,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
      "videosNoPoster": 0
     },
     "hero": {
@@ -1185,17 +1417,13 @@
      "vw": 4.6,
      "font": "Inter",
      "weight": 900,
-     "tracking": -0.025,
+     "tracking": -0.02,
      "leading": 1.25,
-     "upper": false,
-     "italic": false,
-     "mono": false,
-     "align": "left",
-     "position": "left",
-     "widthRatio": 0.31,
-     "top": 16,
+     "top": 62,
      "tag": "h1",
-     "kind": "heading"
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
     },
     "h1": {
      "text": "ETF Simulator",
@@ -1218,21 +1446,28 @@
      "families": [
       {
        "family": "Inter",
-       "share": 1,
+       "share": 0.99,
+       "mono": false
+      },
+      {
+       "family": "Archivo",
+       "share": 0.01,
        "mono": false
       }
      ],
-     "familyCount": 1,
+     "familyCount": 2,
      "sizes": [
       9,
       10,
       11,
       12,
+      13,
       14,
+      16,
       18,
       20
      ],
-     "sizeCount": 7,
+     "sizeCount": 9,
      "notLoaded": [],
      "body": {
       "font": "Inter",
@@ -1240,21 +1475,21 @@
       "leading": 1.33,
       "weight": 500,
       "tracking": 0,
-      "contrast": 4.8
+      "contrast": 7.6
      },
-     "measureChars": 44,
+     "measureChars": 66,
      "max": {
       "size": 20,
       "vw": 5.1,
-      "font": "Inter",
-      "text": "8000 €"
+      "font": "Archivo",
+      "text": "12.439 €"
      },
      "monoShare": 0,
      "monoProseShare": 0,
      "monoFamilies": [],
      "monoSamples": [],
-     "microLabels": 14,
-     "microLabelShare": 0.133,
+     "microLabels": 19,
+     "microLabelShare": 0.119,
      "microSamples": [
       "Parámetros de Simulación",
       "Cap. Inicial",
@@ -1263,33 +1498,24 @@
       "Rentab.",
       "Capital Final"
      ],
-     "upperShare": 0.14,
-     "centerShare": 0.17,
-     "smallText": 35
+     "upperShare": 0.12,
+     "centerShare": 0.13,
+     "smallText": 30
     },
     "eyebrows": [],
     "numbered": [],
     "color": {
-     "bodyBg": "#faf8f5",
+     "bodyBg": "#f4f4f0",
      "bodyBgHsl": {
-      "h": 36,
-      "s": 0.33,
-      "l": 0.97
+      "h": 60,
+      "s": 0.15,
+      "l": 0.95
      },
      "dark": false,
      "sectionBgs": [
       {
-       "color": "#faf8f5",
-       "top": 0,
-       "hsl": {
-        "h": 36,
-        "s": 0.33,
-        "l": 0.97
-       }
-      },
-      {
        "color": "#ffffff",
-       "top": 771,
+       "top": 891,
        "hsl": {
         "h": 0,
         "s": 0,
@@ -1299,24 +1525,24 @@
      ],
      "textColors": [
       {
-       "color": "#64748b",
-       "share": 0.46
-      },
-      {
-       "color": "#7c2d12",
-       "share": 0.16
+       "color": "#475569",
+       "share": 0.63
       },
       {
        "color": "#0f172a",
-       "share": 0.13
+       "share": 0.11
       },
       {
-       "color": "#94a3b8",
-       "share": 0.07
+       "color": "#7c2d12",
+       "share": 0.1
       },
       {
-       "color": "#431407",
-       "share": 0.03
+       "color": "#334155",
+       "share": 0.05
+      },
+      {
+       "color": "#047857",
+       "share": 0.02
       }
      ],
      "button": {
@@ -1328,86 +1554,45 @@
       },
       "fg": "#1e293b"
      },
-     "lowContrast": [
-      {
-       "text": "Acceso rápido",
-       "ratio": 2.4,
-       "need": 4.5,
-       "size": 11,
-       "fg": "#94a3b8",
-       "bg": "#faf8f5"
-      },
-      {
-       "text": "€/trim",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "≈ 50 €/mes",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 10,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Años",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Trade Republic",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 10,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      },
-      {
-       "text": "Capital + DCA",
-       "ratio": 2.6,
-       "need": 4.5,
-       "size": 10,
-       "fg": "#94a3b8",
-       "bg": "#ffffff"
-      }
-     ]
+     "lowContrast": []
     },
     "buttons": {
-     "count": 5,
-     "inHero": 0,
-     "radius": 16,
-     "height": 66,
+     "count": 3,
+     "inHero": 1,
+     "radius": 12,
+     "height": 30,
      "withShadow": 0,
      "withGradient": 0,
      "mono": 0,
      "upper": 0,
-     "heroLabels": []
+     "heroLabels": [
+      "Iniciar sesión"
+     ]
     },
     "surfaces": {
-     "shadowStatic": 0,
-     "shadowOverlay": 0,
-     "shadowSamples": [],
+     "shadowStatic": 13,
+     "shadowOverlay": 1,
+     "shadowSamples": [
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2",
+      "div.surface-glass.p-3 → rgba(255, 255, 255, 0.9) 0px 1px 0px 0px inset, rgba(15, 23, 42, 0.04) 0px 1px 2"
+     ],
      "gradients": 0,
      "scrims": 0,
      "gradientSamples": [],
      "gradientText": 0,
-     "hairlines": 3,
+     "hairlines": 4,
      "hairlineSamples": [
       "div.px-3.5.py-3 364px",
       "div.px-3.sm:px-6 364px",
+      "p.px-4.sm:px-6 364px",
       "footer.pt-6.border-t 366px"
      ],
-     "outlinedBoxes": 10,
+     "outlinedBoxes": 21,
      "dashed": 0,
-     "blurred": 0,
-     "roundedBoxes": 17,
+     "blurred": 12,
+     "roundedBoxes": 28,
      "boxRadius": 12,
      "squareMedia": 0,
      "roundedMedia": 0,
@@ -1418,13 +1603,19 @@
        "count": 4,
        "iconTopped": true,
        "rounded": true,
-       "top": 475
+       "top": 577
       },
       {
        "count": 4,
        "iconTopped": false,
        "rounded": true,
-       "top": 1220
+       "top": 1345
+      },
+      {
+       "count": 4,
+       "iconTopped": false,
+       "rounded": true,
+       "top": 2205
       }
      ]
     },
@@ -1432,11 +1623,12 @@
     "nav": {
      "links": 0,
      "fixed": false,
-     "height": 44,
+     "height": 47,
      "floatingPill": false,
      "blur": false
     },
     "fontsLoaded": [
+     "archivo",
      "inter"
     ]
    },
@@ -1445,18 +1637,18 @@
      "w": 390,
      "h": 844
     },
-    "pageH": 2132,
+    "pageH": 3572,
     "margins": {
      "left": 12,
      "right": 12
     },
     "sections": [
      {
-      "sel": "section#input-controls.space-y-4",
+      "sel": "section#simulacion-inputs.space-y-4",
       "tag": "section",
-      "top": 72,
-      "height": 379,
-      "words": 20,
+      "top": 121,
+      "height": 433,
+      "words": 21,
       "media": 0,
       "middle": 0,
       "heading": {
@@ -1475,18 +1667,18 @@
       "pinned": false
      },
      {
-      "sel": "section#metrics-cards.grid.grid-cols-2",
+      "sel": "section#simulacion-metrics.space-y-4",
       "tag": "section",
-      "top": 475,
-      "height": 272,
-      "words": 31,
+      "top": 577,
+      "height": 289,
+      "words": 27,
       "media": 0,
-      "middle": 99,
+      "middle": 72,
       "heading": null,
       "left": 25,
-      "right": 45,
+      "right": 25,
       "textLeft": 25,
-      "textRight": 45,
+      "textRight": 25,
       "fullBleed": false,
       "footer": false,
       "hero": false,
@@ -1494,10 +1686,10 @@
       "pinned": false
      },
      {
-      "sel": "section#growth-chart.bg-white.rounded-xl",
+      "sel": "section#simulacion-growth-chart.space-y-4",
       "tag": "section",
-      "top": 771,
-      "height": 943,
+      "top": 891,
+      "height": 1004,
       "words": 112,
       "media": 1,
       "middle": 0,
@@ -1517,10 +1709,33 @@
       "pinned": false
      },
      {
-      "sel": "section.pt-1.sm:pt-2",
+      "sel": "section#simulacion-monte-carlo.space-y-4",
       "tag": "section",
-      "top": 1738,
-      "height": 262,
+      "top": 1918,
+      "height": 1084,
+      "words": 142,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Escenarios realistas (Monte Carlo)",
+       "size": 14,
+       "tag": "h3"
+      },
+      "left": 21,
+      "right": 21,
+      "textLeft": 29,
+      "textRight": 29,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section#simulacion-deep-dive.space-y-4.pt-1",
+      "tag": "section",
+      "top": 3026,
+      "height": 315,
       "words": 43,
       "media": 0,
       "middle": 0,
@@ -1545,7 +1760,7 @@
      {
       "text": "ETF Simulator",
       "size": 18,
-      "top": 16,
+      "top": 62,
       "firstScreen": true
      }
     ],
@@ -1559,11 +1774,6 @@
       "text": "Acceso rápido",
       "side": "right",
       "px": 12
-     },
-     {
-      "text": "0 €",
-      "side": "left",
-      "px": 0
      }
     ],
     "edges": [
@@ -1572,11 +1782,15 @@
       "n": 3
      },
      {
+      "x": 75,
+      "n": 1
+     },
+     {
       "x": 91,
       "n": 1
      }
     ],
-    "leftBlocks": 4,
+    "leftBlocks": 5,
     "bodySize": 12,
     "stage": false,
     "explains": false,
@@ -1584,23 +1798,150 @@
     "voidShare": 0,
     "voidBox": null
    },
-   "app": null,
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f4f4f0",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 12,
+     "right": 12
+    },
+    "hero": {
+     "text": "ETF Simulator",
+     "words": 2,
+     "chars": 13,
+     "lines": 1,
+     "size": 18,
+     "vw": 4.6,
+     "font": "Inter",
+     "weight": 900,
+     "tracking": -0.02,
+     "leading": 1.25,
+     "top": 62,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 2,
+    "layout": {
+     "panels": 15,
+     "firstScreen": 9,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 28,
+     "radii": [
+      [
+       12,
+       21
+      ],
+      [
+       16,
+       4
+      ],
+      [
+       0,
+       3
+      ]
+     ],
+     "heavyBorders": 4,
+     "borderSamples": [
+      "#fbbf24 on #f4f4f0 (1.51:1)",
+      "#38bdf8 on #f4f4f0 (1.94:1)",
+      "#34d399 on #f4f4f0 (1.74:1)"
+     ],
+     "heavyShadows": 12,
+     "softShadows": 13,
+     "shadowSamples": [
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+      "rgba(15, 23, 42, 0.18) 0px 10px 28px -16px"
+     ],
+     "glass": 12
+    },
+    "chips": {
+     "count": 11,
+     "hues": 7,
+     "samples": [
+      {
+       "hue": 25,
+       "size": 36,
+       "radius": "12px"
+      },
+      {
+       "hue": 34,
+       "size": 32,
+       "radius": "12px"
+      },
+      {
+       "hue": 48,
+       "size": 24,
+       "radius": "8px"
+      },
+      {
+       "hue": 204,
+       "size": 24,
+       "radius": "8px"
+      }
+     ]
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 6,
+     "tabularShare": 0.33,
+     "kpiMax": 20
+    },
+    "rows": null,
+    "chartHues": 4,
+    "placeholders": [],
+    "type": {
+     "under13": 0.52,
+     "tiny": 9,
+     "tinySamples": [
+      "fondos 9px",
+      "Personalizar 9px",
+      "Costes 9px",
+      "Simular 10px"
+     ],
+     "sizes": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16,
+      18,
+      20,
+      24,
+      64
+     ]
+    },
+    "title": {
+     "text": "ETF Simulator",
+     "size": 18,
+     "top": 62
+    },
+    "colourShare": 0.046
+   },
    "consoleErrors": []
   }
  ],
  "findings": [
   {
    "level": "FAIL",
-   "id": "eyebrow",
-   "width": 1440,
-   "message": "4 eyebrow/kicker label(s) above headings: \"Capital Final\" above \"12.439 €\"; \"Total Aportado\" above \"8000 €\"; \"Plusvalía\" above \"+4439 €\"; \"Ahorro Comis.\" above \"774 €\"",
-   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence."
-  },
-  {
-   "level": "FAIL",
    "id": "micro-label",
    "width": 1440,
-   "message": "14 tiny uppercase letter-spaced labels (e.g. \"Parámetros de Simulación\", \"Cap. Inicial\", \"Aportación\", \"Plazo\").",
+   "message": "19 tiny uppercase letter-spaced labels (e.g. \"Parámetros de Simulación\", \"Cap. Inicial\", \"Aportación\", \"Plazo\").",
    "fix": "Use sentence-case text at a readable size, or delete the label.",
    "alsoAt": [
     768,
@@ -1609,41 +1950,20 @@
   },
   {
    "level": "FAIL",
-   "id": "emoji",
+   "id": "gradient",
    "width": 1440,
-   "message": "Emoji in the page: 🚨",
-   "fix": "Remove. Use words or real imagery.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "gradient-text",
-   "width": 1440,
-   "message": "1 gradient-filled text element(s).",
-   "fix": "Solid colour text.",
+   "message": "1 gradient fill(s): div.absolute.inset-0 → linear-gradient(to right, rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.45), rgba(0, 0, 0, 0))",
+   "fix": "Use a flat colour or a real image. The only gradient allowed by default is a neutral scrim over a photo for legibility.",
    "alsoAt": [
     768
    ]
   },
   {
-   "level": "FAIL",
-   "id": "shadow",
+   "level": "WARN",
+   "id": "dev-server",
    "width": 1440,
-   "message": "12 box-shadow(s) on elements at rest: div.flex.items-center → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11 | button.px-4.py-2.5 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11 | div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-   "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "hairline",
-   "width": 1440,
-   "message": "12 thin rule(s)/divider line(s): header.hidden.md:flex 1216px | div.hidden.md:flex 1216px | div#metric-final-balance.bg-white.rounded-xl 292px | div#metric-total-invested.bg-white.rounded-xl 292px",
-   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
+   "message": "This page is served by a development server (Vite, webpack or Next in dev mode).",
+   "fix": "Run the last gate on the production build too (vite build && vite preview, next build && next start, or the built index.html): minifiers and bundlers change the CSS a visitor receives.",
    "alsoAt": [
     768,
     390
@@ -1651,21 +1971,17 @@
   },
   {
    "level": "FAIL",
-   "id": "outlined-box",
+   "id": "font-not-dealt",
    "width": 1440,
-   "message": "13 boxes drawn with a 1px outline.",
-   "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
-   "alsoAt": [
-    768,
-    390
-   ]
+   "message": "The sheet dealt Geist, but the page renders Inter, Archivo.",
+   "fix": "Load the dealt face (the link on the sheet) and put it first in font-family. A build that falls back to a default face lands on the default look."
   },
   {
    "level": "FAIL",
-   "id": "icon-cards",
+   "id": "heavy-shadow",
    "width": 1440,
-   "message": "2 row(s) of identical cards each topped with a small icon (4, 3 cards).",
-   "fix": "Replace with one composed section from the direction: a narrative split, a list set in large type, or real imagery per item.",
+   "message": "7 panel shadow(s) heavy enough to read as floating: rgba(15, 23, 42, 0.18) 0px 10px 28px -16px | rgba(15, 23, 42, 0.18) 0px 10px 28px -16px | rgba(15, 23, 42, 0.18) 0px 10px 28px -16px",
+   "fix": "Panels sit on the ground: separate them with a fill one step from the ground or a quiet 1px border. A shadow, if any, is under 8% black with a small blur. Real overlays (menus, dialogs, popovers) may float.",
    "alsoAt": [
     768,
     390
@@ -1673,42 +1989,10 @@
   },
   {
    "level": "WARN",
-   "id": "palette-cream",
+   "id": "heavy-borders",
    "width": 1440,
-   "message": "Yellow-cream background (page background #faf8f5, section #faf8f5).",
-   "fix": "Use the drawn palette. If you want warmth, take a low-chroma stone or bone, not a yellow cream.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "WARN",
-   "id": "contrast",
-   "width": 1440,
-   "message": "Low-contrast text: \"€/trim\" 2.6:1 needs 4.5:1; \"≈ 50 €/mes\" 2.6:1 needs 4.5:1; \"Años\" 2.6:1 needs 4.5:1; \"en cartera\" 2.6:1 needs 4.5:1",
-   "fix": "Darken or lighten the text colour.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "body-size",
-   "width": 1440,
-   "message": "Body text is 12px (the size most of the running text is set in).",
-   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "WARN",
-   "id": "grey-body",
-   "width": 1440,
-   "message": "The running text is a soft grey on its ground (4.8:1).",
-   "fix": "Set body copy in the full ink (7:1 or more). Keep the muted ink for secondary notes; pages read thin and unfinished when everything is grey.",
+   "message": "5 panel borders are dark against their ground: #ffffff on #020617 (20.17:1) | #fbbf24 on #f4f4f0 (1.51:1) | #38bdf8 on #f4f4f0 (1.94:1)",
+   "fix": "A panel border is a whisper: about 1.1–1.3:1 against its ground on a light screen (#e5e7eb–#ededed on white), and about 1.2–1.5:1 on a dark one (#1a1a1a on #000, #2e2e2e on #111). Darker lines turn the screen into a grid of boxes; keep the stronger line for controls.",
    "alsoAt": [
     768,
     390
@@ -1716,34 +2000,21 @@
   },
   {
    "level": "FAIL",
-   "id": "few-pictures",
+   "id": "icon-chips",
    "width": 1440,
-   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
-   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
-  },
-  {
-   "level": "WARN",
-   "id": "no-footage",
-   "width": 1440,
-   "message": "No video anywhere on the page.",
-   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
-  },
-  {
-   "level": "WARN",
-   "id": "measure",
-   "width": 1440,
-   "message": "Longest paragraph runs about 182 characters per line.",
-   "fix": "Cap paragraphs at 45–75 characters (max-width: 60ch).",
+   "message": "14 icons sit in tinted squares or circles in 9 different colours.",
+   "fix": "This is the commonest tell of a generated dashboard. Drop the tinted square: a KPI is a label and a number; an icon, if it helps, is plain and in the text colour.",
    "alsoAt": [
-    768
+    768,
+    390
    ]
   },
   {
-   "level": "FAIL",
-   "id": "small-text",
+   "level": "WARN",
+   "id": "tabular",
    "width": 1440,
-   "message": "33 text blocks under 13px.",
-   "fix": "Nothing meant to be read goes below 13px.",
+   "message": "Only 33% of the figures use tabular numerals.",
+   "fix": "Set font-variant-numeric: tabular-nums on tables, KPIs and anything that updates, so digits keep their width.",
    "alsoAt": [
     768,
     390
@@ -1751,124 +2022,75 @@
   },
   {
    "level": "FAIL",
-   "id": "focal-point",
+   "id": "tiny-text",
    "width": 1440,
-   "message": "The first screen has no dominant element: the largest type is 30px (2.1vw) and no single picture holds a third of the viewport.",
-   "fix": "Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "late-title",
-   "width": 1440,
-   "message": "The title is not readable 1.2s after the page loaded (it has no size yet).",
-   "fix": "Put the headline in the HTML, painted on the first frame; the load sequence only adds arrival and is settled by 1.2s (references/motion.md, \"Load sequence in 1.2 seconds\"). No preloader, no gate, no waiting for the load event.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "WARN",
-   "id": "off-centre",
-   "width": 1440,
-   "message": "The margins differ: 112px on the left, 129px on the right, at 1440px.",
-   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "WARN",
-   "id": "small-title",
-   "width": 1440,
-   "message": "The h1 is 30px (\"ETF Simulator & Plan de Ahorro\").",
-   "fix": "Set the title at display size, or make the large text of the first screen the h1.",
+   "message": "9 text blocks under 11px: fondos 9px, Personalizar 9px, Costes 9px, Simular 10px.",
+   "fix": "Nothing below 11px; secondary text 12px, data 13–14px.",
    "alsoAt": [
     768,
     390
    ]
   },
   {
+   "level": "WARN",
+   "id": "below-fold",
+   "width": 1440,
+   "message": "Only 5 of 14 blocks start on the first 1440px screen.",
+   "fix": "Every block the brief names shows its header and first rows on the first desktop screen: size the headline block to its question, cap long lists with \"View all\", and put time-sensitive blocks before long tables."
+  },
+  {
    "level": "FAIL",
+   "id": "no-title",
+   "width": 1440,
+   "message": "The screen has no h1.",
+   "fix": "Name the screen in an h1 at the top of the canvas (18–28px): \"Overview\", \"Payouts\", the project's name.",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "covered-text",
+   "width": 1440,
+   "message": "Large text lies under another element at some scroll position: \"9782 € – 23.305 €\" (screen 1, 100% hidden); \"11.566 €\" (screen 1, 100% hidden)",
+   "fix": "Nothing may sit on top of a headline or statement. Move the picture, shorten the pinned run, or raise the text above it (z-index) and give it a ground.",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "WARN",
    "id": "edge-text",
-   "width": 1440,
-   "message": "1 text block(s) sit within 16px of the screen edge: \"0 €\" (0px from the left)",
-   "fix": "Keep text inside the page margin (16–32px or more). Only display type deliberately bled past the edge may touch it.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "still-page",
-   "width": 1440,
-   "message": "Only 1 element(s) moved while the page loaded and scrolled.",
-   "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
-  },
-  {
-   "level": "WARN",
-   "id": "side-scroll",
-   "width": 768,
-   "message": "1 row(s) scroll sideways with content past their edge.",
-   "fix": "Jurors and most visitors read a row cut at the edge as clipped, not as scrollable. Wrap it onto more lines, or end it inside the grid."
-  },
-  {
-   "level": "FAIL",
-   "id": "contrast",
    "width": 390,
-   "message": "Unreadable text: \"Acceso rápido\" 2.4:1 (#94a3b8 on #faf8f5)",
-   "fix": "Raise contrast to at least 4.5:1 for text, 3:1 for large display."
-  },
-  {
-   "level": "WARN",
-   "id": "first-action",
-   "width": 390,
-   "message": "No visible button in the first phone screen.",
-   "fix": "On a phone the first screen still holds the headline, the supporting sentence and the action; move navigation into one row or a menu so it does not push them down."
-  },
-  {
-   "level": "WARN",
-   "id": "name-only-title",
-   "width": 390,
-   "message": "The h1 is a bare name (\"ETF Simulator\") and nothing else on the first screen says what this is.",
-   "fix": "Keep the name if it leads, and give the line under it (18px or more) the plain words: what it is, for whom, where or when. In the study of 97 Sites of the Day, first screens that named nothing lost usability and content points."
-  },
-  {
-   "level": "WARN",
-   "id": "untitled-section",
-   "width": 390,
-   "message": "A section carries text but no heading: section#metrics-cards.grid.grid-cols-2 at 475px.",
-   "fix": "Name it with a short heading unless it is the continuation of the section above."
+   "message": "2 text block(s) sit 12–15px from the phone's edge: \"Profundiza en tu plan\" (12px); \"Acceso rápido\" (12px)",
+   "fix": "The page margin is 16–20px on a phone; the header and the corner labels sit on it too."
   }
  ],
  "images": [
   {
    "viewport": "desktop",
    "width": 1440,
-   "fold": "D:\\personal\\eftsimulator\\.taste-skill\\before\\desktop-fold.jpg",
+   "fold": "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\before\\desktop-fold.jpg",
    "pages": [
-    "D:\\personal\\eftsimulator\\.taste-skill\\before\\desktop-page-01.jpg"
+    "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\before\\desktop-page-01.jpg"
    ],
    "film": []
   },
   {
    "viewport": "tablet",
    "width": 768,
-   "fold": "D:\\personal\\eftsimulator\\.taste-skill\\before\\tablet-fold.jpg",
+   "fold": "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\before\\tablet-fold.jpg",
    "pages": [
-    "D:\\personal\\eftsimulator\\.taste-skill\\before\\tablet-page-01.jpg"
+    "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\before\\tablet-page-01.jpg"
    ],
    "film": []
   },
   {
    "viewport": "mobile",
    "width": 390,
-   "fold": "D:\\personal\\eftsimulator\\.taste-skill\\before\\mobile-fold.jpg",
+   "fold": "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\before\\mobile-fold.jpg",
    "pages": [
-    "D:\\personal\\eftsimulator\\.taste-skill\\before\\mobile-page-01.jpg"
+    "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\before\\mobile-page-01.jpg"
    ],
    "film": []
   }

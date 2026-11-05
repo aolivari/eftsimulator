@@ -80,7 +80,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <button
             type="button"
             onClick={handleGoogle}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-sm font-bold text-slate-800 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-md border border-slate-200 bg-white hover:bg-slate-50 text-sm font-bold text-slate-800 cursor-pointer"
           >
             <svg aria-hidden="true" viewBox="0 0 24 24" className="w-4 h-4">
               <path
@@ -102,7 +102,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
             </svg>
             Continuar con Google
           </button>
-          <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-500 uppercase">
+          <div className="flex items-center gap-2 text-[11px] font-semibold text-slate-500">
             <span className="flex-1 h-px bg-slate-200" />o con email
             <span className="flex-1 h-px bg-slate-200" />
           </div>

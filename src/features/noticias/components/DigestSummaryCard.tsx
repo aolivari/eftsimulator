@@ -22,9 +22,9 @@ export interface DigestSummaryCardProps {
 
 export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children }: DigestSummaryCardProps) {
   return (
-    <section className="group relative mt-10 rounded-3xl sm:mt-16 border border-slate-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-xl hover:shadow-slate-900/10">
+    <section className="group relative mt-10 rounded-lg sm:mt-16 border border-slate-200 bg-white transition-shadow duration-300">
       {/* Cabecera oscura, de la misma familia que el hero */}
-      <div className="relative h-24 overflow-hidden rounded-t-3xl bg-slate-950">
+      <div className="relative h-24 overflow-hidden rounded-t-lg bg-slate-950">
         <svg
           viewBox="0 0 400 96"
           preserveAspectRatio="none"
@@ -34,7 +34,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
           <path
             d="M0 80 L40 70 L80 76 L120 58 L160 64 L200 44 L240 52 L280 36 L320 46 L360 30 L400 38"
             fill="none"
-            stroke="#F97316"
+            stroke="#5b9bff"
             strokeOpacity={0.5}
             strokeWidth={2}
             vectorEffect="non-scaling-stroke"
@@ -44,7 +44,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
           <circle cx={250} cy={14} r={1.2} fill="white" fillOpacity={0.45} />
         </svg>
         <div className="absolute -left-10 -top-16 h-40 w-40 rounded-full bg-orange-500/20 blur-3xl" />
-        <p className="absolute bottom-3 left-5 right-32 text-[11px] font-bold uppercase leading-snug tracking-wider text-slate-300 sm:right-60">
+        <p className="absolute bottom-3 left-5 right-32 text-[11px] font-bold leading-snug text-slate-300 sm:right-60">
           Tono de las noticias · <span className="text-white">{TONE_LABEL[tone]}</span>
         </p>
       </div>
@@ -57,7 +57,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
 
       <div className="space-y-3 p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-display text-xl font-extrabold text-slate-900 first-letter:uppercase">
+          <h3 className="text-lg font-semibold text-slate-900">
             {dateLabel}
           </h3>
           {isLatest ? <Badge tone="emerald">Último digest</Badge> : <Badge>Histórico</Badge>}

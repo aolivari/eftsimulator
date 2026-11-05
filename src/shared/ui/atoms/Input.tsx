@@ -8,7 +8,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 export function Input({ icon, className = '', ...rest }: InputProps) {
   if (icon) {
     return (
-      <div className="flex items-center gap-2 px-3 rounded-xl border border-slate-200 focus-within:border-orange-400 bg-white">
+      <div className="flex items-center gap-2 px-3 rounded-md border border-slate-200 focus-within:border-orange-400 bg-white">
         <span className="text-slate-500 shrink-0">{icon}</span>
         <input
           className={`w-full py-2.5 text-base sm:text-sm outline-none bg-transparent ${className}`.trim()}
@@ -136,7 +136,7 @@ export function BufferedNumberInput({
             e.preventDefault();
             commit();
           }}
-          className="ml-1 p-0.5 rounded bg-emerald-500 hover:bg-emerald-600 text-white transition shadow-xs cursor-pointer flex-shrink-0"
+          className="ml-1 p-0.5 rounded bg-emerald-500 hover:bg-emerald-600 text-white transition cursor-pointer flex-shrink-0"
           title="Confirmar valor (Enter)"
         >
           <Check className="w-3 h-3" />

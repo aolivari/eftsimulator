@@ -213,15 +213,18 @@ export function runSimulation(params: SimulationParams): BrokerResult[] {
   });
 }
 
+// Mismo criterio que shared/utils: agrupa siempre los miles
+export const NUMBER_LOCALE = 'de-DE';
+
 export function formatCurrency(value: number): string {
-  return value.toLocaleString('es-ES', {
+  return value.toLocaleString(NUMBER_LOCALE, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   });
 }
 
 export function formatPercent(value: number): string {
-  return value.toLocaleString('es-ES', {
+  return value.toLocaleString(NUMBER_LOCALE, {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
   });

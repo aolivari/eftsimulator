@@ -7,19 +7,20 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const TONE_CLASSES: Record<BadgeTone, string> = {
-  orange: 'bg-orange-100 text-orange-800 border-orange-200',
-  emerald: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-  rose: 'bg-rose-50 text-rose-800 border-rose-200',
-  amber: 'bg-amber-50 text-amber-800 border-amber-200',
-  sky: 'bg-sky-100 text-sky-800 border-sky-200',
-  violet: 'bg-violet-100 text-violet-800 border-violet-200',
-  slate: 'bg-slate-100 text-slate-700 border-slate-200',
+  // Pares pálidos: fondo tenue y tinta oscura del mismo tono. Los tonos decorativos son neutros.
+  orange: 'bg-slate-100 text-slate-700',
+  emerald: 'bg-[#dcfae5] text-[#04250e]',
+  rose: 'bg-[#ffedea] text-[#831c1e]',
+  amber: 'bg-[#fffbeb] text-[#92400e]',
+  sky: 'bg-slate-100 text-slate-700',
+  violet: 'bg-slate-100 text-slate-700',
+  slate: 'bg-slate-100 text-slate-700',
 };
 
 export function Badge({ tone = 'slate', className = '', children, ...rest }: BadgeProps) {
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full border ${TONE_CLASSES[tone]} ${className}`.trim()}
+      className={`inline-flex flex-none items-center gap-1 whitespace-nowrap text-xs font-medium px-2 h-5 rounded ${TONE_CLASSES[tone]} ${className}`.trim()}
       {...rest}
     >
       {children}

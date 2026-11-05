@@ -209,7 +209,7 @@ export default function AccountBar({
             {activePlan && (
               <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 max-w-[16rem]">
                 <span className="truncate">
-                  Plan: <span className="font-black text-slate-900">{activePlan.name}</span>
+                  Plan: <span className="font-semibold text-slate-900">{activePlan.name}</span>
                 </span>
                 {isDirty ? (
                   <Badge tone="amber" className="shrink-0">
@@ -248,7 +248,7 @@ export default function AccountBar({
               onClick={() => auth.signOut()}
               aria-label="Cerrar sesión"
               title="Cerrar sesión"
-              className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-rose-600 cursor-pointer"
+              className="w-8 h-8 rounded-md bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-rose-600 cursor-pointer"
             >
               <LogOut className="w-3.5 h-3.5" />
             </button>
@@ -258,7 +258,7 @@ export default function AccountBar({
               disabled={busy}
               aria-label="Dar de baja la cuenta"
               title="Dar de baja la cuenta y borrar todos mis planes"
-              className="h-8 px-2 rounded-xl bg-white border border-slate-200 text-[11px] font-semibold text-slate-500 hover:text-rose-600 cursor-pointer disabled:opacity-50"
+              className="h-8 px-2 rounded-md bg-white border border-slate-200 text-[11px] font-semibold text-slate-500 hover:text-rose-600 cursor-pointer disabled:opacity-50"
             >
               Darme de baja
             </button>
@@ -322,7 +322,7 @@ export default function AccountBar({
             return (
               <li
                 key={plan.id}
-                className={`flex items-center gap-1 p-2.5 rounded-xl border ${
+                className={`flex items-center gap-1 p-2.5 rounded-md border ${
                   isActive ? 'border-orange-400 bg-orange-50/40' : 'border-slate-200'
                 }`}
               >

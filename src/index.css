@@ -2,7 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Base resets & font ───────────────────────────────────────────── */
+/* ─── Tokens del rediseño (libro contable acromático) ──────────────── */
+:root {
+  --ground: #f2f4f7;      /* gris azulado de libro de cuentas */
+  --surface: #ffffff;
+  --raised: #eeeeee;
+  --border: #e6e6e6;
+  --rule: #f0f0f0;
+  --control: #d4d4d4;
+  --text: #0a0a0a;
+  --muted: #5c5c5c;
+  --primary: #141414;
+  --data: #1d5fbf;        /* el dato principal de cada gráfica */
+  --positive: #247b50;
+  --negative: #c4242a;
+  --font: 'Geist', 'Inter', system-ui, sans-serif;
+  --font-figures: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
 *,
 *::before,
 *::after {
@@ -13,111 +30,85 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
-  background-color: #f6f6f4; /* Neutral stone off-white */
-  color: #1e293b;
+  background-color: var(--ground);
+  color: var(--text);
 }
 
 body {
   margin: 0;
-  background-image: radial-gradient(rgba(15, 23, 42, 0.09) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-attachment: fixed;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: #f4f4f0;
-  color: #1e293b;
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 20px;
+  background-color: var(--ground);
+  color: var(--text);
 }
 
-/* ─── Custom scrollbar ─────────────────────────────────────────────── */
+/* Todas las cifras en una sola voz: Geist Mono con dígitos tabulares.
+   Cualquier elemento con tabular-nums (KPIs, tablas, ejes) usa la misma fuente. */
+.tabular-nums,
+.num {
+  font-family: var(--font-figures);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  white-space: nowrap; /* una cifra y su unidad nunca se parten */
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #f1ede6;
+  background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d4d4d4;
   border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a3a3a3;
 }
 
-/* ─── Range input styling ──────────────────────────────────────────── */
+/* ─── Range input: pista fina gris y tirador en tinta ──────────────── */
 input[type='range'] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 7px;
+  height: 4px;
   border-radius: 999px;
-  background: #e2e8f0;
+  background: #e6e6e6;
   outline: none;
-  transition: opacity 0.2s;
 }
 
 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   cursor: pointer;
   background: #ffffff;
-  border: 3px solid currentColor;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: 2px solid var(--primary);
   transition: transform 0.15s ease;
 }
 
-input[type='range']::-webkit-slider-thumb:hover {
+input[type='range']::-webkit-slider-thumb:active {
   transform: scale(1.15);
 }
 
 input[type='range']::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   cursor: pointer;
   background: #ffffff;
-  border: 3px solid currentColor;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  transition: transform 0.15s ease;
-}
-
-/* ─── Accent colors for different range inputs ─────────────────────── */
-.accent-orange-500::-webkit-slider-thumb {
-  color: #ea580c;
-}
-.accent-emerald-500::-webkit-slider-thumb {
-  color: #059669;
-}
-.accent-sky-500::-webkit-slider-thumb {
-  color: #0284c7;
-}
-.accent-violet-500::-webkit-slider-thumb {
-  color: #7c3aed;
-}
-
-.accent-orange-500::-moz-range-thumb {
-  color: #ea580c;
-}
-.accent-emerald-500::-moz-range-thumb {
-  color: #059669;
-}
-.accent-sky-500::-moz-range-thumb {
-  color: #0284c7;
-}
-.accent-violet-500::-moz-range-thumb {
-  color: #7c3aed;
+  border: 2px solid var(--primary);
 }
 
 /* ─── Selection ────────────────────────────────────────────────────── */
 ::selection {
-  background-color: rgba(249, 115, 22, 0.2);
-  color: #c2410c;
+  background-color: rgba(29, 95, 191, 0.18);
+  color: var(--text);
 }
 
 /* ─── Recharts tooltip fix ─────────────────────────────────────────── */
@@ -132,8 +123,11 @@ table tbody tr {
 
 /* ─── Focus styles ─────────────────────────────────────────────────── */
 input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #ea580c;
+  outline: 2px solid var(--data);
   outline-offset: 2px;
 }
 
@@ -190,24 +184,17 @@ input[type='number'] {
 
 /* ─── Estilo "cristal" y tipografía de titulares ───────────────────── */
 @layer components {
-  /* Titulares y cifras: Archivo estrecha, inspirada en la condensada de Deel */
+  /* Cifras grandes: la misma voz que el resto de números (Geist Mono tabular) */
   .font-display {
-    font-family: 'Archivo', 'Inter', system-ui, sans-serif;
-    font-stretch: 75%;
-    letter-spacing: -0.01em;
+    font-family: var(--font-figures);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
   }
 
-  /* Superficie translúcida con desenfoque. Solo para tarjetas pequeñas o medianas:
-     en superficies grandes el desenfoque encarece el scroll. */
+  /* Antes era cristal con desenfoque; ahora una superficie plana blanca con borde suave */
   .surface-glass {
-    background-color: rgb(255 255 255 / 0.66);
-    -webkit-backdrop-filter: blur(14px) saturate(1.5);
-    backdrop-filter: blur(14px) saturate(1.5);
-    border-color: rgb(226 232 240 / 0.8);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.9),
-      0 1px 2px rgb(15 23 42 / 0.04),
-      0 10px 28px -16px rgb(15 23 42 / 0.18);
+    background-color: var(--surface);
+    border-color: var(--border);
   }
 }
 
@@ -342,4 +329,64 @@ input[type='number'] {
   [role='tab'][aria-selected='true'] .tab-icon {
     animation: none;
   }
+}
+
+/* ─── Rediseño: vida y feedback ─────────────────────────────────────── */
+/* La curva del plan se dibuja de izquierda a derecha; el área y lo aportado aparecen después */
+@keyframes hero-draw-line {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes hero-fade-in {
+  from { opacity: 0; }
+}
+@keyframes hero-area-in {
+  from { opacity: 0; }
+  to { opacity: 0.14; }
+}
+.hero-draw {
+  stroke-dasharray: 1;
+  animation: hero-draw-line 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-fade {
+  animation: hero-fade-in 0.6s ease-out 0.3s both;
+}
+.hero-area {
+  opacity: 0.14;
+  animation: hero-area-in 0.8s ease-out 0.5s both;
+}
+
+/* El punto final late: es el destino del plan */
+@keyframes hero-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(91, 155, 255, 0.55); }
+  100% { box-shadow: 0 0 0 12px rgba(91, 155, 255, 0); }
+}
+.hero-pulse {
+  animation: hero-pulse-ring 1.8s ease-out 1.2s infinite;
+}
+
+/* Al cambiar de pantalla, los bloques entran escalonados (sube 12px y aparece) */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.stagger > * {
+  animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.stagger > *:nth-child(2) { animation-delay: 60ms; }
+.stagger > *:nth-child(3) { animation-delay: 120ms; }
+.stagger > *:nth-child(4) { animation-delay: 180ms; }
+.stagger > *:nth-child(5) { animation-delay: 240ms; }
+.stagger > *:nth-child(n + 6) { animation-delay: 300ms; }
+
+/* Tirador del deslizador: crece al pasar y al arrastrar */
+input[type='range']:hover::-webkit-slider-thumb { transform: scale(1.12); }
+input[type='range']::-webkit-slider-thumb { box-shadow: 0 0 0 0 rgba(29, 95, 191, 0); transition: transform 0.15s ease, box-shadow 0.2s ease; }
+input[type='range']:active::-webkit-slider-thumb { box-shadow: 0 0 0 6px rgba(29, 95, 191, 0.15); border-color: var(--data); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-draw, .hero-fade, .hero-area, .hero-pulse, .stagger > * {
+    animation: none;
+  }
+  .hero-draw { stroke-dasharray: none; }
 }

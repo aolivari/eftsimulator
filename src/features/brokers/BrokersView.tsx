@@ -1,171 +1,122 @@
-import {
-  Trophy,
-  AlertTriangle,
-  ChevronDown,
-  ChevronUp,
-  Info,
-  ArrowRight,
-} from 'lucide-react';
 import type { CSSProperties } from 'react';
-import { ViewTemplate, useInView } from '../../shared/ui';
+import { Badge, ViewTemplate, useInView } from '../../shared/ui';
 import { formatCurrency } from '../../shared/utils';
 import type { BrokersViewProps } from './types';
 
+const euros = (v: number) => `${formatCurrency(Math.round(v))} €`;
+
 export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) {
   const sorted = [...results].sort((a, b) => b.finalBalance - a.finalBalance);
-  const bestId = sorted[0]?.id;
-  const worstId = sorted[sorted.length - 1]?.id;
+  const best = sorted[0];
+  const worst = sorted[sorted.length - 1];
   const rows = useInView<HTMLTableSectionElement>();
+  if (!best || !worst) return null;
+
+  const gap = best.finalBalance - worst.finalBalance;
+  const maxFees = Math.max(1, ...sorted.map((b) => b.totalFees));
 
   return (
     <ViewTemplate.Root id="brokers-view">
+      {/* El hallazgo primero: lo que separa al mejor del peor */}
+      <section
+        aria-labelledby="broker-finding"
+        className="grid gap-px overflow-hidden rounded-lg bg-[#0a0a0a] text-white sm:grid-cols-[1.4fr_1fr_1fr]"
+      >
+        <div className="px-5 py-5 sm:px-6">
+          <p id="broker-finding" className="text-sm text-white/60">
+            Diferencia entre el mejor y el peor bróker en {years} años
+          </p>
+          <p className="num mt-1 text-[32px] font-semibold leading-tight tracking-[-0.02em] sm:text-[36px]">
+            {formatCurrency(Math.round(gap))}
+            <span className="ml-1 text-[0.55em] font-normal text-white/50">€</span>
+          </p>
+          <p className="mt-1 text-sm text-white/60">
+            Con el mismo plan, solo por comisiones de compra y custodia.
+          </p>
+        </div>
+        <div className="border-t border-[#262626] px-5 py-5 sm:border-l sm:border-t-0 sm:px-6">
+          <p className="text-sm text-white/60">Más eficiente</p>
+          <p className="mt-1 text-base font-medium">{best.name}</p>
+          <p className="num mt-1 text-sm text-[#5b9bff]">{euros(best.finalBalance)}</p>
+        </div>
+        <div className="border-t border-[#262626] px-5 py-5 sm:border-l sm:border-t-0 sm:px-6">
+          <p className="text-sm text-white/60">Más caro</p>
+          <p className="mt-1 text-base font-medium">{worst.name}</p>
+          <p className="num mt-1 text-sm text-white/80">
+            {euros(worst.finalBalance)}{' '}
+            <span className="text-[#ff8a80]">−{euros(gap)}</span>
+          </p>
+        </div>
+      </section>
+
       <ViewTemplate.Section id="broker-comparison" variant="card">
-        <ViewTemplate.Header
-          icon={<Trophy className="w-4 h-4" />}
-          iconClassName="bg-violet-100 text-violet-600"
-          title={`Comparativa de Brókers — ${years} años`}
-          description="Ordenado por capital acumulado (de mayor a menor)"
-          className="border-0 border-b border-slate-100 rounded-none shadow-none"
-          actions={
-            <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full font-bold">
-              <Info className="w-3.5 h-3.5 text-slate-600" />
-              <span>Incluye interés compuesto + ofertas por ETF</span>
-            </div>
-          }
-        />
+        <div className="px-5 pt-4 pb-3 sm:px-6">
+          <h2 className="text-base font-semibold text-slate-900">Ranking por capital final</h2>
+          <p className="mt-0.5 text-sm text-slate-600">
+            Incluye el interés compuesto y las ofertas de cada bróker por ETF.
+          </p>
+        </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 text-xs uppercase text-slate-600 font-black border-b border-slate-200">
+          <table className="w-full min-w-[760px] text-left text-sm">
+            <thead className="border-y border-slate-200 text-xs text-slate-600">
               <tr>
-                <th className="px-6 py-3.5 tracking-wider">#</th>
-                <th className="px-6 py-3.5 tracking-wider">Plataforma / Escenario</th>
-                <th className="px-6 py-3.5 tracking-wider text-right">Comisiones Compra</th>
-                <th className="px-6 py-3.5 tracking-wider text-right">Comisiones Custodia</th>
-                <th className="px-6 py-3.5 tracking-wider text-right">Total Comisiones</th>
-                <th className="px-6 py-3.5 tracking-wider text-right">Plusvalía Neta</th>
-                <th className="px-6 py-3.5 tracking-wider text-right">Capital Acumulado</th>
+                <th className="w-10 px-5 py-2.5 font-normal sm:px-6">#</th>
+                <th className="px-3 py-2.5 font-normal">Bróker</th>
+                <th className="w-[22%] px-3 py-2.5 font-normal">Comisiones totales</th>
+                <th className="px-3 py-2.5 text-right font-normal">Compra</th>
+                <th className="px-3 py-2.5 text-right font-normal">Custodia</th>
+                <th className="px-5 py-2.5 text-right font-normal sm:px-6">Capital final</th>
               </tr>
             </thead>
-            <tbody ref={rows.ref} className={`divide-y divide-slate-100 font-medium ${rows.revealClass}`}>
+            <tbody ref={rows.ref} className={`divide-y divide-slate-100 ${rows.revealClass}`}>
               {sorted.map((broker, index) => {
-                const isBest = broker.id === bestId;
-                const isWorst = broker.id === worstId;
-                const diff = broker.finalBalance - sorted[0].finalBalance;
-
+                const diff = broker.finalBalance - best.finalBalance;
+                const isWorst = broker.id === worst.id;
                 return (
                   <tr
                     key={broker.id}
                     id={`broker-row-${broker.id}`}
                     style={{ '--i': index } as CSSProperties}
-                    className={`reveal-item transition-colors duration-150 ${
-                      isBest
-                        ? 'bg-emerald-50/60 hover:bg-emerald-50'
-                        : isWorst
-                        ? 'bg-rose-50/40 hover:bg-rose-50/70'
-                        : 'hover:bg-slate-50/80'
+                    className={`reveal-item transition-colors hover:bg-slate-50 ${
+                      broker.id === planBrokerId ? 'bg-slate-50' : ''
                     }`}
                   >
-                    <td className="px-6 py-4">
-                      <span
-                        className={`font-display text-2xl font-extrabold tabular-nums ${
-                          index === 0 ? 'text-orange-500' : 'text-slate-400'
-                        }`}
-                      >
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                    </td>
-
-                    <td className="px-6 py-4 max-w-xs">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="font-bold text-slate-900 text-sm">{broker.name}</span>
-                        {broker.id === planBrokerId && (
-                          <span className="inline-flex items-center bg-orange-100 text-orange-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
-                            Tu bróker
-                          </span>
-                        )}
-                        {isBest && (
-                          <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
-                            <Trophy className="w-3 h-3" />
-                            Más eficiente
-                          </span>
-                        )}
-                        {broker.badge && !isBest && (
-                          <span className="inline-flex items-center bg-sky-100 text-sky-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
-                            {broker.badge}
-                          </span>
-                        )}
-                        {isWorst && (
-                          <span className="inline-flex items-center gap-1 bg-rose-100 text-rose-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
-                            <AlertTriangle className="w-3 h-3" />
-                            Mayor lastre
-                          </span>
-                        )}
+                    <td className="num px-5 py-3.5 align-top text-slate-600 sm:px-6">{index + 1}</td>
+                    <td className="max-w-xs px-3 py-3.5">
+                      <div className="flex flex-wrap items-center gap-1.5">
+                        <span className="font-medium text-slate-900">{broker.name}</span>
+                        {broker.id === planBrokerId && <Badge tone="slate">Tu bróker</Badge>}
+                        {index === 0 && <Badge tone="emerald">Más eficiente</Badge>}
+                        {isWorst && sorted.length > 1 && <Badge tone="rose">Más caro</Badge>}
                       </div>
-                      <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                        {broker.description}
-                      </p>
+                      <p className="mt-0.5 line-clamp-2 text-xs leading-5 text-slate-600">{broker.description}</p>
                     </td>
-
-                    <td className="px-6 py-4 text-right">
-                      <span
-                        className={`font-bold text-sm ${
-                          broker.totalBuyFees === 0 ? 'text-emerald-600' : 'text-rose-600'
-                        }`}
-                      >
-                        {broker.totalBuyFees === 0
-                          ? '0 €'
-                          : `-${formatCurrency(broker.totalBuyFees)} €`}
-                      </span>
-                    </td>
-
-                    <td className="px-6 py-4 text-right">
-                      <span
-                        className={`font-bold text-sm ${
-                          broker.totalCustodyFees === 0 ? 'text-emerald-600' : 'text-rose-600'
-                        }`}
-                      >
-                        {broker.totalCustodyFees === 0
-                          ? '0 €'
-                          : `-${formatCurrency(broker.totalCustodyFees)} €`}
-                      </span>
-                    </td>
-
-                    <td className="px-6 py-4 text-right">
-                      <span
-                        className={`font-black text-sm ${
-                          broker.totalFees === 0 ? 'text-emerald-600' : 'text-rose-600'
-                        }`}
-                      >
-                        {broker.totalFees === 0
-                          ? '0 €'
-                          : `-${formatCurrency(broker.totalFees)} €`}
-                      </span>
-                    </td>
-
-                    <td className="px-6 py-4 text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <ChevronUp className="w-4 h-4 text-emerald-600" />
-                        <span className="font-black text-sm text-emerald-700">
-                          +{formatCurrency(broker.totalProfit)} €
+                    <td className="px-3 py-3.5">
+                      {/* La barra es el coste: a la escala del bróker más caro */}
+                      <div className="flex items-center gap-2">
+                        <div className="h-1.5 flex-1 rounded-full bg-slate-100">
+                          <div
+                            className={`h-full rounded-full ${isWorst && broker.totalFees > 0 ? 'bg-rose-600' : 'bg-slate-900'}`}
+                            style={{ width: `${(broker.totalFees / maxFees) * 100}%` }}
+                          />
+                        </div>
+                        <span className={`num w-20 text-right ${broker.totalFees === 0 ? 'text-slate-500' : 'text-slate-900'}`}>
+                          {broker.totalFees === 0 ? '0 €' : `−${euros(broker.totalFees)}`}
                         </span>
                       </div>
                     </td>
-
-                    <td className="px-6 py-4 text-right">
-                      <div>
-                        <span className="text-base font-black text-slate-900">
-                          {formatCurrency(broker.finalBalance)} €
-                        </span>
-                        {diff !== 0 && (
-                          <div className="flex items-center justify-end gap-0.5 mt-0.5">
-                            <ChevronDown className="w-3.5 h-3.5 text-rose-500" />
-                            <span className="text-xs font-bold text-rose-600">
-                              {formatCurrency(Math.abs(diff))} € menos
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                    <td className={`num px-3 py-3.5 text-right ${broker.totalBuyFees === 0 ? 'text-slate-500' : 'text-slate-700'}`}>
+                      {broker.totalBuyFees === 0 ? '0 €' : `−${euros(broker.totalBuyFees)}`}
+                    </td>
+                    <td className={`num px-3 py-3.5 text-right ${broker.totalCustodyFees === 0 ? 'text-slate-500' : 'text-slate-700'}`}>
+                      {broker.totalCustodyFees === 0 ? '0 €' : `−${euros(broker.totalCustodyFees)}`}
+                    </td>
+                    <td className="px-5 py-3.5 text-right sm:px-6">
+                      <span className="num font-semibold text-slate-900">{euros(broker.finalBalance)}</span>
+                      <span className={`num block text-xs ${diff === 0 ? 'text-slate-500' : 'text-rose-700'}`}>
+                        {diff === 0 ? 'El mejor' : `−${euros(Math.abs(diff))}`}
+                      </span>
                     </td>
                   </tr>
                 );
@@ -173,22 +124,6 @@ export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) 
             </tbody>
           </table>
         </div>
-
-        <ViewTemplate.Footer>
-          <div className="flex items-start gap-2 text-xs text-slate-700 font-medium">
-            <ArrowRight className="w-4 h-4 mt-0.5 text-orange-600 flex-shrink-0" />
-            <p>
-              <span className="font-black text-slate-900">Conclusión:</span>{' '}
-              Elegir <span className="text-slate-900 font-black">{sorted[0]?.name}</span> frente a{' '}
-              <span className="text-slate-800 font-bold">{sorted[sorted.length - 1]?.name}</span>{' '}
-              genera{' '}
-              <span className="text-emerald-700 font-black">
-                {formatCurrency(sorted[0].finalBalance - sorted[sorted.length - 1].finalBalance)} €
-              </span>{' '}
-              más de capital acumulado en {years} años gracias al menor lastre por comisiones.
-            </p>
-          </div>
-        </ViewTemplate.Footer>
       </ViewTemplate.Section>
     </ViewTemplate.Root>
   );

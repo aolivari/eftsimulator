@@ -16,6 +16,7 @@ export interface MetricsCardsProps {
   planBroker: BrokerResult; // bróker del plan (elegido o, en automático, el más barato)
   bestBroker: BrokerResult;
   worstBroker: BrokerResult;
+  years: number; // plazo del plan, para la frase bajo la cifra
 }
 
 export interface HeroLedgerProps {
@@ -51,5 +52,5 @@ export interface SimulacionViewProps {
   onClearHistoricalSimulation: () => void;
   onClearMultiYearSimulation: () => void;
   onOpenTimelineModal: () => void;
-  onNavigateTab: (tab: 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers') => void;
+  onNavigateTab: (tab: 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news') => void;
 }

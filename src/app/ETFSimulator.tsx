@@ -1,18 +1,13 @@
 import { useState, useMemo } from 'react';
 import {
-  Sparkles,
-  SlidersHorizontal,
-  CheckCircle2,
-  ShieldAlert,
   BarChart3,
-  TrendingUp,
-  Trophy,
-  ChevronRight,
+  CheckCircle2,
+  Gauge,
   Layers,
-  MoreHorizontal,
-  X,
-  Landmark,
   Newspaper,
+  ShieldAlert,
+  Table2,
+  X,
 } from 'lucide-react';
 import type {
   SimulationParams,
@@ -29,8 +24,9 @@ import {
 } from '../engine/cycleSimulator';
 import { getDefault10YearTimelinePlan } from '../data/multiYearTimelinePresets';
 import { Tabs, useDebouncedValue, type TabsBottomBarItem } from '../shared/ui';
+import { formatCurrency, NUMBER_LOCALE } from '../shared/utils';
 import { AccountBar } from '../features/cuentas';
-import { HeroLedger, SimulacionView } from '../features/simulacion';
+import { MonteCarloPanel, SimulacionView } from '../features/simulacion';
 import { CarteraView, type FamousPortfolioModel } from '../features/cartera';
 import { CiclosView, CycleTimelineModal } from '../features/ciclos';
 import { ProyeccionAnualView } from '../features/proyeccion-anual';
@@ -51,22 +47,34 @@ const DEFAULT_PARAMS: SimulationParams = {
 const RECALC_DELAY_MS = 600;
 
 // Pestañas de la barra inferior móvil (mismos valores que Tabs.Trigger en escritorio)
+type TabId = 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news';
+
+// Pestañas de la barra inferior móvil, en el mismo orden funcional que la barra lateral
 const MOBILE_TABS: TabsBottomBarItem[] = [
-  { value: 'overview', label: 'Simular', icon: <BarChart3 className="w-5 h-5 tab-icon tab-icon--grow" /> },
-  { value: 'allocation', label: 'Plan', icon: <SlidersHorizontal className="w-5 h-5 tab-icon tab-icon--slide" /> },
-  { value: 'cycles', label: 'Ciclos', icon: <ShieldAlert className="w-5 h-5 tab-icon tab-icon--pop" /> },
-  { value: 'annual', label: 'Proyectar', icon: <Sparkles className="w-5 h-5 tab-icon tab-icon--twinkle" /> },
-  { value: 'brokers', label: 'Brókers', icon: <Trophy className="w-5 h-5 tab-icon tab-icon--swing" /> },
+  { value: 'overview', label: 'Resumen', icon: <BarChart3 className="w-5 h-5 tab-icon tab-icon--grow" /> },
+  { value: 'allocation', label: 'Cartera', icon: <Layers className="w-5 h-5 tab-icon tab-icon--slide" /> },
+  { value: 'annual', label: 'Por años', icon: <Table2 className="w-5 h-5 tab-icon tab-icon--twinkle" /> },
+  { value: 'cycles', label: 'Riesgo', icon: <ShieldAlert className="w-5 h-5 tab-icon tab-icon--pop" /> },
+  { value: 'brokers', label: 'Brókers', icon: <Gauge className="w-5 h-5 tab-icon tab-icon--swing" /> },
   { value: 'news', label: 'Noticias', icon: <Newspaper className="w-5 h-5 tab-icon tab-icon--flip" /> },
 ];
+
+// Marca del producto: tres columnas de libro de cuentas que crecen; la última, en azul de datos
+function ProductMark({ className = '' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 20 20" aria-hidden="true" className={className}>
+      <rect x="2" y="11" width="4" height="7" rx="1" fill="#141414" />
+      <rect x="8" y="7" width="4" height="11" rx="1" fill="#141414" />
+      <rect x="14" y="2" width="4" height="16" rx="1" fill="#1d5fbf" />
+    </svg>
+  );
+}
+
 
 export function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
   const [etfs, setEtfs] = useState<ETFAsset[]>(POPULAR_ETFS);
-  const [activeTab, setActiveTab] = useState<
-    'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news'
-  >('overview');
-  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [isTimelineModalOpen, setIsTimelineModalOpen] = useState(false);
 
   // Estado para ciclo histórico individual seleccionado y capital base de prueba
@@ -209,335 +217,248 @@ export function ETFSimulator() {
     handleChange({ quarterlyContribution: quarterly });
   };
 
+  const contributionLabel =
+    params.contributionFrequency === 'monthly'
+      ? `${formatCurrency(params.quarterlyContribution)} € al mes`
+      : `${formatCurrency(params.quarterlyContribution)} € al trimestre`;
+  const activeEtfCount = etfs.filter((e) => (e.recurringWeight ?? e.weight) > 0).length;
+
+  // Título y frase de cada pantalla: el sustantivo y un dato del plan, no instrucciones
+  const SCREENS: Record<TabId, { title: string; subtitle: string }> = {
+    overview: {
+      title: 'Resumen del plan',
+      subtitle: `${formatCurrency(params.initialCapital)} € iniciales y ${contributionLabel} durante ${params.years} años${
+        planBroker ? `, en ${planBroker.name}` : ''
+      }.`,
+    },
+    allocation: {
+      title: 'Cartera de ETFs',
+      subtitle: `${activeEtfCount} ${activeEtfCount === 1 ? 'fondo' : 'fondos'} con una rentabilidad esperada media del ${params.annualReturn.toLocaleString(NUMBER_LOCALE)} % anual.`,
+    },
+    annual: {
+      title: 'Proyección año a año',
+      subtitle: planBroker
+        ? `Saldo, aportaciones y plusvalía de cada año del plan en ${planBroker.name}.`
+        : 'Saldo, aportaciones y plusvalía de cada año del plan.',
+    },
+    cycles: {
+      title: 'Riesgo y crisis',
+      subtitle: 'Tu plan en 3.000 futuros posibles y dentro de las crisis reales de los últimos 25 años.',
+    },
+    brokers: {
+      title: 'Comparativa de brókers',
+      subtitle: `Comisiones de compra y custodia de tu plan en ${results.length} escenarios de bróker.`,
+    },
+    news: {
+      title: 'Noticias de tu cartera',
+      subtitle: 'Lo que se publica sobre los ETFs y los mercados de tu plan, con sus fuentes.',
+    },
+  };
+  const screen = SCREENS[activeTab];
+
   return (
-    <div className="min-h-screen text-slate-800 font-sans selection:bg-orange-500/20">
-      {/* Fondo: aurora suave sobre rejilla de puntos */}
-      <div aria-hidden="true" className="fixed inset-0 -z-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-32 w-[46rem] h-[46rem] rounded-full bg-orange-400/30 blur-[120px] mix-blend-multiply" />
-        <div className="absolute top-1/3 -right-40 w-[40rem] h-[40rem] rounded-full bg-teal-300/35 blur-[120px] mix-blend-multiply" />
-        <div className="absolute -bottom-40 left-1/4 w-[38rem] h-[38rem] rounded-full bg-amber-300/35 blur-[120px] mix-blend-multiply" />
-      </div>
+    <Tabs.Root
+      value={activeTab}
+      onValueChange={(val) => setActiveTab(val as TabId)}
+      className="min-h-screen bg-ground text-slate-900"
+    >
+      <div className="mx-auto flex max-w-[1520px]">
+        {/* ──────────────── Barra lateral (escritorio) ──────────────── */}
+        <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-slate-200 px-3 py-6 lg:flex">
+          <div className="flex items-center gap-2.5 px-3 pb-7">
+            <ProductMark className="h-5 w-5" />
+            <span className="text-[15px] font-semibold tracking-[-0.01em]">Simulador ETF</span>
+          </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-3 pb-28 sm:pt-10 md:pb-10">
-        <div className="space-y-4 sm:space-y-8">
-          <AccountBar
-            params={params}
-            etfs={etfs}
-            onLoadPlan={loadSavedPlan}
-            authOpen={authModalOpen}
-            onAuthOpenChange={setAuthModalOpen}
-          />
-
-          {/* ──────────────── TopHeader Mobile (< md) ──────────────── */}
-          <header className="flex md:hidden items-center justify-between gap-2 pt-1 pb-1">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-[#F97316] flex items-center justify-center text-white shadow-xs shrink-0">
-                <TrendingUp className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h1 className="text-lg font-black text-slate-900 tracking-tight leading-tight">
-                    <span className="text-[#EA580C]">ETF</span> Simulator
-                  </h1>
-                </div>
-                <p className="text-[13px] text-slate-600 font-normal leading-tight">
-                  Plan de ahorro y optimización
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0">
-              <div className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-white border border-slate-200/80 shadow-2xs text-[13px] font-semibold text-slate-700">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse"></span>
-                <span>MiFID II</span>
-              </div>
-              <button
-                id="menu-open-btn"
-                aria-label="Más opciones"
-                onClick={() => setMobileDrawerOpen(true)}
-                className="w-9 h-9 rounded-xl bg-white border border-slate-200/80 shadow-2xs flex items-center justify-center text-slate-700 hover:text-orange-600 hover:bg-orange-50 cursor-pointer transition-colors shrink-0"
+          <Tabs.SideList label="Secciones" className="flex-1 overflow-y-auto">
+            <Tabs.SideGroup label="Tu plan">
+              <Tabs.SideTrigger value="overview" icon={<BarChart3 className="h-4 w-4" strokeWidth={1.75} />}>
+                Resumen
+              </Tabs.SideTrigger>
+              <Tabs.SideTrigger
+                value="allocation"
+                icon={<Layers className="h-4 w-4" strokeWidth={1.75} />}
+                meta={activeEtfCount}
               >
-                <MoreHorizontal className="w-5 h-5" />
-              </button>
-            </div>
+                Cartera de ETFs
+              </Tabs.SideTrigger>
+            </Tabs.SideGroup>
+            <Tabs.SideGroup label="Análisis">
+              <Tabs.SideTrigger value="annual" icon={<Table2 className="h-4 w-4" strokeWidth={1.75} />}>
+                Año a año
+              </Tabs.SideTrigger>
+              <Tabs.SideTrigger value="cycles" icon={<ShieldAlert className="h-4 w-4" strokeWidth={1.75} />}>
+                Riesgo y crisis
+              </Tabs.SideTrigger>
+            </Tabs.SideGroup>
+            <Tabs.SideGroup label="Costes">
+              <Tabs.SideTrigger value="brokers" icon={<Gauge className="h-4 w-4" strokeWidth={1.75} />}>
+                Brókers
+              </Tabs.SideTrigger>
+            </Tabs.SideGroup>
+            <Tabs.SideGroup label="Mercado">
+              <Tabs.SideTrigger value="news" icon={<Newspaper className="h-4 w-4" strokeWidth={1.75} />}>
+                Noticias
+              </Tabs.SideTrigger>
+            </Tabs.SideGroup>
+          </Tabs.SideList>
+
+          <p className="px-3 pt-6 text-xs leading-5 text-slate-600">
+            Simulación educativa con rentabilidades supuestas. No es asesoramiento financiero.
+          </p>
+        </aside>
+
+        {/* ──────────────── Lienzo ──────────────── */}
+        <div className="min-w-0 flex-1 px-4 pt-3 pb-28 sm:px-6 lg:px-8 lg:pt-8 lg:pb-12">
+          {/* Barra superior móvil y tableta: la navegación vive en la barra inferior */}
+          <header className="flex h-12 items-center gap-2.5 lg:hidden">
+            <ProductMark className="h-5 w-5" />
+            <span className="text-[15px] font-semibold">Simulador ETF</span>
           </header>
 
-          {/* ──────────────── Mobile Drawer Overlay ──────────────── */}
-          {mobileDrawerOpen && (
+          {/* Fila del título: sustantivo, un dato del plan y las acciones de cuenta */}
+          <div className="flex flex-col gap-3 pt-3 pb-5 sm:flex-row sm:items-start sm:justify-between lg:pt-0 lg:pb-6">
+            <div className="min-w-0">
+              <h1 className="text-[22px] font-semibold leading-8 tracking-[-0.01em] sm:text-2xl">{screen.title}</h1>
+              <p className="mt-0.5 text-sm text-slate-600">{screen.subtitle}</p>
+            </div>
+            <div className="shrink-0">
+              <AccountBar
+                params={params}
+                etfs={etfs}
+                onLoadPlan={loadSavedPlan}
+                authOpen={authModalOpen}
+                onAuthOpenChange={setAuthModalOpen}
+              />
+            </div>
+          </div>
+
+          {/* Mensaje de estrategia cargada */}
+          {planMessage && (
             <div
-              id="mobile-drawer-overlay"
-              className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex justify-end transition-opacity"
-              onClick={(e) => {
-                if (e.target === e.currentTarget) setMobileDrawerOpen(false);
-              }}
+              role="status"
+              className="mb-3 flex items-center justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm text-emerald-800"
             >
-              <div className="w-[82%] max-w-xs bg-[#FAF7F2] h-full shadow-2xl flex flex-col justify-between overflow-y-auto border-l border-slate-200 animate-in slide-in-from-right duration-200">
-                <div className="p-4 space-y-4">
-                  {/* Drawer Header */}
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-200/80">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-[#F97316] flex items-center justify-center text-white shrink-0 shadow-xs">
-                        <TrendingUp className="w-4 h-4" />
-                      </div>
-                      <div>
-                        <div className="text-sm font-black text-slate-900 leading-tight">
-                          <span className="text-[#EA580C]">ETF</span> Simulator
-                        </div>
-                        <div className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-600">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                          MiFID II Conforme
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      id="menu-close-btn"
-                      aria-label="Cerrar opciones"
-                      onClick={() => setMobileDrawerOpen(false)}
-                      className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-800 cursor-pointer shadow-2xs"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  {/* Extras: las pestañas viven en la barra inferior (Tabs.BottomBar) */}
-                  <div className="space-y-1">
-                    <div className="text-[13px] font-bold tracking-wider text-slate-600 uppercase px-2 mb-1.5">
-                      Modelos y Configuración
-                    </div>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('allocation');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 hover:bg-white transition-colors font-medium text-xs cursor-pointer text-left"
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Layers className="w-4 h-4 text-slate-600" />
-                        <span>Modelos Bogle & Buffett</span>
-                      </div>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
-                    </button>
-
-                    <div className="flex items-center justify-between px-3 py-2 rounded-xl text-slate-700 text-xs font-medium">
-                      <div className="flex items-center gap-2.5">
-                        <Landmark className="w-4 h-4 text-slate-600" />
-                        <span>Divisa & Retenciones</span>
-                      </div>
-                      <span className="text-[13px] font-bold text-slate-600 bg-white border border-slate-200 px-1.5 py-0.5 rounded">
-                        EUR (€)
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Drawer Footer */}
-                <div className="p-4 border-t border-slate-200 bg-white/70 backdrop-blur-xs">
-                  <div className="flex items-center justify-between text-[13px] text-slate-600 mb-2">
-                    <span>Mercado ETF Europa</span>
-                    <span className="inline-flex items-center gap-1 text-emerald-600 font-semibold">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                      Abierto
-                    </span>
-                  </div>
-                  <div className="text-[13px] text-slate-600 text-center font-normal">
-                    ETF Simulator v2.4 • Directiva MiFID II
-                  </div>
-                </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-700" />
+                <span>{planMessage}</span>
               </div>
+              <button
+                type="button"
+                aria-label="Cerrar aviso"
+                onClick={() => setPlanMessage(null)}
+                className="rounded p-0.5 text-emerald-800 hover:bg-emerald-100 cursor-pointer"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
           )}
 
-          {/* ──────────────── Header Desktop (>= md) ──────────────── */}
-          {planBroker && (
-            <div className="hidden md:block">
-              <HeroLedger
-                finalBalance={planBroker.finalBalance}
-                totalInvested={planBroker.totalInvested}
+          {/* Pestaña → Feature: simulacion */}
+          <Tabs.Panel value="overview">
+            <SimulacionView
+              params={params}
+              effectiveParams={effectiveParams}
+              etfs={calcEtfs}
+              recalculating={recalculating}
+              results={results}
+              planBroker={planBroker}
+              bestBroker={bestBroker}
+              worstBroker={worstBroker}
+              /* El resumen enseña la proyección que da la cifra; los escenarios de crisis viven en Riesgo */
+              historicalSimulation={null}
+              multiYearSimulation={null}
+              onChangeParams={handleChange}
+              onClearHistoricalSimulation={() => setSelectedCycleId(null)}
+              onClearMultiYearSimulation={() =>
+                setMultiYearPlan(getDefault10YearTimelinePlan(params.years))
+              }
+              onOpenTimelineModal={() => setIsTimelineModalOpen(true)}
+              onNavigateTab={setActiveTab}
+            />
+          </Tabs.Panel>
+
+          {/* Pestaña → Feature: cartera */}
+          <Tabs.Panel value="allocation">
+            <CarteraView
+              etfs={etfs}
+              onChange={handleEtfChange}
+              monthlyAmount={monthlyEquivalent}
+              initialCapital={params.initialCapital}
+              onInitialCapitalChange={handleInitialCapitalChange}
+              onMonthlyAmountChange={handleMonthlyAmountChange}
+              onSelectPortfolio={applyFamousPortfolio}
+            />
+          </Tabs.Panel>
+
+          {/* Pestaña → Feature: proyeccion-anual */}
+          <Tabs.Panel value="annual">
+            {planBroker && (
+              <ProyeccionAnualView
+                projections={planBroker.annualProjections}
                 brokerName={planBroker.name}
-                years={calcParams.years}
-                annualReturn={calcParams.annualReturn}
-                brokers={sortedResults}
+              />
+            )}
+          </Tabs.Panel>
+
+          {/* Pestaña → Riesgo: primero el abanico Monte Carlo, después las crisis históricas */}
+          <Tabs.Panel value="cycles" className="stagger space-y-3">
+            {planBroker && (
+              <MonteCarloPanel
                 params={effectiveParams}
                 etfs={calcEtfs}
+                brokerId={planBroker.id}
+                brokerName={planBroker.name}
               />
-            </div>
-          )}
-
-          {/* ──────────────── Navegación por Pestañas + Vistas de cada Feature ──────────────── */}
-          <Tabs.Root
-            value={activeTab}
-            onValueChange={(val) => setActiveTab(val as typeof activeTab)}
-            className="space-y-4 sm:space-y-8"
-          >
-            <Tabs.List className="hidden md:flex">
-              <Tabs.Trigger value="overview">
-                <BarChart3 className="w-4 h-4 tab-icon tab-icon--grow" />
-                <span className="xl:hidden">Simulación</span>
-                <span className="hidden xl:inline">Simulación General</span>
-              </Tabs.Trigger>
-
-              <Tabs.Trigger value="allocation">
-                <SlidersHorizontal className="w-4 h-4 tab-icon tab-icon--slide" />
-                <span className="xl:hidden">Plan ETFs</span>
-                <span className="hidden xl:inline">Plan de Ahorro ETFs</span>
-                <span
-                  className={`text-[13px] font-black px-1.5 py-0.2 rounded-full ${
-                    activeTab === 'allocation'
-                      ? 'bg-white/20 text-white'
-                      : 'bg-slate-200 text-slate-700'
-                  }`}
-                >
-                  {etfs.length}
-                </span>
-              </Tabs.Trigger>
-
-              <Tabs.Trigger value="cycles">
-                <ShieldAlert className="w-4 h-4 tab-icon tab-icon--pop" />
-                <span className="xl:hidden">Ciclos</span>
-                <span className="hidden xl:inline">Ciclos Históricos</span>
-                {selectedCycleId ? (
-                  <span className="w-2 h-2 rounded-full bg-amber-300 animate-ping" />
-                ) : (
-                  <span className="hidden lg:inline text-[13px] font-bold px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-700">
-                    Estrés
-                  </span>
-                )}
-              </Tabs.Trigger>
-
-              <Tabs.Trigger value="annual">
-                <Sparkles className="w-4 h-4 tab-icon tab-icon--twinkle" />
-                <span className="xl:hidden">Proyección</span>
-                <span className="hidden xl:inline">Proyección Anual</span>
-              </Tabs.Trigger>
-
-              <Tabs.Trigger value="brokers">
-                <Trophy className="w-4 h-4 tab-icon tab-icon--swing" />
-                <span className="xl:hidden">Brókers</span>
-                <span className="hidden xl:inline">Comparativa Brókers</span>
-              </Tabs.Trigger>
-
-              <Tabs.Trigger value="news">
-                <Newspaper className="w-4 h-4 tab-icon tab-icon--flip" />
-                <span className="xl:hidden">Noticias</span>
-                <span className="hidden xl:inline">Noticias de mi plan</span>
-              </Tabs.Trigger>
-            </Tabs.List>
-
-            {/* Mensaje de estrategia cargada */}
-            {planMessage && (
-              <div className="text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex items-center justify-between shadow-2xs">
-                <div className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                  <span>{planMessage}</span>
-                </div>
-                <button
-                  onClick={() => setPlanMessage(null)}
-                  className="text-emerald-700 hover:text-emerald-900 text-[13px] cursor-pointer"
-                >
-                  ✕
-                </button>
-              </div>
             )}
+            <CiclosView
+              portfolio={etfs}
+              selectedCycleId={selectedCycleId}
+              onSelectCycle={(cycleId) => setSelectedCycleId(cycleId)}
+              simulationResult={historicalSimulation}
+              simulationMode={cycleMode}
+              onSimulationModeChange={setCycleMode}
+              baseCapital={cycleBaseCapital}
+              onBaseCapitalChange={setCycleBaseCapital}
+              savingsPlanParams={{
+                initialCapital: params.initialCapital,
+                periodicContribution: params.quarterlyContribution,
+                contributionFrequency: params.contributionFrequency,
+              }}
+              planYears={params.years}
+              multiYearPlan={multiYearPlan}
+              onUpdateMultiYearPlan={setMultiYearPlan}
+              multiYearSimulation={multiYearSimulation}
+              results={results}
+              years={calcParams.years}
+              onClearHistoricalSimulation={() => setSelectedCycleId(null)}
+              onClearMultiYearSimulation={() =>
+                setMultiYearPlan(getDefault10YearTimelinePlan(params.years))
+              }
+            />
+          </Tabs.Panel>
 
-            {/* Pestaña 1 → Feature: simulacion */}
-            <Tabs.Panel value="overview">
-              <SimulacionView
-                params={params}
-                effectiveParams={effectiveParams}
-                etfs={calcEtfs}
-                recalculating={recalculating}
-                results={results}
-                planBroker={planBroker}
-                bestBroker={bestBroker}
-                worstBroker={worstBroker}
-                historicalSimulation={historicalSimulation}
-                multiYearSimulation={selectedCycleId ? null : multiYearSimulation}
-                onChangeParams={handleChange}
-                onClearHistoricalSimulation={() => setSelectedCycleId(null)}
-                onClearMultiYearSimulation={() =>
-                  setMultiYearPlan(getDefault10YearTimelinePlan(params.years))
-                }
-                onOpenTimelineModal={() => setIsTimelineModalOpen(true)}
-                onNavigateTab={setActiveTab}
-              />
-            </Tabs.Panel>
+          {/* Pestaña → Feature: brokers */}
+          <Tabs.Panel value="brokers">
+            <BrokersView results={results} years={calcParams.years} planBrokerId={planBroker?.id} />
+          </Tabs.Panel>
 
-            {/* Pestaña 2 → Feature: cartera */}
-            <Tabs.Panel value="allocation">
-              <CarteraView
-                etfs={etfs}
-                onChange={handleEtfChange}
-                monthlyAmount={monthlyEquivalent}
-                initialCapital={params.initialCapital}
-                onInitialCapitalChange={handleInitialCapitalChange}
-                onMonthlyAmountChange={handleMonthlyAmountChange}
-                onSelectPortfolio={applyFamousPortfolio}
-              />
-            </Tabs.Panel>
+          {/* Pestaña → Feature: noticias */}
+          <Tabs.Panel value="news">
+            <NoticiasView etfs={etfs} />
+          </Tabs.Panel>
 
-            {/* Pestaña 3 → Feature: ciclos */}
-            <Tabs.Panel value="cycles">
-              <CiclosView
-                portfolio={etfs}
-                selectedCycleId={selectedCycleId}
-                onSelectCycle={(cycleId) => setSelectedCycleId(cycleId)}
-                simulationResult={historicalSimulation}
-                simulationMode={cycleMode}
-                onSimulationModeChange={setCycleMode}
-                baseCapital={cycleBaseCapital}
-                onBaseCapitalChange={setCycleBaseCapital}
-                savingsPlanParams={{
-                  initialCapital: params.initialCapital,
-                  periodicContribution: params.quarterlyContribution,
-                  contributionFrequency: params.contributionFrequency,
-                }}
-                planYears={params.years}
-                multiYearPlan={multiYearPlan}
-                onUpdateMultiYearPlan={setMultiYearPlan}
-                multiYearSimulation={multiYearSimulation}
-                results={results}
-                years={calcParams.years}
-                onClearHistoricalSimulation={() => setSelectedCycleId(null)}
-                onClearMultiYearSimulation={() =>
-                  setMultiYearPlan(getDefault10YearTimelinePlan(params.years))
-                }
-              />
-            </Tabs.Panel>
-
-            {/* Pestaña 4 → Feature: proyeccion-anual */}
-            <Tabs.Panel value="annual">
-              {planBroker && (
-                <ProyeccionAnualView
-                  projections={planBroker.annualProjections}
-                  brokerName={planBroker.name}
-                />
-              )}
-            </Tabs.Panel>
-
-            {/* Pestaña 5 → Feature: brokers */}
-            <Tabs.Panel value="brokers">
-              <BrokersView results={results} years={calcParams.years} planBrokerId={planBroker?.id} />
-            </Tabs.Panel>
-
-            {/* Pestaña 6 → Feature: noticias */}
-            <Tabs.Panel value="news">
-              <NoticiasView etfs={etfs} />
-            </Tabs.Panel>
-
-            {/* Navegación móvil: barra inferior con joroba deslizante (en escritorio, Tabs.List) */}
-            <Tabs.BottomBar className="md:hidden" items={MOBILE_TABS} />
-          </Tabs.Root>
-
-          {/* ──────────────── Footer ──────────────── */}
-          <footer className="pt-6 border-t border-slate-200 text-center">
-            <p className="text-xs text-slate-600 leading-relaxed max-w-2xl mx-auto font-medium">
-              Simulador de inversión periódica en ETFs de acumulación según directiva MiFID II.
-              Las rentabilidades y comisiones son simuladas y no representan asesoramiento financiero personalizado.
+          {/* ──────────────── Pie ──────────────── */}
+          <footer className="mt-10 border-t border-slate-200 pt-5 lg:hidden">
+            <p className="text-xs leading-5 text-slate-600">
+              Simulación educativa con rentabilidades supuestas. No es asesoramiento financiero.
             </p>
           </footer>
         </div>
       </div>
+
+      {/* Navegación móvil y tableta: barra inferior con joroba deslizante */}
+      <Tabs.BottomBar className="lg:hidden" items={MOBILE_TABS} />
 
       {/* ──────────────── Bottom Sheet Drawer: Modal de Estrés & Shocks ──────────────── */}
       <CycleTimelineModal
@@ -547,6 +468,6 @@ export function ETFSimulator() {
         currentPlan={multiYearPlan}
         onSavePlan={(updated) => setMultiYearPlan(updated)}
       />
-    </div>
+    </Tabs.Root>
   );
 }
