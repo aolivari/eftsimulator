@@ -19,3 +19,4 @@ export {
   type ViewTemplateFooterProps,
 } from './compound/ViewTemplate';
 export { GrowthChart, type GrowthChartProps } from './organisms/GrowthChart';
+export { useInView } from './hooks/useInView';

@@ -7,7 +7,19 @@ import {
   ArrowDownRight,
 } from 'lucide-react';
 import { formatCurrency } from '../../../engine/simulation';
+import { useCountUp } from '../hooks/useCountUp';
 import type { MetricsCardsProps } from '../types';
+
+// Cifra en euros que "rueda" hasta el nuevo valor cuando cambian los parámetros
+function AnimatedEuros({ value, prefix = '' }: { value: number; prefix?: string }) {
+  const shown = useCountUp(value);
+  return (
+    <>
+      {prefix}
+      {formatCurrency(Math.round(shown))} €
+    </>
+  );
+}
 
 export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
   const feeSavings = worstBroker.totalFees - bestBroker.totalFees;
@@ -22,7 +34,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
       id: 'metric-final-balance',
       label: 'Capital Final',
       sublabel: bestBroker.name,
-      value: `${formatCurrency(bestBroker.finalBalance)} €`,
+      value: <AnimatedEuros value={bestBroker.finalBalance} />,
       icon: Landmark,
       colorClass: 'text-amber-600',
       bgIcon: 'bg-amber-50 text-amber-600',
@@ -35,7 +47,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
       id: 'metric-total-invested',
       label: 'Total Aportado',
       sublabel: 'Capital + DCA',
-      value: `${formatCurrency(bestBroker.totalInvested)} €`,
+      value: <AnimatedEuros value={bestBroker.totalInvested} />,
       icon: PiggyBank,
       colorClass: 'text-sky-600',
       bgIcon: 'bg-sky-50 text-sky-500',
@@ -48,7 +60,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
       id: 'metric-profit',
       label: 'Plusvalía',
       sublabel: 'Interés compuesto',
-      value: `+${formatCurrency(bestBroker.totalProfit)} €`,
+      value: <AnimatedEuros value={bestBroker.totalProfit} prefix="+" />,
       icon: TrendingUp,
       colorClass: 'text-emerald-600',
       bgIcon: 'bg-emerald-50 text-emerald-600',
@@ -61,7 +73,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
       id: 'metric-fee-savings',
       label: 'Ahorro Comis.',
       sublabel: `vs. ${worstBroker.name}`,
-      value: `${formatCurrency(feeSavings)} €`,
+      value: <AnimatedEuros value={feeSavings} />,
       icon: ShieldCheck,
       colorClass: 'text-purple-600',
       bgIcon: 'bg-purple-50 text-purple-600',
@@ -78,7 +90,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
         <div
           key={card.id}
           id={card.id}
-          className={`bg-white rounded-xl sm:rounded-2xl border border-slate-200/90 ${card.topBorder} p-3 sm:p-5 shadow-2xs sm:shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between`}
+          className={`surface-glass rounded-xl sm:rounded-2xl border ${card.topBorder} p-3 sm:p-5 shadow-2xs sm:shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between`}
         >
           <div className="flex items-center justify-between mb-1.5 sm:mb-2">
             <span className="text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider truncate">
@@ -92,7 +104,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
           </div>
 
           <div>
-            <p className="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight leading-tight mb-0.5 sm:mb-1">
+            <p className="font-display text-xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 leading-tight tabular-nums mb-0.5 sm:mb-1">
               {card.value}
             </p>
             <p className="text-[13px] sm:text-xs text-slate-600 mb-2 sm:mb-3 font-medium truncate">
