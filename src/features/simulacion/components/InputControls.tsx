@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import type { InputControlsProps } from '../types';
 
-export function InputControls({ params, onChange }: InputControlsProps) {
+export function InputControls({ params, onChange, recalculating = false }: InputControlsProps) {
   const monthlyEquivalent =
     params.contributionFrequency === 'quarterly'
       ? Math.round(params.quarterlyContribution / 3)
@@ -31,6 +31,16 @@ export function InputControls({ params, onChange }: InputControlsProps) {
         <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
           Parámetros de Simulación
         </h2>
+        {/* Siempre montado (solo cambia la opacidad) para no mover el layout */}
+        <span
+          role="status"
+          className={`ml-auto inline-flex items-center gap-1.5 text-xs font-semibold text-orange-600 transition-opacity duration-200 ${
+            recalculating ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse" />
+          {recalculating ? 'Recalculando…' : ''}
+        </span>
       </div>
 
       {/* Main inputs grid: 2x2 on mobile, 4 columns on desktop */}

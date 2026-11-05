@@ -9,6 +9,7 @@ export function SimulacionView({
   params,
   effectiveParams,
   etfs,
+  recalculating = false,
   results,
   bestBroker,
   worstBroker,
@@ -24,7 +25,7 @@ export function SimulacionView({
     <ViewTemplate.Root id="simulacion-view">
       {/* 1. Controles de Entrada */}
       <ViewTemplate.Section id="simulacion-inputs">
-        <InputControls params={params} onChange={onChangeParams} />
+        <InputControls params={params} onChange={onChangeParams} recalculating={recalculating} />
       </ViewTemplate.Section>
 
       {/* 2. Tarjetas KPI de Resumen */}
@@ -38,7 +39,7 @@ export function SimulacionView({
       <ViewTemplate.Section id="simulacion-growth-chart">
         <GrowthChart
           results={results}
-          years={params.years}
+          years={effectiveParams.years}
           historicalSimulation={historicalSimulation}
           onClearHistoricalSimulation={onClearHistoricalSimulation}
           multiYearSimulation={multiYearSimulation}
