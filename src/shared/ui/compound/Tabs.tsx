@@ -32,7 +32,7 @@ function List({
   return (
     <div
       role="tablist"
-      className={`flex items-center gap-2 border-b border-slate-200 pb-1 overflow-x-auto ${className}`.trim()}
+      className={`flex items-stretch gap-1 p-1 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-2xl ${className}`.trim()}
     >
       {children}
     </div>
@@ -57,7 +57,7 @@ function Trigger({
       role="tab"
       aria-selected={active}
       onClick={() => ctx?.onValueChange(value)}
-      className={`px-4 py-2.5 text-xs sm:text-sm font-bold rounded-xl transition cursor-pointer flex items-center gap-2 whitespace-nowrap ${
+      className={`flex-1 min-w-0 px-2 lg:px-3 py-2.5 text-xs lg:text-sm font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 lg:gap-2 whitespace-nowrap ${
         active
           ? 'bg-orange-500 text-white shadow-sm shadow-orange-500/30'
           : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'

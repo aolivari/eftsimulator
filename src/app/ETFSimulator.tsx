@@ -474,12 +474,14 @@ export function ETFSimulator() {
             <Tabs.List className="hidden md:flex">
               <Tabs.Trigger value="overview">
                 <BarChart3 className="w-4 h-4" />
-                <span>Simulación General</span>
+                <span className="xl:hidden">Simulación</span>
+                <span className="hidden xl:inline">Simulación General</span>
               </Tabs.Trigger>
 
               <Tabs.Trigger value="allocation">
                 <SlidersHorizontal className="w-4 h-4" />
-                <span>Plan de Ahorro ETFs</span>
+                <span className="xl:hidden">Plan ETFs</span>
+                <span className="hidden xl:inline">Plan de Ahorro ETFs</span>
                 <span
                   className={`text-[13px] font-black px-1.5 py-0.2 rounded-full ${
                     activeTab === 'allocation'
@@ -493,11 +495,12 @@ export function ETFSimulator() {
 
               <Tabs.Trigger value="cycles">
                 <ShieldAlert className="w-4 h-4" />
-                <span>Ciclos Históricos</span>
+                <span className="xl:hidden">Ciclos</span>
+                <span className="hidden xl:inline">Ciclos Históricos</span>
                 {selectedCycleId ? (
                   <span className="w-2 h-2 rounded-full bg-amber-300 animate-ping" />
                 ) : (
-                  <span className="text-[13px] font-bold px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-700">
+                  <span className="hidden lg:inline text-[13px] font-bold px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-700">
                     Estrés
                   </span>
                 )}
@@ -505,17 +508,20 @@ export function ETFSimulator() {
 
               <Tabs.Trigger value="annual">
                 <Sparkles className="w-4 h-4" />
-                <span>Proyección Anual</span>
+                <span className="xl:hidden">Proyección</span>
+                <span className="hidden xl:inline">Proyección Anual</span>
               </Tabs.Trigger>
 
               <Tabs.Trigger value="brokers">
                 <Trophy className="w-4 h-4" />
-                <span>Comparativa Brókers</span>
+                <span className="xl:hidden">Brókers</span>
+                <span className="hidden xl:inline">Comparativa Brókers</span>
               </Tabs.Trigger>
 
               <Tabs.Trigger value="news">
                 <Newspaper className="w-4 h-4" />
-                <span>Noticias de mi plan</span>
+                <span className="xl:hidden">Noticias</span>
+                <span className="hidden xl:inline">Noticias de mi plan</span>
               </Tabs.Trigger>
             </Tabs.List>
 
