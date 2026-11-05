@@ -94,7 +94,9 @@ export function HeroLedger({
           </p>
           <p className="text-base sm:text-lg text-white/75 max-w-xl">
             Capital final tras {years} años con una rentabilidad media del {annualReturn}% anual, en{' '}
-            <span className="font-semibold text-white">{brokerName}</span>.
+            <span className="font-semibold text-white">{brokerName}</span>
+            {/* En automático se dice por qué es ese bróker; se cambia en Parámetros de Simulación */}
+            {params.brokerId ? '.' : ', el bróker más barato para tu plan.'}
           </p>
 
           <div className="max-w-md space-y-3 pt-2">

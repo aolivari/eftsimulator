@@ -72,6 +72,7 @@ export function planFingerprint(params: SimulationParams, etfs: ETFAsset[]): str
     annualReturn: params.annualReturn,
     contributionFrequency: params.contributionFrequency,
     hasWelcomeBonus: params.hasWelcomeBonus,
+    brokerId: params.brokerId ?? null,
     etfs: etfs.map((e) => [
       e.ticker,
       e.weight,

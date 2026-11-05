@@ -13,6 +13,7 @@ export interface InputControlsProps {
 }
 
 export interface MetricsCardsProps {
+  planBroker: BrokerResult; // bróker del plan (elegido o, en automático, el más barato)
   bestBroker: BrokerResult;
   worstBroker: BrokerResult;
 }
@@ -41,6 +42,7 @@ export interface SimulacionViewProps {
   etfs: ETFAsset[];
   recalculating?: boolean;
   results: BrokerResult[];
+  planBroker?: BrokerResult;
   bestBroker?: BrokerResult;
   worstBroker?: BrokerResult;
   historicalSimulation: PortfolioHistoricalSimulationResult | null;

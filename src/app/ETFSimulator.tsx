@@ -181,6 +181,8 @@ export function ETFSimulator() {
   );
   const bestBroker = sortedResults[0];
   const worstBroker = sortedResults[sortedResults.length - 1];
+  // Bróker del plan: el elegido en Parámetros o, en automático, el más barato
+  const planBroker = sortedResults.find((r) => r.id === effectiveParams.brokerId) ?? bestBroker;
 
   const monthlyEquivalent =
     params.contributionFrequency === 'quarterly'
@@ -464,12 +466,12 @@ export function ETFSimulator() {
           )}
 
           {/* ──────────────── Header Desktop (>= md) ──────────────── */}
-          {bestBroker && (
+          {planBroker && (
             <div className="hidden md:block">
               <HeroLedger
-                finalBalance={bestBroker.finalBalance}
-                totalInvested={bestBroker.totalInvested}
-                brokerName={bestBroker.name}
+                finalBalance={planBroker.finalBalance}
+                totalInvested={planBroker.totalInvested}
+                brokerName={planBroker.name}
                 years={calcParams.years}
                 annualReturn={calcParams.annualReturn}
                 brokers={sortedResults}
@@ -563,6 +565,7 @@ export function ETFSimulator() {
                 etfs={calcEtfs}
                 recalculating={recalculating}
                 results={results}
+                planBroker={planBroker}
                 bestBroker={bestBroker}
                 worstBroker={worstBroker}
                 historicalSimulation={historicalSimulation}
@@ -621,17 +624,17 @@ export function ETFSimulator() {
 
             {/* Pestaña 4 → Feature: proyeccion-anual */}
             <Tabs.Panel value="annual">
-              {bestBroker && (
+              {planBroker && (
                 <ProyeccionAnualView
-                  projections={bestBroker.annualProjections}
-                  brokerName={bestBroker.name}
+                  projections={planBroker.annualProjections}
+                  brokerName={planBroker.name}
                 />
               )}
             </Tabs.Panel>
 
             {/* Pestaña 5 → Feature: brokers */}
             <Tabs.Panel value="brokers">
-              <BrokersView results={results} years={calcParams.years} />
+              <BrokersView results={results} years={calcParams.years} planBrokerId={planBroker?.id} />
             </Tabs.Panel>
 
             {/* Pestaña 6 → Feature: noticias */}

@@ -27,9 +27,16 @@ export interface HeroScenariosInput {
 
 const eur = (v: number) => `${formatCurrency(Math.round(v))} €`;
 
-export function buildHeroScenarios({ brokers, params, etfs, history }: HeroScenariosInput): HeroScenario[] {
+export function buildHeroScenarios({
+  brokers,
+  params,
+  etfs,
+  history,
+}: HeroScenariosInput): HeroScenario[] {
   const best = brokers[0];
   if (!best) return [];
+  // Los escenarios del plan usan el bróker elegido; la comparativa, el más barato
+  const plan = brokers.find((b) => b.id === params.brokerId) ?? best;
 
   const scenarios: HeroScenario[] = [];
   const initial = { quarter: 0 };
@@ -38,17 +45,17 @@ export function buildHeroScenarios({ brokers, params, etfs, history }: HeroScena
   scenarios.push({
     id: 'compound',
     label: 'Interés compuesto',
-    figure: eur(best.finalBalance),
-    description: `Suponiendo un ${params.annualReturn} % anual constante, ${eur(best.totalInvested)} aportados en ${params.years} años acabarían en ${eur(best.finalBalance)}.`,
+    figure: eur(plan.finalBalance),
+    description: `Suponiendo un ${params.annualReturn} % anual constante, ${eur(plan.totalInvested)} aportados en ${params.years} años acabarían en ${eur(plan.finalBalance)} en ${plan.name}.`,
     chart: {
       kind: 'compound',
       invested: [
-        { ...initial, value: best.initialInvested },
-        ...best.quarterlyData.map((q, i) => ({ quarter: i + 1, value: q.totalInvested })),
+        { ...initial, value: plan.initialInvested },
+        ...plan.quarterlyData.map((q, i) => ({ quarter: i + 1, value: q.totalInvested })),
       ],
       balance: [
-        { ...initial, value: best.initialInvested },
-        ...best.quarterlyData.map((q, i) => ({ quarter: i + 1, value: q.balanceAfter })),
+        { ...initial, value: plan.initialInvested },
+        ...plan.quarterlyData.map((q, i) => ({ quarter: i + 1, value: q.balanceAfter })),
       ],
     },
   });
@@ -61,7 +68,7 @@ export function buildHeroScenarios({ brokers, params, etfs, history }: HeroScena
     const input = {
       params,
       etfs: activeEtfs,
-      brokerId: best.id,
+      brokerId: plan.id,
       history,
       scenarios: HERO_MC_SCENARIOS,
     };
@@ -121,11 +128,16 @@ export function buildHeroScenarios({ brokers, params, etfs, history }: HeroScena
   const real = brokers.filter((b) => b.id !== 'ing_inactive');
   const worst = real[real.length - 1];
   if (real.length > 1 && worst) {
+    // Si el bróker elegido no es el más barato, la diferencia que importa es frente a él
+    const other = plan.id === best.id ? worst : plan;
     scenarios.push({
       id: 'brokers',
       label: 'Brókers',
-      figure: `+${eur(best.finalBalance - worst.finalBalance)}`,
-      description: `Con tus parámetros, ${best.name} acumula esta diferencia frente a ${worst.name} solo por comisiones de compra y custodia.`,
+      figure: `+${eur(best.finalBalance - other.finalBalance)}`,
+      description:
+        other === plan
+          ? `Con tus parámetros, ${best.name} acumula esta diferencia frente a ${plan.name}, tu bróker, solo por comisiones de compra y custodia.`
+          : `Con tus parámetros, ${best.name} acumula esta diferencia frente a ${worst.name} solo por comisiones de compra y custodia.`,
       chart: {
         kind: 'brokers',
         // Los mejores y, si no cabe, el peor al final para que se vea la diferencia del texto

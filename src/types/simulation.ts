@@ -141,6 +141,8 @@ export interface SimulationParams {
   etfCount: number;
   hasWelcomeBonus: boolean;
   contributionFrequency: 'monthly' | 'quarterly';
+  // Bróker del plan. Sin valor = automático: el que más capital deja con estos parámetros.
+  brokerId?: string;
   selectedEtfs?: ETFAsset[];
 }
 

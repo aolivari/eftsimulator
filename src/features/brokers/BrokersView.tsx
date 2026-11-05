@@ -11,7 +11,7 @@ import { ViewTemplate, useInView } from '../../shared/ui';
 import { formatCurrency } from '../../shared/utils';
 import type { BrokersViewProps } from './types';
 
-export function BrokersView({ results, years }: BrokersViewProps) {
+export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) {
   const sorted = [...results].sort((a, b) => b.finalBalance - a.finalBalance);
   const bestId = sorted[0]?.id;
   const worstId = sorted[sorted.length - 1]?.id;
@@ -79,6 +79,11 @@ export function BrokersView({ results, years }: BrokersViewProps) {
                     <td className="px-6 py-4 max-w-xs">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="font-bold text-slate-900 text-sm">{broker.name}</span>
+                        {broker.id === planBrokerId && (
+                          <span className="inline-flex items-center bg-orange-100 text-orange-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
+                            Tu bróker
+                          </span>
+                        )}
                         {isBest && (
                           <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[13px] font-black px-2 py-0.5 rounded-full uppercase">
                             <Trophy className="w-3 h-3" />
