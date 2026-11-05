@@ -166,23 +166,26 @@ function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; clas
       aria-label="Secciones"
       className={`fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] ${className}`.trim()}
     >
-      <div className="relative mx-auto max-w-md rounded-2xl bg-slate-950 shadow-2xl shadow-slate-900/40">
-        {/* Joroba y círculo: se desplazan con transform (sin recalcular el layout) */}
-        <div
-          aria-hidden="true"
-          className="tabs-bump pointer-events-none absolute inset-y-0 left-0"
-          style={{ width: `${100 / items.length}%`, transform: `translateX(${index * 100}%)` }}
-        >
-          <svg
-            viewBox="0 0 96 24"
-            className="absolute left-1/2 -top-[22px] h-6 w-24 -translate-x-1/2 fill-slate-950"
+      {/* Margen interior (px-2): en la primera y la última pestaña la joroba no llega a la esquina */}
+      <div className="mx-auto max-w-md rounded-2xl bg-slate-950 px-2 shadow-2xl shadow-slate-900/40">
+        <div className="relative">
+          {/* Joroba y círculo: miden lo mismo que una pestaña y se desplazan con transform */}
+          <div
+            aria-hidden="true"
+            className="tabs-bump pointer-events-none absolute inset-y-0 left-0"
+            style={{ width: `${100 / items.length}%`, transform: `translateX(${index * 100}%)` }}
           >
-            <path d="M0 24 C22 24 24 0 48 0 C72 0 74 24 96 24 Z" />
-          </svg>
-          <span className="absolute left-1/2 -top-[18px] h-11 w-11 -translate-x-1/2 rounded-full bg-orange-500 shadow-lg shadow-orange-500/40" />
-        </div>
+            <svg
+              viewBox="0 0 64 16"
+              preserveAspectRatio="none"
+              className="absolute inset-x-0 -top-[15px] h-4 w-full fill-slate-950"
+            >
+              <path d="M0 16 C14 16 16 0 32 0 C48 0 50 16 64 16 Z" />
+            </svg>
+            <span className="absolute left-1/2 -top-[12px] h-10 w-10 -translate-x-1/2 rounded-full bg-orange-500 shadow-lg shadow-orange-500/40" />
+          </div>
 
-        <div role="tablist" className="relative flex" onKeyDown={(e) => handleTabKeys(e, ctx?.onValueChange)}>
+          <div role="tablist" className="relative flex" onKeyDown={(e) => handleTabKeys(e, ctx?.onValueChange)}>
           {items.map((item) => {
             const active = item.value === ctx?.value;
             return (
@@ -198,13 +201,13 @@ function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; clas
               >
                 <span
                   className={`tabs-bump-icon flex h-5 items-center ${
-                    active ? '-translate-y-[18px] text-white' : 'text-slate-400'
+                    active ? '-translate-y-[14px] text-white' : 'text-slate-400'
                   }`}
                 >
                   {item.icon}
                 </span>
                 <span
-                  className={`max-w-full truncate px-0.5 text-[10px] font-semibold transition-colors duration-300 ${
+                  className={`max-w-full truncate text-[10px] font-semibold tracking-tight transition-colors duration-300 ${
                     active ? 'text-orange-300' : 'text-slate-400'
                   }`}
                 >
@@ -213,6 +216,7 @@ function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; clas
               </button>
             );
           })}
+          </div>
         </div>
       </div>
     </nav>

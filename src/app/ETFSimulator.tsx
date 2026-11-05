@@ -9,7 +9,7 @@ import {
   Trophy,
   ChevronRight,
   Layers,
-  Menu,
+  MoreHorizontal,
   X,
   Landmark,
   Newspaper,
@@ -52,10 +52,10 @@ const RECALC_DELAY_MS = 600;
 
 // Pestañas de la barra inferior móvil (mismos valores que Tabs.Trigger en escritorio)
 const MOBILE_TABS: TabsBottomBarItem[] = [
-  { value: 'overview', label: 'Simulación', icon: <BarChart3 className="w-5 h-5 tab-icon tab-icon--grow" /> },
+  { value: 'overview', label: 'Simular', icon: <BarChart3 className="w-5 h-5 tab-icon tab-icon--grow" /> },
   { value: 'allocation', label: 'Plan', icon: <SlidersHorizontal className="w-5 h-5 tab-icon tab-icon--slide" /> },
   { value: 'cycles', label: 'Ciclos', icon: <ShieldAlert className="w-5 h-5 tab-icon tab-icon--pop" /> },
-  { value: 'annual', label: 'Proyección', icon: <Sparkles className="w-5 h-5 tab-icon tab-icon--twinkle" /> },
+  { value: 'annual', label: 'Proyectar', icon: <Sparkles className="w-5 h-5 tab-icon tab-icon--twinkle" /> },
   { value: 'brokers', label: 'Brókers', icon: <Trophy className="w-5 h-5 tab-icon tab-icon--swing" /> },
   { value: 'news', label: 'Noticias', icon: <Newspaper className="w-5 h-5 tab-icon tab-icon--flip" /> },
 ];
@@ -253,11 +253,11 @@ export function ETFSimulator() {
               </div>
               <button
                 id="menu-open-btn"
-                aria-label="Abrir menú lateral"
+                aria-label="Más opciones"
                 onClick={() => setMobileDrawerOpen(true)}
                 className="w-9 h-9 rounded-xl bg-white border border-slate-200/80 shadow-2xs flex items-center justify-center text-slate-700 hover:text-orange-600 hover:bg-orange-50 cursor-pointer transition-colors shrink-0"
               >
-                <Menu className="w-5 h-5" />
+                <MoreHorizontal className="w-5 h-5" />
               </button>
             </div>
           </header>
@@ -291,7 +291,7 @@ export function ETFSimulator() {
                     </div>
                     <button
                       id="menu-close-btn"
-                      aria-label="Cerrar menú"
+                      aria-label="Cerrar opciones"
                       onClick={() => setMobileDrawerOpen(false)}
                       className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-800 cursor-pointer shadow-2xs"
                     >
@@ -299,135 +299,8 @@ export function ETFSimulator() {
                     </button>
                   </div>
 
-                  {/* Drawer Navigation */}
+                  {/* Extras: las pestañas viven en la barra inferior (Tabs.BottomBar) */}
                   <div className="space-y-1">
-                    <div className="text-[13px] font-bold tracking-wider text-slate-600 uppercase px-2 mb-1.5">
-                      Navegación Principal
-                    </div>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('overview');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
-                        activeTab === 'overview'
-                          ? 'bg-orange-500 text-white shadow-xs'
-                          : 'text-slate-700 hover:bg-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <BarChart3 className="w-4 h-4" />
-                        <span>Simulación General</span>
-                      </div>
-                      <ChevronRight className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('allocation');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
-                        activeTab === 'allocation'
-                          ? 'bg-orange-500 text-white shadow-xs'
-                          : 'text-slate-700 hover:bg-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <SlidersHorizontal className="w-4 h-4" />
-                        <span>Plan de Ahorro ETFs</span>
-                      </div>
-                      <span
-                        className={`text-[13px] font-bold px-1.5 py-0.5 rounded-full ${
-                          activeTab === 'allocation'
-                            ? 'bg-white/20 text-white'
-                            : 'bg-slate-100 text-slate-600'
-                        }`}
-                      >
-                        {etfs.length} en cartera
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('cycles');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
-                        activeTab === 'cycles'
-                          ? 'bg-orange-500 text-white shadow-xs'
-                          : 'text-slate-700 hover:bg-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <ShieldAlert className="w-4 h-4 text-rose-500" />
-                        <span>Ciclos Históricos</span>
-                      </div>
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 bg-rose-50 text-rose-600 rounded border border-rose-100">
-                        Estrés
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('annual');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
-                        activeTab === 'annual'
-                          ? 'bg-orange-500 text-white shadow-xs'
-                          : 'text-slate-700 hover:bg-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Sparkles className="w-4 h-4 text-amber-500" />
-                        <span>Proyección Anual</span>
-                      </div>
-                      <ChevronRight className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('brokers');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
-                        activeTab === 'brokers'
-                          ? 'bg-orange-500 text-white shadow-xs'
-                          : 'text-slate-700 hover:bg-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Trophy className="w-4 h-4 text-purple-500" />
-                        <span>Comparativa Brókers</span>
-                      </div>
-                      <span className="text-[9px] font-medium text-slate-600">
-                        {bestBroker?.name || 'Trade Rep.'}
-                      </span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActiveTab('news');
-                        setMobileDrawerOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer text-left ${
-                        activeTab === 'news'
-                          ? 'bg-orange-500 text-white shadow-xs'
-                          : 'text-slate-700 hover:bg-white'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5">
-                        <Newspaper className="w-4 h-4 text-sky-500" />
-                        <span>Noticias de mi plan</span>
-                      </div>
-                      <ChevronRight className="w-3.5 h-3.5 opacity-70" />
-                    </button>
-                  </div>
-
-                  {/* Drawer Models and Configuration */}
-                  <div className="pt-2 border-t border-slate-200/80 space-y-1">
                     <div className="text-[13px] font-bold tracking-wider text-slate-600 uppercase px-2 mb-1.5">
                       Modelos y Configuración
                     </div>
