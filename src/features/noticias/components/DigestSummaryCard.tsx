@@ -34,7 +34,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
           <path
             d="M0 80 L40 70 L80 76 L120 58 L160 64 L200 44 L240 52 L280 36 L320 46 L360 30 L400 38"
             fill="none"
-            stroke="#F97316"
+            stroke="#5b9bff"
             strokeOpacity={0.5}
             strokeWidth={2}
             vectorEffect="non-scaling-stroke"
@@ -57,7 +57,7 @@ export function DigestSummaryCard({ dateLabel, isLatest, summary, tone, children
 
       <div className="space-y-3 p-5 sm:p-6">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="font-display text-xl font-semibold text-slate-900">
+          <h3 className="text-lg font-semibold text-slate-900">
             {dateLabel}
           </h3>
           {isLatest ? <Badge tone="emerald">Último digest</Badge> : <Badge>Histórico</Badge>}

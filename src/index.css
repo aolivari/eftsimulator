@@ -50,6 +50,7 @@ body {
   font-family: var(--font-figures);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
+  white-space: nowrap; /* una cifra y su unidad nunca se parten */
 }
 
 /* ─── Scrollbar ────────────────────────────────────────────────────── */

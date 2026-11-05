@@ -395,7 +395,7 @@ export default function MonteCarloPanel({
             80% de escenarios (P10–P90)
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-4 h-0.5 bg-teal-700" />
+            <span className="w-4 h-0.5 bg-data-500" />
             Mediano
           </span>
           <span className="inline-flex items-center gap-1.5">

@@ -336,12 +336,12 @@ export default function CycleTimelineModal({
                     style={{ width: `${Math.max(5, widthPercent)}%` }}
                     className={`h-full rounded-lg transition-all flex flex-col items-center justify-center text-white px-1 relative group cursor-pointer ${
                       seg.type === 'crisis'
-                        ? 'bg-rose-500 hover:bg-rose-600'
+                        ? 'bg-rose-600 hover:bg-rose-700'
                         : seg.type === 'expansion'
-                        ? 'bg-emerald-500 hover:bg-emerald-600'
+                        ? 'bg-data-500 hover:bg-data-700'
                         : seg.type === 'recovery'
-                        ? 'bg-sky-500 hover:bg-sky-600'
-                        : 'bg-amber-500 hover:bg-amber-600'
+                        ? 'bg-data-200 !text-data-900 hover:bg-data-300'
+                        : 'bg-slate-500 hover:bg-slate-600'
                     }`}
                     title={`${seg.name} (${
                       range.isSingleYear
@@ -365,19 +365,19 @@ export default function CycleTimelineModal({
             <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[13px] font-medium text-slate-600">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-data-500" />
                   Expansión
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-rose-600" />
                   Crisis / Shock
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-data-200" />
                   Recuperación
                 </span>
                 <span className="flex items-center gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-slate-500" />
                   Lateral
                 </span>
               </div>
@@ -549,7 +549,7 @@ export default function CycleTimelineModal({
           </div>
 
           <div className="p-4 rounded-lg bg-amber-50/70 border border-amber-200/90 flex items-start gap-3">
-            <div className="p-1.5 rounded-lg bg-amber-500 text-white font-bold flex-shrink-0 mt-0.5">
+            <div className="flex-shrink-0 mt-0.5 text-slate-500">
               <Info className="w-4 h-4" />
             </div>
             <div className="space-y-1 text-xs">

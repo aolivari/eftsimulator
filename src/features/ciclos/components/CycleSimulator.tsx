@@ -62,7 +62,7 @@ export default function CycleSimulator({
       case 'dotcom_burst_2000':
         return <TrendingDown className="w-5 h-5 text-amber-600" />;
       case 'post_covid_rally_2020':
-        return <Rocket className="w-5 h-5 text-emerald-600" />;
+        return <Rocket className="w-5 h-5 text-data-600" />;
       case 'quiet_expansion_2013':
         return <Compass className="w-5 h-5 text-teal-600" />;
       case 'roaring_nineties_1995':
@@ -150,7 +150,7 @@ export default function CycleSimulator({
               >
                 <Layers className="w-4 h-4 shrink-0" />
                 <span className="sm:hidden">Línea Temporal</span>
-                <span className="hidden sm:inline">Línea Temporal (Concatenar Escenarios)</span>
+                <span className="hidden sm:inline">Línea temporal</span>
                 <span
                   className={`text-[13px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
                     activeSubTab === 'timeline'
@@ -173,7 +173,7 @@ export default function CycleSimulator({
               >
                 <ShieldAlert className="w-4 h-4 shrink-0" />
                 <span className="sm:hidden">Crisis Reales</span>
-                <span className="hidden sm:inline">Eventos Históricos Reales (Backtesting)</span>
+                <span className="hidden sm:inline">Crisis reales</span>
                 <span
                   className={`text-[13px] font-bold px-1.5 py-0.2 rounded-full shrink-0 ${
                     activeSubTab === 'events'
@@ -196,7 +196,7 @@ export default function CycleSimulator({
                       <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
                           <Layers className="w-4 h-4 text-orange-600 shrink-0" />
-                          <span>Ciclo Activo: {effectiveTimelinePlan.name}</span>
+                          <span>Ciclo activo: {effectiveTimelinePlan.name}</span>
                         </span>
                         <span className="text-[13px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 shrink-0">
                           {effectiveTimelinePlan.badge}
@@ -213,13 +213,13 @@ export default function CycleSimulator({
                       className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold bg-slate-900 text-white transition active:scale-[0.99] cursor-pointer shrink-0"
                     >
                       <SlidersHorizontal className="w-4 h-4" />
-                      <span>Diseñar / Ajustar Línea Temporal</span>
+                      <span>Ajustar fases</span>
                     </button>
                   </div>
 
                   <div className="space-y-1.5">
                     <div className="flex items-center justify-between text-xs font-bold text-slate-600">
-                      <span>Distribución de Fases ({planYears} años):</span>
+                      <span>Fases del plan ({planYears} años):</span>
                       <span className="text-slate-600">
                         {effectiveTimelinePlan.segments.length} Fases
                       </span>
@@ -239,12 +239,12 @@ export default function CycleSimulator({
                             onClick={() => setIsModalOpen(true)}
                             className={`h-full rounded-lg transition-all flex flex-col items-center justify-center text-white px-1 relative group cursor-pointer ${
                               seg.type === 'crisis'
-                                ? 'bg-rose-500 hover:bg-rose-600'
+                                ? 'bg-rose-600 hover:bg-rose-700'
                                 : seg.type === 'expansion'
-                                ? 'bg-emerald-500 hover:bg-emerald-600'
+                                ? 'bg-data-500 hover:bg-data-700'
                                 : seg.type === 'recovery'
-                                ? 'bg-sky-500 hover:bg-sky-600'
-                                : 'bg-amber-500 hover:bg-amber-600'
+                                ? 'bg-data-200 !text-data-900 hover:bg-data-300'
+                                : 'bg-slate-500 hover:bg-slate-600'
                             }`}
                             title={`${seg.name} (${
                               range.isSingleYear
@@ -270,19 +270,19 @@ export default function CycleSimulator({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-[13px] font-medium text-slate-600">
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-data-500 shrink-0" />
                           Expansión
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0" />
-                          Crisis / Shock
+                          <span className="w-2.5 h-2.5 rounded-full bg-rose-600 shrink-0" />
+                          Crisis
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-sky-500 shrink-0" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-data-200 shrink-0" />
                           Rebote
                         </span>
                         <span className="flex items-center gap-1">
-                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0" />
+                          <span className="w-2.5 h-2.5 rounded-full bg-slate-500 shrink-0" />
                           Lateral
                         </span>
                       </div>
@@ -291,7 +291,7 @@ export default function CycleSimulator({
                         onClick={() => setIsModalOpen(true)}
                         className="text-orange-600 font-bold hover:underline cursor-pointer text-left sm:text-right"
                       >
-                        Toca la barra para editar fases
+                        Editar fases
                       </button>
                     </div>
                   </div>
@@ -299,7 +299,7 @@ export default function CycleSimulator({
                   <div className="pt-2 border-t border-slate-200">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-[13px] font-bold text-slate-600">
-                        Probar Escenarios Rápidos ({planYears} años):
+                        Escenarios rápidos ({planYears} años):
                       </span>
                       <span className="text-[13px] font-bold text-orange-600 sm:hidden">
                         1 toque
@@ -421,7 +421,7 @@ export default function CycleSimulator({
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-rose-200 pb-2">
                       <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full bg-rose-500" />
+                        <span className="w-3 h-3 rounded-full bg-rose-600" />
                         <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
                           <span>Escenarios de Estrés (Defensa)</span>
                         </h4>
@@ -451,8 +451,8 @@ export default function CycleSimulator({
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-display text-lg font-semibold tabular-nums text-slate-400">
-                                    {String(index + 1).padStart(2, '0')}
+                                  <span className="num text-sm text-slate-500">
+                                    {index + 1}
                                   </span>
                                   <div className="p-1.5 rounded-lg bg-rose-100 group-hover:bg-rose-200 transition-colors">
                                     {getCycleIcon(event.id)}
@@ -499,15 +499,15 @@ export default function CycleSimulator({
                   </div>
 
                   <div className="space-y-3">
-                    <div className="flex items-center justify-between border-b border-emerald-200 pb-2">
+                    <div className="flex items-center justify-between border-b border-data-200 pb-2">
                       <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                        <span className="w-3 h-3 rounded-full bg-data-500" />
                         <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
-                          <span>Escenarios de Expansión (Ataque)</span>
+                          <span>Expansiones</span>
                         </h4>
                       </div>
-                      <span className="text-[13px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        Potencial Compuesto
+                      <span className="text-[13px] font-bold text-data-700 bg-data-50 px-2 py-0.5 rounded-md border border-data-200">
+                        Potencial compuesto
                       </span>
                     </div>
 
@@ -525,19 +525,19 @@ export default function CycleSimulator({
                             className={`reveal-item text-left p-4 rounded-md border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
                               isSelected
                                 ? 'border-slate-900 bg-slate-50'
-                                : 'border-slate-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/20'
+                                : 'border-slate-200 hover:border-data-300 bg-white hover:bg-data-50/20'
                             }`}
                           >
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-display text-lg font-semibold tabular-nums text-slate-400">
-                                    {String(index + 1).padStart(2, '0')}
+                                  <span className="num text-sm text-slate-500">
+                                    {index + 1}
                                   </span>
-                                  <div className="p-1.5 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
+                                  <div className="p-1.5 rounded-lg bg-data-100 group-hover:bg-data-200 transition-colors">
                                     {getCycleIcon(event.id)}
                                   </div>
-                                  <span className="font-semibold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors">
+                                  <span className="font-semibold text-sm text-slate-900 group-hover:text-data-700 transition-colors">
                                     {event.name}
                                   </span>
                                 </div>
@@ -558,14 +558,14 @@ export default function CycleSimulator({
                               </span>
 
                               <div className="flex items-center gap-2">
-                                <span className="text-[13px] font-bold text-emerald-700">
+                                <span className="text-[13px] font-bold text-data-700">
                                   S&P 500: +{sp500Return}%
                                 </span>
                                 <span
                                   className={`text-xs font-semibold px-2 py-0.5 rounded-lg transition ${
                                     isSelected
-                                      ? 'bg-emerald-600 text-white'
-                                      : 'bg-emerald-100 text-emerald-800 group-hover:bg-emerald-600 group-hover:text-white'
+                                      ? 'bg-data-600 text-white'
+                                      : 'bg-data-100 text-data-800 group-hover:bg-data-600 group-hover:text-white'
                                   }`}
                                 >
                                   {isSelected ? 'Activo' : 'Simular'}
@@ -585,13 +585,13 @@ export default function CycleSimulator({
                       className={`p-4 rounded-md border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                         activeCycle.type === 'crisis'
                           ? 'bg-rose-50 border-rose-200 text-rose-950'
-                          : 'bg-emerald-50 border-emerald-200 text-emerald-950'
+                          : 'bg-data-50 border-data-200 text-data-950'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div
                           className={`p-2 rounded-md text-white font-bold  ${
-                            activeCycle.type === 'crisis' ? 'bg-rose-600' : 'bg-emerald-600'
+                            activeCycle.type === 'crisis' ? 'bg-rose-600' : 'bg-data-600'
                           }`}
                         >
                           {activeCycle.type === 'crisis' ? (
@@ -617,7 +617,7 @@ export default function CycleSimulator({
                         className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-xs font-bold text-white  transition ${
                           activeCycle.type === 'crisis'
                             ? 'bg-rose-600 hover:bg-rose-700'
-                            : 'bg-emerald-600 hover:bg-emerald-700'
+                            : 'bg-data-600 hover:bg-data-700'
                         }`}
                       >
                         <span>Ver Curva en Gráfica</span>

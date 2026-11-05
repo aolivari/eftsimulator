@@ -355,7 +355,7 @@ export function GrowthChart({
               )}
             </div>
           ) : (
-            <div role="radiogroup" aria-label="Vista de la gráfica" className="inline-flex rounded-md bg-slate-100 p-0.5 text-sm">
+            <div role="radiogroup" aria-label="Vista de la gráfica" className="inline-flex shrink-0 self-start rounded-md bg-slate-100 p-0.5 text-sm">
               {([
                 ['stack', 'Desglose'],
                 ['compare', 'Por bróker'],
@@ -366,7 +366,7 @@ export function GrowthChart({
                   role="radio"
                   aria-checked={viewMode === mode}
                   onClick={() => setViewMode(mode)}
-                  className={`h-7 rounded-[5px] px-3 font-medium transition-colors cursor-pointer ${
+                  className={`h-7 whitespace-nowrap rounded-[5px] px-3 font-medium transition-colors cursor-pointer ${
                     viewMode === mode ? 'bg-white text-slate-900 outline outline-1 outline-slate-200' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
