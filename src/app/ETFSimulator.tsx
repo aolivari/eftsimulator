@@ -28,7 +28,7 @@ import {
   simulateMultiYearCyclePlan,
 } from '../engine/cycleSimulator';
 import { getDefault10YearTimelinePlan } from '../data/multiYearTimelinePresets';
-import { Tabs } from '../shared/ui';
+import { Tabs, useDebouncedValue } from '../shared/ui';
 import { AccountBar } from '../features/cuentas';
 import { HeroLedger, SimulacionView } from '../features/simulacion';
 import { CarteraView, type FamousPortfolioModel } from '../features/cartera';
@@ -46,6 +46,9 @@ const DEFAULT_PARAMS: SimulationParams = {
   hasWelcomeBonus: true,
   contributionFrequency: 'quarterly',
 };
+
+// Pausa sin cambios antes de recalcular todo (sliders, inputs numéricos y pesos de cartera)
+const RECALC_DELAY_MS = 600;
 
 export function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
@@ -128,40 +131,48 @@ export function ETFSimulator() {
     }));
   };
 
+  // Los controles muestran params/etfs al instante, pero los cálculos (simulación por bróker,
+  // Monte Carlo del hero y del panel, ciclos) usan una copia que solo se actualiza cuando
+  // el usuario lleva RECALC_DELAY_MS sin tocar nada. Así el slider se mueve sin tirones.
+  const liveInputs = useMemo(() => ({ params, etfs, multiYearPlan }), [params, etfs, multiYearPlan]);
+  const calcInputs = useDebouncedValue(liveInputs, RECALC_DELAY_MS);
+  const recalculating = calcInputs !== liveInputs;
+  const { params: calcParams, etfs: calcEtfs, multiYearPlan: calcPlan } = calcInputs;
+
   const effectiveParams = useMemo(() => {
     const qContribution =
-      params.contributionFrequency === 'monthly'
-        ? params.quarterlyContribution * 3
-        : params.quarterlyContribution;
-    return { ...params, quarterlyContribution: qContribution, selectedEtfs: etfs };
-  }, [params, etfs]);
+      calcParams.contributionFrequency === 'monthly'
+        ? calcParams.quarterlyContribution * 3
+        : calcParams.quarterlyContribution;
+    return { ...calcParams, quarterlyContribution: qContribution, selectedEtfs: calcEtfs };
+  }, [calcParams, calcEtfs]);
 
   const results = useMemo(() => runSimulation(effectiveParams), [effectiveParams]);
 
   // Simulación del ciclo histórico seleccionado basada en el Plan de Ahorro configurado
   const historicalSimulation = useMemo(() => {
     if (!selectedCycleId) return null;
-    return calculateHistoricalSimulation(etfs, selectedCycleId, {
+    return calculateHistoricalSimulation(calcEtfs, selectedCycleId, {
       mode: cycleMode,
-      initialCapital: params.initialCapital,
-      periodicContribution: params.quarterlyContribution,
-      contributionFrequency: params.contributionFrequency,
+      initialCapital: calcParams.initialCapital,
+      periodicContribution: calcParams.quarterlyContribution,
+      contributionFrequency: calcParams.contributionFrequency,
       customLumpSum: cycleBaseCapital,
     });
   }, [
-    etfs,
+    calcEtfs,
     selectedCycleId,
     cycleMode,
-    params.initialCapital,
-    params.quarterlyContribution,
-    params.contributionFrequency,
+    calcParams.initialCapital,
+    calcParams.quarterlyContribution,
+    calcParams.contributionFrequency,
     cycleBaseCapital,
   ]);
 
   // Simulación plurianual por concatenación de ciclos económicos a lo largo de todo el horizonte
   const multiYearSimulation = useMemo(() => {
-    return simulateMultiYearCyclePlan(etfs, multiYearPlan, effectiveParams);
-  }, [etfs, multiYearPlan, effectiveParams]);
+    return simulateMultiYearCyclePlan(calcEtfs, calcPlan, effectiveParams);
+  }, [calcEtfs, calcPlan, effectiveParams]);
 
   // Mejor y peor bróker por saldo final
   const sortedResults = useMemo(
@@ -461,11 +472,11 @@ export function ETFSimulator() {
                 finalBalance={planBroker.finalBalance}
                 totalInvested={planBroker.totalInvested}
                 brokerName={planBroker.name}
-                years={params.years}
-                annualReturn={params.annualReturn}
+                years={calcParams.years}
+                annualReturn={calcParams.annualReturn}
                 brokers={sortedResults}
                 params={effectiveParams}
-                etfs={etfs}
+                etfs={calcEtfs}
               />
             </div>
           )}
@@ -551,7 +562,8 @@ export function ETFSimulator() {
               <SimulacionView
                 params={params}
                 effectiveParams={effectiveParams}
-                etfs={etfs}
+                etfs={calcEtfs}
+                recalculating={recalculating}
                 results={results}
                 planBroker={planBroker}
                 bestBroker={bestBroker}
@@ -602,7 +614,7 @@ export function ETFSimulator() {
                 onUpdateMultiYearPlan={setMultiYearPlan}
                 multiYearSimulation={multiYearSimulation}
                 results={results}
-                years={params.years}
+                years={calcParams.years}
                 onClearHistoricalSimulation={() => setSelectedCycleId(null)}
                 onClearMultiYearSimulation={() =>
                   setMultiYearPlan(getDefault10YearTimelinePlan(params.years))
@@ -622,7 +634,7 @@ export function ETFSimulator() {
 
             {/* Pestaña 5 → Feature: brokers */}
             <Tabs.Panel value="brokers">
-              <BrokersView results={results} years={params.years} planBrokerId={planBroker?.id} />
+              <BrokersView results={results} years={calcParams.years} planBrokerId={planBroker?.id} />
             </Tabs.Panel>
 
             {/* Pestaña 6 → Feature: noticias */}

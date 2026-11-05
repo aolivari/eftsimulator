@@ -15,7 +15,7 @@ import type { InputControlsProps } from '../types';
 // Brókers que se pueden elegir: el escenario de ING inactivo no es un bróker, es una penalización
 const PLAN_BROKERS = BROKER_CONFIGS.filter((b) => b.id !== 'ing_inactive');
 
-export function InputControls({ params, onChange }: InputControlsProps) {
+export function InputControls({ params, onChange, recalculating = false }: InputControlsProps) {
   const monthlyEquivalent =
     params.contributionFrequency === 'quarterly'
       ? Math.round(params.quarterlyContribution / 3)
@@ -36,12 +36,22 @@ export function InputControls({ params, onChange }: InputControlsProps) {
         <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
           Parámetros de Simulación
         </h2>
+        {/* Siempre montado (solo cambia la opacidad) para no mover el layout */}
+        <span
+          role="status"
+          className={`ml-auto inline-flex items-center gap-1.5 text-xs font-semibold text-orange-600 transition-opacity duration-200 ${
+            recalculating ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse" />
+          {recalculating ? 'Recalculando…' : ''}
+        </span>
       </div>
 
       {/* Main inputs grid: 2x2 on mobile, 4 columns on desktop */}
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-4">
         {/* Capital Inicial */}
-        <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-orange-400/50 transition-all duration-200 flex flex-col justify-between">
+        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-orange-400/50 transition-all duration-200 flex flex-col justify-between">
           <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <Wallet className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
             <span className="truncate">Cap. Inicial</span>
@@ -72,7 +82,7 @@ export function InputControls({ params, onChange }: InputControlsProps) {
         </div>
 
         {/* Aportación Periódica */}
-        <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-emerald-400/50 transition-all duration-200 flex flex-col justify-between">
+        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-emerald-400/50 transition-all duration-200 flex flex-col justify-between">
           <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 flex-shrink-0" />
             <span className="truncate">Aportación</span>
@@ -110,7 +120,7 @@ export function InputControls({ params, onChange }: InputControlsProps) {
         </div>
 
         {/* Plazo Temporal */}
-        <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-sky-400/50 transition-all duration-200 flex flex-col justify-between">
+        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-sky-400/50 transition-all duration-200 flex flex-col justify-between">
           <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 flex-shrink-0" />
             <span className="truncate">Plazo</span>
@@ -141,7 +151,7 @@ export function InputControls({ params, onChange }: InputControlsProps) {
         </div>
 
         {/* Rentabilidad Anual */}
-        <div className="bg-white p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm hover:shadow-md hover:border-violet-400/50 transition-all duration-200 flex flex-col justify-between">
+        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-violet-400/50 transition-all duration-200 flex flex-col justify-between">
           <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
             <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-500 flex-shrink-0" />
             <span className="truncate">Rentab.</span>
@@ -174,7 +184,7 @@ export function InputControls({ params, onChange }: InputControlsProps) {
       </div>
 
       {/* Advanced settings row: responsive card */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-3.5 py-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm text-xs sm:text-sm font-medium text-slate-700">
+      <div className="flex flex-wrap items-center justify-between gap-3 surface-glass px-3.5 py-2.5 sm:p-4 rounded-xl sm:rounded-2xl border text-xs sm:text-sm font-medium text-slate-700">
         {/* Monthly / Quarterly toggle */}
         <button
           id="frequency-toggle"

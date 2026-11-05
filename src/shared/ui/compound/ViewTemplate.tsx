@@ -56,7 +56,7 @@ function Header({
           )}
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">{title}</h2>
+              <h2 className="font-display text-base sm:text-lg font-extrabold text-slate-800 uppercase tracking-wide">{title}</h2>
               {badge}
             </div>
             {description && <p className="text-xs text-slate-600 font-medium">{description}</p>}
@@ -69,7 +69,7 @@ function Header({
 
   return (
     <div
-      className={`bg-white px-4 py-3.5 sm:px-6 sm:py-4 rounded-2xl border border-slate-200/90 shadow-2xs sm:shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${className}`.trim()}
+      className={`surface-glass px-4 py-3.5 sm:px-6 sm:py-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${className}`.trim()}
     >
       <div className="flex items-center gap-2.5">
         {icon && (
@@ -81,7 +81,7 @@ function Header({
         )}
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <h2 className="font-bold text-slate-900 text-sm sm:text-base">{title}</h2>
+            <h2 className="font-display font-extrabold text-slate-900 text-lg sm:text-2xl leading-tight">{title}</h2>
             {badge}
           </div>
           {description && <p className="text-xs text-slate-600 font-medium">{description}</p>}

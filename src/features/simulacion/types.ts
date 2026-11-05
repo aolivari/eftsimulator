@@ -9,6 +9,7 @@ import type {
 export interface InputControlsProps {
   params: SimulationParams;
   onChange: (params: Partial<SimulationParams>) => void;
+  recalculating?: boolean; // hay cambios pendientes de aplicar a los cálculos
 }
 
 export interface MetricsCardsProps {
@@ -39,6 +40,7 @@ export interface SimulacionViewProps {
   params: SimulationParams;
   effectiveParams: SimulationParams;
   etfs: ETFAsset[];
+  recalculating?: boolean;
   results: BrokerResult[];
   planBroker?: BrokerResult;
   bestBroker?: BrokerResult;

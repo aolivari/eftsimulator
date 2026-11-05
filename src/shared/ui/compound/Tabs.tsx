@@ -32,7 +32,7 @@ function List({
   return (
     <div
       role="tablist"
-      className={`flex items-stretch gap-1 p-1 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-2xl ${className}`.trim()}
+      className={`flex items-stretch gap-1 p-1 surface-glass border rounded-2xl ${className}`.trim()}
     >
       {children}
     </div>

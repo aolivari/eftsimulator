@@ -6,7 +6,8 @@ import {
   Info,
   ArrowRight,
 } from 'lucide-react';
-import { ViewTemplate } from '../../shared/ui';
+import type { CSSProperties } from 'react';
+import { ViewTemplate, useInView } from '../../shared/ui';
 import { formatCurrency } from '../../shared/utils';
 import type { BrokersViewProps } from './types';
 
@@ -14,6 +15,7 @@ export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) 
   const sorted = [...results].sort((a, b) => b.finalBalance - a.finalBalance);
   const bestId = sorted[0]?.id;
   const worstId = sorted[sorted.length - 1]?.id;
+  const rows = useInView<HTMLTableSectionElement>();
 
   return (
     <ViewTemplate.Root id="brokers-view">
@@ -45,7 +47,7 @@ export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) 
                 <th className="px-6 py-3.5 tracking-wider text-right">Capital Acumulado</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100 font-medium">
+            <tbody ref={rows.ref} className={`divide-y divide-slate-100 font-medium ${rows.revealClass}`}>
               {sorted.map((broker, index) => {
                 const isBest = broker.id === bestId;
                 const isWorst = broker.id === worstId;
@@ -55,7 +57,8 @@ export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) 
                   <tr
                     key={broker.id}
                     id={`broker-row-${broker.id}`}
-                    className={`transition-colors duration-150 ${
+                    style={{ '--i': index } as CSSProperties}
+                    className={`reveal-item transition-colors duration-150 ${
                       isBest
                         ? 'bg-emerald-50/60 hover:bg-emerald-50'
                         : isWorst
@@ -64,19 +67,13 @@ export function BrokersView({ results, years, planBrokerId }: BrokersViewProps) 
                     }`}
                   >
                     <td className="px-6 py-4">
-                      <div
-                        className={`flex items-center justify-center w-7 h-7 rounded-xl text-xs font-black shadow-xs ${
-                          index === 0
-                            ? 'bg-amber-400 text-amber-950'
-                            : index === 1
-                            ? 'bg-slate-200 text-slate-700'
-                            : index === 2
-                            ? 'bg-amber-100 text-amber-800'
-                            : 'bg-slate-100 text-slate-600'
+                      <span
+                        className={`font-display text-2xl font-extrabold tabular-nums ${
+                          index === 0 ? 'text-orange-500' : 'text-slate-400'
                         }`}
                       >
-                        {index + 1}
-                      </div>
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
                     </td>
 
                     <td className="px-6 py-4 max-w-xs">
