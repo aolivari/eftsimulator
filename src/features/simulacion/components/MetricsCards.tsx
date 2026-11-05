@@ -9,20 +9,24 @@ import {
 import { formatCurrency } from '../../../engine/simulation';
 import type { MetricsCardsProps } from '../types';
 
-export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
-  const feeSavings = worstBroker.totalFees - bestBroker.totalFees;
-  const balanceDiff = bestBroker.finalBalance - worstBroker.finalBalance;
+export function MetricsCards({ planBroker, bestBroker, worstBroker }: MetricsCardsProps) {
+  // Si tu bróker es el más barato, cuánto ahorras frente al peor escenario;
+  // si no, cuánto te cuesta frente al más barato (sale como sobrecoste)
+  const reference = planBroker.id === bestBroker.id ? worstBroker : bestBroker;
+  const feeDiff = reference.totalFees - planBroker.totalFees; // > 0: ahorras comisiones
+  const balanceDiff = planBroker.finalBalance - reference.finalBalance;
+  const saves = feeDiff >= 0;
   const returnPct =
-    bestBroker.totalInvested > 0
-      ? ((bestBroker.totalProfit / bestBroker.totalInvested) * 100).toFixed(1)
+    planBroker.totalInvested > 0
+      ? ((planBroker.totalProfit / planBroker.totalInvested) * 100).toFixed(1)
       : '0.0';
 
   const cards = [
     {
       id: 'metric-final-balance',
       label: 'Capital Final',
-      sublabel: bestBroker.name,
-      value: `${formatCurrency(bestBroker.finalBalance)} €`,
+      sublabel: planBroker.name,
+      value: `${formatCurrency(planBroker.finalBalance)} €`,
       icon: Landmark,
       colorClass: 'text-amber-600',
       bgIcon: 'bg-amber-50 text-amber-600',
@@ -35,7 +39,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
       id: 'metric-total-invested',
       label: 'Total Aportado',
       sublabel: 'Capital + DCA',
-      value: `${formatCurrency(bestBroker.totalInvested)} €`,
+      value: `${formatCurrency(planBroker.totalInvested)} €`,
       icon: PiggyBank,
       colorClass: 'text-sky-600',
       bgIcon: 'bg-sky-50 text-sky-500',
@@ -48,7 +52,7 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
       id: 'metric-profit',
       label: 'Plusvalía',
       sublabel: 'Interés compuesto',
-      value: `+${formatCurrency(bestBroker.totalProfit)} €`,
+      value: `+${formatCurrency(planBroker.totalProfit)} €`,
       icon: TrendingUp,
       colorClass: 'text-emerald-600',
       bgIcon: 'bg-emerald-50 text-emerald-600',
@@ -59,16 +63,22 @@ export function MetricsCards({ bestBroker, worstBroker }: MetricsCardsProps) {
     },
     {
       id: 'metric-fee-savings',
-      label: 'Ahorro Comis.',
-      sublabel: `vs. ${worstBroker.name}`,
-      value: `${formatCurrency(feeSavings)} €`,
+      label: saves ? 'Ahorro Comis.' : 'Sobrecoste Comis.',
+      sublabel: `vs. ${reference.name}`,
+      value: `${formatCurrency(Math.abs(feeDiff))} €`,
       icon: ShieldCheck,
       colorClass: 'text-purple-600',
       bgIcon: 'bg-purple-50 text-purple-600',
       topBorder: 'border-t-4 border-t-purple-400',
-      trend: <ArrowDownRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />,
-      trendLabel: `+${formatCurrency(balanceDiff)} €`,
-      trendColor: 'text-emerald-700 bg-emerald-50 border border-emerald-200',
+      trend: saves ? (
+        <ArrowDownRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+      ) : (
+        <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+      ),
+      trendLabel: `${balanceDiff >= 0 ? '+' : '-'}${formatCurrency(Math.abs(balanceDiff))} €`,
+      trendColor: saves
+        ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+        : 'text-rose-700 bg-rose-50 border border-rose-200',
     },
   ];
 

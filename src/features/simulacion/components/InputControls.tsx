@@ -7,8 +7,13 @@ import {
   ToggleLeft,
   ToggleRight,
   Gift,
+  Landmark,
 } from 'lucide-react';
+import { BROKER_CONFIGS } from '../../../data/brokers';
 import type { InputControlsProps } from '../types';
+
+// Brókers que se pueden elegir: el escenario de ING inactivo no es un bróker, es una penalización
+const PLAN_BROKERS = BROKER_CONFIGS.filter((b) => b.id !== 'ing_inactive');
 
 export function InputControls({ params, onChange }: InputControlsProps) {
   const monthlyEquivalent =
@@ -213,6 +218,27 @@ export function InputControls({ params, onChange }: InputControlsProps) {
           <span className="text-[13px] sm:text-xs font-semibold text-slate-800">
             Promo ING (+50 €)
           </span>
+        </label>
+
+        <div className="hidden sm:block w-px h-5 bg-slate-200" />
+
+        {/* Bróker del plan */}
+        <label htmlFor="plan-broker" className="flex items-center gap-1.5 sm:gap-2 text-slate-700">
+          <Landmark className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-500" />
+          <span className="text-[13px] sm:text-xs text-slate-600">Bróker:</span>
+          <select
+            id="plan-broker"
+            value={params.brokerId ?? ''}
+            onChange={(e) => onChange({ brokerId: e.target.value || undefined })}
+            className="max-w-[13rem] truncate bg-slate-100 border border-slate-200 rounded-lg px-2 py-0.5 text-base sm:text-xs font-bold text-slate-900 cursor-pointer focus:outline-none focus:border-violet-500 transition-colors"
+          >
+            <option value="">El más barato (automático)</option>
+            {PLAN_BROKERS.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.name}
+              </option>
+            ))}
+          </select>
         </label>
 
         <div className="hidden sm:block w-px h-5 bg-slate-200" />

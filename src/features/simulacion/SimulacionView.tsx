@@ -10,6 +10,7 @@ export function SimulacionView({
   effectiveParams,
   etfs,
   results,
+  planBroker,
   bestBroker,
   worstBroker,
   historicalSimulation,
@@ -28,9 +29,9 @@ export function SimulacionView({
       </ViewTemplate.Section>
 
       {/* 2. Tarjetas KPI de Resumen */}
-      {bestBroker && worstBroker && (
+      {planBroker && bestBroker && worstBroker && (
         <ViewTemplate.Section id="simulacion-metrics">
-          <MetricsCards bestBroker={bestBroker} worstBroker={worstBroker} />
+          <MetricsCards planBroker={planBroker} bestBroker={bestBroker} worstBroker={worstBroker} />
         </ViewTemplate.Section>
       )}
 
@@ -48,13 +49,13 @@ export function SimulacionView({
       </ViewTemplate.Section>
 
       {/* 4. Escenarios Monte Carlo sobre trimestres históricos reales */}
-      {bestBroker && (
+      {planBroker && (
         <ViewTemplate.Section id="simulacion-monte-carlo">
           <MonteCarloPanel
             params={effectiveParams}
             etfs={etfs}
-            brokerId={bestBroker.id}
-            brokerName={bestBroker.name}
+            brokerId={planBroker.id}
+            brokerName={planBroker.name}
           />
         </ViewTemplate.Section>
       )}
