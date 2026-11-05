@@ -1,263 +1,202 @@
-import {
-  Settings2,
-  Wallet,
-  CalendarClock,
-  TrendingUp,
-  Layers,
-  ToggleLeft,
-  ToggleRight,
-  Gift,
-  Landmark,
-} from 'lucide-react';
+import type { ReactNode } from 'react';
 import { BROKER_CONFIGS } from '../../../data/brokers';
 import type { InputControlsProps } from '../types';
 
 // Brókers que se pueden elegir: el escenario de ING inactivo no es un bróker, es una penalización
 const PLAN_BROKERS = BROKER_CONFIGS.filter((b) => b.id !== 'ing_inactive');
 
-export function InputControls({ params, onChange, recalculating = false }: InputControlsProps) {
-  const monthlyEquivalent =
-    params.contributionFrequency === 'quarterly'
-      ? Math.round(params.quarterlyContribution / 3)
-      : params.quarterlyContribution;
+const NUMBER_INPUT =
+  'num w-24 rounded-md border border-slate-300 bg-white px-2 py-1.5 text-right text-base sm:text-sm text-slate-900 focus:outline-none focus:border-slate-900 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none';
 
-  const quarterlyAmount =
-    params.contributionFrequency === 'monthly'
-      ? params.quarterlyContribution * 3
-      : params.quarterlyContribution;
+interface SliderFieldProps {
+  id: string;
+  label: string;
+  unit: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  inputMin?: number;
+  inputMax?: number;
+  hint?: ReactNode;
+  onChange: (value: number) => void;
+}
+
+// Una fila del panel: etiqueta a la izquierda, cifra editable a la derecha y el deslizador debajo
+function SliderField({ id, label, unit, value, min, max, step, inputMin, inputMax, hint, onChange }: SliderFieldProps) {
+  return (
+    <div className="space-y-2.5">
+      <div className="flex items-center justify-between gap-3">
+        <label htmlFor={id} className="text-sm text-slate-700">
+          {label}
+        </label>
+        <span className="flex items-center gap-1.5">
+          <input
+            id={id}
+            type="number"
+            min={inputMin ?? min}
+            max={inputMax}
+            step={step}
+            value={value}
+            onChange={(e) => onChange(Number(e.target.value))}
+            className={NUMBER_INPUT}
+          />
+          <span className="w-11 text-xs text-slate-600">{unit}</span>
+        </span>
+      </div>
+      <input
+        type="range"
+        aria-label={`${label} (deslizador)`}
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className="cursor-pointer"
+      />
+      {hint && <p className="text-xs text-slate-600">{hint}</p>}
+    </div>
+  );
+}
+
+export function InputControls({ params, onChange, recalculating = false }: InputControlsProps) {
+  const monthly = params.contributionFrequency === 'monthly';
+  const monthlyEquivalent = monthly ? params.quarterlyContribution : Math.round(params.quarterlyContribution / 3);
+  const quarterlyAmount = monthly ? params.quarterlyContribution * 3 : params.quarterlyContribution;
 
   return (
-    <section id="input-controls" className="space-y-4">
-      {/* Section title */}
-      <div className="flex items-center gap-2.5">
-        <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-orange-100 text-orange-600 shadow-xs">
-          <Settings2 className="w-4 h-4" />
-        </div>
-        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
-          Parámetros de Simulación
+    <section
+      id="input-controls"
+      aria-labelledby="input-controls-title"
+      className="rounded-lg border border-slate-200 bg-white"
+    >
+      <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-3">
+        <h2 id="input-controls-title" className="text-base font-semibold text-slate-900">
+          Parámetros del plan
         </h2>
         {/* Siempre montado (solo cambia la opacidad) para no mover el layout */}
         <span
           role="status"
-          className={`ml-auto inline-flex items-center gap-1.5 text-xs font-semibold text-orange-600 transition-opacity duration-200 ${
-            recalculating ? 'opacity-100' : 'opacity-0'
-          }`}
+          className={`text-xs text-slate-600 transition-opacity duration-200 ${recalculating ? 'opacity-100' : 'opacity-0'}`}
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-orange-500 animate-pulse" />
           {recalculating ? 'Recalculando…' : ''}
         </span>
       </div>
 
-      {/* Main inputs grid: 2x2 on mobile, 4 columns on desktop */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-2.5 sm:gap-4">
-        {/* Capital Inicial */}
-        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-orange-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
-            <Wallet className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500 flex-shrink-0" />
-            <span className="truncate">Cap. Inicial</span>
-          </label>
-          <div className="flex items-baseline justify-between gap-1">
-            <input
-              id="initial-capital"
-              type="number"
-              min={0}
-              step={100}
-              value={params.initialCapital}
-              onChange={(e) => onChange({ initialCapital: Number(e.target.value) })}
-              className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-orange-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            />
-            <span className="text-slate-600 text-xs sm:text-base font-bold">€</span>
-          </div>
-          <div className="mt-2 sm:mt-3 text-orange-500">
-            <input
-              type="range"
-              min={0}
-              max={50000}
-              step={500}
-              value={params.initialCapital}
-              onChange={(e) => onChange({ initialCapital: Number(e.target.value) })}
-              className="w-full accent-orange-500 h-1.5 sm:h-2 bg-slate-100 rounded-full cursor-pointer"
-            />
-          </div>
-        </div>
+      <div className="space-y-5 px-5 pb-5">
+        <SliderField
+          id="initial-capital"
+          label="Capital inicial"
+          unit="€"
+          value={params.initialCapital}
+          min={0}
+          max={50000}
+          step={500}
+          onChange={(v) => onChange({ initialCapital: v })}
+        />
 
-        {/* Aportación Periódica */}
-        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-emerald-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
-            <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500 flex-shrink-0" />
-            <span className="truncate">Aportación</span>
-          </label>
-          <div className="flex items-baseline justify-between gap-1">
-            <input
-              id="contribution"
-              type="number"
-              min={0}
-              step={25}
-              value={params.quarterlyContribution}
-              onChange={(e) => onChange({ quarterlyContribution: Number(e.target.value) })}
-              className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-emerald-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            />
-            <span className="text-slate-600 text-xs sm:text-base font-bold whitespace-nowrap">
-              {params.contributionFrequency === 'monthly' ? '€/mes' : '€/trim'}
+        {/* Frecuencia: control segmentado en lugar de un interruptor sin etiqueta */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <span id="frequency-label" className="text-sm text-slate-700">
+              Frecuencia
             </span>
+            <div
+              role="radiogroup"
+              aria-labelledby="frequency-label"
+              className="inline-flex rounded-md bg-slate-100 p-0.5 text-xs"
+            >
+              {(['monthly', 'quarterly'] as const).map((f) => {
+                const active = params.contributionFrequency === f;
+                return (
+                  <button
+                    key={f}
+                    id={f === 'monthly' ? 'frequency-monthly' : 'frequency-toggle'}
+                    type="button"
+                    role="radio"
+                    aria-checked={active}
+                    onClick={() => onChange({ contributionFrequency: f })}
+                    className={`rounded-[5px] px-2.5 py-1 font-medium transition-colors cursor-pointer ${
+                      active ? 'bg-white text-slate-900 outline outline-1 outline-slate-200' : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    {f === 'monthly' ? 'Mensual' : 'Trimestral'}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-          <div className="mt-2 sm:mt-3 text-emerald-500">
-            <input
-              type="range"
-              min={0}
-              max={2000}
-              step={25}
-              value={params.quarterlyContribution}
-              onChange={(e) => onChange({ quarterlyContribution: Number(e.target.value) })}
-              className="w-full accent-emerald-500 h-1.5 sm:h-2 bg-slate-100 rounded-full cursor-pointer"
-            />
-          </div>
-          <p className="text-[13px] sm:text-xs text-slate-600 mt-1 sm:mt-1.5 font-medium truncate">
-            {params.contributionFrequency === 'quarterly'
-              ? `≈ ${monthlyEquivalent} €/mes`
-              : `≈ ${quarterlyAmount} €/trim`}
-          </p>
+          <SliderField
+            id="contribution"
+            label={monthly ? 'Aportación al mes' : 'Aportación al trimestre'}
+            unit={monthly ? '€/mes' : '€/trim.'}
+            value={params.quarterlyContribution}
+            min={0}
+            max={2000}
+            step={25}
+            hint={monthly ? `Equivale a ${quarterlyAmount} € por trimestre.` : `Equivale a ${monthlyEquivalent} € al mes.`}
+            onChange={(v) => onChange({ quarterlyContribution: v })}
+          />
         </div>
 
-        {/* Plazo Temporal */}
-        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-sky-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
-            <CalendarClock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 flex-shrink-0" />
-            <span className="truncate">Plazo</span>
-          </label>
-          <div className="flex items-baseline justify-between gap-1">
-            <input
-              id="years"
-              type="number"
-              min={1}
-              max={50}
-              value={params.years}
-              onChange={(e) => onChange({ years: Number(e.target.value) })}
-              className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-sky-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            />
-            <span className="text-slate-600 text-xs sm:text-base font-bold">Años</span>
-          </div>
-          <div className="mt-2 sm:mt-3 text-sky-500">
-            <input
-              type="range"
-              min={1}
-              max={50}
-              step={1}
-              value={params.years}
-              onChange={(e) => onChange({ years: Number(e.target.value) })}
-              className="w-full accent-sky-500 h-1.5 sm:h-2 bg-slate-100 rounded-full cursor-pointer"
-            />
-          </div>
-        </div>
+        <SliderField
+          id="years"
+          label="Plazo"
+          unit="años"
+          value={params.years}
+          min={1}
+          max={50}
+          step={1}
+          inputMin={1}
+          inputMax={50}
+          onChange={(v) => onChange({ years: v })}
+        />
 
-        {/* Rentabilidad Anual */}
-        <div className="surface-glass p-3 sm:p-5 rounded-xl sm:rounded-2xl border hover:border-violet-400/50 transition-all duration-200 flex flex-col justify-between">
-          <label className="flex items-center gap-1.5 sm:gap-2 text-[13px] sm:text-xs uppercase text-slate-600 font-bold tracking-wider mb-1.5 sm:mb-2">
-            <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-500 flex-shrink-0" />
-            <span className="truncate">Rentab.</span>
-          </label>
-          <div className="flex items-baseline justify-between gap-1">
-            <input
-              id="annual-return"
-              type="number"
-              min={0}
-              max={30}
-              step={0.5}
-              value={params.annualReturn}
-              onChange={(e) => onChange({ annualReturn: Number(e.target.value) })}
-              className="w-full bg-transparent text-lg sm:text-2xl font-black text-slate-900 focus:outline-none focus:text-violet-600 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            />
-            <span className="text-slate-600 text-xs sm:text-base font-bold">%</span>
-          </div>
-          <div className="mt-2 sm:mt-3 text-violet-500">
-            <input
-              type="range"
-              min={0}
-              max={20}
-              step={0.5}
-              value={params.annualReturn}
-              onChange={(e) => onChange({ annualReturn: Number(e.target.value) })}
-              className="w-full accent-violet-500 h-1.5 sm:h-2 bg-slate-100 rounded-full cursor-pointer"
-            />
-          </div>
-        </div>
+        <SliderField
+          id="annual-return"
+          label="Rentabilidad anual"
+          unit="%"
+          value={params.annualReturn}
+          min={0}
+          max={20}
+          step={0.5}
+          inputMax={30}
+          hint="Media ponderada de tu cartera de ETFs."
+          onChange={(v) => onChange({ annualReturn: v })}
+        />
       </div>
 
-      {/* Advanced settings row: responsive card */}
-      <div className="flex flex-wrap items-center justify-between gap-3 surface-glass px-3.5 py-2.5 sm:p-4 rounded-xl sm:rounded-2xl border text-xs sm:text-sm font-medium text-slate-700">
-        {/* Monthly / Quarterly toggle */}
-        <button
-          id="frequency-toggle"
-          type="button"
-          onClick={() =>
-            onChange({
-              contributionFrequency:
-                params.contributionFrequency === 'monthly' ? 'quarterly' : 'monthly',
-            })
-          }
-          className="flex items-center gap-1.5 sm:gap-2 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer select-none"
-        >
-          {params.contributionFrequency === 'quarterly' ? (
-            <ToggleLeft className="w-4 h-4 sm:w-5 sm:h-5 text-slate-600" />
-          ) : (
-            <ToggleRight className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
-          )}
-          <span className="text-[13px] sm:text-xs">
-            Aportación{' '}
-            <span className="font-bold text-slate-900">
-              {params.contributionFrequency === 'monthly' ? 'Mensual' : 'Trimestral'}
-            </span>
-          </span>
-        </button>
-
-        <div className="hidden sm:block w-px h-5 bg-slate-200" />
-
-        {/* Welcome bonus */}
-        <label
-          htmlFor="welcome-bonus"
-          className="flex items-center gap-1.5 sm:gap-2 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer select-none"
-        >
-          <Gift className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-500" />
-          <input
-            id="welcome-bonus"
-            type="checkbox"
-            checked={params.hasWelcomeBonus}
-            onChange={(e) => onChange({ hasWelcomeBonus: e.target.checked })}
-            className="accent-orange-500 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded cursor-pointer"
-          />
-          <span className="text-[13px] sm:text-xs font-semibold text-slate-800">
-            Promo ING (+50 €)
-          </span>
-        </label>
-
-        <div className="hidden sm:block w-px h-5 bg-slate-200" />
-
-        {/* Bróker del plan */}
-        <label htmlFor="plan-broker" className="flex items-center gap-1.5 sm:gap-2 text-slate-700">
-          <Landmark className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-500" />
-          <span className="text-[13px] sm:text-xs text-slate-600">Bróker:</span>
-          <select
-            id="plan-broker"
-            value={params.brokerId ?? ''}
-            onChange={(e) => onChange({ brokerId: e.target.value || undefined })}
-            className="max-w-[13rem] truncate bg-slate-100 border border-slate-200 rounded-lg px-2 py-0.5 text-base sm:text-xs font-bold text-slate-900 cursor-pointer focus:outline-none focus:border-violet-500 transition-colors"
-          >
-            <option value="">El más barato (automático)</option>
-            {PLAN_BROKERS.map((b) => (
-              <option key={b.id} value={b.id}>
-                {b.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <div className="hidden sm:block w-px h-5 bg-slate-200" />
-
-        {/* ETF count */}
-        <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700">
-          <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500" />
-          <span className="text-[13px] sm:text-xs text-slate-600">ETFs:</span>
-          <div className="flex items-center gap-1">
+      {/* Ajustes del bróker y la cartera: filas de clave y valor */}
+      <dl className="divide-y divide-slate-100 border-t border-slate-100 px-5 text-sm">
+        <div className="flex items-center justify-between gap-3 py-3">
+          <dt>
+            <label htmlFor="plan-broker" className="text-slate-700">
+              Bróker
+            </label>
+          </dt>
+          <dd>
+            <select
+              id="plan-broker"
+              value={params.brokerId ?? ''}
+              onChange={(e) => onChange({ brokerId: e.target.value || undefined })}
+              className="max-w-[12rem] truncate rounded-md border border-slate-300 bg-white px-2 py-1.5 text-base sm:text-sm text-slate-900 cursor-pointer focus:outline-none focus:border-slate-900"
+            >
+              <option value="">El más barato</option>
+              {PLAN_BROKERS.map((b) => (
+                <option key={b.id} value={b.id}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+          </dd>
+        </div>
+        <div className="flex items-center justify-between gap-3 py-3">
+          <dt>
+            <label htmlFor="etf-count" className="text-slate-700">
+              ETFs en cartera
+            </label>
+          </dt>
+          <dd>
             <input
               id="etf-count"
               type="number"
@@ -265,14 +204,28 @@ export function InputControls({ params, onChange, recalculating = false }: Input
               max={10}
               value={params.etfCount}
               onChange={(e) => onChange({ etfCount: Number(e.target.value) })}
-              className="bg-slate-100 border border-slate-200 w-10 sm:w-12 px-1.5 py-0.5 rounded-lg text-center text-slate-900 font-bold text-xs sm:text-sm focus:outline-none focus:border-sky-500 transition-colors [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className={NUMBER_INPUT.replace('w-24', 'w-16')}
             />
-            <span className="text-[13px] sm:text-xs text-slate-600 font-medium hidden sm:inline">
-              en cartera
-            </span>
-          </div>
+          </dd>
         </div>
-      </div>
+        <div className="flex items-center justify-between gap-3 py-3">
+          <dt>
+            <label htmlFor="welcome-bonus" className="text-slate-700 cursor-pointer">
+              Promoción de bienvenida ING
+            </label>
+          </dt>
+          <dd className="flex items-center gap-2">
+            <span className="num text-xs text-slate-600">+50 €</span>
+            <input
+              id="welcome-bonus"
+              type="checkbox"
+              checked={params.hasWelcomeBonus}
+              onChange={(e) => onChange({ hasWelcomeBonus: e.target.checked })}
+              className="h-4 w-4 cursor-pointer rounded accent-slate-900"
+            />
+          </dd>
+        </div>
+      </dl>
     </section>
   );
 }

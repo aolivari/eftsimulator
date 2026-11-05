@@ -32,7 +32,7 @@ function Root({
       }}
     >
       <section
-        className={`bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden ${className}`.trim()}
+        className={`bg-white rounded-lg border border-slate-200 overflow-hidden ${className}`.trim()}
         {...rest}
       >
         {children}
@@ -58,7 +58,7 @@ function Header({
         <button
           type="button"
           onClick={ctx.toggle}
-          className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-600 transition cursor-pointer self-end sm:self-auto"
+          className="p-1.5 rounded-md hover:bg-slate-100 text-slate-600 transition cursor-pointer self-end sm:self-auto"
           aria-label={ctx.expanded ? 'Colapsar sección' : 'Expandir sección'}
         >
           {ctx.expanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}

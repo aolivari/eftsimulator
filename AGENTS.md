@@ -71,7 +71,7 @@ Cada una de las **5 pestañas** de la aplicación corresponde a una carpeta en `
 
 | Pestaña en la UI | Feature (`src/features/`) | Vista exportada | Contenido principal |
 |---|---|---|---|
-| 1. *Simulación General* | `simulacion/` | `SimulacionView` | `InputControls`, `MetricsCards`, `GrowthChart`, `MonteCarloPanel` y tarjetas de acceso rápido |
+| 1. *Resumen* | `simulacion/` | `SimulacionView` | `MetricsCards` (tarjeta negra con la curva del plan), `GrowthChart`, `InputControls`, `PortfolioSnapshot` y "Siguientes preguntas". `MonteCarloPanel` se pinta en la pestaña de Riesgo |
 | 2. *Plan de Ahorro ETFs* | `cartera/` | `CarteraView` | `FamousPortfoliosSelector` + `PortfolioAllocation` y búsqueda/cotizaciones (`portfolioService`) |
 | 3. *Ciclos Históricos* | `ciclos/` | `CiclosView` | `CycleSimulator` + `GrowthChart` y `CycleTimelineModal` |
 | 4. *Proyección Anual* | `proyeccion-anual/` | `ProyeccionAnualView` | Tabla anualizada del efecto bola de nieve |
@@ -123,7 +123,7 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
   - Dentro de `monteCarlo.ts` y en `MonteCarloResult`, las rentabilidades y probabilidades son **fracciones**: `0.07`, y `probLoss` de 0 a 1.
 - **Pesos de cartera**: `initialWeight` reparte el capital inicial y `recurringWeight` las aportaciones. Si faltan, se usa `weight` (`e.recurringWeight ?? e.weight`).
 - **Clase de activo** (`AssetClass`): decide qué factor de ciclo y qué índice de relleno usa cada ETF. Ver la trampa 6 sobre qué pasa si falta.
-- **Estilos**: Tailwind con la paleta existente (naranja `#F97316`/`orange-500` como acento, `slate` para el texto, tarjetas `bg-white rounded-2xl border border-slate-200`). En inputs se usa `text-base sm:text-sm` para evitar el zoom en iOS. La web es solo en modo claro.
+- **Estilos** (rediseño "libro contable acromático"): el cromo no lleva color. Tinta casi negra (`slate-900`) para el botón principal y lo activo; azul de datos (`data-500`, `#1d5fbf`) solo en el dato principal de cada gráfica; verde/rojo solo para decir si una cifra va bien o mal; un cero se pinta en gris. Fondo `bg-ground` (`#f2f4f7`), tarjetas `bg-white rounded-lg border border-slate-200` sin sombra. Tipografía Geist; **todas las cifras** en Geist Mono con dígitos tabulares (clase `num` o `tabular-nums`). Formatea números con `NUMBER_LOCALE` (agrupa siempre los miles). Sin mayúsculas espaciadas, sin degradados, sin cristal, sin iconos en cuadrados de color. `tailwind.config.js` remapea `orange` a tinta y violeta/cielo/teal a grises. En inputs se usa `text-base sm:text-sm` para evitar el zoom en iOS. La web es solo en modo claro.
 - **Gráficos**: Recharts (`ComposedChart`/`AreaChart`). Los ejes formatean en `k`.
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.

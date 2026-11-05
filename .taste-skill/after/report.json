@@ -1,22 +1,21 @@
 {
- "url": "http://localhost:4173/",
- "at": "2026-11-03T14:27:24.443Z",
+ "url": "http://localhost:5192",
+ "at": "2026-11-05T17:26:12.307Z",
  "allow": [],
  "viewports": [
   {
    "width": 1440,
    "height": 900,
    "load": "load",
-   "screens": 3,
+   "screens": 2,
    "filled": [
-    1,
-    0.95,
-    1
+    0.7,
+    0.64
    ],
    "motion": {
-    "elements": 1,
-    "css": 1,
-    "transitions": 0,
+    "elements": 10,
+    "css": 9,
+    "transitions": 1,
     "scripted": 0,
     "videos": 0,
     "playingVideos": 0
@@ -27,14 +26,14 @@
      "h": 900
     },
     "page": {
-     "height": 1914,
-     "screens": 2.1,
-     "words": 343,
+     "height": 1242,
+     "screens": 1.4,
+     "words": 294,
      "img": 0,
      "video": 0,
      "canvas": 0,
-     "svg": 41,
-     "sections": 4,
+     "svg": 25,
+     "sections": 5,
      "horizontalOverflow": 0,
      "overflowCulprits": [],
      "uiFragments": 0,
@@ -50,647 +49,55 @@
      "videosNoPoster": 0
     },
     "hero": {
-     "text": "ETF Simulator & Plan de Ahorro",
-     "words": 6,
-     "chars": 30,
+     "text": "Resumen del plan",
+     "words": 3,
+     "chars": 16,
      "lines": 1,
-     "size": 60,
-     "vw": 4.2,
-     "font": "Inter",
-     "weight": 900,
-     "tracking": -0.025,
-     "leading": 1,
-     "upper": false,
-     "italic": false,
-     "mono": false,
-     "align": "left",
-     "position": "left",
-     "widthRatio": 0.65,
-     "top": 72,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Geist",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1.33,
+     "top": 32,
      "tag": "h1",
-     "kind": "heading"
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
     },
-    "h1": null,
+    "h1": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "lines": 1,
+     "size": 24,
+     "font": "Geist"
+    },
     "headings": [
      {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "words": 6,
-      "chars": 30,
-      "lines": 1,
-      "size": 60,
-      "vw": 4.2,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1,
-      "upper": false,
-      "italic": false,
-      "mono": false,
-      "align": "left",
-      "position": "left",
-      "widthRatio": 0.65,
-      "top": 72,
-      "tag": "h1",
-      "kind": "heading"
-     },
-     {
-      "text": "12.439 €",
-      "words": 2,
-      "chars": 8,
-      "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
-      "upper": false,
-      "italic": false,
-      "mono": false,
-      "align": "left",
-      "position": "left",
-      "widthRatio": 0.17,
-      "top": 650,
-      "tag": "p",
-      "kind": "statement"
-     },
-     {
-      "text": "8000 €",
-      "words": 2,
-      "chars": 6,
-      "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
-      "upper": false,
-      "italic": false,
-      "mono": false,
-      "align": "left",
-      "position": "left",
-      "widthRatio": 0.17,
-      "top": 650,
-      "tag": "p",
-      "kind": "statement"
-     },
-     {
-      "text": "+4439 €",
-      "words": 2,
+      "text": "12.439€",
+      "words": 1,
       "chars": 7,
       "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
-      "upper": false,
-      "italic": false,
-      "mono": false,
-      "align": "left",
-      "position": "right",
-      "widthRatio": 0.17,
-      "top": 650,
-      "tag": "p",
-      "kind": "statement"
-     },
-     {
-      "text": "774 €",
-      "words": 2,
-      "chars": 5,
-      "lines": 1,
-      "size": 30,
-      "vw": 2.1,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
-      "leading": 1.2,
-      "upper": false,
-      "italic": false,
-      "mono": false,
-      "align": "left",
-      "position": "right",
-      "widthRatio": 0.17,
-      "top": 650,
-      "tag": "p",
-      "kind": "statement"
-     }
-    ],
-    "headingSummary": {
-     "count": 5,
-     "maxLines": 1,
-     "over2Lines": 0,
-     "statements": 4,
-     "centered": 0,
-     "medianWords": 2,
-     "mixedFontHeadings": 0
-    },
-    "type": {
-     "families": [
-      {
-       "family": "Inter",
-       "share": 1,
-       "mono": false
-      }
-     ],
-     "familyCount": 1,
-     "sizes": [
-      12,
-      13,
-      14,
-      16,
-      20,
-      30,
-      60
-     ],
-     "sizeCount": 7,
-     "notLoaded": [],
-     "body": {
-      "font": "Inter",
-      "size": 12,
-      "leading": 1.33,
-      "weight": 500,
-      "tracking": 0,
-      "contrast": 7.6
-     },
-     "measureChars": 182,
-     "max": {
-      "size": 60,
-      "vw": 4.2,
-      "font": "Inter",
-      "text": "Simulator & Plan de Ahorro"
-     },
-     "monoShare": 0,
-     "monoProseShare": 0,
-     "monoFamilies": [],
-     "monoSamples": [],
-     "microLabels": 14,
-     "microLabelShare": 0.105,
-     "microSamples": [
-      "Parámetros de Simulación",
-      "Cap. Inicial",
-      "Aportación",
-      "Plazo",
-      "Rentab.",
-      "Capital Final"
-     ],
-     "upperShare": 0.11,
-     "centerShare": 0.19,
-     "smallText": 25
-    },
-    "eyebrows": [
-     {
-      "text": "Capital Final",
-      "above": "12.439 €",
-      "upper": true,
-      "tracked": true,
-      "mono": false,
-      "pill": false,
-      "size": 12,
-      "top": 618
-     },
-     {
-      "text": "Total Aportado",
-      "above": "8000 €",
-      "upper": true,
-      "tracked": true,
-      "mono": false,
-      "pill": false,
-      "size": 12,
-      "top": 618
-     },
-     {
-      "text": "Plusvalía",
-      "above": "+4439 €",
-      "upper": true,
-      "tracked": true,
-      "mono": false,
-      "pill": false,
-      "size": 12,
-      "top": 618
-     },
-     {
-      "text": "Ahorro Comis.",
-      "above": "774 €",
-      "upper": true,
-      "tracked": true,
-      "mono": false,
-      "pill": false,
-      "size": 12,
-      "top": 618
-     }
-    ],
-    "numbered": [],
-    "color": {
-     "bodyBg": "#f6f6f4",
-     "bodyBgHsl": {
-      "h": 60,
-      "s": 0.1,
-      "l": 0.96
-     },
-     "dark": false,
-     "sectionBgs": [
-      {
-       "color": "#faf8f5",
-       "top": 0,
-       "hsl": {
-        "h": 36,
-        "s": 0.33,
-        "l": 0.97
-       }
-      },
-      {
-       "color": "#ffffff",
-       "top": 788,
-       "hsl": {
-        "h": 0,
-        "s": 0,
-        "l": 1
-       }
-      }
-     ],
-     "textColors": [
-      {
-       "color": "#475569",
-       "share": 0.58
-      },
-      {
-       "color": "#7c2d12",
-       "share": 0.13
-      },
-      {
-       "color": "#0f172a",
-       "share": 0.11
-      },
-      {
-       "color": "#334155",
-       "share": 0.04
-      },
-      {
-       "color": "#431407",
-       "share": 0.03
-      }
-     ],
-     "button": {
-      "bg": "#f97316",
-      "hsl": {
-       "h": 25,
-       "s": 0.95,
-       "l": 0.53
-      },
-      "fg": "#ffffff"
-     },
-     "lowContrast": [
-      {
-       "text": "Simulación General",
-       "ratio": 2.8,
-       "need": 4.5,
-       "size": 14,
-       "fg": "#ffffff",
-       "bg": "#f97316"
-      },
-      {
-       "text": "Configurar cartera",
-       "ratio": 3.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#ea580c",
-       "bg": "#ffffff"
-      }
-     ]
-    },
-    "buttons": {
-     "count": 3,
-     "inHero": 3,
-     "radius": 12,
-     "height": 40,
-     "withShadow": 0,
-     "withGradient": 0,
-     "mono": 0,
-     "upper": 0,
-     "heroLabels": [
-      "Simulación General",
-      "Ajustar Ciclo (Modal)",
-      "Restablecer"
-     ]
-    },
-    "surfaces": {
-     "shadowStatic": 12,
-     "shadowOverlay": 0,
-     "shadowSamples": [
-      "div.flex.items-center → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "button.px-4.py-2.5 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
-     ],
-     "gradients": 0,
-     "scrims": 0,
-     "gradientSamples": [],
-     "gradientText": 0,
-     "hairlines": 12,
-     "hairlineSamples": [
-      "header.hidden.md:flex 1216px",
-      "div.hidden.md:flex 1216px",
-      "div#metric-final-balance.bg-white.rounded-xl 292px",
-      "div#metric-total-invested.bg-white.rounded-xl 292px",
-      "div#metric-profit.bg-white.rounded-xl 292px"
-     ],
-     "outlinedBoxes": 13,
-     "dashed": 0,
-     "blurred": 0,
-     "roundedBoxes": 20,
-     "boxRadius": 16,
-     "squareMedia": 0,
-     "roundedMedia": 0,
-     "mediaRadius": 0,
-     "textShadow": 0,
-     "cardRows": [
-      {
-       "count": 4,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 586
-      },
-      {
-       "count": 4,
-       "iconTopped": false,
-       "rounded": true,
-       "top": 1301
-      },
-      {
-       "count": 3,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 1602
-      }
-     ]
-    },
-    "heroMedia": [],
-    "nav": {
-     "links": 0,
-     "fixed": false,
-     "height": 0,
-     "floatingPill": false,
-     "blur": false
-    },
-    "fontsLoaded": [
-     "inter"
-    ]
-   },
-   "layout": {
-    "viewport": {
-     "w": 1440,
-     "h": 900
-    },
-    "pageH": 1914,
-    "margins": {
-     "left": 112,
-     "right": 129
-    },
-    "sections": [
-     {
-      "sel": "section#input-controls.space-y-4",
-      "tag": "section",
-      "top": 282,
-      "height": 280,
-      "words": 22,
-      "media": 0,
-      "middle": 58,
-      "heading": {
-       "text": "Parámetros de Simulación",
-       "size": 14,
-       "tag": "h2"
-      },
-      "left": 133,
-      "right": 129,
-      "textLeft": 154,
-      "textRight": 129,
-      "fullBleed": false,
-      "footer": false,
-      "hero": true,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section#metrics-cards.grid.grid-cols-2",
-      "tag": "section",
-      "top": 586,
-      "height": 178,
-      "words": 31,
-      "media": 0,
-      "middle": 190,
-      "heading": {
-       "text": "12.439 €",
-       "size": 30,
-       "tag": "p"
-      },
-      "left": 133,
-      "right": 225,
-      "textLeft": 133,
-      "textRight": 225,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section#growth-chart.bg-white.rounded-xl",
-      "tag": "section",
-      "top": 788,
-      "height": 756,
-      "words": 112,
-      "media": 1,
-      "middle": 0,
-      "heading": {
-       "text": "Línea Temporal Concatenada: Ciclo Económico Típico",
-       "size": 16,
-       "tag": "h3"
-      },
-      "left": 137,
-      "right": 137,
-      "textLeft": 152,
-      "textRight": 149,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section.pt-1.sm:pt-2",
-      "tag": "section",
-      "top": 1568,
-      "height": 210,
-      "words": 74,
-      "media": 0,
-      "middle": 16,
-      "heading": {
-       "text": "Profundiza en tu plan",
-       "size": 12,
-       "tag": "h3"
-      },
-      "left": 112,
-      "right": 112,
-      "textLeft": 112,
-      "textRight": 191,
-      "fullBleed": false,
-      "footer": true,
-      "hero": false,
-      "continues": false,
-      "pinned": false
-     }
-    ],
-    "gaps": [],
-    "h1s": [
-     {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "size": 60,
-      "top": 72,
-      "firstScreen": true
-     }
-    ],
-    "edgeText": [
-     {
-      "text": "0 €",
-      "side": "left",
-      "px": 0
-     }
-    ],
-    "edges": [
-     {
-      "x": 112,
-      "n": 1
-     },
-     {
-      "x": 154,
-      "n": 1
-     },
-     {
-      "x": 168,
-      "n": 1
-     },
-     {
-      "x": 185,
-      "n": 1
-     },
-     {
-      "x": 287,
-      "n": 1
-     }
-    ],
-    "leftBlocks": 5,
-    "bodySize": 12,
-    "stage": false,
-    "explains": false,
-    "slivers": [],
-    "voidShare": 0.07,
-    "voidBox": {
-     "x": 1320,
-     "y": 120,
-     "w": 120,
-     "h": 780
-    }
-   },
-   "app": null,
-   "consoleErrors": []
-  },
-  {
-   "width": 768,
-   "height": 1024,
-   "load": "load",
-   "screens": 3,
-   "filled": [
-    0.98,
-    1,
-    0.96
-   ],
-   "motion": {
-    "elements": 1,
-    "css": 1,
-    "transitions": 0,
-    "scripted": 0,
-    "videos": 0,
-    "playingVideos": 0
-   },
-   "metrics": {
-    "viewport": {
-     "w": 768,
-     "h": 1024
-    },
-    "page": {
-     "height": 2490,
-     "screens": 2.4,
-     "words": 343,
-     "img": 0,
-     "video": 0,
-     "canvas": 0,
-     "svg": 41,
-     "sections": 4,
-     "horizontalOverflow": 0,
-     "overflowCulprits": [],
-     "uiFragments": 0,
-     "uiAbuse": false,
-     "realPictures": 0,
-     "videoCount": 0,
-     "uiPictures": 0,
-     "pictureSamples": [],
-     "blendText": 0,
-     "sideScrollers": 1,
-     "brokenImages": [],
-     "emoji": [],
-     "videosNoPoster": 0
-    },
-    "hero": {
-     "text": "ETF Simulator & Plan de Ahorro",
-     "words": 6,
-     "chars": 30,
-     "lines": 2,
-     "size": 60,
-     "vw": 7.8,
-     "font": "Inter",
-     "weight": 900,
-     "tracking": -0.025,
-     "leading": 1,
-     "upper": false,
-     "italic": false,
-     "mono": false,
-     "align": "left",
-     "position": "left",
-     "widthRatio": 0.75,
-     "top": 72,
-     "tag": "h1",
-     "kind": "heading"
-    },
-    "h1": null,
-    "headings": [
-     {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "words": 6,
-      "chars": 30,
-      "lines": 2,
-      "size": 60,
-      "vw": 7.8,
-      "font": "Inter",
-      "weight": 900,
-      "tracking": -0.025,
+      "size": 44,
+      "vw": 3.1,
+      "font": "Geist Mono",
+      "weight": 600,
+      "tracking": -0.01,
       "leading": 1,
       "upper": false,
       "italic": false,
-      "mono": false,
+      "mono": true,
       "align": "left",
       "position": "left",
-      "widthRatio": 0.75,
-      "top": 72,
-      "tag": "h1",
+      "widthRatio": 0.26,
+      "top": 158,
+      "tag": "p",
       "kind": "heading"
      }
     ],
     "headingSummary": {
      "count": 1,
-     "maxLines": 2,
+     "maxLines": 1,
      "over2Lines": 0,
      "statements": 0,
      "centered": 0,
@@ -700,585 +107,143 @@
     "type": {
      "families": [
       {
-       "family": "Inter",
-       "share": 1,
+       "family": "Geist",
+       "share": 0.92,
        "mono": false
+      },
+      {
+       "family": "Geist Mono",
+       "share": 0.08,
+       "mono": true
       }
      ],
-     "familyCount": 1,
+     "familyCount": 2,
      "sizes": [
+      11,
       12,
-      13,
       14,
+      15,
       16,
       20,
       24,
-      60
+      44
      ],
-     "sizeCount": 7,
+     "sizeCount": 8,
      "notLoaded": [],
      "body": {
-      "font": "Inter",
+      "font": "Geist",
       "size": 12,
-      "leading": 1.33,
-      "weight": 500,
+      "leading": 1.67,
+      "weight": 400,
       "tracking": 0,
-      "contrast": 7.6
+      "contrast": 6.1
      },
-     "measureChars": 99,
+     "measureChars": 36,
      "max": {
-      "size": 60,
-      "vw": 7.8,
-      "font": "Inter",
-      "text": "Simulator & Plan de Ahorro"
+      "size": 44,
+      "vw": 3.1,
+      "font": "Geist Mono",
+      "text": "12.439"
      },
-     "monoShare": 0,
-     "monoProseShare": 0,
-     "monoFamilies": [],
-     "monoSamples": [],
-     "microLabels": 14,
-     "microLabelShare": 0.105,
-     "microSamples": [
-      "Parámetros de Simulación",
-      "Cap. Inicial",
-      "Aportación",
-      "Plazo",
-      "Rentab.",
-      "Capital Final"
+     "monoShare": 0.08,
+     "monoProseShare": 0.08,
+     "monoFamilies": [
+      "Geist Mono"
      ],
-     "upperShare": 0.11,
-     "centerShare": 0.19,
-     "smallText": 25
+     "monoSamples": [
+      "4",
+      "12.439",
+      "€",
+      "+55,5 %",
+      "Hoy",
+      "Año 10"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.04,
+     "centerShare": 0.06,
+     "smallText": 15
     },
-    "eyebrows": [],
+    "eyebrows": [
+     {
+      "text": "Capital final estimado",
+      "above": "12.439€",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14,
+      "top": 134
+     }
+    ],
     "numbered": [],
     "color": {
-     "bodyBg": "#f6f6f4",
+     "bodyBg": "#f2f4f7",
      "bodyBgHsl": {
-      "h": 60,
-      "s": 0.1,
+      "h": 216,
+      "s": 0.24,
       "l": 0.96
      },
      "dark": false,
      "sectionBgs": [
       {
-       "color": "#faf8f5",
+       "color": "#f2f4f7",
        "top": 0,
        "hsl": {
-        "h": 36,
-        "s": 0.33,
-        "l": 0.97
-       }
-      },
-      {
-       "color": "#ffffff",
-       "top": 1204,
-       "hsl": {
-        "h": 0,
-        "s": 0,
-        "l": 1
+        "h": 216,
+        "s": 0.24,
+        "l": 0.96
        }
       }
      ],
      "textColors": [
       {
-       "color": "#475569",
-       "share": 0.58
+       "color": "#5c5c5c",
+       "share": 0.52
       },
       {
-       "color": "#7c2d12",
+       "color": "#0a0a0a",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.16
+      },
+      {
+       "color": "#3d3d3d",
        "share": 0.13
       },
       {
-       "color": "#0f172a",
-       "share": 0.11
-      },
-      {
-       "color": "#334155",
-       "share": 0.04
-      },
-      {
-       "color": "#431407",
-       "share": 0.03
+       "color": "#5fd393",
+       "share": 0
       }
      ],
      "button": {
-      "bg": "#f97316",
+      "bg": "#ffffff",
       "hsl": {
-       "h": 25,
-       "s": 0.95,
-       "l": 0.53
+       "h": 0,
+       "s": 0,
+       "l": 1
       },
-      "fg": "#ffffff"
+      "fg": "#0a0a0a"
      },
-     "lowContrast": [
-      {
-       "text": "Simulación General",
-       "ratio": 2.8,
-       "need": 4.5,
-       "size": 14,
-       "fg": "#ffffff",
-       "bg": "#f97316"
-      },
-      {
-       "text": "Configurar cartera",
-       "ratio": 3.6,
-       "need": 4.5,
-       "size": 12,
-       "fg": "#ea580c",
-       "bg": "#ffffff"
-      }
-     ]
+     "lowContrast": []
     },
     "buttons": {
      "count": 3,
-     "inHero": 1,
-     "radius": 12,
-     "height": 40,
+     "inHero": 3,
+     "radius": 6,
+     "height": 32,
      "withShadow": 0,
      "withGradient": 0,
      "mono": 0,
      "upper": 0,
      "heroLabels": [
-      "Simulación General"
+      "Resumen",
+      "Iniciar sesión",
+      "Desglose"
      ]
-    },
-    "surfaces": {
-     "shadowStatic": 11,
-     "shadowOverlay": 0,
-     "shadowSamples": [
-      "button.px-4.py-2.5 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-      "div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0"
-     ],
-     "gradients": 0,
-     "scrims": 0,
-     "gradientSamples": [],
-     "gradientText": 0,
-     "hairlines": 9,
-     "hairlineSamples": [
-      "header.hidden.md:flex 720px",
-      "div.hidden.md:flex 720px",
-      "div#metric-final-balance.bg-white.rounded-xl 352px",
-      "div#metric-total-invested.bg-white.rounded-xl 352px",
-      "div#metric-profit.bg-white.rounded-xl 352px"
-     ],
-     "outlinedBoxes": 13,
-     "dashed": 0,
-     "blurred": 0,
-     "roundedBoxes": 20,
-     "boxRadius": 16,
-     "squareMedia": 0,
-     "roundedMedia": 0,
-     "mediaRadius": 0,
-     "textShadow": 0,
-     "cardRows": [
-      {
-       "count": 4,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 816
-      },
-      {
-       "count": 4,
-       "iconTopped": false,
-       "rounded": true,
-       "top": 1755
-      },
-      {
-       "count": 3,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 2139
-      }
-     ]
-    },
-    "heroMedia": [],
-    "nav": {
-     "links": 0,
-     "fixed": false,
-     "height": 0,
-     "floatingPill": false,
-     "blur": false
-    },
-    "fontsLoaded": [
-     "inter"
-    ]
-   },
-   "layout": {
-    "viewport": {
-     "w": 768,
-     "h": 1024
-    },
-    "pageH": 2490,
-    "margins": {
-     "left": 24,
-     "right": 41
-    },
-    "sections": [
-     {
-      "sel": "header.hidden.md:flex",
-      "tag": "header",
-      "top": 72,
-      "height": 181,
-      "words": 26,
-      "media": 0,
-      "middle": 71,
-      "heading": null,
-      "left": 24,
-      "right": 61,
-      "textLeft": 24,
-      "textRight": 61,
-      "fullBleed": false,
-      "footer": false,
-      "hero": true,
-      "continues": false,
-      "pinned": false
-     },
-     {
-      "sel": "section#input-controls.space-y-4",
-      "tag": "section",
-      "top": 362,
-      "height": 430,
-      "words": 22,
-      "media": 0,
-      "middle": 0,
-      "heading": {
-       "text": "Parámetros de Simulación",
-       "size": 14,
-       "tag": "h2"
-      },
-      "left": 45,
-      "right": 41,
-      "textLeft": 66,
-      "textRight": 41,
-      "fullBleed": false,
-      "footer": false,
-      "hero": true,
-      "continues": true,
-      "pinned": false
-     },
-     {
-      "sel": "section#metrics-cards.grid.grid-cols-2",
-      "tag": "section",
-      "top": 816,
-      "height": 364,
-      "words": 31,
-      "media": 0,
-      "middle": 261,
-      "heading": {
-       "text": "12.439 €",
-       "size": 24,
-       "tag": "p"
-      },
-      "left": 45,
-      "right": 197,
-      "textLeft": 45,
-      "textRight": 197,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": true,
-      "pinned": false
-     },
-     {
-      "sel": "section#growth-chart.bg-white.rounded-xl",
-      "tag": "section",
-      "top": 1204,
-      "height": 877,
-      "words": 112,
-      "media": 1,
-      "middle": 0,
-      "heading": {
-       "text": "Línea Temporal Concatenada: Ciclo Económico Típico",
-       "size": 16,
-       "tag": "h3"
-      },
-      "left": 49,
-      "right": 49,
-      "textLeft": 64,
-      "textRight": 61,
-      "fullBleed": false,
-      "footer": false,
-      "hero": false,
-      "continues": true,
-      "pinned": false
-     },
-     {
-      "sel": "section.pt-1.sm:pt-2",
-      "tag": "section",
-      "top": 2105,
-      "height": 249,
-      "words": 74,
-      "media": 0,
-      "middle": 16,
-      "heading": {
-       "text": "Profundiza en tu plan",
-       "size": 12,
-       "tag": "h3"
-      },
-      "left": 24,
-      "right": 24,
-      "textLeft": 24,
-      "textRight": 51,
-      "fullBleed": false,
-      "footer": true,
-      "hero": false,
-      "continues": true,
-      "pinned": false
-     }
-    ],
-    "gaps": [],
-    "h1s": [
-     {
-      "text": "ETF Simulator & Plan de Ahorro",
-      "size": 60,
-      "top": 72,
-      "firstScreen": true
-     }
-    ],
-    "edgeText": [
-     {
-      "text": "0 €",
-      "side": "left",
-      "px": 0
-     }
-    ],
-    "edges": [
-     {
-      "x": 63,
-      "n": 3
-     },
-     {
-      "x": 24,
-      "n": 1
-     },
-     {
-      "x": 86,
-      "n": 1
-     }
-    ],
-    "leftBlocks": 5,
-    "bodySize": 12,
-    "stage": false,
-    "explains": false,
-    "slivers": [],
-    "voidShare": 0,
-    "voidBox": null
-   },
-   "app": null,
-   "consoleErrors": []
-  },
-  {
-   "width": 390,
-   "height": 844,
-   "load": "load",
-   "screens": 3,
-   "filled": [
-    0.99,
-    0.97,
-    1
-   ],
-   "motion": {
-    "elements": 1,
-    "css": 1,
-    "transitions": 0,
-    "scripted": 0,
-    "videos": 0,
-    "playingVideos": 0
-   },
-   "metrics": {
-    "viewport": {
-     "w": 390,
-     "h": 844
-    },
-    "page": {
-     "height": 2267,
-     "screens": 2.7,
-     "words": 267,
-     "img": 0,
-     "video": 0,
-     "canvas": 0,
-     "svg": 41,
-     "sections": 4,
-     "horizontalOverflow": 0,
-     "overflowCulprits": [],
-     "uiFragments": 0,
-     "uiAbuse": false,
-     "realPictures": 0,
-     "videoCount": 0,
-     "uiPictures": 0,
-     "pictureSamples": [],
-     "blendText": 0,
-     "sideScrollers": 0,
-     "brokenImages": [],
-     "emoji": [],
-     "videosNoPoster": 0
-    },
-    "hero": {
-     "text": "ETF Simulator",
-     "words": 2,
-     "chars": 13,
-     "lines": 1,
-     "size": 18,
-     "vw": 4.6,
-     "font": "Inter",
-     "weight": 900,
-     "tracking": -0.025,
-     "leading": 1.25,
-     "upper": false,
-     "italic": false,
-     "mono": false,
-     "align": "left",
-     "position": "left",
-     "widthRatio": 0.31,
-     "top": 16,
-     "tag": "h1",
-     "kind": "heading"
-    },
-    "h1": {
-     "text": "ETF Simulator",
-     "words": 2,
-     "lines": 1,
-     "size": 18,
-     "font": "Inter"
-    },
-    "headings": [],
-    "headingSummary": {
-     "count": 0,
-     "maxLines": 0,
-     "over2Lines": 0,
-     "statements": 0,
-     "centered": 0,
-     "medianWords": null,
-     "mixedFontHeadings": 0
-    },
-    "type": {
-     "families": [
-      {
-       "family": "Inter",
-       "share": 1,
-       "mono": false
-      }
-     ],
-     "familyCount": 1,
-     "sizes": [
-      9,
-      12,
-      13,
-      14,
-      18,
-      20
-     ],
-     "sizeCount": 6,
-     "notLoaded": [],
-     "body": {
-      "font": "Inter",
-      "size": 12,
-      "leading": 1.33,
-      "weight": 500,
-      "tracking": 0,
-      "contrast": 7.6
-     },
-     "measureChars": 44,
-     "max": {
-      "size": 20,
-      "vw": 5.1,
-      "font": "Inter",
-      "text": "8000 €"
-     },
-     "monoShare": 0,
-     "monoProseShare": 0,
-     "monoFamilies": [],
-     "monoSamples": [],
-     "microLabels": 14,
-     "microLabelShare": 0.133,
-     "microSamples": [
-      "Parámetros de Simulación",
-      "Cap. Inicial",
-      "Aportación",
-      "Plazo",
-      "Rentab.",
-      "Capital Final"
-     ],
-     "upperShare": 0.14,
-     "centerShare": 0.17,
-     "smallText": 12
-    },
-    "eyebrows": [],
-    "numbered": [],
-    "color": {
-     "bodyBg": "#f6f6f4",
-     "bodyBgHsl": {
-      "h": 60,
-      "s": 0.1,
-      "l": 0.96
-     },
-     "dark": false,
-     "sectionBgs": [
-      {
-       "color": "#faf8f5",
-       "top": 0,
-       "hsl": {
-        "h": 36,
-        "s": 0.33,
-        "l": 0.97
-       }
-      },
-      {
-       "color": "#ffffff",
-       "top": 800,
-       "hsl": {
-        "h": 0,
-        "s": 0,
-        "l": 1
-       }
-      }
-     ],
-     "textColors": [
-      {
-       "color": "#475569",
-       "share": 0.54
-      },
-      {
-       "color": "#7c2d12",
-       "share": 0.16
-      },
-      {
-       "color": "#0f172a",
-       "share": 0.13
-      },
-      {
-       "color": "#431407",
-       "share": 0.03
-      },
-      {
-       "color": "#047857",
-       "share": 0.03
-      }
-     ],
-     "button": {
-      "bg": "#fff7ed",
-      "hsl": {
-       "h": 33,
-       "s": 1,
-       "l": 0.96
-      },
-      "fg": "#c2410c"
-     },
-     "lowContrast": []
-    },
-    "buttons": {
-     "count": 2,
-     "inHero": 0,
-     "radius": 12,
-     "height": 30,
-     "withShadow": 0,
-     "withGradient": 0,
-     "mono": 0,
-     "upper": 0,
-     "heroLabels": []
     },
     "surfaces": {
      "shadowStatic": 0,
@@ -1288,76 +253,535 @@
      "scrims": 0,
      "gradientSamples": [],
      "gradientText": 0,
-     "hairlines": 3,
+     "hairlines": 7,
      "hairlineSamples": [
-      "div.px-3.5.py-3 364px",
-      "div.px-3.sm:px-6 364px",
-      "footer.pt-6.border-t 366px"
+      "aside.sticky.top-0 240px",
+      "dl.mt-4.grid 784px",
+      "dl.divide-y.divide-slate-100 338px",
+      "div.flex.items-center 298px",
+      "div.flex.items-center 298px"
      ],
-     "outlinedBoxes": 13,
+     "outlinedBoxes": 4,
      "dashed": 0,
      "blurred": 0,
-     "roundedBoxes": 20,
-     "boxRadius": 12,
+     "roundedBoxes": 5,
+     "boxRadius": 8,
      "squareMedia": 0,
      "roundedMedia": 0,
      "mediaRadius": 0,
      "textShadow": 0,
-     "cardRows": [
-      {
-       "count": 4,
-       "iconTopped": true,
-       "rounded": true,
-       "top": 491
-      },
-      {
-       "count": 4,
-       "iconTopped": false,
-       "rounded": true,
-       "top": 1254
-      }
-     ]
+     "cardRows": []
     },
-    "heroMedia": [],
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.15
+     },
+     {
+      "type": "svg",
+      "ratio": 0.09
+     }
+    ],
     "nav": {
      "links": 0,
      "fixed": false,
-     "height": 47,
+     "height": 0,
      "floatingPill": false,
      "blur": false
     },
     "fontsLoaded": [
-     "inter"
+     "geist",
+     "geist mono"
     ]
    },
    "layout": {
     "viewport": {
-     "w": 390,
-     "h": 844
+     "w": 1440,
+     "h": 900
     },
-    "pageH": 2267,
+    "pageH": 1242,
     "margins": {
      "left": 12,
-     "right": 12
+     "right": 53
+    },
+    "sections": [],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Resumen del plan",
+      "size": 24,
+      "top": 32,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 272,
+      "n": 2
+     },
+     {
+      "x": 297,
+      "n": 2
+     },
+     {
+      "x": 1089,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 6,
+    "bodySize": 12,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.06,
+    "voidBox": {
+     "x": 0,
+     "y": 480,
+     "w": 240,
+     "h": 300
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f2f4f7",
+    "sidebar": {
+     "w": 240,
+     "tag": "aside",
+     "links": 6,
+     "share": 0.17
+    },
+    "topbar": null,
+    "canvas": {
+     "left": 32,
+     "right": 53
+    },
+    "hero": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "chars": 16,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Geist",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1.33,
+     "top": 32,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 1,
+    "layout": {
+     "panels": 5,
+     "firstScreen": 4,
+     "ragged": [
+      {
+       "diff": 135,
+       "top": 110
+      }
+     ],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 7,
+     "radii": [
+      [
+       8,
+       5
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#ffffff on #0a0a0a (19.8:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 5,
+     "tabularShare": 1,
+     "kpiMax": 14
+    },
+    "rows": null,
+    "chartHues": 1,
+    "placeholders": [],
+    "type": {
+     "under13": 0.48,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      24,
+      44
+     ]
+    },
+    "title": {
+     "text": "Resumen del plan",
+     "size": 24,
+     "top": 32
+    },
+    "colourShare": 0.005
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 3,
+   "filled": [
+    0.75,
+    0.78,
+    0.77
+   ],
+   "motion": {
+    "elements": 11,
+    "css": 10,
+    "transitions": 1,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 2378,
+     "screens": 2.3,
+     "words": 283,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 25,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "chars": 16,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Geist",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1.33,
+     "top": 72,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "lines": 1,
+     "size": 24,
+     "font": "Geist"
+    },
+    "headings": [
+     {
+      "text": "12.439€",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 44,
+      "vw": 5.7,
+      "font": "Geist Mono",
+      "weight": 600,
+      "tracking": -0.01,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": true,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.49,
+      "top": 194,
+      "tag": "p",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Geist",
+       "share": 0.92,
+       "mono": false
+      },
+      {
+       "family": "Geist Mono",
+       "share": 0.08,
+       "mono": true
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      24,
+      44
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Geist",
+      "size": 12,
+      "leading": 1.33,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.7
+     },
+     "measureChars": 120,
+     "max": {
+      "size": 44,
+      "vw": 5.7,
+      "font": "Geist Mono",
+      "text": "12.439"
+     },
+     "monoShare": 0.08,
+     "monoProseShare": 0.08,
+     "monoFamilies": [
+      "Geist Mono"
+     ],
+     "monoSamples": [
+      "12.439",
+      "€",
+      "+55,5 %",
+      "Hoy",
+      "Año 10",
+      "8.000"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.04,
+     "centerShare": 0.1,
+     "smallText": 15
+    },
+    "eyebrows": [
+     {
+      "text": "Capital final estimado",
+      "above": "12.439€",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14,
+      "top": 170
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f2f4f7",
+     "bodyBgHsl": {
+      "h": 216,
+      "s": 0.24,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f4f7",
+       "top": 0,
+       "hsl": {
+        "h": 216,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#0a0a0a",
+       "top": 146,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.04
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 590,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c5c5c",
+       "share": 0.52
+      },
+      {
+       "color": "#0a0a0a",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.17
+      },
+      {
+       "color": "#3d3d3d",
+       "share": 0.09
+      },
+      {
+       "color": "#a3a3a3",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#0a0a0a"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 2,
+     "inHero": 1,
+     "radius": 6,
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Iniciar sesión"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 1,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 7,
+     "hairlineSamples": [
+      "dl.mt-4.grid 720px",
+      "dl.divide-y.divide-slate-100 718px",
+      "div.flex.items-center 678px",
+      "div.flex.items-center 678px",
+      "li 718px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 5,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.14
+     }
+    ],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 48,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "geist",
+     "geist mono"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 2378,
+    "margins": {
+     "left": 24,
+     "right": 25
     },
     "sections": [
      {
-      "sel": "section#input-controls.space-y-4",
-      "tag": "section",
-      "top": 75,
-      "height": 393,
-      "words": 20,
-      "media": 0,
+      "sel": "div#simulacion-metrics.min-w-0.lg:col-start-1",
+      "tag": "div",
+      "top": 146,
+      "height": 432,
+      "words": 38,
+      "media": 1,
       "middle": 0,
       "heading": {
-       "text": "Parámetros de Simulación",
-       "size": 14,
-       "tag": "h2"
+       "text": "12.439",
+       "size": 44,
+       "tag": "p"
       },
-      "left": 25,
-      "right": 25,
-      "textLeft": 45,
-      "textRight": 25,
+      "left": 24,
+      "right": 24,
+      "textLeft": 48,
+      "textRight": 48,
       "fullBleed": false,
       "footer": false,
       "hero": true,
@@ -1365,18 +789,22 @@
       "pinned": false
      },
      {
-      "sel": "section#metrics-cards.grid.grid-cols-2",
-      "tag": "section",
-      "top": 491,
-      "height": 284,
-      "words": 31,
+      "sel": "div#simulacion-inputs.space-y-3.lg:col-start-2",
+      "tag": "div",
+      "top": 590,
+      "height": 943,
+      "words": 90,
       "media": 0,
-      "middle": 72,
-      "heading": null,
-      "left": 25,
-      "right": 25,
-      "textLeft": 25,
-      "textRight": 25,
+      "middle": 269,
+      "heading": {
+       "text": "Parámetros del plan",
+       "size": 16,
+       "tag": "h2"
+      },
+      "left": 45,
+      "right": 45,
+      "textLeft": 45,
+      "textRight": 50,
       "fullBleed": false,
       "footer": false,
       "hero": false,
@@ -1384,22 +812,22 @@
       "pinned": false
      },
      {
-      "sel": "section#growth-chart.bg-white.rounded-xl",
-      "tag": "section",
-      "top": 800,
-      "height": 1004,
-      "words": 112,
+      "sel": "div#simulacion-growth-chart.min-w-0.lg:col-start-1",
+      "tag": "div",
+      "top": 1545,
+      "height": 396,
+      "words": 17,
       "media": 1,
       "middle": 0,
       "heading": {
-       "text": "Línea Temporal Concatenada: Ciclo Económico Típico",
-       "size": 14,
+       "text": "Evolución de tu dinero",
+       "size": 16,
        "tag": "h3"
       },
-      "left": 21,
-      "right": 21,
-      "textLeft": 40,
-      "textRight": 36,
+      "left": 41,
+      "right": 41,
+      "textLeft": 49,
+      "textRight": 63,
       "fullBleed": false,
       "footer": false,
       "hero": false,
@@ -1407,22 +835,22 @@
       "pinned": false
      },
      {
-      "sel": "section.pt-1.sm:pt-2",
+      "sel": "section#simulacion-deep-dive.min-w-0.rounded-lg",
       "tag": "section",
-      "top": 1827,
-      "height": 309,
-      "words": 43,
+      "top": 1953,
+      "height": 232,
+      "words": 56,
       "media": 0,
       "middle": 0,
       "heading": {
-       "text": "Profundiza en tu plan",
-       "size": 12,
-       "tag": "h3"
+       "text": "Siguientes preguntas",
+       "size": 16,
+       "tag": "h2"
       },
-      "left": 12,
-      "right": 12,
-      "textLeft": 12,
-      "textRight": 12,
+      "left": 25,
+      "right": 25,
+      "textLeft": 49,
+      "textRight": 379,
       "fullBleed": false,
       "footer": true,
       "hero": false,
@@ -1433,40 +861,24 @@
     "gaps": [],
     "h1s": [
      {
-      "text": "ETF Simulator",
-      "size": 18,
-      "top": 16,
+      "text": "Resumen del plan",
+      "size": 24,
+      "top": 72,
       "firstScreen": true
      }
     ],
-    "edgeText": [
-     {
-      "text": "Profundiza en tu plan",
-      "side": "left",
-      "px": 12
-     },
-     {
-      "text": "Acceso rápido",
-      "side": "right",
-      "px": 12
-     },
-     {
-      "text": "0 €",
-      "side": "left",
-      "px": 0
-     }
-    ],
+    "edgeText": [],
     "edges": [
      {
-      "x": 54,
-      "n": 3
+      "x": 45,
+      "n": 4
      },
      {
-      "x": 91,
-      "n": 1
+      "x": 24,
+      "n": 2
      }
     ],
-    "leftBlocks": 4,
+    "leftBlocks": 6,
     "bodySize": 12,
     "stage": false,
     "explains": false,
@@ -1474,67 +886,624 @@
     "voidShare": 0,
     "voidBox": null
    },
-   "app": null,
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f2f4f7",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 24,
+     "right": 25
+    },
+    "hero": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "chars": 16,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Geist",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1.33,
+     "top": 72,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 1,
+    "layout": {
+     "panels": 5,
+     "firstScreen": 2,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 7,
+     "radii": [
+      [
+       8,
+       5
+      ],
+      [
+       0,
+       2
+      ]
+     ],
+     "heavyBorders": 1,
+     "borderSamples": [
+      "#ffffff on #0a0a0a (19.8:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 5,
+     "tabularShare": 1,
+     "kpiMax": 14
+    },
+    "rows": null,
+    "chartHues": 1,
+    "placeholders": [],
+    "type": {
+     "under13": 0.48,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      24,
+      44
+     ]
+    },
+    "title": {
+     "text": "Resumen del plan",
+     "size": 24,
+     "top": 72
+    },
+    "colourShare": 0.005
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    0.75,
+    0.92,
+    0.92,
+    0.79
+   ],
+   "motion": {
+    "elements": 11,
+    "css": 10,
+    "transitions": 1,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 2687,
+     "screens": 3.2,
+     "words": 273,
+     "img": 0,
+     "video": 0,
+     "canvas": 0,
+     "svg": 25,
+     "sections": 5,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "chars": 16,
+     "lines": 1,
+     "size": 22,
+     "vw": 5.6,
+     "font": "Geist",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1.45,
+     "top": 72,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "lines": 1,
+     "size": 22,
+     "font": "Geist"
+    },
+    "headings": [
+     {
+      "text": "Resumen del plan",
+      "words": 3,
+      "chars": 16,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Geist",
+      "weight": 600,
+      "tracking": -0.01,
+      "leading": 1.45,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 72,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "12.439€",
+      "words": 1,
+      "chars": 7,
+      "lines": 1,
+      "size": 36,
+      "vw": 9.2,
+      "font": "Geist Mono",
+      "weight": 600,
+      "tracking": -0.01,
+      "leading": 1,
+      "upper": false,
+      "italic": false,
+      "mono": true,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.82,
+      "top": 254,
+      "tag": "p",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 2,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 3,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Geist",
+       "share": 0.92,
+       "mono": false
+      },
+      {
+       "family": "Geist Mono",
+       "share": 0.08,
+       "mono": true
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      22,
+      36
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Geist",
+      "size": 12,
+      "leading": 1.33,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 6.7
+     },
+     "measureChars": 60,
+     "max": {
+      "size": 36,
+      "vw": 9.2,
+      "font": "Geist Mono",
+      "text": "12.439"
+     },
+     "monoShare": 0.08,
+     "monoProseShare": 0.08,
+     "monoFamilies": [
+      "Geist Mono"
+     ],
+     "monoSamples": [
+      "12.439",
+      "€",
+      "+55,5 %",
+      "Hoy",
+      "Año 10",
+      "8.000"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.04,
+     "centerShare": 0.1,
+     "smallText": 15
+    },
+    "eyebrows": [
+     {
+      "text": "Capital final estimado",
+      "above": "12.439€",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 14,
+      "top": 230
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f2f4f7",
+     "bodyBgHsl": {
+      "h": 216,
+      "s": 0.24,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#f2f4f7",
+       "top": 0,
+       "hsl": {
+        "h": 216,
+        "s": 0.24,
+        "l": 0.96
+       }
+      },
+      {
+       "color": "#0a0a0a",
+       "top": 210,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 0.04
+       }
+      },
+      {
+       "color": "#ffffff",
+       "top": 872,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#5c5c5c",
+       "share": 0.52
+      },
+      {
+       "color": "#0a0a0a",
+       "share": 0.18
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.17
+      },
+      {
+       "color": "#3d3d3d",
+       "share": 0.09
+      },
+      {
+       "color": "#a3a3a3",
+       "share": 0.03
+      }
+     ],
+     "button": {
+      "bg": "#ffffff",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 1
+      },
+      "fg": "#0a0a0a"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 2,
+     "inHero": 1,
+     "radius": 6,
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Iniciar sesión"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 1,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 9,
+     "hairlineSamples": [
+      "dl.mt-4.grid 358px",
+      "div#metric-profit.px-5.py-4 358px",
+      "div#metric-fee-savings.px-5.py-4 358px",
+      "dl.divide-y.divide-slate-100 356px",
+      "div.flex.items-center 316px"
+     ],
+     "outlinedBoxes": 4,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 5,
+     "boxRadius": 8,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "svg",
+      "ratio": 0.13
+     }
+    ],
+    "nav": {
+     "links": 0,
+     "fixed": false,
+     "height": 48,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "geist",
+     "geist mono"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 2687,
+    "margins": {
+     "left": 16,
+     "right": 17
+    },
+    "sections": [
+     {
+      "sel": "div.flex.flex-col",
+      "tag": "div",
+      "top": 60,
+      "height": 150,
+      "words": 20,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Resumen del plan",
+       "size": 22,
+       "tag": "h1"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 29,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "div",
+      "tag": "div",
+      "top": 210,
+      "height": 2264,
+      "words": 201,
+      "media": 2,
+      "middle": 0,
+      "heading": {
+       "text": "12.439",
+       "size": 36,
+       "tag": "p"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 36,
+      "textRight": 36,
+      "fullBleed": false,
+      "footer": true,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Resumen del plan",
+      "size": 22,
+      "top": 72,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 37,
+      "n": 4
+     },
+     {
+      "x": 16,
+      "n": 2
+     }
+    ],
+    "leftBlocks": 6,
+    "bodySize": 12,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f2f4f7",
+    "sidebar": null,
+    "topbar": null,
+    "canvas": {
+     "left": 16,
+     "right": 16
+    },
+    "hero": {
+     "text": "Resumen del plan",
+     "words": 3,
+     "chars": 16,
+     "lines": 1,
+     "size": 22,
+     "vw": 5.6,
+     "font": "Geist",
+     "weight": 600,
+     "tracking": -0.01,
+     "leading": 1.45,
+     "top": 72,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 1,
+    "layout": {
+     "panels": 5,
+     "firstScreen": 1,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 9,
+     "radii": [
+      [
+       8,
+       5
+      ],
+      [
+       0,
+       4
+      ]
+     ],
+     "heavyBorders": 3,
+     "borderSamples": [
+      "#ffffff on #0a0a0a (19.8:1)",
+      "#ffffff on #0a0a0a (19.8:1)",
+      "#ffffff on #0a0a0a (19.8:1)"
+     ],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 0,
+     "leftAligned": 0,
+     "figures": 5,
+     "tabularShare": 1,
+     "kpiMax": 14
+    },
+    "rows": null,
+    "chartHues": 1,
+    "placeholders": [],
+    "type": {
+     "under13": 0.47,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      14,
+      15,
+      16,
+      20,
+      22,
+      36
+     ]
+    },
+    "title": {
+     "text": "Resumen del plan",
+     "size": 22,
+     "top": 72
+    },
+    "colourShare": 0.005
+   },
    "consoleErrors": []
   }
  ],
  "findings": [
   {
-   "level": "FAIL",
-   "id": "eyebrow",
+   "level": "WARN",
+   "id": "tiny-text",
    "width": 1440,
-   "message": "4 eyebrow/kicker label(s) above headings: \"Capital Final\" above \"12.439 €\"; \"Total Aportado\" above \"8000 €\"; \"Plusvalía\" above \"+4439 €\"; \"Ahorro Comis.\" above \"774 €\"",
-   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence."
-  },
-  {
-   "level": "FAIL",
-   "id": "micro-label",
-   "width": 1440,
-   "message": "14 tiny uppercase letter-spaced labels (e.g. \"Parámetros de Simulación\", \"Cap. Inicial\", \"Aportación\", \"Plazo\").",
-   "fix": "Use sentence-case text at a readable size, or delete the label.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "shadow",
-   "width": 1440,
-   "message": "12 box-shadow(s) on elements at rest: div.flex.items-center → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11 | button.px-4.py-2.5 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(249, 11 | div.bg-white.p-3 → rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0",
-   "fix": "Remove. Separate surfaces with a tone step or space. Shadows are for things that really float (menus, dialogs, sticky bars).",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "hairline",
-   "width": 1440,
-   "message": "12 thin rule(s)/divider line(s): header.hidden.md:flex 1216px | div.hidden.md:flex 1216px | div#metric-final-balance.bg-white.rounded-xl 292px | div#metric-total-invested.bg-white.rounded-xl 292px",
-   "fix": "Delete. Separate with space, a tone change, or scale. Lines are only for real tables and form fields.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "outlined-box",
-   "width": 1440,
-   "message": "13 boxes drawn with a 1px outline.",
-   "fix": "Define a surface by its fill (one tone step from the page) or leave the content unboxed.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "icon-cards",
-   "width": 1440,
-   "message": "2 row(s) of identical cards each topped with a small icon (4, 3 cards).",
-   "fix": "Replace with one composed section from the direction: a narrative split, a list set in large type, or real imagery per item.",
+   "message": "48% of the text is under 13px.",
+   "fix": "Data and labels read at 13–14px; keep 11–12px for sublines and axis ticks.",
    "alsoAt": [
     768,
     390
@@ -1542,177 +1511,44 @@
   },
   {
    "level": "WARN",
-   "id": "palette-cream",
+   "id": "ragged-row",
    "width": 1440,
-   "message": "Yellow-cream background (section #faf8f5).",
-   "fix": "Use the drawn palette. If you want warmth, take a low-chroma stone or bone, not a yellow cream.",
-   "alsoAt": [
-    768,
-    390
-   ]
+   "message": "1 pair(s) of cards in one row end at different heights (by 135px).",
+   "fix": "Cards that share a row share a bottom edge: balance them by their content (the same number of rows, a block of similar height beside it), or stack them. In testing, ragged rows were marked down every time."
   },
   {
    "level": "WARN",
-   "id": "contrast",
-   "width": 1440,
-   "message": "Low-contrast text: \"Simulación General\" 2.8:1 needs 4.5:1; \"Configurar cartera\" 3.6:1 needs 4.5:1",
-   "fix": "Darken or lighten the text colour.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "body-size",
-   "width": 1440,
-   "message": "Body text is 12px (the size most of the running text is set in).",
-   "fix": "Body copy 16–20px. Map small sizes from blueprints onto your body step.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "few-pictures",
-   "width": 1440,
-   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
-   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
-  },
-  {
-   "level": "WARN",
-   "id": "no-footage",
-   "width": 1440,
-   "message": "No video anywhere on the page.",
-   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
-  },
-  {
-   "level": "WARN",
-   "id": "measure",
-   "width": 1440,
-   "message": "Longest paragraph runs about 182 characters per line.",
-   "fix": "Cap paragraphs at 45–75 characters (max-width: 60ch).",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "small-text",
-   "width": 1440,
-   "message": "25 text blocks under 13px.",
-   "fix": "Nothing meant to be read goes below 13px.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "focal-point",
-   "width": 1440,
-   "message": "The first screen has no dominant element: the largest type is 60px (4.2vw) and no single picture holds a third of the viewport.",
-   "fix": "Make one thing lead: the headline at display size, or one large picture. A grid of many small pictures is not one thing; in blind tests jurors marked a first screen without a headline down every time. On the strongest studied sites the largest type has a median of 8.4vw."
-  },
-  {
-   "level": "FAIL",
-   "id": "late-title",
-   "width": 1440,
-   "message": "The title is not readable 1.2s after the page loaded (it has no size yet).",
-   "fix": "Put the headline in the HTML, painted on the first frame; the load sequence only adds arrival and is settled by 1.2s (references/motion.md, \"Load sequence in 1.2 seconds\"). No preloader, no gate, no waiting for the load event.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "WARN",
-   "id": "off-centre",
-   "width": 1440,
-   "message": "The margins differ: 112px on the left, 129px on the right, at 1440px.",
-   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page.",
-   "alsoAt": [
-    768
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "edge-text",
-   "width": 1440,
-   "message": "1 text block(s) sit within 16px of the screen edge: \"0 €\" (0px from the left)",
-   "fix": "Keep text inside the page margin (16–32px or more). Only display type deliberately bled past the edge may touch it.",
-   "alsoAt": [
-    768,
-    390
-   ]
-  },
-  {
-   "level": "FAIL",
-   "id": "still-page",
-   "width": 1440,
-   "message": "Only 1 element(s) moved while the page loaded and scrolled.",
-   "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
-  },
-  {
-   "level": "WARN",
-   "id": "side-scroll",
-   "width": 768,
-   "message": "1 row(s) scroll sideways with content past their edge.",
-   "fix": "Jurors and most visitors read a row cut at the edge as clipped, not as scrollable. Wrap it onto more lines, or end it inside the grid."
-  },
-  {
-   "level": "WARN",
-   "id": "first-action",
+   "id": "heavy-borders",
    "width": 390,
-   "message": "No visible button in the first phone screen.",
-   "fix": "On a phone the first screen still holds the headline, the supporting sentence and the action; move navigation into one row or a menu so it does not push them down."
-  },
-  {
-   "level": "WARN",
-   "id": "small-title",
-   "width": 390,
-   "message": "The h1 is 18px (\"ETF Simulator\").",
-   "fix": "Set the title at display size, or make the large text of the first screen the h1."
-  },
-  {
-   "level": "WARN",
-   "id": "name-only-title",
-   "width": 390,
-   "message": "The h1 is a bare name (\"ETF Simulator\") and nothing else on the first screen says what this is.",
-   "fix": "Keep the name if it leads, and give the line under it (18px or more) the plain words: what it is, for whom, where or when. In the study of 97 Sites of the Day, first screens that named nothing lost usability and content points."
-  },
-  {
-   "level": "WARN",
-   "id": "untitled-section",
-   "width": 390,
-   "message": "A section carries text but no heading: section#metrics-cards.grid.grid-cols-2 at 491px.",
-   "fix": "Name it with a short heading unless it is the continuation of the section above."
+   "message": "3 panel borders are dark against their ground: #ffffff on #0a0a0a (19.8:1) | #ffffff on #0a0a0a (19.8:1) | #ffffff on #0a0a0a (19.8:1)",
+   "fix": "A panel border is a whisper: about 1.1–1.3:1 against its ground on a light screen (#e5e7eb–#ededed on white), and about 1.2–1.5:1 on a dark one (#1a1a1a on #000, #2e2e2e on #111). Darker lines turn the screen into a grid of boxes; keep the stronger line for controls."
   }
  ],
  "images": [
   {
    "viewport": "desktop",
    "width": 1440,
-   "fold": "D:\\personal\\eftsimulator\\.taste-skill\\after\\desktop-fold.jpg",
+   "fold": "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\after\\desktop-fold.jpg",
    "pages": [
-    "D:\\personal\\eftsimulator\\.taste-skill\\after\\desktop-page-01.jpg"
+    "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\after\\desktop-page-01.jpg"
    ],
    "film": []
   },
   {
    "viewport": "tablet",
    "width": 768,
-   "fold": "D:\\personal\\eftsimulator\\.taste-skill\\after\\tablet-fold.jpg",
+   "fold": "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\after\\tablet-fold.jpg",
    "pages": [
-    "D:\\personal\\eftsimulator\\.taste-skill\\after\\tablet-page-01.jpg"
+    "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\after\\tablet-page-01.jpg"
    ],
    "film": []
   },
   {
    "viewport": "mobile",
    "width": 390,
-   "fold": "D:\\personal\\eftsimulator\\.taste-skill\\after\\mobile-fold.jpg",
+   "fold": "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\after\\mobile-fold.jpg",
    "pages": [
-    "D:\\personal\\eftsimulator\\.taste-skill\\after\\mobile-page-01.jpg"
+    "D:\\personal\\eftsimulator\\.worktrees\\rediseno-profesional\\.taste-skill\\after\\mobile-page-01.jpg"
    ],
    "film": []
   }

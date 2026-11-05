@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
   ReferenceArea,
 } from 'recharts';
-import { Dices, Loader2, AlertTriangle, ShieldAlert } from 'lucide-react';
+import { Loader2, AlertTriangle, ShieldAlert } from 'lucide-react';
 import type { MonteCarloResult } from '../../../types';
 import { runMonteCarlo, type MonteCarloInput } from '../../../engine/monteCarlo';
 import { HISTORICAL_CYCLES } from '../../../data/historicalCycles';
@@ -18,9 +18,10 @@ import { Card } from '../../../shared/ui';
 import { formatCurrency } from '../../../shared/utils';
 import { useMonthlyHistory } from '../hooks/useMonthlyHistory';
 import type { MonteCarloPanelProps } from '../types';
+import { NUMBER_LOCALE } from '../../../shared/utils';
 
 const pct = (v: number, digits = 0) =>
-  `${(v * 100).toLocaleString('es-ES', {
+  `${(v * 100).toLocaleString(NUMBER_LOCALE, {
     maximumFractionDigits: digits,
     minimumFractionDigits: digits,
   })}%`;
@@ -137,21 +138,21 @@ export default function MonteCarloPanel({
       value: `${formatCurrency(result.final.p10)} €`,
       hint: '9 de cada 10 escenarios acaban mejor',
       delta: delta(result.final.p10, base.final.p10),
-      tone: 'text-rose-700',
+      tone: 'text-slate-900',
     },
     {
       label: 'Mediano (P50)',
       value: `${formatCurrency(result.final.p50)} €`,
       hint: `≈ ${signedPct(result.annualizedReturn.p50)} anual`,
       delta: delta(result.final.p50, base.final.p50),
-      tone: 'text-slate-900',
+      tone: 'text-data-700',
     },
     {
       label: 'Optimista (P90)',
       value: `${formatCurrency(result.final.p90)} €`,
       hint: 'Solo 1 de cada 10 acaba mejor',
       delta: delta(result.final.p90, base.final.p90),
-      tone: 'text-emerald-700',
+      tone: 'text-slate-900',
     },
     {
       label: 'Prob. de perder dinero',
@@ -165,28 +166,25 @@ export default function MonteCarloPanel({
       value: `-${pct(result.maxDrawdown.p50)}`,
       hint: `En 1 de cada 10: -${pct(result.maxDrawdown.p90)} o más`,
       delta: null,
-      tone: 'text-amber-700',
+      tone: 'text-slate-900',
     },
   ];
 
   const stressTone =
     stressInfo?.type === 'crisis'
-      ? { fill: '#f43f5e', text: '#be123c' }
-      : { fill: '#10b981', text: '#047857' };
+      ? { fill: '#c4242a', text: '#a51d22' }
+      : { fill: '#1d5fbf', text: '#174d9b' };
 
   return (
     <Card.Root>
       <Card.Body className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
           <div className="flex items-start gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 border border-teal-100 flex items-center justify-center shrink-0">
-              <Dices className="w-4 h-4" />
-            </div>
             <div>
-              <h3 className="text-sm sm:text-base font-black text-slate-900">
-                Escenarios realistas (Monte Carlo)
-              </h3>
-              <p className="text-xs text-slate-600 font-medium leading-relaxed">
+              <h2 className="text-base font-semibold text-slate-900">
+                3.000 futuros posibles (Monte Carlo)
+              </h2>
+              <p className="mt-0.5 text-sm text-slate-600 leading-relaxed">
                 {formatCurrency(result.scenarios)} futuros posibles de tu plan con {brokerName},
                 usando trimestres reales del mercado
                 {stressInfo
@@ -211,14 +209,14 @@ export default function MonteCarloPanel({
 
         {/* ─── Prueba de estrés con ciclos históricos ─── */}
         <div
-          className={`rounded-xl border p-3 space-y-2 ${
+          className={`rounded-md border p-3 space-y-2 ${
             stressCycle ? 'border-rose-200 bg-rose-50/40' : 'border-slate-200 bg-slate-50/40'
           }`}
         >
           <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-3">
             <div className="flex items-center gap-2 sm:pb-2.5">
               <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
-              <span className="text-xs font-black text-slate-900">Prueba de estrés</span>
+              <span className="text-xs font-semibold text-slate-900">Prueba de estrés</span>
             </div>
             <label className="flex-1 min-w-0">
               <span className="block text-[11px] font-bold text-slate-600 mb-1">
@@ -280,14 +278,14 @@ export default function MonteCarloPanel({
           {kpis.map((k, i) => (
             <div
               key={k.label}
-              className={`p-3 rounded-xl border border-slate-200 bg-slate-50/40 space-y-0.5 min-w-0 ${
+              className={`p-3 rounded-md border border-slate-200 bg-slate-50/40 space-y-0.5 min-w-0 ${
                 i === kpis.length - 1 ? 'col-span-2 lg:col-span-1' : ''
               }`}
             >
-              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <div className="text-[11px] font-bold text-slate-600">
                 {k.label}
               </div>
-              <div className={`text-base sm:text-lg font-black tabular-nums ${k.tone}`}>
+              <div className={`text-base sm:text-lg font-semibold tabular-nums ${k.tone}`}>
                 {k.value}
               </div>
               <div className="text-[11px] text-slate-600 leading-snug">{k.hint}</div>
@@ -301,16 +299,16 @@ export default function MonteCarloPanel({
         <div className="h-[260px] sm:h-[320px] -mx-2 sm:mx-0">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+              <CartesianGrid stroke="#eeeeee" vertical={false} />
               <XAxis
                 dataKey="label"
-                tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
+                tick={{ fontSize: 12, fill: '#6b6b6b', fontFamily: 'Geist Mono, ui-monospace, monospace' }}
                 tickLine={false}
                 axisLine={{ stroke: '#e2e8f0' }}
                 minTickGap={12}
               />
               <YAxis
-                tick={{ fontSize: 12, fill: '#64748b', fontWeight: 600 }}
+                tick={{ fontSize: 12, fill: '#6b6b6b', fontFamily: 'Geist Mono, ui-monospace, monospace' }}
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}k`}
@@ -340,45 +338,45 @@ export default function MonteCarloPanel({
                 />
               )}
               <Area
-                type="monotone"
+                type="linear"
                 dataKey="band90"
                 name="80% de los escenarios"
                 stroke="none"
-                fill="#14b8a6"
+                fill="#1d5fbf"
                 fillOpacity={0.15}
               />
               <Area
-                type="monotone"
+                type="linear"
                 dataKey="band50"
                 name="50% de los escenarios"
                 stroke="none"
-                fill="#14b8a6"
+                fill="#1d5fbf"
                 fillOpacity={0.3}
               />
               <Line
-                type="monotone"
+                type="linear"
                 dataKey="p50"
                 name="Escenario mediano"
-                stroke="#0f766e"
+                stroke="#1d5fbf"
                 strokeWidth={2.5}
                 dot={false}
               />
               {stressInfo && (
                 <Line
-                  type="monotone"
+                  type="linear"
                   dataKey="baseP50"
                   name="Mediano sin crisis"
-                  stroke="#94a3b8"
+                  stroke="#a3a3a3"
                   strokeWidth={2}
                   strokeDasharray="2 3"
                   dot={false}
                 />
               )}
               <Line
-                type="monotone"
+                type="linear"
                 dataKey="invested"
                 name="Total aportado"
-                stroke="#ea580c"
+                stroke="#141414"
                 strokeWidth={2}
                 strokeDasharray="5 4"
                 dot={false}
@@ -389,11 +387,11 @@ export default function MonteCarloPanel({
 
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-slate-700">
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-teal-500/30" />
+            <span className="w-3 h-3 rounded-sm bg-data-500/30" />
             50% central
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-sm bg-teal-500/15" />
+            <span className="w-3 h-3 rounded-sm bg-data-500/15" />
             80% de escenarios (P10–P90)
           </span>
           <span className="inline-flex items-center gap-1.5">
@@ -413,14 +411,14 @@ export default function MonteCarloPanel({
         </div>
 
         {timing && stressCycle && (
-          <div className="rounded-xl border border-slate-200 overflow-hidden">
-            <div className="px-3 py-2 bg-slate-50 text-xs font-black text-slate-900">
+          <div className="rounded-md border border-slate-200 overflow-hidden">
+            <div className="px-3 py-2 bg-slate-50 text-xs font-semibold text-slate-900">
               ¿Importa cuándo llega? «{stressCycle.shortName}» en distintos momentos de tu plan
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="text-left text-[11px] uppercase tracking-wider text-slate-600">
+                  <tr className="text-left text-[11px] text-slate-600">
                     <th className="px-3 py-2 font-bold">Empieza</th>
                     <th className="px-3 py-2 font-bold text-right">Mediano final</th>
                     <th className="px-3 py-2 font-bold text-right">Pesimista final</th>

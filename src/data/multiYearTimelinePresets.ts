@@ -9,7 +9,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
     name: 'Expansión Tranquila',
     cyclePresetId: 'quiet_expansion_2013',
     type: 'expansion',
-    color: '#059669', // Emerald
+    color: '#1d5fbf', // tono por tipo de fase
     tagline: 'Crecimiento sostenido, tipos bajos y baja volatilidad',
     annualReturnEstimates: {
       global_equity: 8.5,
@@ -25,7 +25,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
     name: 'Cohete / Rally Alcista',
     cyclePresetId: 'post_covid_rally_2020',
     type: 'expansion',
-    color: '#0284c7', // Sky
+    color: '#8aafe0', // tono por tipo de fase
     tagline: 'Recuperación explosiva liderada por innovación y tecnología',
     annualReturnEstimates: {
       global_equity: 18.0,
@@ -41,7 +41,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
     name: 'Shock de Inflación',
     cyclePresetId: 'inflation_shock_2022',
     type: 'crisis',
-    color: '#e11d48', // Rose
+    color: '#c4242a', // tono por tipo de fase
     tagline: 'Subida agresiva de tipos: caída simultánea en bolsa y bonos',
     annualReturnEstimates: {
       global_equity: -15.0,
@@ -57,7 +57,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
     name: 'Gran Recesión / Crash',
     cyclePresetId: 'great_recession_2008',
     type: 'crisis',
-    color: '#dc2626', // Red
+    color: '#c4242a', // tono por tipo de fase
     tagline: 'Colapso sistémico del crédito con bonos y oro como refugio',
     annualReturnEstimates: {
       global_equity: -32.0,
@@ -73,7 +73,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
     name: 'Pinchazo Tecnológico',
     cyclePresetId: 'dotcom_burst_2000',
     type: 'crisis',
-    color: '#ea580c', // Orange
+    color: '#a3a3a3', // tono por tipo de fase
     tagline: 'Pérdida masiva en empresas tech y rotación a bonos y valor',
     annualReturnEstimates: {
       global_equity: -18.0,
@@ -88,7 +88,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
   {
     name: 'Rebote y Recuperación',
     type: 'recovery',
-    color: '#10b981', // Teal
+    color: '#1d5fbf', // tono por tipo de fase
     tagline: 'Fuerte despegue tras haber tocado suelo en la crisis',
     annualReturnEstimates: {
       global_equity: 24.0,
@@ -103,7 +103,7 @@ export const AVAILABLE_SEGMENT_TEMPLATES: Omit<TimelineCycleSegment, 'id' | 'dur
   {
     name: 'Estancamiento / Lateral',
     type: 'neutral',
-    color: '#d97706', // Amber
+    color: '#a3a3a3', // tono por tipo de fase
     tagline: 'Mercado plano sin tendencia clara e inflación persistente',
     annualReturnEstimates: {
       global_equity: 2.0,
@@ -141,7 +141,7 @@ export function getDefault10YearTimelinePlan(totalYears = 10): MultiYearCustomCy
         cyclePresetId: 'quiet_expansion_2013',
         durationYears: y1,
         type: 'expansion',
-        color: '#059669',
+        color: '#1d5fbf',
         tagline: 'Crecimiento sostenido y baja volatilidad',
         annualReturnEstimates: {
           global_equity: 8.5,
@@ -159,7 +159,7 @@ export function getDefault10YearTimelinePlan(totalYears = 10): MultiYearCustomCy
         cyclePresetId: 'great_recession_2008',
         durationYears: y2,
         type: 'crisis',
-        color: '#dc2626',
+        color: '#c4242a',
         tagline: 'Shock macroeconómico y caída de valoraciones',
         annualReturnEstimates: {
           global_equity: -22.0,
@@ -177,7 +177,7 @@ export function getDefault10YearTimelinePlan(totalYears = 10): MultiYearCustomCy
         cyclePresetId: 'post_covid_rally_2020',
         durationYears: y3,
         type: 'recovery',
-        color: '#10b981',
+        color: '#1d5fbf',
         tagline: 'Recuperación fuerte y expansión de múltiplos',
         annualReturnEstimates: {
           global_equity: 20.0,
@@ -195,7 +195,7 @@ export function getDefault10YearTimelinePlan(totalYears = 10): MultiYearCustomCy
         cyclePresetId: 'quiet_expansion_2013',
         durationYears: y4,
         type: 'expansion',
-        color: '#0284c7',
+        color: '#8aafe0',
         tagline: 'Fase madura con rentabilidades estables',
         annualReturnEstimates: {
           global_equity: 7.5,
@@ -226,7 +226,7 @@ export const PRESET_TIMELINE_PLANS = (totalYears = 10): MultiYearCustomCyclePlan
         cyclePresetId: 'great_recession_2008',
         durationYears: Math.max(1, Math.round(2 * (totalYears / 10))),
         type: 'crisis',
-        color: '#dc2626',
+        color: '#c4242a',
         tagline: 'Caída inicial del 40% en bolsa',
         annualReturnEstimates: {
           global_equity: -25.0,
@@ -244,7 +244,7 @@ export const PRESET_TIMELINE_PLANS = (totalYears = 10): MultiYearCustomCyclePlan
         cyclePresetId: 'quiet_expansion_2013',
         durationYears: totalYears - Math.max(1, Math.round(2 * (totalYears / 10))),
         type: 'expansion',
-        color: '#059669',
+        color: '#1d5fbf',
         tagline: 'El plan de ahorro aprovecha las participaciones baratas acumuladas',
         annualReturnEstimates: {
           global_equity: 10.5,
@@ -271,7 +271,7 @@ export const PRESET_TIMELINE_PLANS = (totalYears = 10): MultiYearCustomCyclePlan
         cyclePresetId: 'quiet_expansion_2013',
         durationYears: Math.max(2, totalYears - Math.max(1, Math.round(2 * (totalYears / 10)))),
         type: 'expansion',
-        color: '#059669',
+        color: '#1d5fbf',
         tagline: 'Crecimiento sostenido y acumulación de patrimonio',
         annualReturnEstimates: {
           global_equity: 9.0,
@@ -289,7 +289,7 @@ export const PRESET_TIMELINE_PLANS = (totalYears = 10): MultiYearCustomCyclePlan
         cyclePresetId: 'inflation_shock_2022',
         durationYears: Math.max(1, Math.round(2 * (totalYears / 10))),
         type: 'crisis',
-        color: '#e11d48',
+        color: '#c4242a',
         tagline: 'Caída abrupta con el capital al máximo',
         annualReturnEstimates: {
           global_equity: -18.0,
@@ -316,7 +316,7 @@ export const PRESET_TIMELINE_PLANS = (totalYears = 10): MultiYearCustomCyclePlan
         cyclePresetId: 'roaring_nineties_1995',
         durationYears: totalYears,
         type: 'expansion',
-        color: '#0284c7',
+        color: '#8aafe0',
         tagline: 'Rendimientos elevados y efecto interés compuesto máximo',
         annualReturnEstimates: {
           global_equity: 12.0,

@@ -94,24 +94,17 @@ export default function CycleSimulator({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden transition-all">
-      <div className="px-5 py-4 sm:px-6 bg-gradient-to-r from-slate-50 via-white to-amber-50/20 border-b border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+    <div className="bg-white rounded-lg border border-slate-200/90 overflow-hidden transition-all">
+      <div className="px-5 py-4 sm:px-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-500 via-orange-500 to-emerald-500 text-white flex items-center justify-center font-bold shadow-xs">
-            <ShieldAlert className="w-5 h-5" />
-          </div>
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight">
-                Simular Ciclos Históricos (Backtesting)
-              </h3>
-              <span className="text-[13px] uppercase font-black px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
-                Nuevo
-              </span>
+              <h2 className="text-base font-semibold text-slate-900">
+                Crisis y ciclos históricos
+              </h2>
             </div>
-            <p className="text-xs text-slate-600 font-medium">
-              Diseña una línea temporal a {planYears} años concatenando escenarios o prueba crisis
-              históricas puntuales
+            <p className="mt-0.5 text-sm text-slate-600">
+              Encadena fases a {planYears} años o mete tu cartera en una crisis real
             </p>
           </div>
         </div>
@@ -121,11 +114,11 @@ export default function CycleSimulator({
             <button
               type="button"
               onClick={() => onSelectCycle(null)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition cursor-pointer"
               title="Restablecer a proyección de interés compuesto estándar"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Restablecer Proyección</span>
+              <span>Restablecer</span>
             </button>
           )}
 
@@ -133,7 +126,7 @@ export default function CycleSimulator({
             <button
               type="button"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-1.5 rounded-xl hover:bg-slate-100 text-slate-600 transition cursor-pointer"
+              className="p-1.5 rounded-md hover:bg-slate-100 text-slate-600 transition cursor-pointer"
               aria-label={isExpanded ? 'Colapsar sección' : 'Expandir sección'}
             >
               {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -145,13 +138,13 @@ export default function CycleSimulator({
       {isExpanded && (
         <div>
           <div className="border-b border-slate-200 px-3 py-2.5 sm:px-6 sm:pt-3 sm:pb-0 bg-slate-50/70">
-            <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/80 rounded-xl sm:flex sm:bg-transparent sm:p-0 sm:gap-2">
+            <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-200/80 rounded-md sm:flex sm:bg-transparent sm:p-0 sm:gap-2">
               <button
                 type="button"
                 onClick={() => setActiveSubTab('timeline')}
-                className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 sm:pb-3 sm:pt-1 px-2.5 sm:px-3 text-xs sm:text-sm font-black transition cursor-pointer rounded-lg sm:rounded-none sm:border-b-2 ${
+                className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 sm:pb-3 sm:pt-1 px-2.5 sm:px-3 text-xs sm:text-sm font-semibold transition cursor-pointer rounded-lg sm:rounded-none sm:border-b-2 ${
                   activeSubTab === 'timeline'
-                    ? 'bg-white text-orange-600 shadow-xs sm:bg-transparent sm:shadow-none sm:border-orange-500'
+                    ? 'bg-white text-orange-600 sm:bg-transparent sm:shadow-none sm:border-orange-500'
                     : 'text-slate-600 hover:text-slate-900 sm:border-transparent sm:hover:text-slate-800'
                 }`}
               >
@@ -172,9 +165,9 @@ export default function CycleSimulator({
               <button
                 type="button"
                 onClick={() => setActiveSubTab('events')}
-                className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 sm:pb-3 sm:pt-1 px-2.5 sm:px-3 text-xs sm:text-sm font-black transition cursor-pointer rounded-lg sm:rounded-none sm:border-b-2 ${
+                className={`flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2 py-2 sm:pb-3 sm:pt-1 px-2.5 sm:px-3 text-xs sm:text-sm font-semibold transition cursor-pointer rounded-lg sm:rounded-none sm:border-b-2 ${
                   activeSubTab === 'events'
-                    ? 'bg-white text-orange-600 shadow-xs sm:bg-transparent sm:shadow-none sm:border-orange-500'
+                    ? 'bg-white text-orange-600 sm:bg-transparent sm:shadow-none sm:border-orange-500'
                     : 'text-slate-600 hover:text-slate-900 sm:border-transparent sm:hover:text-slate-800'
                 }`}
               >
@@ -197,15 +190,15 @@ export default function CycleSimulator({
           <div className="p-3.5 sm:p-6 space-y-5 sm:space-y-6">
             {activeSubTab === 'timeline' && (
               <div className="space-y-4 animate-in fade-in duration-200">
-                <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-2xs space-y-4">
+                <div className="p-4 sm:p-5 rounded-lg bg-slate-50 border border-slate-200/90 space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                        <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
                           <Layers className="w-4 h-4 text-orange-600 shrink-0" />
                           <span>Ciclo Activo: {effectiveTimelinePlan.name}</span>
                         </span>
-                        <span className="text-[13px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200 shrink-0">
+                        <span className="text-[13px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 shrink-0">
                           {effectiveTimelinePlan.badge}
                         </span>
                       </div>
@@ -217,7 +210,7 @@ export default function CycleSimulator({
                     <button
                       type="button"
                       onClick={() => setIsModalOpen(true)}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition active:scale-[0.99] cursor-pointer shrink-0"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold bg-slate-900 text-white transition active:scale-[0.99] cursor-pointer shrink-0"
                     >
                       <SlidersHorizontal className="w-4 h-4" />
                       <span>Diseñar / Ajustar Línea Temporal</span>
@@ -232,7 +225,7 @@ export default function CycleSimulator({
                       </span>
                     </div>
 
-                    <div className="h-11 w-full rounded-xl overflow-hidden flex bg-slate-200/80 p-1 gap-1 shadow-inner">
+                    <div className="h-11 w-full rounded-md overflow-hidden flex bg-slate-200/80 p-1 gap-1">
                       {effectiveTimelinePlan.segments.map((seg, idx) => {
                         const range = segmentRanges[idx];
                         const widthPercent =
@@ -259,13 +252,13 @@ export default function CycleSimulator({
                                 : `Años ${range.startYear} a ${range.endYear}`
                             }): ${seg.tagline}`}
                           >
-                            <span className="text-[13px] sm:text-xs font-black leading-none truncate w-full text-center">
+                            <span className="text-[13px] sm:text-xs font-semibold leading-none truncate w-full text-center">
                               {range.isSingleYear
                                 ? `A${range.startYear}`
                                 : `A${range.startYear}–${range.endYear}`}
                             </span>
                             {!isNarrow && (
-                              <span className="text-[9px] sm:text-[13px] opacity-90 truncate w-full text-center font-bold">
+                              <span className="text-[11px] sm:text-[13px] opacity-90 truncate w-full text-center font-bold">
                                 {seg.name}
                               </span>
                             )}
@@ -320,15 +313,15 @@ export default function CycleSimulator({
                             type="button"
                             key={preset.id}
                             onClick={() => handleApplyPreset(preset.id)}
-                            className={`p-2.5 rounded-xl border text-left transition-all active:scale-[0.98] cursor-pointer flex flex-col justify-between gap-1.5 relative ${
+                            className={`p-2.5 rounded-md border text-left transition-all active:scale-[0.98] cursor-pointer flex flex-col justify-between gap-1.5 relative ${
                               isSelected
-                                ? 'border-orange-500 bg-orange-50/90 text-orange-950 shadow-xs ring-1 ring-orange-500'
+                                ? 'border-slate-900 bg-white text-slate-900'
                                 : 'border-slate-200 bg-white hover:border-orange-300 text-slate-700 hover:bg-orange-50/20'
                             }`}
                           >
                             <div className="flex items-center justify-between w-full">
                               <span
-                                className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded truncate max-w-[85%] ${
+                                className={`text-[11px] font-semibold  px-1.5 py-0.5 rounded truncate max-w-[85%] ${
                                   isSelected
                                     ? 'bg-orange-200/80 text-orange-900'
                                     : 'bg-slate-100 text-slate-600'
@@ -340,7 +333,7 @@ export default function CycleSimulator({
                                 <Check className="w-3.5 h-3.5 text-orange-600 shrink-0" />
                               )}
                             </div>
-                            <div className="text-xs font-black text-slate-900 leading-snug line-clamp-2">
+                            <div className="text-xs font-semibold text-slate-900 leading-snug line-clamp-2">
                               {preset.name.replace(` (${planYears} años)`, '')}
                             </div>
                           </button>
@@ -354,10 +347,10 @@ export default function CycleSimulator({
 
             {activeSubTab === 'events' && (
               <div className="space-y-6 animate-in fade-in duration-200">
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/90 space-y-3">
+                <div className="p-4 rounded-md bg-slate-50 border border-slate-200/90 space-y-3">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <span className="text-xs font-black uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+                      <span className="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
                         <PiggyBank className="w-4 h-4 text-orange-600" />
                         <span>Modo de Simulación del Ciclo</span>
                       </span>
@@ -370,13 +363,13 @@ export default function CycleSimulator({
                       </p>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:flex sm:items-center gap-1.5 bg-slate-200/70 p-1 rounded-xl w-full sm:w-auto">
+                    <div className="grid grid-cols-2 sm:flex sm:items-center gap-1.5 bg-slate-200/70 p-1 rounded-md w-full sm:w-auto">
                       <button
                         type="button"
                         onClick={() => onSimulationModeChange('savings_plan')}
                         className={`flex items-center justify-center sm:justify-start gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer text-center ${
                           isSavingsPlan
-                            ? 'bg-white text-orange-700 shadow-xs'
+                            ? 'bg-white text-orange-700'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
@@ -390,7 +383,7 @@ export default function CycleSimulator({
                         onClick={() => onSimulationModeChange('lump_sum')}
                         className={`flex items-center justify-center sm:justify-start gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer text-center ${
                           !isSavingsPlan
-                            ? 'bg-white text-slate-900 shadow-xs'
+                            ? 'bg-white text-slate-900'
                             : 'text-slate-600 hover:text-slate-900'
                         }`}
                       >
@@ -412,7 +405,7 @@ export default function CycleSimulator({
                             onClick={() => onBaseCapitalChange(amount)}
                             className={`px-2.5 py-1 rounded-lg font-bold transition cursor-pointer ${
                               baseCapital === amount
-                                ? 'bg-slate-900 text-white shadow-xs'
+                                ? 'bg-slate-900 text-white'
                                 : 'bg-white hover:bg-slate-200 text-slate-700 border border-slate-200'
                             }`}
                           >
@@ -428,8 +421,8 @@ export default function CycleSimulator({
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-rose-200 pb-2">
                       <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full bg-rose-500 animate-pulse" />
-                        <h4 className="font-black text-sm text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-rose-500" />
+                        <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
                           <span>Escenarios de Estrés (Defensa)</span>
                         </h4>
                       </div>
@@ -449,22 +442,22 @@ export default function CycleSimulator({
                             key={event.id}
                             style={{ '--i': index } as CSSProperties}
                             onClick={() => onSelectCycle(isSelected ? null : event.id)}
-                            className={`reveal-item text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
+                            className={`reveal-item text-left p-4 rounded-md border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
                               isSelected
-                                ? 'border-rose-500 bg-rose-50/50 shadow-md ring-2 ring-rose-500/20'
-                                : 'border-slate-200 hover:border-rose-300 bg-white hover:bg-rose-50/20 shadow-2xs'
+                                ? 'border-rose-600 bg-rose-50/50'
+                                : 'border-slate-200 hover:border-rose-300 bg-white hover:bg-rose-50/20'
                             }`}
                           >
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-display text-lg font-extrabold tabular-nums text-slate-400">
+                                  <span className="font-display text-lg font-semibold tabular-nums text-slate-400">
                                     {String(index + 1).padStart(2, '0')}
                                   </span>
                                   <div className="p-1.5 rounded-lg bg-rose-100 group-hover:bg-rose-200 transition-colors">
                                     {getCycleIcon(event.id)}
                                   </div>
-                                  <span className="font-black text-sm text-slate-900 group-hover:text-rose-700 transition-colors">
+                                  <span className="font-semibold text-sm text-slate-900 group-hover:text-rose-700 transition-colors">
                                     {event.name}
                                   </span>
                                 </div>
@@ -489,7 +482,7 @@ export default function CycleSimulator({
                                   S&P 500: {sp500Return > 0 ? `+${sp500Return}%` : `${sp500Return}%`}
                                 </span>
                                 <span
-                                  className={`text-xs font-black px-2 py-0.5 rounded-lg transition ${
+                                  className={`text-xs font-semibold px-2 py-0.5 rounded-lg transition ${
                                     isSelected
                                       ? 'bg-rose-600 text-white'
                                       : 'bg-rose-100 text-rose-800 group-hover:bg-rose-600 group-hover:text-white'
@@ -508,8 +501,8 @@ export default function CycleSimulator({
                   <div className="space-y-3">
                     <div className="flex items-center justify-between border-b border-emerald-200 pb-2">
                       <div className="flex items-center gap-2">
-                        <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                        <h4 className="font-black text-sm text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                        <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
                           <span>Escenarios de Expansión (Ataque)</span>
                         </h4>
                       </div>
@@ -529,22 +522,22 @@ export default function CycleSimulator({
                             key={event.id}
                             style={{ '--i': index } as CSSProperties}
                             onClick={() => onSelectCycle(isSelected ? null : event.id)}
-                            className={`reveal-item text-left p-4 rounded-xl border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
+                            className={`reveal-item text-left p-4 rounded-md border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
                               isSelected
-                                ? 'border-emerald-500 bg-emerald-50/50 shadow-md ring-2 ring-emerald-500/20'
-                                : 'border-slate-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/20 shadow-2xs'
+                                ? 'border-slate-900 bg-slate-50'
+                                : 'border-slate-200 hover:border-emerald-300 bg-white hover:bg-emerald-50/20'
                             }`}
                           >
                             <div className="space-y-1.5">
                               <div className="flex items-center justify-between gap-2">
                                 <div className="flex items-center gap-2">
-                                  <span className="font-display text-lg font-extrabold tabular-nums text-slate-400">
+                                  <span className="font-display text-lg font-semibold tabular-nums text-slate-400">
                                     {String(index + 1).padStart(2, '0')}
                                   </span>
                                   <div className="p-1.5 rounded-lg bg-emerald-100 group-hover:bg-emerald-200 transition-colors">
                                     {getCycleIcon(event.id)}
                                   </div>
-                                  <span className="font-black text-sm text-slate-900 group-hover:text-emerald-700 transition-colors">
+                                  <span className="font-semibold text-sm text-slate-900 group-hover:text-emerald-700 transition-colors">
                                     {event.name}
                                   </span>
                                 </div>
@@ -569,7 +562,7 @@ export default function CycleSimulator({
                                   S&P 500: +{sp500Return}%
                                 </span>
                                 <span
-                                  className={`text-xs font-black px-2 py-0.5 rounded-lg transition ${
+                                  className={`text-xs font-semibold px-2 py-0.5 rounded-lg transition ${
                                     isSelected
                                       ? 'bg-emerald-600 text-white'
                                       : 'bg-emerald-100 text-emerald-800 group-hover:bg-emerald-600 group-hover:text-white'
@@ -589,7 +582,7 @@ export default function CycleSimulator({
                 {activeCycle && simulationResult && (
                   <div className="mt-6 pt-6 border-t border-slate-200 space-y-5 animate-in fade-in duration-300">
                     <div
-                      className={`p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                      className={`p-4 rounded-md border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                         activeCycle.type === 'crisis'
                           ? 'bg-rose-50 border-rose-200 text-rose-950'
                           : 'bg-emerald-50 border-emerald-200 text-emerald-950'
@@ -597,7 +590,7 @@ export default function CycleSimulator({
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`p-2 rounded-xl text-white font-bold shadow-xs ${
+                          className={`p-2 rounded-md text-white font-bold  ${
                             activeCycle.type === 'crisis' ? 'bg-rose-600' : 'bg-emerald-600'
                           }`}
                         >
@@ -608,11 +601,11 @@ export default function CycleSimulator({
                           )}
                         </div>
                         <div>
-                          <div className="text-xs uppercase font-black tracking-wider opacity-75">
+                          <div className="text-xs font-semibold opacity-75">
                             Mostrando en gráfica principal ·{' '}
                             {isSavingsPlan ? 'Plan de Ahorro Periódico' : 'Capital Fijo'}
                           </div>
-                          <div className="text-sm sm:text-base font-black">
+                          <div className="text-sm sm:text-base font-semibold">
                             Ventana: {activeCycle.name} ({activeCycle.startDate} –{' '}
                             {activeCycle.endDate})
                           </div>
@@ -621,7 +614,7 @@ export default function CycleSimulator({
 
                       <a
                         href="#growth-chart"
-                        className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white shadow-xs transition ${
+                        className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-xs font-bold text-white  transition ${
                           activeCycle.type === 'crisis'
                             ? 'bg-rose-600 hover:bg-rose-700'
                             : 'bg-emerald-600 hover:bg-emerald-700'
@@ -633,11 +626,11 @@ export default function CycleSimulator({
                     </div>
 
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                      <div className="p-3 sm:p-4 rounded-md border border-slate-200 bg-slate-50/70 space-y-1">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600">
                           Total Invertido
                         </div>
-                        <div className="text-xl sm:text-2xl font-black text-slate-900">
+                        <div className="text-xl sm:text-2xl font-semibold text-slate-900">
                           {formatCurrency(simulationResult.totalInvested)} €
                         </div>
                         <div className="text-xs font-medium text-slate-600">
@@ -649,11 +642,11 @@ export default function CycleSimulator({
                         </div>
                       </div>
 
-                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                      <div className="p-3 sm:p-4 rounded-md border border-slate-200 bg-slate-50/70 space-y-1">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600">
                           Valor Final Cartera
                         </div>
-                        <div className="text-xl sm:text-2xl font-black text-slate-900">
+                        <div className="text-xl sm:text-2xl font-semibold text-slate-900">
                           {formatCurrency(simulationResult.finalCapital)} €
                         </div>
                         <div
@@ -668,14 +661,14 @@ export default function CycleSimulator({
                         </div>
                       </div>
 
-                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center justify-between">
+                      <div className="p-3 sm:p-4 rounded-md border border-slate-200 bg-slate-50/70 space-y-1">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 flex items-center justify-between">
                           <span>Máxima Caída</span>
                           <span className="text-[13px] bg-rose-100 text-rose-800 font-bold px-1.5 py-0.2 rounded">
                             Riesgo
                           </span>
                         </div>
-                        <div className="text-xl sm:text-2xl font-black text-rose-600">
+                        <div className="text-xl sm:text-2xl font-semibold text-rose-600">
                           {simulationResult.maxDrawdownPct}%
                         </div>
                         <div className="text-xs font-medium text-slate-600">
@@ -683,15 +676,15 @@ export default function CycleSimulator({
                         </div>
                       </div>
 
-                      <div className="p-3 sm:p-4 rounded-xl border border-slate-200 bg-slate-50/70 shadow-2xs space-y-1">
-                        <div className="text-[13px] sm:text-xs font-bold text-slate-600 uppercase tracking-wider">
+                      <div className="p-3 sm:p-4 rounded-md border border-slate-200 bg-slate-50/70 space-y-1">
+                        <div className="text-[13px] sm:text-xs font-bold text-slate-600">
                           {isSavingsPlan && (simulationResult.dcaBenefitVsLumpSumPct ?? 0) > 0
                             ? 'Efecto Compra Periódica'
                             : 'Ritmo Anualizado (CAGR)'}
                         </div>
                         {isSavingsPlan && (simulationResult.dcaBenefitVsLumpSumPct ?? 0) > 0 ? (
                           <>
-                            <div className="text-xl sm:text-2xl font-black text-emerald-700">
+                            <div className="text-xl sm:text-2xl font-semibold text-emerald-700">
                               +{simulationResult.dcaBenefitVsLumpSumPct}%
                             </div>
                             <div className="text-xs font-medium text-slate-600">
@@ -701,7 +694,7 @@ export default function CycleSimulator({
                         ) : (
                           <>
                             <div
-                              className={`text-xl sm:text-2xl font-black ${
+                              className={`text-xl sm:text-2xl font-semibold ${
                                 simulationResult.annualizedReturnPct >= 0
                                   ? 'text-emerald-700'
                                   : 'text-rose-600'
@@ -720,7 +713,7 @@ export default function CycleSimulator({
 
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
-                        <h5 className="font-black text-xs uppercase tracking-wider text-slate-600">
+                        <h5 className="font-semibold text-xs text-slate-600">
                           Comportamiento de cada ETF en tu Cartera (
                           {simulationResult.assetBreakdown.length})
                         </h5>
@@ -733,11 +726,11 @@ export default function CycleSimulator({
                         {simulationResult.assetBreakdown.map((item) => (
                           <div
                             key={item.etfId}
-                            className="p-3 rounded-xl border border-slate-200 bg-white flex items-center justify-between gap-3 shadow-2xs"
+                            className="p-3 rounded-md border border-slate-200 bg-white flex items-center justify-between gap-3"
                           >
                             <div className="space-y-0.5 min-w-0">
                               <div className="flex items-center gap-1.5">
-                                <span className="font-black text-xs text-slate-900 truncate">
+                                <span className="font-semibold text-xs text-slate-900 truncate">
                                   {item.ticker}
                                 </span>
                                 <span className="text-[13px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
@@ -752,7 +745,7 @@ export default function CycleSimulator({
 
                             <div className="text-right flex-shrink-0">
                               <div
-                                className={`font-black text-xs ${
+                                className={`font-semibold text-xs ${
                                   item.totalReturnPct >= 0 ? 'text-emerald-700' : 'text-rose-600'
                                 }`}
                               >

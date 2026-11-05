@@ -75,7 +75,7 @@ export function NoticiasView({ etfs }: NoticiasViewProps) {
 
       {composition.length > 0 && status === 'loading' && (
         <ViewTemplate.Section variant="card" className="p-6 text-center">
-          <p role="status" className="text-sm text-slate-600 font-medium animate-pulse">
+          <p role="status" className="text-sm text-slate-600 font-medium">
             Cargando el digest de tu plan…
           </p>
         </ViewTemplate.Section>
@@ -136,7 +136,7 @@ export function NoticiasView({ etfs }: NoticiasViewProps) {
           </div>
 
           <aside aria-label="Historial de digests" className="space-y-2 lg:sticky lg:top-4">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-700">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
               <History className="w-4 h-4" aria-hidden="true" /> Historial
             </div>
             <ul className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-1">
@@ -148,13 +148,13 @@ export function NoticiasView({ etfs }: NoticiasViewProps) {
                       type="button"
                       aria-current={active ? 'date' : undefined}
                       onClick={() => setSelectedDate(d.date)}
-                      className={`w-full text-left rounded-xl border px-3 py-2 text-xs font-semibold cursor-pointer transition-colors ${
+                      className={`w-full text-left rounded-md border px-3 py-2 text-xs font-semibold cursor-pointer transition-colors ${
                         active
                           ? 'bg-orange-500 border-orange-500 text-white'
                           : 'bg-white border-slate-200 text-slate-700 hover:bg-orange-50'
                       }`}
                     >
-                      <span className="first-letter:uppercase">{shortDayFmt.format(parseDay(d.date))}</span>
+                      <span className="">{shortDayFmt.format(parseDay(d.date))}</span>
                       <span className={`block font-medium ${active ? 'text-white/80' : 'text-slate-500'}`}>
                         {d.news.length} {d.news.length === 1 ? 'noticia' : 'noticias'}
                       </span>

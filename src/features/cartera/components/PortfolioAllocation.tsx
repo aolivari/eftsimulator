@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import {
-  Layers,
   Plus,
   Trash2,
   Search,
@@ -29,16 +28,14 @@ import {
   type EtfSearchItem,
 } from '../services/portfolioService';
 import type { PortfolioAllocationProps } from '../types';
+import { NUMBER_LOCALE } from '../../../shared/utils';
+import { Badge } from '../../../shared/ui';
 
 const COLORS = [
-  '#ea580c',
-  '#0284c7',
-  '#059669',
-  '#7c3aed',
-  '#db2777',
+  '#1d5fbf', '#141414', '#8a8a8a', '#5b8bd6', '#c4c4c4',
   '#d97706',
-  '#0891b2',
-  '#4f46e5',
+  '#3d3d3d',
+  '#a3bde6',
 ];
 
 export default function PortfolioAllocation({
@@ -328,76 +325,65 @@ export default function PortfolioAllocation({
   return (
     <section
       id="portfolio-allocation"
-      className="bg-white rounded-2xl border border-slate-200/90 p-5 space-y-6 shadow-sm"
+      className="bg-white rounded-lg border border-slate-200 p-5 sm:p-6 space-y-5"
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
         <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-orange-100 text-orange-600 shadow-xs">
-            <Layers className="w-4 h-4" />
-          </div>
           <div>
-            <h3 className="font-bold text-slate-900 text-sm">Diseño de Asignación por Fondo</h3>
-            <p className="text-xs text-slate-600 font-medium">
-              Puedes indicar la <span className="text-orange-600 font-bold">cantidad de títulos</span>{' '}
-              que compras o asignar por{' '}
-              <span className="text-orange-600 font-bold">euros / porcentaje</span>.
+            <h2 className="text-base font-semibold text-slate-900">Reparto por fondo</h2>
+            <p className="mt-0.5 text-sm text-slate-600">
+              Asigna cada fondo en euros, en porcentaje o en número de participaciones.
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
+        <div className="inline-flex items-center gap-0.5 bg-slate-100 p-0.5 rounded-md">
           <button
             type="button"
             onClick={() => setAllocationTab('initial')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-black transition cursor-pointer ${
+            className={`flex items-center gap-1.5 h-8 px-3 rounded-[5px] text-sm transition-colors cursor-pointer ${
               allocationTab === 'initial'
-                ? 'bg-sky-600 text-white shadow-sm ring-2 ring-sky-200'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                ? 'bg-white text-slate-900 font-medium outline outline-1 outline-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Coins className="w-3.5 h-3.5" />
-            <span>1. Capital Inicial ({initialCapital.toLocaleString('es-ES')} €)</span>
+            <span>Capital inicial <span className="num text-slate-600">{initialCapital.toLocaleString(NUMBER_LOCALE)} €</span></span>
           </button>
 
           <button
             type="button"
             onClick={() => setAllocationTab('recurring')}
-            className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-black transition cursor-pointer ${
+            className={`flex items-center gap-1.5 h-8 px-3 rounded-[5px] text-sm transition-colors cursor-pointer ${
               allocationTab === 'recurring'
-                ? 'bg-orange-500 text-white shadow-sm ring-2 ring-orange-200'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                ? 'bg-white text-slate-900 font-medium outline outline-1 outline-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <CalendarClock className="w-3.5 h-3.5" />
-            <span>2. Aporte Periódico ({monthlyAmount.toLocaleString('es-ES')} €/mes)</span>
+            <span>Aportación <span className="num text-slate-600">{monthlyAmount.toLocaleString(NUMBER_LOCALE)} €/mes</span></span>
           </button>
         </div>
       </div>
 
       {/* Barra de Estado de la API Financiera en Tiempo Real */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 text-white p-3.5 rounded-2xl border border-slate-800 shadow-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 px-4 py-3 rounded-lg">
         <div className="flex items-center gap-2.5">
-          <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex-shrink-0">
-            <Activity className="w-4 h-4 animate-pulse" />
-          </div>
+          <Activity className="w-4 h-4 shrink-0 text-slate-500" />
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-black text-white">
-                API Financiera en Directo (Yahoo Finance)
+              <span className="text-sm font-medium text-slate-900">
+                Cotizaciones en directo
               </span>
-              <span className="flex items-center gap-1 text-[13px] font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-800/60 px-2 py-0.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                Mercado Conectado
-              </span>
+              <Badge tone="emerald">Conectado</Badge>
             </div>
-            <p className="text-[13px] text-slate-600 font-medium">
-              Cotizaciones reales y estado técnico de bolsas europeas (Xetra, Borsa Italiana,
-              Euronext).{' '}
+            <p className="text-xs text-slate-600">
+              Yahoo Finance · Xetra, Borsa Italiana y Euronext.{' '}
               {lastSyncedTime ? (
-                <strong className="text-emerald-400">Actualizado a las {lastSyncedTime}</strong>
+                <span className="num">Actualizado a las {lastSyncedTime}</span>
               ) : (
-                'Sincronizando cotizaciones...'
+                'Sincronizando…'
               )}
             </p>
           </div>
@@ -407,29 +393,23 @@ export default function PortfolioAllocation({
           type="button"
           onClick={syncLiveQuotes}
           disabled={isSyncingLiveQuotes}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition cursor-pointer shadow-xs sm:ml-auto flex-shrink-0"
+          className="flex items-center gap-1.5 h-8 px-3 bg-white border border-slate-300 hover:bg-slate-50 disabled:text-slate-500 text-slate-900 text-sm font-medium rounded-md transition-colors cursor-pointer sm:ml-auto flex-shrink-0"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${isSyncingLiveQuotes ? 'animate-spin' : ''}`} />
-          <span>{isSyncingLiveQuotes ? 'Sincronizando...' : 'Actualizar Cotizaciones'}</span>
+          <span>{isSyncingLiveQuotes ? 'Sincronizando…' : 'Actualizar'}</span>
         </button>
       </div>
 
       {/* Selector Rápido de Horizonte de Rentabilidad para Proyecciones */}
-      <div className="bg-gradient-to-r from-emerald-50/70 via-teal-50/40 to-slate-50 p-3.5 rounded-2xl border border-emerald-200/70 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+      <div className="bg-slate-50 px-4 py-3 rounded-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center flex-shrink-0 shadow-xs">
-            <TrendingUp className="w-4 h-4" />
-          </div>
+          <TrendingUp className="w-4 h-4 shrink-0 text-slate-500" />
           <div>
-            <span className="text-xs font-black text-slate-900 flex items-center gap-1.5">
-              <span>Rentabilidad Real de los ETFs (Base de Proyección):</span>
-              <span className="text-[13px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
-                Datos oficiales y de mercado
-              </span>
+            <span className="block text-sm font-medium text-slate-900">
+              Rentabilidad esperada de los fondos
             </span>
-            <span className="text-[13px] text-slate-600 font-medium block">
-              Aplica un horizonte histórico a todos los fondos o personaliza individualmente cada
-              ETF:
+            <span className="block text-xs text-slate-600">
+              Toma la media real de un periodo para todos, o ajusta cada fondo abajo.
             </span>
           </div>
         </div>
@@ -438,60 +418,61 @@ export default function PortfolioAllocation({
           <button
             type="button"
             onClick={() => handleApplyGlobalHorizon('tenYear')}
-            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer shadow-2xs"
+            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer"
             title="Aplica la media histórica a largo plazo (ej. VWCE ~8.5%, SXR8 ~10.2%)"
           >
-            Histórico Largo Plazo
+            Largo plazo
           </button>
 
           <button
             type="button"
             onClick={() => handleApplyGlobalHorizon('fiveYear')}
-            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer shadow-2xs"
+            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer"
             title="Aplica la rentabilidad media anualizada de los últimos 5 años (5Y CAGR)"
           >
-            Últimos 5 Años (5Y)
+            5 años
           </button>
 
           <button
             type="button"
             onClick={() => handleApplyGlobalHorizon('threeYear')}
-            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer shadow-2xs"
+            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer"
             title="Aplica la rentabilidad media anualizada de los últimos 3 años (3Y CAGR)"
           >
-            Últimos 3 Años (3Y)
+            3 años
           </button>
 
           <button
             type="button"
             onClick={() => handleApplyGlobalHorizon('oneYear')}
-            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer shadow-2xs"
+            className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 hover:border-emerald-500 hover:bg-emerald-50/50 text-slate-700 hover:text-emerald-800 text-[13px] font-bold transition cursor-pointer"
             title="Aplica la rentabilidad del último año cerrado (1Y)"
           >
-            Último Año (1Y)
+            1 año
           </button>
         </div>
       </div>
 
       {/* Buscador de ETFs en tiempo real */}
-      <div className="bg-amber-50/40 p-4 rounded-2xl border border-amber-200/60 space-y-3">
+      <div className="space-y-3">
         <form onSubmit={handleSearch} className="space-y-2">
-          <label className="text-xs font-black text-slate-800 flex items-center gap-2">
-            <Search className="w-4 h-4 text-orange-600" />
-            <span>Buscar ETF para añadir a tu plan (por Ticker, Índice o Nombre):</span>
+          <label htmlFor="etf-search" className="text-sm font-medium text-slate-900 flex items-center gap-2">
+            <Search className="w-4 h-4 text-slate-500" />
+            <span>Añadir un ETF</span>
           </label>
           <div className="flex gap-2">
             <input
+              id="etf-search"
               type="text"
-              placeholder="Ej: S&P 500, MSCI World, Nasdaq, VWCE, QDVE, EUNL, CSPX..."
+              placeholder="Ticker, índice o nombre: VWCE, MSCI World, S&P 500…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 bg-white border border-slate-300 px-3.5 py-2 rounded-xl text-xs font-bold text-slate-900 placeholder:text-slate-600 focus:outline-none focus:border-orange-500 shadow-xs"
+              className="flex-1 bg-white border border-slate-300 h-9 px-3 rounded-md text-base sm:text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-slate-900"
             />
             <button
               type="submit"
               disabled={isSearching || !searchQuery.trim()}
-              className="flex items-center gap-1.5 px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition cursor-pointer shadow-xs"
+              className="flex items-center gap-1.5 px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white text-xs font-bold rounded-md transition cursor-pointer"
             >
               {isSearching ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
@@ -504,7 +485,7 @@ export default function PortfolioAllocation({
         </form>
 
         {errorMsg && (
-          <div className="flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200 p-2.5 rounded-xl">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200 p-2.5 rounded-md">
             <AlertCircle className="w-4 h-4 flex-shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -512,18 +493,18 @@ export default function PortfolioAllocation({
 
         {searchResults.length > 0 && (
           <div className="space-y-2 pt-2 border-t border-amber-200/60">
-            <span className="text-xs font-black uppercase text-slate-600 tracking-wider block">
+            <span className="text-xs font-semibold text-slate-600 block">
               Resultados encontrados:
             </span>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
               {searchResults.map((item, idx) => (
                 <div
                   key={`${item.symbol}-${idx}`}
-                  className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 text-xs shadow-xs hover:border-orange-400 transition"
+                  className="flex items-center justify-between p-2.5 rounded-md bg-white border border-slate-200 text-xs hover:border-orange-400 transition"
                 >
                   <div className="min-w-0 pr-2">
                     <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                      <span className="text-orange-600 font-black">
+                      <span className="text-orange-600 font-semibold">
                         {item.ticker || item.symbol}
                       </span>
                       <span className="text-slate-600 font-normal truncate">
@@ -535,7 +516,7 @@ export default function PortfolioAllocation({
                   <button
                     type="button"
                     onClick={() => handleAddEtf(item)}
-                    className="flex-shrink-0 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition cursor-pointer shadow-xs flex items-center gap-1"
+                    className="flex-shrink-0 px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition cursor-pointer flex items-center gap-1"
                   >
                     <Plus className="w-3 h-3" />
                     <span>Añadir</span>
@@ -548,14 +529,14 @@ export default function PortfolioAllocation({
       </div>
 
       {/* Resumen Ponderado y Controles de Reparto */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-50 p-4 rounded-md border border-slate-200">
         <div className="flex items-center gap-4 flex-wrap">
           <div>
-            <span className="text-[13px] uppercase text-slate-600 font-bold block">
+            <span className="text-[13px] text-slate-600 font-bold block">
               Modo editando:
             </span>
             <span
-              className={`text-sm font-black ${
+              className={`text-sm font-semibold ${
                 allocationTab === 'recurring' ? 'text-orange-600' : 'text-sky-600'
               }`}
             >
@@ -566,10 +547,10 @@ export default function PortfolioAllocation({
           <div className="h-6 w-px bg-slate-200 hidden sm:block" />
 
           <div>
-            <span className="text-[13px] uppercase text-slate-600 font-bold block">
+            <span className="text-[13px] text-slate-600 font-bold block">
               Rentabilidad Ponderada
             </span>
-            <span className="text-sm font-black text-emerald-700">
+            <span className="text-sm font-semibold text-emerald-700">
               {weightedReturn.toFixed(2)}% / año
             </span>
           </div>
@@ -578,7 +559,7 @@ export default function PortfolioAllocation({
 
           <div className="relative">
             <div className="flex items-center gap-1">
-              <span className="text-[13px] uppercase text-slate-600 font-bold block">
+              <span className="text-[13px] text-slate-600 font-bold block">
                 Coste Medio (TER)
               </span>
               <button
@@ -590,13 +571,13 @@ export default function PortfolioAllocation({
                 <HelpCircle className="w-3.5 h-3.5" />
               </button>
             </div>
-            <span className="text-sm font-black text-slate-800">
+            <span className="text-sm font-semibold text-slate-800">
               {weightedTER.toFixed(2)}% / año
             </span>
 
             {showTerExplainer && (
-              <div className="absolute top-full left-0 mt-2 z-30 w-80 p-3.5 bg-slate-900 text-white text-xs rounded-xl shadow-xl border border-slate-700 space-y-2 animate-in fade-in zoom-in-95">
-                <div className="flex items-center justify-between font-black text-orange-400 border-b border-slate-800 pb-1.5">
+              <div className="absolute top-full left-0 mt-2 z-30 w-80 p-3.5 bg-slate-900 text-white text-xs rounded-md shadow-xl border border-slate-700 space-y-2 animate-in fade-in zoom-in-95">
+                <div className="flex items-center justify-between font-semibold text-orange-400 border-b border-slate-800 pb-1.5">
                   <span className="flex items-center gap-1.5">
                     <Info className="w-4 h-4" />
                     ¿Qué es el TER y de dónde sale?
@@ -636,11 +617,11 @@ export default function PortfolioAllocation({
           <div className="h-6 w-px bg-slate-200 hidden sm:block" />
 
           <div>
-            <span className="text-[13px] uppercase text-slate-600 font-bold block">
+            <span className="text-[13px] text-slate-600 font-bold block">
               Retención Fiscal (IRPF)
             </span>
             <span
-              className={`text-sm font-black ${
+              className={`text-sm font-semibold ${
                 taxDragPct > 0 ? 'text-amber-600' : 'text-emerald-700'
               }`}
             >
@@ -654,7 +635,7 @@ export default function PortfolioAllocation({
             <button
               type="button"
               onClick={handleNormalize100}
-              className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold transition cursor-pointer shadow-xs"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold transition cursor-pointer"
               title="Ajustar proporcionalmente todos los ETFs para que sumen exactamente 100%"
             >
               <span>Ajustar al 100%</span>
@@ -664,7 +645,7 @@ export default function PortfolioAllocation({
           <button
             type="button"
             onClick={handleEqualWeights}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-bold transition cursor-pointer shadow-xs"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-bold transition cursor-pointer"
           >
             <Percent className="w-3.5 h-3.5 text-slate-600" />
             <span>Repartir 100% Equitativo</span>
@@ -685,7 +666,7 @@ export default function PortfolioAllocation({
                 ? '(Válido)'
                 : currentTotal > 100
                 ? '(Supera el 100%)'
-                : `(Sobrante ${unassignedCash.toLocaleString('es-ES')} €)`}
+                : `(Sobrante ${unassignedCash.toLocaleString(NUMBER_LOCALE)} €)`}
             </span>
           </div>
         </div>
@@ -729,8 +710,8 @@ export default function PortfolioAllocation({
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-              <span className="text-xl font-black text-slate-900">{etfs.length}</span>
-              <span className="text-[13px] uppercase text-slate-600 font-bold">
+              <span className="text-xl font-semibold text-slate-900">{etfs.length}</span>
+              <span className="text-[13px] text-slate-600 font-bold">
                 {allocationTab === 'recurring' ? 'Periódicos' : 'Iniciales'}
               </span>
             </div>
@@ -740,13 +721,13 @@ export default function PortfolioAllocation({
             <span className="text-[13px] font-bold text-slate-600 block">
               Total asignado:{' '}
               <strong className="text-slate-800">
-                {Math.round(totalMoneyAssigned).toLocaleString('es-ES')} €
+                {Math.round(totalMoneyAssigned).toLocaleString(NUMBER_LOCALE)} €
               </strong>{' '}
-              de {totalBase.toLocaleString('es-ES')} €
+              de {totalBase.toLocaleString(NUMBER_LOCALE)} €
             </span>
             {unassignedCash > 0 && (
               <span className="text-[13px] font-bold text-amber-600 block">
-                Efectivo sin asignar: {unassignedCash.toLocaleString('es-ES')} €
+                Efectivo sin asignar: {unassignedCash.toLocaleString(NUMBER_LOCALE)} €
               </span>
             )}
           </div>
@@ -778,7 +759,7 @@ export default function PortfolioAllocation({
             return (
               <div
                 key={etf.id}
-                className="p-4 rounded-xl border transition shadow-xs bg-white border-slate-200 hover:border-slate-300 space-y-3"
+                className="p-4 rounded-md border transition bg-white border-slate-200 hover:border-slate-300 space-y-3"
               >
                 <div className="flex items-start justify-between gap-2.5">
                   <div className="flex items-center gap-2 flex-wrap min-w-0">
@@ -786,7 +767,7 @@ export default function PortfolioAllocation({
                       className="w-3.5 h-3.5 rounded-full flex-shrink-0"
                       style={{ backgroundColor: COLORS[idx % COLORS.length] }}
                     />
-                    <span className="font-black text-sm text-slate-900 shrink-0">{etf.ticker}</span>
+                    <span className="font-semibold text-sm text-slate-900 shrink-0">{etf.ticker}</span>
 
                     <button
                       type="button"
@@ -798,7 +779,7 @@ export default function PortfolioAllocation({
                         );
                         onChange(updated);
                       }}
-                      className={`text-[13px] uppercase font-black px-2 py-0.5 rounded-full cursor-pointer transition shrink-0 whitespace-nowrap ${
+                      className={`text-[13px]  font-semibold px-2 py-0.5 rounded-full cursor-pointer transition shrink-0 whitespace-nowrap ${
                         (etf.dividendPolicy ?? 'acc') === 'acc'
                           ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                           : 'bg-amber-100 text-amber-800 border border-amber-300'
@@ -821,12 +802,12 @@ export default function PortfolioAllocation({
                         min={0.01}
                         placeholder="0.00"
                         suffix="€/título"
-                        className="w-16 bg-transparent font-black text-orange-950 text-right focus:outline-none focus:bg-white focus:px-1 rounded"
+                        className="w-16 bg-transparent font-semibold text-orange-950 text-right focus:outline-none focus:bg-white focus:px-1 rounded"
                       />
                     </div>
 
                     <span
-                      className="text-[13px] uppercase font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 shrink-0 whitespace-nowrap"
+                      className="text-[13px] font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 shrink-0 whitespace-nowrap"
                       title="TER (Total Expense Ratio): Comisión anual interna del fondo descontada del valor liquidativo."
                     >
                       TER: {etf.ter}%
@@ -849,15 +830,15 @@ export default function PortfolioAllocation({
                 </div>
 
                 {live && live.price > 0 && (
-                  <div className="flex items-center justify-between gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-200 text-xs flex-wrap">
+                  <div className="flex items-center justify-between gap-2.5 bg-slate-50 p-2.5 rounded-md border border-slate-200 text-xs flex-wrap">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[13px] font-black uppercase text-slate-600 flex items-center gap-1">
+                      <span className="text-[13px] font-semibold text-slate-600 flex items-center gap-1">
                         <Activity className="w-3 h-3 text-orange-500" />
                         <span>En vivo hoy:</span>
                       </span>
 
                       <span
-                        className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[13px] font-black ${
+                        className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md text-[13px] font-semibold ${
                           (live.changePercent ?? 0) >= 0
                             ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
                             : 'bg-rose-100 text-rose-800 border border-rose-300'
@@ -869,7 +850,7 @@ export default function PortfolioAllocation({
                       </span>
 
                       <span
-                        className={`text-[13px] font-black px-2 py-0.5 rounded-full ${
+                        className={`text-[13px] font-semibold px-2 py-0.5 rounded-full ${
                           live.trend === 'bullish'
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                             : 'bg-amber-50 text-amber-700 border border-amber-200'
@@ -910,15 +891,15 @@ export default function PortfolioAllocation({
                   </div>
                 )}
 
-                <div className="bg-emerald-50/40 p-2.5 rounded-xl border border-emerald-200/60 space-y-2">
+                <div className="bg-emerald-50/40 p-2.5 rounded-md border border-emerald-200/60 space-y-2">
                   <div className="flex items-center justify-between gap-2 flex-wrap">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[13px] font-black uppercase text-emerald-900 flex items-center gap-1">
+                      <span className="text-[13px] font-semibold text-emerald-900 flex items-center gap-1">
                         <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
                         <span>Rentabilidad Proyectada:</span>
                       </span>
 
-                      <div className="flex items-center bg-white border border-emerald-300 rounded-lg px-2 py-0.5 shadow-2xs">
+                      <div className="flex items-center bg-white border border-emerald-300 rounded-lg px-2 py-0.5">
                         <BufferedNumberInput
                           value={etf.expectedReturn}
                           onCommit={(val) => handleExpectedReturnChange(etf.id, val)}
@@ -927,13 +908,13 @@ export default function PortfolioAllocation({
                           decimals={1}
                           placeholder="0.0"
                           suffix="% anual"
-                          className="w-12 bg-transparent text-right font-black text-emerald-800 text-xs focus:outline-none"
+                          className="w-12 bg-transparent text-right font-semibold text-emerald-800 text-xs focus:outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="flex items-center gap-1 flex-wrap">
-                      <span className="text-[13px] uppercase font-black text-slate-600 mr-1 hidden sm:inline">
+                      <span className="text-[13px] font-semibold text-slate-600 mr-1 hidden sm:inline">
                         Récords reales:
                       </span>
 
@@ -941,9 +922,9 @@ export default function PortfolioAllocation({
                         <button
                           type="button"
                           onClick={() => handleExpectedReturnChange(etf.id, hist.tenYear!)}
-                          className={`px-2 py-0.5 rounded text-[13px] font-black transition cursor-pointer border ${
+                          className={`px-2 py-0.5 rounded text-[13px] font-semibold transition cursor-pointer border ${
                             Math.abs(etf.expectedReturn - hist.tenYear) < 0.05
-                              ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
+                              ? 'bg-emerald-600 text-white border-emerald-700'
                               : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50'
                           }`}
                           title="Hacer clic para proyectar con la media histórica a largo plazo"
@@ -956,9 +937,9 @@ export default function PortfolioAllocation({
                         <button
                           type="button"
                           onClick={() => handleExpectedReturnChange(etf.id, hist.fiveYear!)}
-                          className={`px-2 py-0.5 rounded text-[13px] font-black transition cursor-pointer border ${
+                          className={`px-2 py-0.5 rounded text-[13px] font-semibold transition cursor-pointer border ${
                             Math.abs(etf.expectedReturn - hist.fiveYear) < 0.05
-                              ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
+                              ? 'bg-emerald-600 text-white border-emerald-700'
                               : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50'
                           }`}
                           title="Hacer clic para proyectar con los últimos 5 años (5Y CAGR)"
@@ -971,9 +952,9 @@ export default function PortfolioAllocation({
                         <button
                           type="button"
                           onClick={() => handleExpectedReturnChange(etf.id, hist.threeYear!)}
-                          className={`px-2 py-0.5 rounded text-[13px] font-black transition cursor-pointer border ${
+                          className={`px-2 py-0.5 rounded text-[13px] font-semibold transition cursor-pointer border ${
                             Math.abs(etf.expectedReturn - hist.threeYear) < 0.05
-                              ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
+                              ? 'bg-emerald-600 text-white border-emerald-700'
                               : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50'
                           }`}
                           title="Hacer clic para proyectar con los últimos 3 años (3Y CAGR)"
@@ -986,9 +967,9 @@ export default function PortfolioAllocation({
                         <button
                           type="button"
                           onClick={() => handleExpectedReturnChange(etf.id, hist.oneYear!)}
-                          className={`px-2 py-0.5 rounded text-[13px] font-black transition cursor-pointer border ${
+                          className={`px-2 py-0.5 rounded text-[13px] font-semibold transition cursor-pointer border ${
                             Math.abs(etf.expectedReturn - hist.oneYear) < 0.05
-                              ? 'bg-emerald-600 text-white border-emerald-700 shadow-2xs'
+                              ? 'bg-emerald-600 text-white border-emerald-700'
                               : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-400 hover:bg-emerald-50'
                           }`}
                           title="Hacer clic para proyectar con el último año cerrado (1Y)"
@@ -1019,7 +1000,7 @@ export default function PortfolioAllocation({
                   {isHistoryOpen && hist?.annualReturns && (
                     <div className="pt-2 border-t border-emerald-200/50 animate-in fade-in">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-[13px] uppercase font-bold text-slate-600 mr-1">
+                        <span className="text-[13px] font-bold text-slate-600 mr-1">
                           Rentabilidad por año natural:
                         </span>
                         {hist.annualReturns.map((ar) => (
@@ -1042,12 +1023,12 @@ export default function PortfolioAllocation({
                   )}
                 </div>
 
-                <div className="flex items-center justify-between gap-3 bg-slate-50/70 p-2.5 rounded-xl border border-slate-200/80 flex-wrap">
+                <div className="flex items-center justify-between gap-3 bg-slate-50/70 p-2.5 rounded-md border border-slate-200/80 flex-wrap">
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[13px] font-black uppercase text-slate-600">
+                    <span className="text-[13px] font-semibold text-slate-600">
                       Comprar:
                     </span>
-                    <div className="flex items-center bg-white border border-slate-300 rounded-lg p-0.5 shadow-2xs">
+                    <div className="flex items-center bg-white border border-slate-300 rounded-lg p-0.5">
                       <button
                         type="button"
                         onClick={() => {
@@ -1067,7 +1048,7 @@ export default function PortfolioAllocation({
                         placeholder="0"
                         min={0}
                         suffix="títulos"
-                        className="w-16 bg-transparent text-center font-black text-slate-900 text-xs focus:outline-none"
+                        className="w-16 bg-transparent text-center font-semibold text-slate-900 text-xs focus:outline-none"
                       />
 
                       <button
@@ -1087,7 +1068,7 @@ export default function PortfolioAllocation({
 
                   <div className="text-xs font-bold text-slate-600 hidden sm:block">
                     ×{' '}
-                    {price.toLocaleString('es-ES', {
+                    {price.toLocaleString(NUMBER_LOCALE, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}{' '}
@@ -1095,11 +1076,11 @@ export default function PortfolioAllocation({
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[13px] font-black uppercase text-slate-600">
+                    <span className="text-[13px] font-semibold text-slate-600">
                       Importe:
                     </span>
                     <div
-                      className={`flex items-center rounded-lg px-2.5 py-1 border shadow-2xs ${
+                      className={`flex items-center rounded-lg px-2.5 py-1 border  ${
                         allocationTab === 'recurring'
                           ? 'bg-orange-50/90 border-orange-200 text-orange-800'
                           : 'bg-sky-50/90 border-sky-200 text-sky-800'
@@ -1111,14 +1092,14 @@ export default function PortfolioAllocation({
                         min={0}
                         placeholder="0"
                         suffix={`€ ${allocationTab === 'recurring' ? '/mes' : 'inicial'}`}
-                        className="w-20 bg-transparent text-right font-black text-xs focus:outline-none"
+                        className="w-20 bg-transparent text-right font-semibold text-xs focus:outline-none"
                       />
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[13px] font-black uppercase text-slate-600">Peso:</span>
-                    <div className="flex items-center border rounded-lg px-2 py-1 bg-white border-slate-300 shadow-2xs">
+                    <span className="text-[13px] font-semibold text-slate-600">Peso:</span>
+                    <div className="flex items-center border rounded-lg px-2 py-1 bg-white border-slate-300">
                       <BufferedNumberInput
                         value={currentWeight === 0 ? 0 : currentWeight}
                         onCommit={(val) => handleWeightChange(etf.id, val)}
@@ -1127,7 +1108,7 @@ export default function PortfolioAllocation({
                         decimals={1}
                         placeholder="0"
                         suffix="%"
-                        className="w-12 bg-transparent text-right font-black text-slate-900 text-xs focus:outline-none"
+                        className="w-12 bg-transparent text-right font-semibold text-slate-900 text-xs focus:outline-none"
                       />
                     </div>
                   </div>
@@ -1142,7 +1123,7 @@ export default function PortfolioAllocation({
                           {wholeShares} {wholeShares === 1 ? 'título entero' : 'títulos enteros'}
                         </strong>{' '}
                         (
-                        {(wholeShares * price).toLocaleString('es-ES', {
+                        {(wholeShares * price).toLocaleString(NUMBER_LOCALE, {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })}{' '}

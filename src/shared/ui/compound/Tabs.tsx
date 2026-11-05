@@ -29,8 +29,8 @@ function handleTabKeys(e: React.KeyboardEvent<HTMLElement>, onValueChange?: (nex
   if (current === -1) return;
   const last = tabs.length - 1;
   const next =
-    e.key === 'ArrowRight' ? (current === last ? 0 : current + 1)
-    : e.key === 'ArrowLeft' ? (current === 0 ? last : current - 1)
+    e.key === 'ArrowRight' || e.key === 'ArrowDown' ? (current === last ? 0 : current + 1)
+    : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? (current === 0 ? last : current - 1)
     : e.key === 'Home' ? 0
     : e.key === 'End' ? last
     : -1;
@@ -109,7 +109,7 @@ function List({
       {box && (
         <span
           aria-hidden="true"
-          className="tabs-indicator pointer-events-none absolute inset-y-1 rounded-xl bg-orange-500 shadow-md shadow-orange-500/30"
+          className="tabs-indicator pointer-events-none absolute inset-y-1 rounded-md bg-white outline outline-1 outline-slate-200"
           style={{ left: box.left, right: box.right, transition: indicatorTransition(box.direction) }}
         />
       )}
@@ -139,10 +139,83 @@ function Trigger({
       tabIndex={active ? 0 : -1}
       onClick={() => ctx?.onValueChange(value)}
       className={`relative z-10 flex-1 min-w-0 px-2 lg:px-3 py-2.5 text-xs lg:text-sm font-bold rounded-xl transition-colors duration-300 cursor-pointer flex items-center justify-center gap-1.5 lg:gap-2 whitespace-nowrap ${
-        active ? 'text-white' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+        active ? 'text-slate-900' : 'text-slate-600 hover:text-slate-900'
       } ${className}`.trim()}
     >
       {children}
+    </button>
+  );
+}
+
+
+/**
+ * Navegación lateral (escritorio): lista vertical de pestañas agrupadas por función.
+ * La activa lleva una píldora gris neutra; el color se reserva para los datos.
+ */
+function SideList({
+  label,
+  className = '',
+  children,
+}: {
+  label: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const ctx = useContext(TabsContext);
+  return (
+    <div
+      role="tablist"
+      aria-label={label}
+      aria-orientation="vertical"
+      onKeyDown={(e) => handleTabKeys(e, ctx?.onValueChange)}
+      className={`flex flex-col ${className}`.trim()}
+    >
+      {children}
+    </div>
+  );
+}
+
+function SideGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div role="presentation" className="pt-6 first:pt-0">
+      <div role="presentation" className="px-3 pb-2 text-xs text-slate-600">
+        {label}
+      </div>
+      <div role="presentation" className="flex flex-col gap-0.5">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function SideTrigger({
+  value,
+  icon,
+  meta,
+  children,
+}: {
+  value: string;
+  icon?: React.ReactNode;
+  meta?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  const ctx = useContext(TabsContext);
+  const active = ctx?.value === value;
+  return (
+    <button
+      type="button"
+      role="tab"
+      data-value={value}
+      aria-selected={active}
+      tabIndex={active ? 0 : -1}
+      onClick={() => ctx?.onValueChange(value)}
+      className={`flex h-8 w-full items-center gap-2.5 rounded-md px-3 text-left text-sm transition-colors cursor-pointer ${
+        active ? 'bg-slate-200/70 text-slate-900 font-medium' : 'text-slate-700 hover:bg-slate-200/40 hover:text-slate-900'
+      }`}
+    >
+      {icon && <span className={`flex shrink-0 ${active ? 'text-slate-900' : 'text-slate-500'}`}>{icon}</span>}
+      <span className="min-w-0 flex-1 truncate">{children}</span>
+      {meta && <span className="num shrink-0 text-xs text-slate-600">{meta}</span>}
     </button>
   );
 }
@@ -167,7 +240,7 @@ function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; clas
       className={`fixed inset-x-0 bottom-0 z-40 px-3 pb-[max(env(safe-area-inset-bottom),0.75rem)] ${className}`.trim()}
     >
       {/* Margen interior (px-2): en la primera y la última pestaña la joroba no llega a la esquina */}
-      <div className="mx-auto max-w-md rounded-2xl bg-slate-950 px-2 shadow-2xl shadow-slate-900/40">
+      <div className="mx-auto max-w-md rounded-lg bg-slate-950 px-2 shadow-2xl shadow-black/30">
         <div className="relative">
           {/* Joroba y círculo: miden lo mismo que una pestaña y se desplazan con transform */}
           <div
@@ -182,7 +255,7 @@ function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; clas
             >
               <path d="M0 16 C14 16 16 0 32 0 C48 0 50 16 64 16 Z" />
             </svg>
-            <span className="absolute left-1/2 -top-[12px] h-10 w-10 -translate-x-1/2 rounded-full bg-orange-500 shadow-lg shadow-orange-500/40" />
+            <span className="absolute left-1/2 -top-[12px] h-10 w-10 -translate-x-1/2 rounded-full bg-white" />
           </div>
 
           <div role="tablist" className="relative flex" onKeyDown={(e) => handleTabKeys(e, ctx?.onValueChange)}>
@@ -201,14 +274,14 @@ function BottomBar({ items, className = '' }: { items: TabsBottomBarItem[]; clas
               >
                 <span
                   className={`tabs-bump-icon flex h-5 items-center ${
-                    active ? '-translate-y-[14px] text-white' : 'text-slate-400'
+                    active ? '-translate-y-[14px] text-slate-950' : 'text-slate-400'
                   }`}
                 >
                   {item.icon}
                 </span>
                 <span
-                  className={`max-w-full truncate text-[10px] font-semibold tracking-tight transition-colors duration-300 ${
-                    active ? 'text-orange-300' : 'text-slate-400'
+                  className={`max-w-full truncate text-[11px] font-semibold tracking-tight transition-colors duration-300 ${
+                    active ? 'text-white' : 'text-slate-400'
                   }`}
                 >
                   {item.label}
@@ -246,6 +319,9 @@ export const Tabs = {
   Root,
   List,
   Trigger,
+  SideList,
+  SideGroup,
+  SideTrigger,
   BottomBar,
   Panel,
 };

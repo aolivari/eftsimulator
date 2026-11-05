@@ -177,21 +177,21 @@ export default function CycleTimelineModal({
     switch (type) {
       case 'crisis':
         return (
-          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 border border-rose-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 border border-rose-200">
             <TrendingDown className="w-3 h-3 text-rose-600" />
             Crisis / Shock
           </span>
         );
       case 'expansion':
         return (
-          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-200">
             <TrendingUp className="w-3 h-3 text-emerald-600" />
             Expansión
           </span>
         );
       case 'recovery':
         return (
-          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-sky-100 text-sky-800 border border-sky-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold px-2 py-0.5 rounded-md bg-sky-100 text-sky-800 border border-sky-200">
             <Sparkles className="w-3 h-3 text-sky-600" />
             Rebote / Recuperación
           </span>
@@ -199,7 +199,7 @@ export default function CycleTimelineModal({
       case 'neutral':
       default:
         return (
-          <span className="inline-flex items-center gap-1 text-[13px] font-black px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 border border-amber-200">
             <Calendar className="w-3 h-3 text-amber-600" />
             Lateral
           </span>
@@ -209,25 +209,25 @@ export default function CycleTimelineModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 bg-slate-900/60 animate-in fade-in duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-[#FAF7F2] sm:bg-white rounded-t-[28px] sm:rounded-3xl border-t sm:border border-slate-200/90 shadow-2xl w-full sm:max-w-4xl max-h-[92vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300">
+      <div className="bg-[#FAF7F2] sm:bg-white rounded-t-[28px] sm:rounded-lg border-t sm:border border-slate-200/90 shadow-2xl w-full sm:max-w-4xl max-h-[92vh] flex flex-col overflow-hidden animate-in slide-in-from-bottom duration-300">
         <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto my-2.5 sm:hidden shrink-0 cursor-grab" />
 
         <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white border-b border-slate-200/80 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-gradient-to-br from-orange-500 to-amber-500 text-white flex items-center justify-center font-bold shadow-xs shrink-0">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center shrink-0 text-slate-500">
               <ShieldAlert className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-1.5 sm:gap-2">
-                <h3 className="text-sm sm:text-lg font-black text-slate-900 tracking-tight leading-tight">
+                <h3 className="text-sm sm:text-lg font-semibold text-slate-900 tracking-tight leading-tight">
                   Diseñador de Estrés & Shocks
                 </h3>
-                <span className="text-[13px] uppercase font-black px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+                <span className="text-[13px] font-semibold px-1.5 sm:px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
                   {planYears} Años
                 </span>
               </div>
@@ -240,7 +240,7 @@ export default function CycleTimelineModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-800 transition cursor-pointer shadow-2xs shrink-0"
+            className="w-8 h-8 flex items-center justify-center transition cursor-pointer shrink-0 text-slate-500"
             aria-label="Cerrar modal"
           >
             <X className="w-4 h-4" />
@@ -250,7 +250,7 @@ export default function CycleTimelineModal({
         <div className="px-3.5 sm:px-6 py-3 sm:py-5 overflow-y-auto space-y-4 sm:space-y-6 flex-1">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-[13px] sm:text-xs font-black uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+              <label className="text-[13px] sm:text-xs font-semibold text-slate-600 flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                 <span>Plantillas de Estrés & Ciclos ({planYears} años)</span>
               </label>
@@ -265,20 +265,20 @@ export default function CycleTimelineModal({
                     type="button"
                     key={preset.id}
                     onClick={() => handleApplyPreset(preset.id)}
-                    className={`text-left p-2.5 sm:p-3 rounded-xl sm:rounded-2xl border transition-all cursor-pointer flex flex-col justify-between group ${
+                    className={`text-left p-2.5 sm:p-3 rounded-md sm:rounded-lg border transition-all cursor-pointer flex flex-col justify-between group ${
                       isSelected
-                        ? 'border-orange-500 bg-orange-50/50 shadow-xs ring-2 ring-orange-500/20'
-                        : 'border-slate-200 hover:border-orange-300 bg-white hover:bg-orange-50/20 shadow-2xs'
+                        ? 'border-slate-900 bg-slate-50'
+                        : 'border-slate-200 hover:border-orange-300 bg-white hover:bg-orange-50/20'
                     }`}
                   >
                     <div className="space-y-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-[9px] sm:text-[13px] font-black uppercase px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-200">
+                        <span className="text-[11px] sm:text-[13px] font-semibold px-1.5 py-0.2 rounded bg-amber-100 text-amber-900 border border-amber-200">
                           {preset.badge}
                         </span>
                         {isSelected && <Check className="w-3.5 h-3.5 text-orange-600" />}
                       </div>
-                      <div className="font-black text-xs text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-1">
+                      <div className="font-semibold text-xs text-slate-900 group-hover:text-orange-600 transition-colors line-clamp-1">
                         {preset.name}
                       </div>
                       <p className="text-[13px] text-slate-600 line-clamp-2 leading-relaxed">
@@ -286,9 +286,9 @@ export default function CycleTimelineModal({
                       </p>
                     </div>
 
-                    <div className="mt-2 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[9px] sm:text-[13px] font-bold text-slate-600">
+                    <div className="mt-2 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[11px] sm:text-[13px] font-bold text-slate-600">
                       <span>{preset.segments.length} Fases</span>
-                      <span className="text-orange-600 font-black">Cargar</span>
+                      <span className="text-orange-600 font-semibold">Cargar</span>
                     </div>
                   </button>
                 );
@@ -296,10 +296,10 @@ export default function CycleTimelineModal({
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-3">
+          <div className="p-4 rounded-lg bg-slate-50 border border-slate-200/90 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-xs font-black uppercase tracking-wider text-slate-800">
+                <span className="text-xs font-semibold text-slate-800">
                   Línea Temporal Resultante
                 </span>
                 <span
@@ -317,7 +317,7 @@ export default function CycleTimelineModal({
                 <button
                   type="button"
                   onClick={handleFitToPlanYears}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white shadow-xs transition cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white transition cursor-pointer"
                 >
                   <RotateCcw className="w-3 h-3" />
                   <span>Ajustar exactamente a {planYears} años</span>
@@ -325,7 +325,7 @@ export default function CycleTimelineModal({
               )}
             </div>
 
-            <div className="h-10 w-full rounded-xl overflow-hidden flex bg-slate-200/80 p-1 gap-1 shadow-inner">
+            <div className="h-10 w-full rounded-md overflow-hidden flex bg-slate-200/80 p-1 gap-1">
               {workingPlan.segments.map((seg, idx) => {
                 const range = segmentYearRanges[idx];
                 const widthPercent = (seg.durationYears / totalSegmentYears) * 100;
@@ -349,12 +349,12 @@ export default function CycleTimelineModal({
                         : `Años ${range.startYear} a ${range.endYear}`
                     }): ${seg.tagline}`}
                   >
-                    <span className="text-[13px] font-black leading-none truncate w-full text-center">
+                    <span className="text-[13px] font-semibold leading-none truncate w-full text-center">
                       {range.isSingleYear
                         ? `A${range.startYear}`
                         : `A${range.startYear}-${range.endYear}`}
                     </span>
-                    <span className="text-[9px] opacity-90 truncate w-full text-center font-bold">
+                    <span className="text-[11px] opacity-90 truncate w-full text-center font-bold">
                       {seg.durationYears}a
                     </span>
                   </div>
@@ -387,7 +387,7 @@ export default function CycleTimelineModal({
 
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-black uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-orange-600" />
                 <span>Secuencia de Fases ({workingPlan.segments.length})</span>
               </label>
@@ -395,7 +395,7 @@ export default function CycleTimelineModal({
               <button
                 type="button"
                 onClick={handleAddSegment}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-bold bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 transition cursor-pointer"
+                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-bold bg-orange-50 hover:bg-orange-100 text-orange-700 border border-orange-200 transition cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Añadir Fase</span>
@@ -411,15 +411,15 @@ export default function CycleTimelineModal({
                 return (
                   <div
                     key={seg.id}
-                    className="p-4 rounded-2xl border border-slate-200 bg-white hover:border-slate-300 transition shadow-2xs space-y-3"
+                    className="p-4 rounded-lg border border-slate-200 bg-white hover:border-slate-300 transition space-y-3"
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
                       <div className="flex items-center gap-2">
-                        <span className="w-6 h-6 rounded-lg bg-slate-100 text-slate-700 text-xs font-black flex items-center justify-center">
+                        <span className="w-6 h-6 text-xs flex items-center justify-center text-slate-500">
                           {idx + 1}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="font-black text-sm text-slate-900">
+                          <span className="font-semibold text-sm text-slate-900">
                             {range.isSingleYear
                               ? `Año ${range.startYear}`
                               : `Años ${range.startYear} a ${range.endYear}`}
@@ -472,7 +472,7 @@ export default function CycleTimelineModal({
                               (t.cyclePresetId && t.cyclePresetId === seg.cyclePresetId)
                           )}
                           onChange={(e) => handleTemplateChange(idx, Number(e.target.value))}
-                          className="w-full text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition cursor-pointer"
+                          className="w-full text-xs font-bold text-slate-800 bg-slate-50 border border-slate-200 rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition cursor-pointer"
                         >
                           {AVAILABLE_SEGMENT_TEMPLATES.map((tmpl, tmplIdx) => (
                             <option key={tmpl.name} value={tmplIdx}>
@@ -503,7 +503,7 @@ export default function CycleTimelineModal({
                           <label className="text-[13px] font-bold text-slate-600 block">
                             Duración:
                           </label>
-                          <div className="inline-flex items-center border border-slate-200 rounded-xl overflow-hidden bg-white shadow-2xs">
+                          <div className="inline-flex items-center border border-slate-200 rounded-md overflow-hidden bg-white">
                             <button
                               type="button"
                               onClick={() => handleDurationChange(idx, -1)}
@@ -512,7 +512,7 @@ export default function CycleTimelineModal({
                             >
                               -
                             </button>
-                            <span className="px-3 py-1 text-xs font-black text-slate-800 min-w-[50px] text-center bg-slate-50/50">
+                            <span className="px-3 py-1 text-xs font-semibold text-slate-800 min-w-[50px] text-center bg-slate-50/50">
                               {seg.durationYears} {seg.durationYears === 1 ? 'año' : 'años'}
                             </span>
                             <button
@@ -526,11 +526,11 @@ export default function CycleTimelineModal({
                         </div>
 
                         <div className="text-right space-y-0.5">
-                          <div className="text-[13px] font-bold text-slate-600 uppercase">
+                          <div className="text-[13px] font-bold text-slate-600">
                             Rent. Est. Anual
                           </div>
                           <div
-                            className={`text-xs font-black ${
+                            className={`text-xs font-semibold ${
                               rvReturn >= 0 ? 'text-emerald-700' : 'text-rose-600'
                             }`}
                           >
@@ -548,12 +548,12 @@ export default function CycleTimelineModal({
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/90 flex items-start gap-3 shadow-2xs">
+          <div className="p-4 rounded-lg bg-amber-50/70 border border-amber-200/90 flex items-start gap-3">
             <div className="p-1.5 rounded-lg bg-amber-500 text-white font-bold flex-shrink-0 mt-0.5">
               <Info className="w-4 h-4" />
             </div>
             <div className="space-y-1 text-xs">
-              <div className="font-black text-amber-950">
+              <div className="font-semibold text-amber-950">
                 ¿Por qué influye tanto el momento en que ocurre el shock? (Riesgo de Secuencia)
               </div>
               <p className="text-amber-900/90 leading-relaxed font-medium">
@@ -567,7 +567,7 @@ export default function CycleTimelineModal({
           </div>
         </div>
 
-        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white/95 backdrop-blur-xs border-t border-slate-200/90 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+        <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white/95 border-t border-slate-200/90 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shrink-0">
           <button
             type="button"
             onClick={() => handleApplyPreset('typical_economic_cycle')}
@@ -581,14 +581,14 @@ export default function CycleTimelineModal({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-100 transition cursor-pointer border border-slate-200 sm:border-transparent text-center"
+              className="flex-1 sm:flex-initial px-4 py-2.5 rounded-md text-xs font-bold text-slate-600 hover:bg-slate-100 transition cursor-pointer border border-slate-200 sm:border-transparent text-center"
             >
               Cancelar
             </button>
             <button
               type="button"
               onClick={handleSave}
-              className="flex-[2] sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20 transition cursor-pointer"
+              className="flex-[2] sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-md text-xs font-semibold bg-slate-900 text-white transition cursor-pointer"
             >
               <Check className="w-4 h-4" />
               <span>Guardar y Simular</span>

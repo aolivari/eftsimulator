@@ -68,7 +68,7 @@ export function HeroLedger({
   return (
     <section
       aria-labelledby="hero-title"
-      className="relative overflow-hidden rounded-3xl bg-slate-950 text-white p-6 sm:p-10 lg:p-14"
+      className="relative overflow-hidden rounded-lg bg-slate-950 text-white p-6 sm:p-10 lg:p-14"
     >
       <div className="absolute -top-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-orange-500/25 blur-3xl pointer-events-none" />
 
@@ -79,7 +79,7 @@ export function HeroLedger({
             <HeroScenarioChart chart={active.chart} />
           </div>
           {/* Velo a la izquierda para que la cifra principal se lea sobre la gráfica */}
-          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/45 to-transparent" />
+          <div className="absolute inset-0 bg-slate-900" />
         </div>
       )}
 
@@ -88,7 +88,7 @@ export function HeroLedger({
           <h1 id="hero-title" className="text-base sm:text-lg font-bold text-white/80">
             ETF Simulator <span className="text-orange-400">&amp;</span> Plan de Ahorro
           </h1>
-          <p className="font-display text-[clamp(4rem,10vw,9.5rem)] font-extrabold leading-[0.88] tracking-tight tabular-nums">
+          <p className="font-display text-[clamp(4rem,10vw,9.5rem)] font-semibold leading-[0.88] tracking-tight tabular-nums">
             {formatCurrency(shown)}
             <span className="text-orange-400"> €</span>
           </p>
@@ -140,7 +140,7 @@ export function HeroLedger({
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => setActiveId(s.id)}
-                className={`group relative w-full max-w-sm overflow-hidden rounded-2xl border text-left backdrop-blur-md transition-[background-color,border-color,color] duration-300 cursor-pointer ${
+                className={`group relative w-full max-w-sm overflow-hidden rounded-lg border text-left  transition-[background-color,border-color,color] duration-300 cursor-pointer ${
                   isActive
                     ? 'border-white/25 bg-white/[0.14] text-white'
                     : 'border-white/10 bg-white/[0.06] text-white/65 hover:bg-white/10 hover:text-white'
@@ -165,7 +165,7 @@ export function HeroLedger({
                 >
                   <span className="overflow-hidden">
                     <span className="block px-4 pb-3.5">
-                      <span className="font-display block text-2xl font-extrabold tabular-nums">{s.figure}</span>
+                      <span className="font-display block text-2xl font-semibold tabular-nums">{s.figure}</span>
                       {/* Altura mínima de 3 líneas: el hero no salta al rotar entre textos de distinta longitud */}
                       <span className="mt-1 block min-h-[4.125em] text-[13px] leading-snug text-white/70">
                         {s.description}

@@ -11,7 +11,7 @@ import type {
 } from '../types';
 import { HISTORICAL_CYCLES } from '../data/historicalCycles';
 import { runMonteCarlo } from './monteCarlo';
-import { formatCurrency } from './simulation';
+import { formatCurrency, NUMBER_LOCALE } from './simulation';
 
 // Menos escenarios que el panel (3000): el hero solo necesita la forma y cifras redondas.
 const HERO_MC_SCENARIOS = 1500;
@@ -79,7 +79,7 @@ export function buildHeroScenarios({
       id: 'montecarlo',
       label: 'Monte Carlo',
       figure: `${eur(base.final.p10)} – ${eur(base.final.p90)}`,
-      description: `De ${base.scenarios.toLocaleString('es-ES')} escenarios con trimestres históricos, 8 de cada 10 acaban en esta franja. Mediana: ${eur(base.final.p50)}.`,
+      description: `De ${base.scenarios.toLocaleString(NUMBER_LOCALE)} escenarios con trimestres históricos, 8 de cada 10 acaban en esta franja. Mediana: ${eur(base.final.p50)}.`,
       chart: {
         kind: 'montecarlo',
         bands: [
@@ -113,7 +113,7 @@ export function buildHeroScenarios({
         id: 'crisis',
         label: cycle.shortName ?? cycle.name,
         figure: eur(stressed.final.p50),
-        description: `Si una caída como la de ${cycle.startDate}–${cycle.endDate} llegara el primer año, la mediana acabaría aquí: un ${Math.abs(diff * 100).toLocaleString('es-ES', { maximumFractionDigits: 1 })} % ${diff < 0 ? 'menos' : 'más'} que sin crisis.`,
+        description: `Si una caída como la de ${cycle.startDate}–${cycle.endDate} llegara el primer año, la mediana acabaría aquí: un ${Math.abs(diff * 100).toLocaleString(NUMBER_LOCALE, { maximumFractionDigits: 1 })} % ${diff < 0 ? 'menos' : 'más'} que sin crisis.`,
         chart: {
           kind: 'crisis',
           invested: [start, ...base.bands.map((b) => ({ quarter: b.quarter, value: b.invested }))],

@@ -1,10 +1,18 @@
-import { ChevronRight, ShieldAlert, SlidersHorizontal, Trophy } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { GrowthChart, ViewTemplate } from '../../shared/ui';
+import { formatCurrency } from '../../shared/utils';
 import { InputControls } from './components/InputControls';
 import { MetricsCards } from './components/MetricsCards';
-import MonteCarloPanel from './components/MonteCarloPanel';
+import { PortfolioSnapshot } from './components/PortfolioSnapshot';
 import type { SimulacionViewProps } from './types';
 
+/**
+ * Resumen del plan. Responde primero a "¿cuánto tendré?" y deja los parámetros al lado,
+ * de modo que cada cambio se ve en la cifra sin desplazarse.
+ *
+ * Rejilla en escritorio: columna de resultados fluida + 340px de parámetros, con un solo
+ * hueco de 12px en horizontal y en vertical. En móvil el orden es respuesta, parámetros, gráfica.
+ */
 export function SimulacionView({
   params,
   effectiveParams,
@@ -22,196 +30,92 @@ export function SimulacionView({
   onOpenTimelineModal,
   onNavigateTab,
 }: SimulacionViewProps) {
+  const feeGap = bestBroker && worstBroker ? worstBroker.totalFees - bestBroker.totalFees : 0;
+
+  // Las siguientes preguntas que se hace quien acaba de ver su cifra, cada una con su pantalla
+  const nextQuestions = [
+    {
+      id: 'cycles' as const,
+      question: '¿Y si llega una crisis a mitad del plan?',
+      answer: 'Escenarios Monte Carlo y crisis reales de 2000, 2008 y 2020.',
+    },
+    {
+      id: 'brokers' as const,
+      question: '¿Qué bróker me cobra menos?',
+      answer:
+        feeGap > 0
+          ? `Entre el más caro y el más barato hay ${formatCurrency(Math.round(feeGap))} € en comisiones.`
+          : 'Compara comisiones de compra y custodia.',
+    },
+    {
+      id: 'annual' as const,
+      question: '¿Cómo crece año a año?',
+      answer: 'La tabla del efecto bola de nieve, año por año.',
+    },
+  ];
+
   return (
     <ViewTemplate.Root id="simulacion-view">
-      {/* 1. Controles de Entrada */}
-      <ViewTemplate.Section id="simulacion-inputs">
-        <InputControls params={params} onChange={onChangeParams} recalculating={recalculating} />
-      </ViewTemplate.Section>
+      <div className="stagger grid items-start gap-3 lg:grid-cols-[minmax(0,1fr)_340px]">
+        {planBroker && bestBroker && worstBroker && (
+          <div id="simulacion-metrics" className="min-w-0 lg:col-start-1 lg:row-start-1">
+            <MetricsCards
+              planBroker={planBroker}
+              bestBroker={bestBroker}
+              worstBroker={worstBroker}
+              years={effectiveParams.years}
+            />
+          </div>
+        )}
 
-      {/* 2. Tarjetas KPI de Resumen */}
-      {planBroker && bestBroker && worstBroker && (
-        <ViewTemplate.Section id="simulacion-metrics">
-          <MetricsCards planBroker={planBroker} bestBroker={bestBroker} worstBroker={worstBroker} />
-        </ViewTemplate.Section>
-      )}
+        {/* Columna derecha: lo que decides (parámetros) y lo que compras (cartera) */}
+        <div
+          id="simulacion-inputs"
+          className="space-y-3 lg:col-start-2 lg:row-start-1 lg:row-span-3"
+        >
+          <InputControls params={params} onChange={onChangeParams} recalculating={recalculating} />
+          <PortfolioSnapshot etfs={etfs} onEdit={() => onNavigateTab('allocation')} />
+        </div>
 
-      {/* 3. Gráfica Principal de Crecimiento */}
-      <ViewTemplate.Section id="simulacion-growth-chart">
-        <GrowthChart
-          results={results}
-          years={effectiveParams.years}
-          historicalSimulation={historicalSimulation}
-          onClearHistoricalSimulation={onClearHistoricalSimulation}
-          multiYearSimulation={multiYearSimulation}
-          onClearMultiYearSimulation={onClearMultiYearSimulation}
-          onOpenTimelineModal={onOpenTimelineModal}
-        />
-      </ViewTemplate.Section>
-
-      {/* 4. Escenarios Monte Carlo sobre trimestres históricos reales */}
-      {planBroker && (
-        <ViewTemplate.Section id="simulacion-monte-carlo">
-          <MonteCarloPanel
-            params={effectiveParams}
-            etfs={etfs}
-            brokerId={planBroker.id}
-            brokerName={planBroker.name}
+        <div id="simulacion-growth-chart" className="min-w-0 lg:col-start-1 lg:row-start-2">
+          <GrowthChart
+            results={results}
+            years={effectiveParams.years}
+            historicalSimulation={historicalSimulation}
+            onClearHistoricalSimulation={onClearHistoricalSimulation}
+            multiYearSimulation={multiYearSimulation}
+            onClearMultiYearSimulation={onClearMultiYearSimulation}
+            onOpenTimelineModal={onOpenTimelineModal}
           />
-        </ViewTemplate.Section>
-      )}
-
-      {/* 5. Tarjetas de Acceso Rápido ("Profundiza en tu plan") */}
-      <ViewTemplate.Section
-        id="simulacion-deep-dive"
-        ariaLabelledBy="deep-dive-title"
-        className="pt-1 sm:pt-2 space-y-2.5"
-      >
-        <div className="flex items-center justify-between">
-          <h3 id="deep-dive-title" className="text-xs font-bold uppercase tracking-wider text-slate-600">
-            Profundiza en tu plan
-          </h3>
-          <span className="text-[13px] font-semibold text-slate-600 sm:hidden">Acceso rápido</span>
         </div>
 
-        {/* Vista móvil */}
-        <div className="space-y-2.5 sm:hidden">
-          <button
-            onClick={() => onNavigateTab('allocation')}
-            className="w-full surface-glass rounded-2xl p-3.5 border flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-orange-300 cursor-pointer"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 border border-orange-100">
-                <SlidersHorizontal className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h4 className="text-xs font-bold text-slate-900">Plan de Ahorro ETFs</h4>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 bg-orange-100 text-orange-800 rounded-md">
-                    {etfs.length} fondos
+        <section
+          id="simulacion-deep-dive"
+          aria-labelledby="deep-dive-title"
+          className="min-w-0 rounded-lg border border-slate-200 bg-white lg:col-start-1 lg:row-start-3"
+        >
+          <h2 id="deep-dive-title" className="px-5 pt-4 pb-2 text-base font-semibold text-slate-900 sm:px-6">
+            Siguientes preguntas
+          </h2>
+          <ul className="divide-y divide-slate-100">
+            {nextQuestions.map((q) => (
+              <li key={q.id}>
+                <button
+                  type="button"
+                  onClick={() => onNavigateTab(q.id)}
+                  className="group flex w-full items-center justify-between gap-4 px-5 py-3 text-left transition-colors hover:bg-slate-50 cursor-pointer sm:px-6"
+                >
+                  <span className="min-w-0">
+                    <span className="block text-sm font-medium text-slate-900">{q.question}</span>
+                    <span className="block truncate text-xs text-slate-600">{q.answer}</span>
                   </span>
-                </div>
-                <p className="text-[13px] text-slate-600 mt-0.5 leading-snug">
-                  Ajusta pesos o replica carteras Bogle y Buffett
-                </p>
-              </div>
-            </div>
-            <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
-          </button>
-
-          <button
-            onClick={onOpenTimelineModal}
-            className="w-full surface-glass rounded-2xl p-3.5 border flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-rose-300 cursor-pointer"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 border border-rose-100">
-                <ShieldAlert className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h4 className="text-xs font-bold text-slate-900">Simular Escenarios de Estrés</h4>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 bg-rose-100 text-rose-800 rounded-md">
-                    Personalizar
-                  </span>
-                </div>
-                <p className="text-[13px] text-slate-600 mt-0.5 leading-snug">
-                  Prueba shocks 2008, 2020 e inflación en tu plan
-                </p>
-              </div>
-            </div>
-            <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
-          </button>
-
-          <button
-            onClick={() => onNavigateTab('brokers')}
-            className="w-full surface-glass rounded-2xl p-3.5 border flex items-center justify-between gap-3 text-left transition-all active:scale-[0.99] hover:border-purple-300 cursor-pointer"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0 border border-purple-100">
-                <Trophy className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h4 className="text-xs font-bold text-slate-900">Comparativa de Brókers</h4>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 bg-purple-100 text-purple-800 rounded-md">
-                    Costes
-                  </span>
-                </div>
-                <p className="text-[13px] text-slate-600 mt-0.5 leading-snug">
-                  Compara comisiones: Trade Republic, MyInvestor, ING
-                </p>
-              </div>
-            </div>
-            <ChevronRight className="w-4 h-4 text-slate-600 shrink-0" />
-          </button>
-        </div>
-
-        {/* Vista escritorio: 3 columnas con ViewTemplate.Grid */}
-        <ViewTemplate.Grid cols={3} className="hidden sm:grid">
-          <button
-            onClick={() => onNavigateTab('allocation')}
-            className="p-4 rounded-2xl border surface-glass hover:border-orange-400/80 hover:bg-orange-50/20 text-left transition-all duration-200 group cursor-pointer flex flex-col justify-between"
-          >
-            <div className="space-y-1.5">
-              <div className="w-8 h-8 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center font-bold">
-                <SlidersHorizontal className="w-4 h-4" />
-              </div>
-              <div className="font-black text-sm text-slate-900 group-hover:text-orange-600 transition-colors">
-                Plan de Ahorro ETFs ({etfs.length})
-              </div>
-              <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                Ajusta los pesos iniciales y recurrentes de tu cartera o aplica modelos de Bogle y Buffett.
-              </p>
-            </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-orange-600">
-              <span>Configurar cartera</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </button>
-
-          <button
-            onClick={() => onNavigateTab('cycles')}
-            className="p-4 rounded-2xl border surface-glass hover:border-rose-400/80 hover:bg-rose-50/20 text-left transition-all duration-200 group cursor-pointer flex flex-col justify-between"
-          >
-            <div className="space-y-1.5">
-              <div className="w-8 h-8 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center font-bold">
-                <ShieldAlert className="w-4 h-4" />
-              </div>
-              <div className="font-black text-sm text-slate-900 group-hover:text-rose-600 transition-colors">
-                Simular Ciclos Históricos
-              </div>
-              <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                Prueba cómo reacciona tu plan de ahorro ante la crisis de 2008, 2020 o el shock inflacionario.
-              </p>
-            </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-rose-600">
-              <span>Probar estrés & expansión</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </button>
-
-          <button
-            onClick={() => onNavigateTab('brokers')}
-            className="p-4 rounded-2xl border surface-glass hover:border-violet-400/80 hover:bg-violet-50/20 text-left transition-all duration-200 group cursor-pointer flex flex-col justify-between"
-          >
-            <div className="space-y-1.5">
-              <div className="w-8 h-8 rounded-xl bg-violet-100 text-violet-600 flex items-center justify-center font-bold">
-                <Trophy className="w-4 h-4" />
-              </div>
-              <div className="font-black text-sm text-slate-900 group-hover:text-violet-600 transition-colors">
-                Comparativa de Brókers
-              </div>
-              <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                Analiza comisiones de compra y custodia entre ING, MyInvestor, Trade Republic y Banca Tradicional.
-              </p>
-            </div>
-            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-violet-600">
-              <span>Ver análisis de costes</span>
-              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </button>
-        </ViewTemplate.Grid>
-      </ViewTemplate.Section>
+                  <ChevronRight className="h-4 w-4 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
     </ViewTemplate.Root>
   );
 }

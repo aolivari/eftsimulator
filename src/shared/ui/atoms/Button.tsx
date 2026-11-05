@@ -9,21 +9,17 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary:
-    'bg-orange-500 hover:bg-orange-600 text-white font-bold shadow-2xs disabled:opacity-50',
-  secondary:
-    'bg-white border border-slate-200 text-slate-800 font-bold shadow-2xs hover:border-orange-300 disabled:opacity-50',
-  ghost:
-    'bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900 font-semibold disabled:opacity-40',
-  danger:
-    'bg-rose-600 hover:bg-rose-700 text-white font-bold shadow-2xs disabled:opacity-50',
-  icon:
-    'w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:bg-slate-100 disabled:opacity-40',
+  // Un único principal por pantalla, en tinta casi negra; el color queda para los datos
+  primary: 'bg-slate-900 hover:bg-slate-800 active:bg-black text-white font-medium disabled:bg-slate-300 disabled:text-slate-600',
+  secondary: 'bg-white border border-slate-300 text-slate-900 font-medium hover:bg-slate-50 disabled:text-slate-500',
+  ghost: 'bg-transparent hover:bg-slate-100 text-slate-700 hover:text-slate-900 font-medium disabled:text-slate-500',
+  danger: 'bg-white border border-rose-200 text-rose-700 hover:bg-rose-50 font-medium disabled:text-slate-500',
+  icon: 'w-8 h-8 rounded-md flex items-center justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 disabled:text-slate-400',
 };
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: 'px-3 py-1.5 rounded-xl text-xs gap-1.5',
-  md: 'px-4 py-2.5 rounded-xl text-xs sm:text-sm gap-2',
+  sm: 'h-8 px-3 rounded-md text-sm gap-1.5',
+  md: 'h-9 px-4 rounded-md text-sm gap-2',
 };
 
 export function Button({
@@ -36,7 +32,7 @@ export function Button({
   const base =
     variant === 'icon'
       ? VARIANT_CLASSES.icon
-      : `inline-flex items-center justify-center transition cursor-pointer ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]}`;
+      : `inline-flex items-center justify-center whitespace-nowrap transition-colors active:scale-[0.98] cursor-pointer ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]}`;
 
   return (
     <button className={`${base} ${className}`.trim()} {...rest}>
