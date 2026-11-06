@@ -19,10 +19,10 @@ Mostrar al inversor, de forma educativa y sin recomendaciones, cómo se reparte 
 
 | # | Historia | Agente | Depende de | Estado | Rama | PR |
 |---|---|---|---|---|---|---|
-| 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | en revisión | `ai/sonet/hu-15-hu-1-4-motor-y-tipos-del-escud` | — |
-| 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | en revisión | `ai/opus/hu-16-hu-2-4-panel-educativo-de-prot` | — |
-| 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | en revisión | `ai/opus/hu-17-hu-3-4-modo-comparativo-80-20-` | — |
-| 4 | Revisión final de cumplimiento | haiku | 2, 3 | en revisión | `ai/haiku/hu-18-hu-4-4-revision-final-de-cumpl` | — |
+| 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | fusionada | — | [#27](https://github.com/aolivari/eftsimulator/pull/27) |
+| 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | fusionada | — | [#28](https://github.com/aolivari/eftsimulator/pull/28) |
+| 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | fusionada | — | [#29](https://github.com/aolivari/eftsimulator/pull/29) |
+| 4 | Revisión final de cumplimiento | haiku | 2, 3 | fusionada | — | [#30](https://github.com/aolivari/eftsimulator/pull/30) |
 
 Estados válidos: `pendiente`, `en curso`, `en revisión`, `fusionada`, `bloqueada`.
 
