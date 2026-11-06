@@ -1,6 +1,7 @@
 import { ViewTemplate } from '../../shared/ui';
 import FamousPortfoliosSelector from './components/FamousPortfoliosSelector';
 import PortfolioAllocation from './components/PortfolioAllocation';
+import PortfolioShieldCard from './components/PortfolioShieldCard';
 import type { CarteraViewProps } from './types';
 
 export function CarteraView({
@@ -27,6 +28,10 @@ export function CarteraView({
           onInitialCapitalChange={onInitialCapitalChange}
           onMonthlyAmountChange={onMonthlyAmountChange}
         />
+      </ViewTemplate.Section>
+
+      <ViewTemplate.Section id="cartera-shield-section">
+        <PortfolioShieldCard etfs={etfs} onChange={onChange} />
       </ViewTemplate.Section>
     </ViewTemplate.Root>
   );

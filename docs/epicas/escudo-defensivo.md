@@ -20,7 +20,7 @@ Mostrar al inversor, de forma educativa y sin recomendaciones, cómo se reparte 
 | # | Historia | Agente | Depende de | Estado | Rama | PR |
 |---|---|---|---|---|---|---|
 | 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | en revisión | `ai/sonet/hu-15-hu-1-4-motor-y-tipos-del-escud` | — |
-| 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | pendiente | — | — |
+| 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | en revisión | `ai/opus/hu-16-hu-2-4-panel-educativo-de-prot` | — |
 | 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | pendiente | — | — |
 | 4 | Revisión final de cumplimiento | haiku | 2, 3 | pendiente | — | — |
 
@@ -35,6 +35,8 @@ Completar esta sección cuando una historia fija una decisión que otra necesita
   - Resultado: `{ offensivePct, bufferPct, cashPct, label }`, porcentajes 0-100 que suman 100 (ofensiva / renta fija+oro / monetario).
   - Pesos: `recurringWeight ?? weight`, normalizados a la suma. Clase: `detectAssetClass()`.
   - Etiqueta: `Cartera 100% ofensiva` (ofensiva ≈ 100), `Cartera conservadora` (ofensiva ≤ 40 %), `Cartera equilibrada` (resto). Lista vacía o sin peso: todo 0 y `Sin datos` (la UI debe ocultar el panel).
+- **Cojín monetario (historia 2)**: `applyCashCushion(etfs, cashEtf, targetPct)` en `src/engine/portfolioShield.ts` (pura). Pone `cashEtf` (por ticker) a `targetPct` % en `recurringWeight`/`weight` y en `initialWeight`, escala el resto en proporción conservando la suma y lo añade si no está. Solo toca pesos.
+- **Panel (historia 2)**: `PortfolioShieldCard` (interno de `features/cartera`) se oculta con `Sin datos`. El aviso MiFID II vive en la constante `MIFID_NOTICE` del componente; la historia 3 puede copiar el mismo texto literal.
 - **Clases de activo**: `global_equity`, `sp500`, `tech`, `defensive_equity` → ofensiva; `bonds`, `gold` → amortiguador; `cash` → cojín. Si falta `assetClass`, usar `detectAssetClass()` de `src/engine/cycleSimulator.ts`.
 
 ## Registro de traspasos
@@ -47,6 +49,12 @@ Cada agente añade una entrada al terminar su parte, o al bloquearse, para que e
 - Pendiente o bloqueo:
 - Archivos tocados:
 ```
+
+### 2026-11-06 Historia 2 · opus · en revisión
+- Hecho: `PortfolioShieldCard` debajo del reparto de pesos en Cartera: tres barras, etiqueta, aviso de alta volatilidad (100 % renta variable), píldoras XEON/AGGH/SGLD, botón "Añadir XEON con un 10 %" con "Deshacer" y aviso MiFID II siempre visible.
+- Decisiones que afectan a otras historias: el título del aviso va sin emoji y en tipo frase ("Perfil de alta volatilidad detectado", con icono `AlertTriangle`), porque AGENTS.md prohíbe emoji y mayúsculas de título. El texto del aviso no da cifras escritas a mano. Si XEON ya pesa algo, el botón dice "Poner XEON al 10 %"; si pesa justo un 10 %, se oculta. "Deshacer" solo aparece mientras la cartera sigue siendo la que generó el botón.
+- Pendiente o bloqueo: ninguno. Historia 4: revisar los textos del aviso y de las píldoras.
+- Archivos tocados: `src/engine/portfolioShield.ts`, `src/features/cartera/{CarteraView.tsx,types.ts,index.ts}`, `src/features/cartera/components/{PortfolioShieldCard.tsx,PortfolioAllocation.tsx}`, este documento, `AI_SUMMARY.md`.
 
 ### 2026-11-06 Historia 1 · sonet · en revisión
 - Hecho: motor, tipos y contrato "Motor" completados.

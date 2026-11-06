@@ -46,3 +46,55 @@ export function calculatePortfolioShield(etfs: ETFAsset[]): PortfolioShieldResul
 
   return { offensivePct, bufferPct, cashPct, label };
 }
+
+type WeightKey = 'recurringWeight' | 'initialWeight';
+
+const round1 = (n: number) => Math.round(n * 10) / 10;
+
+/** Reparte `targetPct` al ETF `cashEtf` y escala el resto para que la suma conserve el total actual. */
+function rebalanceKey(etfs: ETFAsset[], cashId: string, targetPct: number, key: WeightKey): ETFAsset[] {
+  const read = (e: ETFAsset) => e[key] ?? e.weight;
+  const total = etfs.reduce((s, e) => s + Math.max(0, read(e)), 0) || 100;
+  const cashTarget = round1((total * targetPct) / 100);
+  const othersSum = etfs.reduce((s, e) => (e.id === cashId ? s : s + Math.max(0, read(e))), 0);
+  const othersTarget = total - cashTarget;
+
+  // Sin otros pesos que escalar, el ETF monetario se queda con su objetivo y el resto a 0.
+  const scaled = etfs.map((e) => {
+    if (e.id === cashId) return cashTarget;
+    if (othersSum <= 0) return 0;
+    return round1((Math.max(0, read(e)) * othersTarget) / othersSum);
+  });
+
+  // Ajuste de redondeo sobre el ETF con más peso (que no sea el monetario).
+  const diff = round1(cashTarget + (othersSum > 0 ? othersTarget : 0) - scaled.reduce((s, w) => s + w, 0));
+  if (diff !== 0 && othersSum > 0) {
+    let maxIdx = -1;
+    scaled.forEach((w, i) => {
+      if (etfs[i].id !== cashId && (maxIdx < 0 || w > scaled[maxIdx])) maxIdx = i;
+    });
+    if (maxIdx >= 0) scaled[maxIdx] = round1(scaled[maxIdx] + diff);
+  }
+
+  return etfs.map((e, i) => {
+    if (key === 'recurringWeight') return { ...e, recurringWeight: scaled[i], weight: scaled[i] };
+    return { ...e, initialWeight: scaled[i] };
+  });
+}
+
+/**
+ * Devuelve una cartera nueva en la que `cashEtf` pesa `targetPct` % (0-100) tanto en las
+ * aportaciones como en el capital inicial; el resto de ETFs se escala en proporción.
+ * Si `cashEtf` no está en la cartera, se añade. Solo cambia pesos. Función pura.
+ */
+export function applyCashCushion(etfs: ETFAsset[], cashEtf: ETFAsset, targetPct: number): ETFAsset[] {
+  const pct = Math.max(0, Math.min(100, targetPct));
+  const ticker = cashEtf.ticker.toUpperCase();
+  const existing = etfs.find((e) => e.ticker.toUpperCase() === ticker);
+  const base = existing
+    ? etfs
+    : [...etfs, { ...cashEtf, weight: 0, initialWeight: 0, recurringWeight: 0 }];
+  const cashId = existing ? existing.id : cashEtf.id;
+
+  return rebalanceKey(rebalanceKey(base, cashId, pct, 'recurringWeight'), cashId, pct, 'initialWeight');
+}

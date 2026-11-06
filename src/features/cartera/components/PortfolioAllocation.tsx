@@ -338,31 +338,31 @@ export default function PortfolioAllocation({
           </div>
         </div>
 
-        <div className="inline-flex shrink-0 self-start items-center gap-0.5 bg-slate-100 p-0.5 rounded-md">
+        <div className="flex w-full sm:w-auto sm:inline-flex shrink-0 self-start items-stretch gap-0.5 bg-slate-100 p-0.5 rounded-md">
           <button
             type="button"
             onClick={() => setAllocationTab('initial')}
-            className={`flex items-center gap-1.5 h-8 px-3 whitespace-nowrap rounded-[5px] text-sm transition-colors cursor-pointer ${
+            className={`flex flex-1 sm:flex-none items-center justify-center gap-1.5 min-h-8 py-1 px-2 sm:px-3 whitespace-nowrap rounded-[5px] text-sm transition-colors cursor-pointer ${
               allocationTab === 'initial'
                 ? 'bg-white text-slate-900 font-medium outline outline-1 outline-slate-200'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Coins className="w-3.5 h-3.5" />
-            <span>Capital inicial <span className="num text-slate-600">{initialCapital.toLocaleString(NUMBER_LOCALE)} €</span></span>
+            <Coins className="hidden sm:block w-3.5 h-3.5" />
+            <span className="flex flex-col sm:block leading-tight">Capital inicial <span className="num text-slate-600">{initialCapital.toLocaleString(NUMBER_LOCALE)} €</span></span>
           </button>
 
           <button
             type="button"
             onClick={() => setAllocationTab('recurring')}
-            className={`flex items-center gap-1.5 h-8 px-3 whitespace-nowrap rounded-[5px] text-sm transition-colors cursor-pointer ${
+            className={`flex flex-1 sm:flex-none items-center justify-center gap-1.5 min-h-8 py-1 px-2 sm:px-3 whitespace-nowrap rounded-[5px] text-sm transition-colors cursor-pointer ${
               allocationTab === 'recurring'
                 ? 'bg-white text-slate-900 font-medium outline outline-1 outline-slate-200'
                 : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <CalendarClock className="w-3.5 h-3.5" />
-            <span>Aportación <span className="num text-slate-600">{monthlyAmount.toLocaleString(NUMBER_LOCALE)} €/mes</span></span>
+            <CalendarClock className="hidden sm:block w-3.5 h-3.5" />
+            <span className="flex flex-col sm:block leading-tight">Aportación <span className="num text-slate-600">{monthlyAmount.toLocaleString(NUMBER_LOCALE)} €/mes</span></span>
           </button>
         </div>
       </div>
@@ -467,12 +467,12 @@ export default function PortfolioAllocation({
               placeholder="Ticker, índice o nombre: VWCE, MSCI World, S&P 500…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 bg-white border border-slate-300 h-9 px-3 rounded-md text-base sm:text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-slate-900"
+              className="flex-1 min-w-0 bg-white border border-slate-300 h-9 px-3 rounded-md text-base sm:text-sm text-slate-900 placeholder:text-slate-500 focus:outline-none focus:border-slate-900"
             />
             <button
               type="submit"
               disabled={isSearching || !searchQuery.trim()}
-              className="flex items-center gap-1.5 px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white text-xs font-bold rounded-md transition cursor-pointer"
+              className="flex shrink-0 items-center gap-1.5 px-4 py-2 bg-orange-600 hover:bg-orange-700 disabled:opacity-50 text-white text-xs font-bold rounded-md transition cursor-pointer"
             >
               {isSearching ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
