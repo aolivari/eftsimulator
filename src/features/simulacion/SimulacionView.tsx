@@ -35,6 +35,11 @@ export function SimulacionView({
   // Las siguientes preguntas que se hace quien acaba de ver su cifra, cada una con su pantalla
   const nextQuestions = [
     {
+      id: 'cases' as const,
+      question: '¿Por qué usar este simulador frente a tu banco?',
+      answer: 'Los dos business cases, historias reales y el cálculo del ahorro de costes.',
+    },
+    {
       id: 'cycles' as const,
       question: '¿Y si llega una crisis a mitad del plan?',
       answer: 'Escenarios Monte Carlo y crisis reales de 2000, 2008 y 2020.',
