@@ -18,6 +18,7 @@ import {
   PiggyBank,
   SlidersHorizontal,
   Check,
+  RefreshCw,
 } from 'lucide-react';
 import { CRISIS_CYCLES, EXPANSION_CYCLES, HISTORICAL_CYCLES } from '../../../data/historicalCycles';
 import {
@@ -25,6 +26,7 @@ import {
   getDefault10YearTimelinePlan,
 } from '../../../data/multiYearTimelinePresets';
 import { formatCurrency } from '../../../shared/utils';
+import { LATE_CRASH_PLAN_ID, PROTECTED_DEFENSIVE_PCT } from '../../../engine/cycleSimulator';
 import { useInView } from '../../../shared/ui';
 import type { CycleSimulatorProps } from '../types';
 import CycleTimelineModal from './CycleTimelineModal';
@@ -42,6 +44,8 @@ export default function CycleSimulator({
   multiYearPlan,
   onUpdateMultiYearPlan,
   isCollapsible = true,
+  onToggleProtectedComparison,
+  isProtectedComparisonActive = false,
 }: CycleSimulatorProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [activeSubTab, setActiveSubTab] = useState<'timeline' | 'events'>('timeline');
@@ -52,6 +56,11 @@ export default function CycleSimulator({
   const effectiveTimelinePlan = multiYearPlan || getDefault10YearTimelinePlan(planYears);
   const activeCycle = HISTORICAL_CYCLES.find((c) => c.id === selectedCycleId);
   const isSavingsPlan = simulationMode === 'savings_plan';
+  // La comparación 80/20 solo se ofrece cuando la gráfica enseña el Crash Tardío
+  const canCompareProtected =
+    !!onToggleProtectedComparison &&
+    !selectedCycleId &&
+    effectiveTimelinePlan.id === LATE_CRASH_PLAN_ID;
 
   const getCycleIcon = (cycleId: string) => {
     switch (cycleId) {
@@ -341,6 +350,33 @@ export default function CycleSimulator({
                       })}
                     </div>
                   </div>
+
+                  {canCompareProtected && (
+                    <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        Dibuja sobre la gráfica la misma cartera con un{' '}
+                        <span className="num">{PROTECTED_DEFENSIVE_PCT} %</span> en monetario y bonos
+                        (XEON/AGGH), calculada con el mismo motor y las mismas fases.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={onToggleProtectedComparison}
+                        aria-pressed={isProtectedComparisonActive}
+                        className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-xs font-bold border transition active:scale-[0.99] cursor-pointer shrink-0 ${
+                          isProtectedComparisonActive
+                            ? 'bg-slate-900 border-slate-900 text-white'
+                            : 'bg-white border-slate-300 text-slate-900 hover:bg-slate-50'
+                        }`}
+                      >
+                        <RefreshCw className="w-4 h-4" />
+                        <span>
+                          {isProtectedComparisonActive
+                            ? 'Ocultar comparación 80/20'
+                            : 'Comparar con versión protegida (80/20)'}
+                        </span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

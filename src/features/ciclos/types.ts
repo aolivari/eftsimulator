@@ -26,6 +26,9 @@ export interface CycleSimulatorProps {
   onUpdateMultiYearPlan?: (plan: MultiYearCustomCyclePlan) => void;
   multiYearSimulation?: MultiYearCycleSimulationResult | null;
   isCollapsible?: boolean;
+  /** Si se pasa, en el escenario de Crash Tardío aparece el botón de comparación 80/20. */
+  onToggleProtectedComparison?: () => void;
+  isProtectedComparisonActive?: boolean;
 }
 
 export interface CycleTimelineModalProps {
@@ -41,4 +44,12 @@ export interface CiclosViewProps extends CycleSimulatorProps {
   years: number;
   onClearHistoricalSimulation: () => void;
   onClearMultiYearSimulation: () => void;
+  /** Mismo plan plurianual con la cartera 80/20 (null si el escenario no es Crash Tardío). */
+  protectedMultiYearSimulation?: MultiYearCycleSimulationResult | null;
+}
+
+export interface ProtectedComparisonPanelProps {
+  portfolio: ETFAsset[];
+  current: MultiYearCycleSimulationResult;
+  protectedVersion: MultiYearCycleSimulationResult;
 }

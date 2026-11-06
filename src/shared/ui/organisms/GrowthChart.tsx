@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import {
   AreaChart,
+  ComposedChart,
   Area,
   Line,
   XAxis,
@@ -32,6 +33,10 @@ export interface GrowthChartProps {
   multiYearSimulation?: MultiYearCycleSimulationResult | null;
   onClearMultiYearSimulation?: () => void;
   onOpenTimelineModal?: () => void;
+  /** Segunda ejecución del motor plurianual que se superpone como línea comparada. */
+  comparisonSimulation?: MultiYearCycleSimulationResult | null;
+  /** Nombre de la línea comparada en la leyenda y el tooltip. */
+  comparisonLabel?: string;
 }
 
 export function GrowthChart({
@@ -42,6 +47,8 @@ export function GrowthChart({
   multiYearSimulation,
   onClearMultiYearSimulation,
   onOpenTimelineModal,
+  comparisonSimulation,
+  comparisonLabel = 'Versión comparada',
 }: GrowthChartProps) {
   // Modo de visualización para proyección estándar: 'stack' o 'compare'
   const [viewMode, setViewMode] = useState<'stack' | 'compare'>('stack');
@@ -194,6 +201,7 @@ export function GrowthChart({
     const returnPct = currentPoint?.portfolioReturnPct ?? 0;
     const drawdownPct = currentPoint?.drawdownPct ?? 0;
     const sp500Val = currentPoint?.benchmarkSp500Value ?? 0;
+    const comparisonVal: number | undefined = currentPoint?.comparisonValue;
     const segName = currentPoint?.segmentName;
     const segType = currentPoint?.segmentType;
 
@@ -236,10 +244,17 @@ export function GrowthChart({
             <span className="text-slate-600 font-medium">Aportado acumulado (DCA):</span>
             <span className="num text-slate-900">{formatCurrency(invested)} €</span>
           </div>
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-slate-600 font-medium">Ref. Plan en S&P 500:</span>
-            <span className="font-bold text-slate-700">{formatCurrency(sp500Val)} €</span>
-          </div>
+          {comparisonVal !== undefined ? (
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-slate-600 font-medium">{comparisonLabel}:</span>
+              <span className="num font-semibold text-slate-900">{formatCurrency(comparisonVal)} €</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between gap-4">
+              <span className="text-slate-600 font-medium">Ref. Plan en S&P 500:</span>
+              <span className="font-bold text-slate-700">{formatCurrency(sp500Val)} €</span>
+            </div>
+          )}
         </div>
 
         {drawdownPct < 0 && (
@@ -256,6 +271,18 @@ export function GrowthChart({
   const isMultiYearMode = !historicalSimulation && !!multiYearSimulation;
   const cycleEvent = historicalSimulation?.event;
   const isCrisis = cycleEvent?.type === 'crisis';
+
+  const isComparing = isMultiYearMode && !!comparisonSimulation;
+
+  // Une la línea comparada a la serie principal por índice (mismo plan, mismos puntos).
+  const multiYearChartData = useMemo(() => {
+    if (!multiYearSimulation) return [];
+    if (!isComparing || !comparisonSimulation) return multiYearSimulation.chartData;
+    return multiYearSimulation.chartData.map((point, idx) => ({
+      ...point,
+      comparisonValue: comparisonSimulation.chartData[idx]?.portfolioValue,
+    }));
+  }, [multiYearSimulation, comparisonSimulation, isComparing]);
 
   // Identificar intervalos de crisis para sombrear en la gráfica con ReferenceArea
   const crisisIntervals = useMemo(() => {
@@ -467,8 +494,8 @@ export function GrowthChart({
               />
             </AreaChart>
           ) : isMultiYearMode && multiYearSimulation ? (
-            <AreaChart
-              data={multiYearSimulation.chartData}
+            <ComposedChart
+              data={multiYearChartData}
               margin={{ top: 16, right: 24, left: 8, bottom: 0 }}
             >
 
@@ -538,17 +565,29 @@ export function GrowthChart({
                 dot={false}
               />
 
-              {/* Curva del Benchmark S&P 500 */}
-              <Line
-                type="linear"
-                dataKey="benchmarkSp500Value"
-                name="Mismo plan en el S&P 500"
-                stroke="#8a8a8a"
-                strokeWidth={1.5}
-                strokeDasharray="2 3"
-                dot={false}
-              />
-            </AreaChart>
+              {isComparing ? (
+                /* Línea comparada: misma cartera con otro reparto, calculada por el mismo motor */
+                <Line
+                  type="linear"
+                  dataKey="comparisonValue"
+                  name={comparisonLabel}
+                  stroke="#8a8a8a"
+                  strokeWidth={2}
+                  dot={false}
+                />
+              ) : (
+                /* Curva del Benchmark S&P 500 */
+                <Line
+                  type="linear"
+                  dataKey="benchmarkSp500Value"
+                  name="Mismo plan en el S&P 500"
+                  stroke="#8a8a8a"
+                  strokeWidth={1.5}
+                  strokeDasharray="2 3"
+                  dot={false}
+                />
+              )}
+            </ComposedChart>
           ) : (
             <AreaChart data={standardChartData} margin={{ top: 16, right: 24, left: 8, bottom: 0 }}>
 
