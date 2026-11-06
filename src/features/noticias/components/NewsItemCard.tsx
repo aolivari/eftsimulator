@@ -46,6 +46,9 @@ interface Props {
 export function NewsItemCard({ item, composition, affected }: Props) {
   const meta = EFFECT_META[item.effect] ?? EFFECT_META.uncertain;
   const weights = new Map(composition.map((c) => [c.ticker.toUpperCase(), c.weight]));
+  // Solo los ETF de la cartera del usuario: el analizador puede relacionar la noticia con otros
+  // tickers del catálogo (por ejemplo XEON por un titular sobre tipos), pero no están en el plan.
+  const planTickers = item.relatedTickers.filter((t) => weights.has(t.toUpperCase()));
 
   return (
     <li className="group relative rounded-lg border border-slate-200 bg-white transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 motion-reduce:transform-none">
@@ -71,20 +74,13 @@ export function NewsItemCard({ item, composition, affected }: Props) {
           <p className="text-xs text-slate-600 leading-relaxed">{item.effectRationale}</p>
         )}
 
-        {item.relatedTickers.length > 0 && (
-          <div className="flex flex-wrap gap-1.5" aria-label="ETFs relacionados">
-            {item.relatedTickers.map((t) => {
-              const w = weights.get(t.toUpperCase());
-              return w !== undefined ? (
-                <Badge key={t} tone="orange">
-                  {t} · {w.toLocaleString(NUMBER_LOCALE)} %
-                </Badge>
-              ) : (
-                <Badge key={t} tone="slate">
-                  {t}
-                </Badge>
-              );
-            })}
+        {planTickers.length > 0 && (
+          <div className="flex flex-wrap gap-1.5" aria-label="ETFs de tu cartera relacionados">
+            {planTickers.map((t) => (
+              <Badge key={t} tone="orange">
+                {t} · {(weights.get(t.toUpperCase()) ?? 0).toLocaleString(NUMBER_LOCALE)} %
+              </Badge>
+            ))}
           </div>
         )}
 
