@@ -128,6 +128,7 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.
 - **Ramas y worktrees**: cualquier rama nueva o worktree debe crearse **siempre desde `origin/master`** (ejecutando antes `git fetch origin master`), **nunca** desde la rama `master` local.
+- **Antes de crear una PR**: ejecutar `git fetch origin master`, integrar `origin/master` en la rama (merge), resolver los conflictos si los hay, repetir `npx tsc -b` y `npm run lint`, y solo entonces crear la PR. Nunca abrir una PR con la rama desfasada de `origin/master`.
 
 ## Sistema visual (colores, tipografía y reglas)
 Estilo "libro contable acromático", inspirado en getquin: el cromo (navegación, botones, tarjetas) no lleva color; el color se reserva para los datos y para decir si algo va bien o mal. Los tokens viven en [`tailwind.config.js`](tailwind.config.js) y en `:root` de [`src/index.css`](src/index.css).
