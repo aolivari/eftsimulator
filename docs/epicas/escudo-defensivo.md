@@ -19,7 +19,7 @@ Mostrar al inversor, de forma educativa y sin recomendaciones, cómo se reparte 
 
 | # | Historia | Agente | Depende de | Estado | Rama | PR |
 |---|---|---|---|---|---|---|
-| 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | pendiente | — | — |
+| 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | en revisión | `ai/sonet/hu-15-hu-1-4-motor-y-tipos-del-escud` | — |
 | 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | pendiente | — | — |
 | 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | pendiente | — | — |
 | 4 | Revisión final de cumplimiento | haiku | 2, 3 | pendiente | — | — |
@@ -31,7 +31,10 @@ Tarjetas de Trello de las historias: 1 → https://trello.com/c/m9ZM7Ic7 · 2 �
 ## Contratos entre historias
 Completar esta sección cuando una historia fija una decisión que otra necesita.
 
-- **Motor (historia 1)**: _pendiente de definir por el agente de la historia 1_ (nombre de la función, forma del resultado, etiquetas).
+- **Motor (historia 1)**: `calculatePortfolioShield(etfs: ETFAsset[]): PortfolioShieldResult` en `src/engine/portfolioShield.ts` (pura; exportada solo desde ese archivo, importar con `../../engine/portfolioShield`). Tipos `PortfolioShieldResult` y `PortfolioShieldLabel` en `src/types/simulation.ts` (re-exportados por `src/types`).
+  - Resultado: `{ offensivePct, bufferPct, cashPct, label }`, porcentajes 0-100 que suman 100 (ofensiva / renta fija+oro / monetario).
+  - Pesos: `recurringWeight ?? weight`, normalizados a la suma. Clase: `detectAssetClass()`.
+  - Etiqueta: `Cartera 100% ofensiva` (ofensiva ≈ 100), `Cartera conservadora` (ofensiva ≤ 40 %), `Cartera equilibrada` (resto). Lista vacía o sin peso: todo 0 y `Sin datos` (la UI debe ocultar el panel).
 - **Clases de activo**: `global_equity`, `sp500`, `tech`, `defensive_equity` → ofensiva; `bonds`, `gold` → amortiguador; `cash` → cojín. Si falta `assetClass`, usar `detectAssetClass()` de `src/engine/cycleSimulator.ts`.
 
 ## Registro de traspasos
@@ -45,7 +48,11 @@ Cada agente añade una entrada al terminar su parte, o al bloquearse, para que e
 - Archivos tocados:
 ```
 
-_Sin entradas todavía._
+### 2026-11-06 Historia 1 · sonet · en revisión
+- Hecho: motor, tipos y contrato "Motor" completados.
+- Decisiones que afectan a otras historias: umbral conservadora ≤ 40 % ofensiva; 80/20 sale como "equilibrada"; etiqueta extra `Sin datos` para cartera vacía.
+- Pendiente o bloqueo: ninguno.
+- Archivos tocados: `src/engine/portfolioShield.ts`, `src/types/simulation.ts`, este documento, `AI_SUMMARY.md`.
 
 ## Reglas de Git (todas las historias)
 1. Crear la rama desde `origin/master`: `git fetch origin master` y luego `git checkout -b <rama> origin/master`.

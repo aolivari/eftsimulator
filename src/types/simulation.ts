@@ -363,3 +363,22 @@ export interface SavedPlan {
   created_at: string;
   updated_at: string;
 }
+
+// ─── Escudo defensivo de la cartera ─────────────────────────────────────
+
+/** Etiqueta objetiva del reparto. 'Sin datos' cuando no hay cartera con peso. */
+export type PortfolioShieldLabel =
+  | 'Cartera 100% ofensiva'
+  | 'Cartera equilibrada'
+  | 'Cartera conservadora'
+  | 'Sin datos';
+
+export interface PortfolioShieldResult {
+  /** % en renta variable (global_equity, sp500, tech, defensive_equity). 0-100 */
+  offensivePct: number;
+  /** % en renta fija y oro (bonds, gold). 0-100 */
+  bufferPct: number;
+  /** % en monetario (cash). 0-100 */
+  cashPct: number;
+  label: PortfolioShieldLabel;
+}
