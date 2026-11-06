@@ -18,7 +18,6 @@ import type {
   SavedPlan,
 } from '../types';
 import { runSimulation } from '../engine/simulation';
-import { POPULAR_ETFS } from '../data/etfList';
 import {
   calculateHistoricalSimulation,
   simulateMultiYearCyclePlan,
@@ -29,7 +28,7 @@ import { getDefault10YearTimelinePlan } from '../data/multiYearTimelinePresets';
 import { Tabs, useDebouncedValue, type TabsBottomBarItem } from '../shared/ui';
 import { formatCurrency, NUMBER_LOCALE } from '../shared/utils';
 import { AccountBar } from '../features/cuentas';
-import { MonteCarloPanel, SimulacionView } from '../features/simulacion';
+import { EmptyPlanGuide, MonteCarloPanel, SimulacionView } from '../features/simulacion';
 import { CarteraView, type FamousPortfolioModel } from '../features/cartera';
 import { CiclosView, CycleTimelineModal } from '../features/ciclos';
 import { ProyeccionAnualView } from '../features/proyeccion-anual';
@@ -42,7 +41,7 @@ const DEFAULT_PARAMS: SimulationParams = {
   quarterlyContribution: 150,
   years: 10,
   annualReturn: 7.0,
-  etfCount: 3,
+  etfCount: 0,
   hasWelcomeBonus: true,
   contributionFrequency: 'quarterly',
 };
@@ -78,7 +77,7 @@ function ProductMark({ className = '' }: { className?: string }) {
 
 export function ETFSimulator() {
   const [params, setParams] = useState<SimulationParams>(DEFAULT_PARAMS);
-  const [etfs, setEtfs] = useState<ETFAsset[]>(POPULAR_ETFS);
+  const [etfs, setEtfs] = useState<ETFAsset[]>([]);
   const [activeTab, setActiveTab] = useState<TabId>('overview');
   const [isTimelineModalOpen, setIsTimelineModalOpen] = useState(false);
 
@@ -235,6 +234,9 @@ export function ETFSimulator() {
       : `${formatCurrency(params.quarterlyContribution)} € al trimestre`;
   const activeEtfCount = etfs.filter((e) => (e.recurringWeight ?? e.weight) > 0).length;
 
+  // Sin ETFs no hay plan que calcular: las pantallas de resultados enseñan la guía de inicio
+  const hasPlan = activeEtfCount > 0;
+
   // Título y frase de cada pantalla: el sustantivo y un dato del plan, no instrucciones
   const SCREENS: Record<TabId, { title: string; subtitle: string }> = {
     overview: {
@@ -245,7 +247,9 @@ export function ETFSimulator() {
     },
     allocation: {
       title: 'Cartera de ETFs',
-      subtitle: `${activeEtfCount} ${activeEtfCount === 1 ? 'fondo' : 'fondos'} con una rentabilidad esperada media del ${params.annualReturn.toLocaleString(NUMBER_LOCALE)} % anual.`,
+      subtitle: hasPlan
+        ? `${activeEtfCount} ${activeEtfCount === 1 ? 'fondo' : 'fondos'} con una rentabilidad esperada media del ${params.annualReturn.toLocaleString(NUMBER_LOCALE)} % anual.`
+        : 'Elige una cartera modelo o busca tus propios ETFs para empezar.',
     },
     annual: {
       title: 'Proyección año a año',
@@ -271,6 +275,7 @@ export function ETFSimulator() {
     },
   };
   const screen = SCREENS[activeTab];
+  const emptyGuide = <EmptyPlanGuide onGoToPortfolio={() => setActiveTab('allocation')} />;
 
   return (
     <Tabs.Root
@@ -377,6 +382,7 @@ export function ETFSimulator() {
 
           {/* Pestaña → Feature: simulacion */}
           <Tabs.Panel value="overview">
+            {!hasPlan ? emptyGuide : (
             <SimulacionView
               params={params}
               effectiveParams={effectiveParams}
@@ -397,6 +403,7 @@ export function ETFSimulator() {
               onOpenTimelineModal={() => setIsTimelineModalOpen(true)}
               onNavigateTab={setActiveTab}
             />
+            )}
           </Tabs.Panel>
 
           {/* Pestaña → Feature: cartera */}
@@ -414,7 +421,7 @@ export function ETFSimulator() {
 
           {/* Pestaña → Feature: proyeccion-anual */}
           <Tabs.Panel value="annual">
-            {planBroker && (
+            {!hasPlan ? emptyGuide : planBroker && (
               <ProyeccionAnualView
                 projections={planBroker.annualProjections}
                 brokerName={planBroker.name}
@@ -424,7 +431,8 @@ export function ETFSimulator() {
 
           {/* Pestaña → Riesgo: primero el abanico Monte Carlo, después las crisis históricas */}
           <Tabs.Panel value="cycles" className="stagger space-y-3">
-            {planBroker && (
+            {!hasPlan && emptyGuide}
+            {hasPlan && planBroker && (
               <MonteCarloPanel
                 params={effectiveParams}
                 etfs={calcEtfs}
@@ -432,7 +440,7 @@ export function ETFSimulator() {
                 brokerName={planBroker.name}
               />
             )}
-            <CiclosView
+            {hasPlan && <CiclosView
               portfolio={etfs}
               selectedCycleId={selectedCycleId}
               onSelectCycle={(cycleId) => setSelectedCycleId(cycleId)}
@@ -457,12 +465,14 @@ export function ETFSimulator() {
               onClearMultiYearSimulation={() =>
                 setMultiYearPlan(getDefault10YearTimelinePlan(params.years))
               }
-            />
+            />}
           </Tabs.Panel>
 
           {/* Pestaña → Feature: brokers */}
           <Tabs.Panel value="brokers">
-            <BrokersView results={results} years={calcParams.years} planBrokerId={planBroker?.id} />
+            {!hasPlan ? emptyGuide : (
+              <BrokersView results={results} years={calcParams.years} planBrokerId={planBroker?.id} />
+            )}
           </Tabs.Panel>
 
           {/* Pestaña → Feature: noticias */}
