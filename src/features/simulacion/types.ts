@@ -52,5 +52,5 @@ export interface SimulacionViewProps {
   onClearHistoricalSimulation: () => void;
   onClearMultiYearSimulation: () => void;
   onOpenTimelineModal: () => void;
-  onNavigateTab: (tab: 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news') => void;
+  onNavigateTab: (tab: 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news' | 'cases') => void;
 }

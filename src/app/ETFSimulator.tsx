@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import {
   BarChart3,
+  Briefcase,
   CheckCircle2,
   Gauge,
   Layers,
@@ -32,6 +33,7 @@ import { CiclosView, CycleTimelineModal } from '../features/ciclos';
 import { ProyeccionAnualView } from '../features/proyeccion-anual';
 import { BrokersView } from '../features/brokers';
 import { NoticiasView } from '../features/noticias';
+import { CasosUsoView } from '../features/casos-uso';
 
 const DEFAULT_PARAMS: SimulationParams = {
   initialCapital: 2000,
@@ -47,7 +49,7 @@ const DEFAULT_PARAMS: SimulationParams = {
 const RECALC_DELAY_MS = 600;
 
 // Pestañas de la barra inferior móvil (mismos valores que Tabs.Trigger en escritorio)
-type TabId = 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news';
+type TabId = 'overview' | 'allocation' | 'cycles' | 'annual' | 'brokers' | 'news' | 'cases';
 
 // Pestañas de la barra inferior móvil, en el mismo orden funcional que la barra lateral
 const MOBILE_TABS: TabsBottomBarItem[] = [
@@ -57,6 +59,7 @@ const MOBILE_TABS: TabsBottomBarItem[] = [
   { value: 'cycles', label: 'Riesgo', icon: <ShieldAlert className="w-5 h-5 tab-icon tab-icon--pop" /> },
   { value: 'brokers', label: 'Brókers', icon: <Gauge className="w-5 h-5 tab-icon tab-icon--swing" /> },
   { value: 'news', label: 'Noticias', icon: <Newspaper className="w-5 h-5 tab-icon tab-icon--flip" /> },
+  { value: 'cases', label: 'Casos', icon: <Briefcase className="w-5 h-5 tab-icon tab-icon--pop" /> },
 ];
 
 // Marca del producto: tres columnas de libro de cuentas que crecen; la última, en azul de datos
@@ -253,6 +256,10 @@ export function ETFSimulator() {
       title: 'Noticias de tu cartera',
       subtitle: 'Lo que se publica sobre los ETFs y los mercados de tu plan, con sus fuentes.',
     },
+    cases: {
+      title: 'Casos de uso y propuesta de valor',
+      subtitle: 'Los dos business cases, storytelling real y el ahorro de hasta decenas de miles de euros en comisiones.',
+    },
   };
   const screen = SCREENS[activeTab];
 
@@ -299,6 +306,11 @@ export function ETFSimulator() {
             <Tabs.SideGroup label="Mercado">
               <Tabs.SideTrigger value="news" icon={<Newspaper className="h-4 w-4" strokeWidth={1.75} />}>
                 Noticias
+              </Tabs.SideTrigger>
+            </Tabs.SideGroup>
+            <Tabs.SideGroup label="Estrategia">
+              <Tabs.SideTrigger value="cases" icon={<Briefcase className="h-4 w-4" strokeWidth={1.75} />}>
+                Casos y valor
               </Tabs.SideTrigger>
             </Tabs.SideGroup>
           </Tabs.SideList>
@@ -446,6 +458,14 @@ export function ETFSimulator() {
           {/* Pestaña → Feature: noticias */}
           <Tabs.Panel value="news">
             <NoticiasView etfs={etfs} />
+          </Tabs.Panel>
+
+          {/* Pestaña → Feature: casos-uso */}
+          <Tabs.Panel value="cases">
+            <CasosUsoView
+              currentParams={params}
+              onNavigateTab={setActiveTab}
+            />
           </Tabs.Panel>
 
           {/* ──────────────── Pie ──────────────── */}

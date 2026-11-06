@@ -6,3 +6,4 @@ export * from './digest';
 export * from './noticias-ingesta';
 export * from './pipeline';
 export * from './hero';
+export * from './businessCases';
