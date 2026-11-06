@@ -257,7 +257,6 @@ export default function PortfolioAllocation({
   };
 
   const handleRemove = (id: string) => {
-    if (etfs.length <= 1) return;
     onChange(etfs.filter((e) => e.id !== id));
   };
 
@@ -734,6 +733,14 @@ export default function PortfolioAllocation({
         </div>
 
         <div className="lg:col-span-8 space-y-3.5">
+          {etfs.length === 0 && (
+            <div className="rounded-md border border-dashed border-slate-300 p-5 text-sm text-slate-600">
+              <p className="font-medium text-slate-900">Tu cartera está vacía</p>
+              <p className="mt-1">
+                Elige una cartera modelo arriba o busca un ETF por nombre o ticker para empezar.
+              </p>
+            </div>
+          )}
           {etfs.map((etf, idx) => {
             const currentWeight =
               allocationTab === 'recurring'
@@ -821,8 +828,7 @@ export default function PortfolioAllocation({
                   <button
                     type="button"
                     onClick={() => handleRemove(etf.id)}
-                    disabled={etfs.length <= 1}
-                    className="text-slate-600 hover:text-rose-600 p-1 rounded transition disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shrink-0 mt-0.5"
+                    className="text-slate-600 hover:text-rose-600 p-1 rounded transition cursor-pointer shrink-0 mt-0.5"
                     title="Eliminar este ETF de tu plan"
                   >
                     <Trash2 className="w-4 h-4" />
