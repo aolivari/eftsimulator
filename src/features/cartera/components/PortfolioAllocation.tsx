@@ -19,7 +19,7 @@ import {
   RefreshCw,
   Activity,
 } from 'lucide-react';
-import type { ETFAsset } from '../../../types';
+import type { AssetClass, ETFAsset } from '../../../types';
 import { BufferedNumberInput } from '../../../shared/ui';
 import {
   buildNewEtfFromSearchItem,
@@ -28,6 +28,16 @@ import {
   type EtfSearchItem,
 } from '../services/portfolioService';
 import type { PortfolioAllocationProps } from '../types';
+
+const ASSET_CLASS_LABELS: Record<AssetClass, string> = {
+  global_equity: 'Renta variable global',
+  sp500: 'Renta variable EE. UU. (S&P 500)',
+  tech: 'Renta variable tecnológica',
+  defensive_equity: 'Renta variable defensiva',
+  bonds: 'Renta fija',
+  gold: 'Oro',
+  cash: 'Monetario',
+};
 import { NUMBER_LOCALE } from '../../../shared/utils';
 import { Badge } from '../../../shared/ui';
 
@@ -196,6 +206,12 @@ export default function PortfolioAllocation({
       return { ...e, currentPrice: safePrice };
     });
     onChange(updated);
+  };
+
+  const handleAssetClassChange = (id: string, assetClass: AssetClass) => {
+    onChange(
+      etfs.map((e) => (e.id === id ? { ...e, assetClass, assetClassSource: 'user' as const } : e))
+    );
   };
 
   const handleExpectedReturnChange = (id: string, newReturn: number) => {
@@ -833,6 +849,35 @@ export default function PortfolioAllocation({
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap text-xs">
+                  <label
+                    htmlFor={`asset-class-${etf.id}`}
+                    className="font-semibold text-slate-600"
+                  >
+                    Clase de activo:
+                  </label>
+                  <select
+                    id={`asset-class-${etf.id}`}
+                    value={etf.assetClass ?? 'global_equity'}
+                    onChange={(ev) => handleAssetClassChange(etf.id, ev.target.value as AssetClass)}
+                    className="border border-slate-300 rounded-md bg-white px-2 py-1 text-base sm:text-sm text-slate-900"
+                  >
+                    {(Object.keys(ASSET_CLASS_LABELS) as AssetClass[]).map((cls) => (
+                      <option key={cls} value={cls}>
+                        {ASSET_CLASS_LABELS[cls]}
+                      </option>
+                    ))}
+                  </select>
+                  {etf.assetClassSource === 'inferred' && (
+                    <span className="text-slate-600">Deducida; puedes cambiarla.</span>
+                  )}
+                  {(etf.recurringWeight ?? etf.weight) <= 0 && (
+                    <span className="text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-2 py-0.5">
+                      Asigna un peso para que cuente en el reparto
+                    </span>
+                  )}
                 </div>
 
                 {live && live.price > 0 && (
