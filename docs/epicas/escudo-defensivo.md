@@ -21,7 +21,7 @@ Mostrar al inversor, de forma educativa y sin recomendaciones, cómo se reparte 
 |---|---|---|---|---|---|---|
 | 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | en revisión | `ai/sonet/hu-15-hu-1-4-motor-y-tipos-del-escud` | — |
 | 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | en revisión | `ai/opus/hu-16-hu-2-4-panel-educativo-de-prot` | — |
-| 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | pendiente | — | — |
+| 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | en revisión | `ai/opus/hu-17-hu-3-4-modo-comparativo-80-20-` | — |
 | 4 | Revisión final de cumplimiento | haiku | 2, 3 | pendiente | — | — |
 
 Estados válidos: `pendiente`, `en curso`, `en revisión`, `fusionada`, `bloqueada`.
@@ -49,6 +49,12 @@ Cada agente añade una entrada al terminar su parte, o al bloquearse, para que e
 - Pendiente o bloqueo:
 - Archivos tocados:
 ```
+
+### 2026-11-06 Historia 3 · opus · en revisión
+- Hecho: botón "Comparar con versión protegida (80/20)" en `CycleSimulator` (solo con el escenario "Riesgo de Secuencia (Crash Tardío)" activo y sin crisis puntual seleccionada). Al pulsarlo, `GrowthChart` superpone la línea "Versión 80/20" y debajo aparece `ProtectedComparisonPanel` con valor final, resultado neto, máxima caída, rentabilidad anualizada, reparto de cada versión (`calculatePortfolioShield`) y el aviso MiFID II.
+- Decisiones que afectan a otras historias: la versión 80/20 sale de `buildProtectedPortfolio()` en `src/engine/cycleSimulator.ts`: el 80 % conserva las proporciones del usuario (inicial y aportaciones) y el 20 % va mitad XEON, mitad AGGH; si ya están en la cartera se suma a su peso. Se ejecuta `simulateMultiYearCyclePlan` dos veces en `ETFSimulator` (segunda ejecución solo si el plan es `late_crash`). El botón va sin emoji (AGENTS.md lo prohíbe) con icono `RefreshCw`. Con la comparación activa, la línea del S&P 500 se oculta para dejar solo dos líneas. La gráfica plurianual pasa de `AreaChart` a `ComposedChart`: con `AreaChart` Recharts no pintaba ninguna `<Line>` (tampoco "Aportado" ni el S&P 500). La gráfica de crisis puntual sigue con ese mismo fallo (su S&P 500 no se ve); queda fuera del alcance.
+- Pendiente o bloqueo: Historia 4: revisar "versión protegida" en el texto del botón (lo pide la tarjeta, pero roza la regla de no usar "proteger") y los textos de `ProtectedComparisonPanel`.
+- Archivos tocados: `src/engine/cycleSimulator.ts`, `src/app/ETFSimulator.tsx`, `src/shared/ui/organisms/GrowthChart.tsx`, `src/features/ciclos/{CiclosView.tsx,types.ts}`, `src/features/ciclos/components/{CycleSimulator.tsx,ProtectedComparisonPanel.tsx}`, este documento, `AI_SUMMARY.md`.
 
 ### 2026-11-06 Historia 2 · opus · en revisión
 - Hecho: `PortfolioShieldCard` debajo del reparto de pesos en Cartera: tres barras, etiqueta, aviso de alta volatilidad (100 % renta variable), píldoras XEON/AGGH/SGLD, botón "Añadir XEON con un 10 %" con "Deshacer" y aviso MiFID II siempre visible.

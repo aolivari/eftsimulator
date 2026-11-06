@@ -22,6 +22,8 @@ import { POPULAR_ETFS } from '../data/etfList';
 import {
   calculateHistoricalSimulation,
   simulateMultiYearCyclePlan,
+  buildProtectedPortfolio,
+  LATE_CRASH_PLAN_ID,
 } from '../engine/cycleSimulator';
 import { getDefault10YearTimelinePlan } from '../data/multiYearTimelinePresets';
 import { Tabs, useDebouncedValue, type TabsBottomBarItem } from '../shared/ui';
@@ -193,6 +195,13 @@ export function ETFSimulator() {
   // Simulación plurianual por concatenación de ciclos económicos a lo largo de todo el horizonte
   const multiYearSimulation = useMemo(() => {
     return simulateMultiYearCyclePlan(calcEtfs, calcPlan, effectiveParams);
+  }, [calcEtfs, calcPlan, effectiveParams]);
+
+  // Mismo motor, segunda ejecución: la cartera con un 20 % en monetario/bonos (XEON/AGGH).
+  // Solo se calcula en el escenario de Crash Tardío, que es donde se ofrece la comparación.
+  const protectedMultiYearSimulation = useMemo(() => {
+    if (calcPlan.id !== LATE_CRASH_PLAN_ID) return null;
+    return simulateMultiYearCyclePlan(buildProtectedPortfolio(calcEtfs), calcPlan, effectiveParams);
   }, [calcEtfs, calcPlan, effectiveParams]);
 
   // Mejor y peor bróker por saldo final
@@ -441,6 +450,7 @@ export function ETFSimulator() {
               multiYearPlan={multiYearPlan}
               onUpdateMultiYearPlan={setMultiYearPlan}
               multiYearSimulation={multiYearSimulation}
+              protectedMultiYearSimulation={protectedMultiYearSimulation}
               results={results}
               years={calcParams.years}
               onClearHistoricalSimulation={() => setSelectedCycleId(null)}

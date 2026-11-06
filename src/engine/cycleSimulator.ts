@@ -9,6 +9,7 @@ import type {
   CycleSimulationMode,
 } from '../types';
 import { HISTORICAL_CYCLES, getHistoricalCycleById } from '../data/historicalCycles';
+import { POPULAR_ETFS } from '../data/etfList';
 
 /**
  * Detecta automáticamente la clase de activo de un ETF según su metadato
@@ -556,4 +557,60 @@ export function simulateMultiYearCyclePlan(
     crisisYearsLabel: crisisYearsLabel || undefined,
     chartData,
   };
+}
+
+/** Identificador del escenario plurianual en el que se ofrece la comparación 80/20. */
+export const LATE_CRASH_PLAN_ID = 'late_crash';
+
+/** Parte de la cartera que la versión comparada destina a monetario y bonos (en %). */
+export const PROTECTED_DEFENSIVE_PCT = 20;
+
+/** Reparto del tramo defensivo de la versión 80/20: mitad monetario (XEON), mitad bonos (AGGH). */
+const PROTECTED_DEFENSIVE_SPLIT: { ticker: string; sharePct: number }[] = [
+  { ticker: 'XEON', sharePct: 50 },
+  { ticker: 'AGGH', sharePct: 50 },
+];
+
+/**
+ * Devuelve la misma cartera con un 20 % en monetario/bonos (XEON/AGGH) y el 80 % restante
+ * repartido en las mismas proporciones que tenía el usuario, tanto en el capital inicial
+ * como en las aportaciones. Función pura: no modifica la cartera recibida.
+ *
+ * Si la cartera ya contiene XEON o AGGH, el tramo defensivo se suma a esa posición
+ * en lugar de duplicarla (el motor indexa los saldos por `id`).
+ */
+export function buildProtectedPortfolio(
+  portfolio: ETFAsset[],
+  defensivePct: number = PROTECTED_DEFENSIVE_PCT
+): ETFAsset[] {
+  const active = portfolio.filter(
+    (e) => (e.recurringWeight ?? e.weight ?? 0) > 0 || (e.initialWeight ?? e.weight ?? 0) > 0
+  );
+  const totalInit = active.reduce((s, e) => s + (e.initialWeight ?? e.weight ?? 0), 0);
+  const totalRec = active.reduce((s, e) => s + (e.recurringWeight ?? e.weight ?? 0), 0);
+  const corePct = 100 - defensivePct;
+
+  const scaled: ETFAsset[] = active.map((e) => {
+    const initialWeight = totalInit > 0 ? ((e.initialWeight ?? e.weight ?? 0) / totalInit) * corePct : 0;
+    const recurringWeight = totalRec > 0 ? ((e.recurringWeight ?? e.weight ?? 0) / totalRec) * corePct : 0;
+    return { ...e, initialWeight, recurringWeight, weight: recurringWeight };
+  });
+  // Sin ETFs con peso, la versión comparada queda entera en el tramo defensivo.
+  const defensiveScale = active.length > 0 ? defensivePct : 100;
+
+  PROTECTED_DEFENSIVE_SPLIT.forEach(({ ticker, sharePct }) => {
+    const extra = (defensiveScale * sharePct) / 100;
+    const existing = scaled.find((e) => e.ticker.toUpperCase() === ticker);
+    if (existing) {
+      existing.initialWeight = (existing.initialWeight ?? 0) + extra;
+      existing.recurringWeight = (existing.recurringWeight ?? 0) + extra;
+      existing.weight = existing.recurringWeight;
+      return;
+    }
+    const template = POPULAR_ETFS.find((e) => e.ticker === ticker);
+    if (!template) return;
+    scaled.push({ ...template, initialWeight: extra, recurringWeight: extra, weight: extra });
+  });
+
+  return scaled;
 }
