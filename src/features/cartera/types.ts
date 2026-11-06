@@ -10,6 +10,11 @@ export interface PortfolioAllocationProps {
   onMonthlyAmountChange?: (monthly: number) => void;
 }
 
+export interface PortfolioShieldCardProps {
+  etfs: ETFAsset[];
+  onChange: (updatedEtfs: ETFAsset[]) => void;
+}
+
 export interface FamousPortfoliosSelectorProps {
   onSelectPortfolio: (portfolio: FamousPortfolioModel) => void;
 }

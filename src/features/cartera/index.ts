@@ -11,5 +11,6 @@ export type {
   CarteraViewProps,
   PortfolioAllocationProps,
   FamousPortfoliosSelectorProps,
+  PortfolioShieldCardProps,
 } from './types';
 export type { FamousPortfolioModel } from '../../data/famousPortfolios';
