@@ -22,7 +22,7 @@ Mostrar al inversor, de forma educativa y sin recomendaciones, cómo se reparte 
 | 1 | Motor y tipos del escudo (`calculatePortfolioShield` en `src/engine/`) | sonet | — | en revisión | `ai/sonet/hu-15-hu-1-4-motor-y-tipos-del-escud` | — |
 | 2 | Panel educativo en Cartera (`PortfolioShieldCard`) | opus | 1 | en revisión | `ai/opus/hu-16-hu-2-4-panel-educativo-de-prot` | — |
 | 3 | Modo comparativo 80/20 en Ciclos | opus | 1, 2 | en revisión | `ai/opus/hu-17-hu-3-4-modo-comparativo-80-20-` | — |
-| 4 | Revisión final de cumplimiento | haiku | 2, 3 | pendiente | — | — |
+| 4 | Revisión final de cumplimiento | haiku | 2, 3 | en revisión | `ai/haiku/hu-18-hu-4-4-revision-final-de-cumpl` | — |
 
 Estados válidos: `pendiente`, `en curso`, `en revisión`, `fusionada`, `bloqueada`.
 
@@ -49,6 +49,12 @@ Cada agente añade una entrada al terminar su parte, o al bloquearse, para que e
 - Pendiente o bloqueo:
 - Archivos tocados:
 ```
+
+### 2026-11-06 Historia 4 · haiku · en revisión
+- Hecho: revisados los textos nuevos de historias 2 y 3 contra las reglas de producto. Corregido: descripciones de XEON, AGGH y SGLD (quitada la promesa "preserva el capital sin sufrir caídas" y el "refugio"/"contrapeso" presentado como comportamiento garantizado); aviso de crisis de la tarjeta de Cartera (quitado "de principio a fin", que no describe bien 2020); botón "Poner/Añadir XEON" pasa a "Simular XEON…" (no suena a operación); botón "Comparar con versión protegida (80/20)" pasa a "Comparar con la versión 80/20" (no presenta la opción como mejor); nota del panel 80/20 "Cifras estimadas" pasa a "Cifras calculadas con las rentabilidades históricas". Build, `npx tsc -b` y `npm run lint` sin errores; consola sin errores ni avisos en Cartera y Ciclos. Los avisos MiFID II coinciden literalmente con el texto del documento.
+- Decisiones que afectan a otras historias: ninguna.
+- Pendiente o bloqueo: revisión humana de los textos con implicación legal (avisos MiFID II, descripciones de activos y aviso de crisis) antes de fusionar, según AGENTS.md. Fuera de alcance, sin tocar: el botón "Comprar:" de `PortfolioAllocation.tsx` (ya existía antes de la épica).
+- Archivos tocados: `src/features/cartera/components/PortfolioShieldCard.tsx`, `src/features/ciclos/components/CycleSimulator.tsx`, `src/features/ciclos/components/ProtectedComparisonPanel.tsx`, este documento, `AI_SUMMARY.md`.
 
 ### 2026-11-06 Historia 3 · opus · en revisión
 - Hecho: botón "Comparar con versión protegida (80/20)" en `CycleSimulator` (solo con el escenario "Riesgo de Secuencia (Crash Tardío)" activo y sin crisis puntual seleccionada). Al pulsarlo, `GrowthChart` superpone la línea "Versión 80/20" y debajo aparece `ProtectedComparisonPanel` con valor final, resultado neto, máxima caída, rentabilidad anualizada, reparto de cada versión (`calculatePortfolioShield`) y el aviso MiFID II.

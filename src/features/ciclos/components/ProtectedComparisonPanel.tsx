@@ -115,7 +115,7 @@ export default function ProtectedComparisonPanel({
         <div className="flex items-start gap-2.5 rounded-lg bg-slate-50 px-4 py-3">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-slate-500" />
           <p className="text-xs leading-relaxed text-slate-700">
-            Cifras estimadas con las rentabilidades por fase de este escenario histórico, no una previsión. Incluyen el
+            Cifras calculadas con las rentabilidades históricas por fase de este escenario, no una previsión. Incluyen el
             TER de cada ETF, pero no las comisiones del bróker ni los impuestos.
           </p>
         </div>

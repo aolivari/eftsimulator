@@ -16,15 +16,15 @@ const MIFID_NOTICE =
 const EXPLAINERS: { ticker: string; text: string }[] = [
   {
     ticker: 'XEON',
-    text: 'Un ETF que replica el tipo de interés del BCE; preserva el capital sin sufrir caídas en bolsa.',
+    text: 'Fondo monetario que replica el tipo de interés a corto plazo del euro (€STR). Su precio apenas fluctúa, aunque no está garantizado.',
   },
   {
     ticker: 'AGGH',
-    text: 'Deuda de gobiernos y empresas con cobertura a euro; suele actuar de contrapeso cuando la bolsa cae.',
+    text: 'Renta fija global de grado de inversión, cubierta a euros. En crisis bursátiles históricas su precio ha tenido a menudo un comportamiento distinto al de la bolsa, aunque no siempre.',
   },
   {
     ticker: 'SGLD',
-    text: 'Oro físico respaldado; refugio tradicional en períodos de inflación y crisis geopolítica.',
+    text: 'Oro físico respaldado. Se suele asociar a períodos de inflación y tensión geopolítica, pero su precio también puede caer.',
   },
 ];
 
@@ -109,7 +109,7 @@ export default function PortfolioShieldCard({ etfs, onChange }: PortfolioShieldC
       <Card.Body className="space-y-5">
         <p className="text-sm text-slate-600">
           Cómo se reparten tus aportaciones entre la parte que busca crecimiento, la que suele
-          amortiguar las caídas y la que conserva el valor nominal.
+          amortiguar las caídas y la de menor oscilación.
         </p>
 
         <ul className="space-y-3" aria-label="Reparto de la cartera por función">
@@ -147,10 +147,10 @@ export default function PortfolioShieldCard({ etfs, onChange }: PortfolioShieldC
               Perfil de alta volatilidad detectado
             </div>
             <p className="mt-1.5 text-sm">
-              Toda la cartera está en renta variable. En crisis históricas como 2008 o 2020, las
-              carteras así acompañaron las caídas de la bolsa de principio a fin. La renta fija, el
-              oro y el monetario se comportaron de forma distinta en esos episodios; conocer su papel
-              ayuda a entender cuánta oscilación implica el plan.
+              Toda la cartera está en renta variable. En crisis históricas como la de 2008 o la del
+              COVID de 2020, una cartera solo de renta variable acompañó la caída de la bolsa. La renta
+              fija, el oro y el monetario se comportaron de forma distinta en esos episodios; conocer
+              su papel ayuda a entender cuánta oscilación implica el plan.
             </p>
           </div>
         )}
@@ -199,7 +199,7 @@ export default function PortfolioShieldCard({ etfs, onChange }: PortfolioShieldC
           <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
             {showCushionButton && (
               <Button variant="secondary" onClick={handleAddCushion}>
-                {hasCashWeight ? `Poner XEON al ${CASH_CUSHION_PCT} %` : `Añadir XEON con un ${CASH_CUSHION_PCT} %`}
+                {hasCashWeight ? `Simular XEON al ${CASH_CUSHION_PCT} %` : `Simular XEON con un ${CASH_CUSHION_PCT} %`}
               </Button>
             )}
             {canUndo && (
