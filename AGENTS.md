@@ -128,6 +128,7 @@ En [`src/app/ETFSimulator.tsx`](src/app/ETFSimulator.tsx), la navegación usa `<
 - **Tipos nuevos** → en `src/types/index.ts`. **Lógica nueva** → en `src/engine/` (pura y sin React), no dentro de los componentes.
 - **Commits**: mensajes en español, con estilo `feat:` / `fix:` / `chore:` / `docs:`.
 - **Ramas y worktrees**: cualquier rama nueva o worktree debe crearse **siempre desde `origin/master`** (ejecutando antes `git fetch origin master`), **nunca** desde la rama `master` local.
+- **Épicas y coordinación entre agentes**: si una tarea forma parte de una épica (por ejemplo, [`docs/epicas/escudo-defensivo.md`](docs/epicas/escudo-defensivo.md)), leer ese documento antes de empezar; es la fuente de verdad de reglas, contratos y estado. Al terminar o al bloquearse, añadir una entrada en su *Registro de traspasos* y actualizar la tabla de historias en la misma PR. Las tarjetas de Trello pueden quedar desfasadas; el documento manda.
 - **Antes de crear una PR**: ejecutar `git fetch origin master`, integrar `origin/master` en la rama (merge), resolver los conflictos si los hay, repetir `npx tsc -b` y `npm run lint`, y solo entonces crear la PR. Nunca abrir una PR con la rama desfasada de `origin/master`.
 
 ## Sistema visual (colores, tipografía y reglas)
