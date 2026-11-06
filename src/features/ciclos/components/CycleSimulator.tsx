@@ -372,7 +372,7 @@ export default function CycleSimulator({
                         <span>
                           {isProtectedComparisonActive
                             ? 'Ocultar comparación 80/20'
-                            : 'Comparar con versión protegida (80/20)'}
+                            : 'Comparar con la versión 80/20'}
                         </span>
                       </button>
                     </div>
