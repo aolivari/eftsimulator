@@ -18,6 +18,9 @@ export type AssetClass =
   | 'cash'
   | 'defensive_equity';
 
+/** Origen de la clase de activo de un ETF: catálogo, deducida por heurística o elegida por el usuario. */
+export type AssetClassSource = 'catalog' | 'inferred' | 'user';
+
 export interface ETFHistoricalReturns {
   oneYear?: number; // Rentabilidad último año cerrado (ej: +22.4%)
   threeYear?: number; // Rentabilidad anualizada a 3 años (3Y CAGR)
@@ -46,6 +49,7 @@ export interface ETFAsset {
   category: 'core' | 'satellite';
   sectorOrTheme: string;
   assetClass?: AssetClass;
+  assetClassSource?: AssetClassSource; // Origen de assetClass
   ter: number; // Coste de gestión anual % (Total Expense Ratio)
   expectedReturn: number; // Rentabilidad esperada media anual %
   historicalReturns?: ETFHistoricalReturns; // Rendimientos reales históricos del ETF

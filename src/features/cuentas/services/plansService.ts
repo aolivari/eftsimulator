@@ -80,6 +80,7 @@ export function planFingerprint(params: SimulationParams, etfs: ETFAsset[]): str
       e.recurringWeight ?? null,
       e.expectedReturn,
       e.dividendPolicy ?? 'acc',
+      e.assetClass ?? null,
     ]),
   });
 }

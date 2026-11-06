@@ -1,4 +1,6 @@
-import type { ETFAsset } from '../../../types';
+import type { AssetClass, ETFAsset } from '../../../types';
+import { POPULAR_ETFS } from '../../../data/etfList';
+import { detectAssetClass } from '../../../engine/cycleSimulator';
 import {
   fetchEtfDetails,
   fetchLiveQuotes,
@@ -45,6 +47,13 @@ export async function buildNewEtfFromSearchItem(
     if (details.historicalReturns) historicalReturns = details.historicalReturns;
   }
 
+  const catalogClass = POPULAR_ETFS.find((e) => e.ticker.toUpperCase() === ticker)?.assetClass;
+  const sectorOrTheme = item.sectorOrTheme || 'ETF Global';
+  const inferredClass = catalogClass
+    ? undefined
+    : detectAssetClass({ ticker, name, sectorOrTheme } as ETFAsset);
+  const assetClass: AssetClass = catalogClass ?? inferredClass ?? 'global_equity';
+
   const isIngPromo = ['VWCE', 'SXR8', 'WCBR', 'XDWS'].includes(ticker);
 
   return {
@@ -52,7 +61,9 @@ export async function buildNewEtfFromSearchItem(
     ticker,
     name,
     category: existingCount < 2 ? 'core' : 'satellite',
-    sectorOrTheme: item.sectorOrTheme || 'ETF Global',
+    sectorOrTheme,
+    assetClass,
+    assetClassSource: catalogClass ? 'catalog' : 'inferred',
     ter,
     expectedReturn,
     historicalReturns,
