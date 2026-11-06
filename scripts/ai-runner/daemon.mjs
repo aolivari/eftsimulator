@@ -27,7 +27,11 @@ class AIRunnerDaemon {
     this.trello = new TrelloClient();
     this.git = new GitWorktreeManager();
     this.state = this.loadState();
-    this.isProcessing = false;
+    // Máximo de tarjetas ejecutándose a la vez (AI_RUNNER_MAX_CONCURRENT en .env.local, por defecto 2)
+    this.maxConcurrent = options.maxConcurrent || Number(loadEnv().AI_RUNNER_MAX_CONCURRENT) || 2;
+    this.running = new Set(); // ids de tarjetas en curso
+    this.attempted = new Set(); // ids de tarjetas lanzadas en este proceso (no se relanzan)
+    this.isScanning = false;
   }
 
   loadState() {
@@ -241,34 +245,56 @@ REGLAS DE TRABAJO ESTRICTAS:
     }
   }
 
+  // Revisa las columnas de agentes y lanza en paralelo las tarjetas pendientes
+  // hasta llenar los huecos libres (maxConcurrent). Devuelve las tareas lanzadas.
   async tick(boardMap) {
-    if (this.isProcessing) return;
-    this.isProcessing = true;
+    if (this.isScanning) return [];
+    this.isScanning = true;
+    const started = [];
 
     try {
       for (const [model, listId] of Object.entries(boardMap.modelLists)) {
         const cards = await this.trello.getCardsInList(listId);
         for (const card of cards) {
-          if (this.state.processedCards[card.id]) {
+          if (this.state.processedCards[card.id] || this.attempted.has(card.id)) {
             continue;
           }
-          await this.processCard(card, model, boardMap);
+          if (this.running.size >= this.maxConcurrent) {
+            return started;
+          }
+          this.attempted.add(card.id);
+          this.running.add(card.id);
+          console.log(`🧵 Lanzando "${card.name}" (${this.running.size}/${this.maxConcurrent} en curso)`);
+          started.push(
+            this.processCard(card, model, boardMap)
+              .catch((err) => console.error(`❌ Error inesperado con "${card.name}":`, err))
+              .finally(() => this.running.delete(card.id))
+          );
         }
       }
     } catch (err) {
       console.error('Error en el ciclo del daemon:', err.message);
     } finally {
-      this.isProcessing = false;
+      this.isScanning = false;
     }
+
+    return started;
   }
 
   async start() {
     console.log('🚀 Iniciando AI Runner Daemon (Trello -> Multi-Agent Swarm)...');
     const boardMap = await this.discoverBoardMap();
 
+    console.log(`⚙️ Máximo de tareas en paralelo: ${this.maxConcurrent}`);
+
     if (this.runOnce) {
       console.log('🔍 Ejecutando comprobación única (--once)...');
-      await this.tick(boardMap);
+      // Espera a que terminen las lanzadas y vuelve a mirar hasta que no quede nada pendiente
+      let started;
+      do {
+        started = await this.tick(boardMap);
+        await Promise.all(started);
+      } while (started.length > 0);
       console.log('🏁 Comprobación completada.');
       return;
     }
@@ -276,8 +302,8 @@ REGLAS DE TRABAJO ESTRICTAS:
     console.log(`⏱️ Vigilando tablero cada ${this.pollIntervalMs / 1000}s. Presiona Ctrl+C para detener.\n`);
     await this.tick(boardMap);
 
-    setInterval(async () => {
-      await this.tick(boardMap);
+    setInterval(() => {
+      this.tick(boardMap);
     }, this.pollIntervalMs);
   }
 }
