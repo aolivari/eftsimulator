@@ -28,6 +28,9 @@ import {
   type EtfSearchItem,
 } from '../services/portfolioService';
 import type { PortfolioAllocationProps } from '../types';
+import { NUMBER_LOCALE } from '../../../shared/utils';
+import { Badge } from '../../../shared/ui';
+import { detectAssetClass } from '../../../engine/cycleSimulator';
 
 const ASSET_CLASS_LABELS: Record<AssetClass, string> = {
   global_equity: 'Renta variable global',
@@ -38,8 +41,6 @@ const ASSET_CLASS_LABELS: Record<AssetClass, string> = {
   gold: 'Oro',
   cash: 'Monetario',
 };
-import { NUMBER_LOCALE } from '../../../shared/utils';
-import { Badge } from '../../../shared/ui';
 
 const COLORS = [
   '#1d5fbf', '#141414', '#8a8a8a', '#5b8bd6', '#c4c4c4',
@@ -860,7 +861,7 @@ export default function PortfolioAllocation({
                   </label>
                   <select
                     id={`asset-class-${etf.id}`}
-                    value={etf.assetClass ?? 'global_equity'}
+                    value={etf.assetClass ?? detectAssetClass(etf)}
                     onChange={(ev) => handleAssetClassChange(etf.id, ev.target.value as AssetClass)}
                     className="border border-slate-300 rounded-md bg-white px-2 py-1 text-base sm:text-sm text-slate-900"
                   >
